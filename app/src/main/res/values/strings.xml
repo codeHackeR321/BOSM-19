@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">BOSM-19</string>
+
+
+    <string name="action_profile">Profile</string>
+    <string name="action_cart">Cart</string>
+    <string name="action_notifications">Notifications</string>
+
+    <string name="action_food">Food</string>
+    <string name="action_order_history">Orders</string>
+    <string name="action_events">Events</string>
+    <string name="action_game">Games</string>
+    <string name="action_more">More</string>
 </resources>

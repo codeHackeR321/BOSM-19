@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+            android:id="@+id/action_profile"
+            android:icon="@drawable/ic_outline_profile_identity_24px"
+            android:title="@string/action_profile"
+            app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/action_cart"
+            android:icon="@drawable/ic_outline_shopping_cart_24px"
+            android:title="@string/action_cart"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/action_notifications"
+            android:icon="@drawable/ic_outline_notifications_none_24px"
+            android:title="@string/action_notifications"
+            app:showAsAction="ifRoom"/>
+
+</menu>

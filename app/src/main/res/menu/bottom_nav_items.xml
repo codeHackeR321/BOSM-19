@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/action_food"
+            android:enabled="true"
+            android:icon="@drawable/ic_fast_food"
+            android:title="@string/action_food"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_order_history"
+            android:enabled="true"
+            android:icon="@drawable/ic_order_history"
+            android:title="@string/action_order_history"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_events"
+            android:enabled="true"
+            android:icon="@drawable/ic_action_event_24px"
+            android:title="@string/action_events"
+            app:showAsAction="ifRoom" />
+
+
+    <item
+            android:id="@+id/action_game"
+            android:enabled="true"
+            android:icon="@drawable/ic_game"
+            android:title="@string/action_game"
+            app:showAsAction="ifRoom" />
+
+    <item
+            android:id="@+id/action_more"
+            android:enabled="true"
+            android:icon="@drawable/ic_show_more_button_with_three_dots"
+            android:title="@string/action_more"
+            app:showAsAction="ifRoom" />
+
+</menu>
