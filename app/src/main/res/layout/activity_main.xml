@@ -32,13 +32,19 @@
 
     </FrameLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
+
             android:id="@+id/bottom_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_gravity="start"
-            app:menu="@menu/bottom_nav_items" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+            app:menu="@menu/bottom_nav_items"
+            app:morphCornerRadius="0dp"
+            app:morphItemRadius="50dp"
+            android:backgroundTint = "@color/colorPrimary"
+            app:morphVerticalOffset="15dp"
+            style="@style/Widget.Design.BottomNavigationView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
