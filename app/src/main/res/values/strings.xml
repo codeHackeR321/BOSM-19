@@ -11,4 +11,7 @@
     <string name="action_events">Events</string>
     <string name="action_game">Games</string>
     <string name="action_more">More</string>
+
+    <string name="elas_fragment_heading">ELAS - QUIZ</string>
+    <string name="elas_fragment_category">Category : </string>
 </resources>
