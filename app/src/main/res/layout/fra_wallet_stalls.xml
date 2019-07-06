@@ -22,5 +22,5 @@
             app:spanCount="2"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             app:layout_constraintBottom_toBottomOf="parent"
-    />
+            tools:listitem="@layout/adapter_wallet_stalls"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
