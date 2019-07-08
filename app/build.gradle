@@ -63,4 +63,6 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     kapt "android.arch.lifecycle:compiler:$lifecycle_version"
     testImplementation "android.arch.core:core-testing:$lifecycle_version"
+
+    implementation 'com.android.support:multidex:1.0.3'
 }

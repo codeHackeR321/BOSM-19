@@ -5,11 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "stalls")
-data class StallsData (
+data class StallData (
     @PrimaryKey
-    val stallId:String,
+    val stallId:Int,
 
     val stallName:String,
 
-    val closed:String
+    val closed:Boolean
 )

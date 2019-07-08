@@ -12,15 +12,17 @@ import retrofit2.Retrofit
 class WalletModule {
 
     @Provides
-    fun providesWalletRepository(walletService: WalletService,walletDao: WalletDao):WalletRepository{
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao): WalletRepository {
         return WalletRepository(walletService,walletDao)
     }
 
-    fun providesWalletDao(appDatabase: AppDatabase):WalletDao{
+    @Provides
+    fun providesWalletDao(appDatabase: AppDatabase): WalletDao {
         return appDatabase.walletDao()
     }
 
-    fun providesWalletService(retrofit: Retrofit):WalletService{
+    @Provides
+    fun providesWalletService(retrofit: Retrofit): WalletService {
         return retrofit.create(WalletService::class.java)
     }
 }

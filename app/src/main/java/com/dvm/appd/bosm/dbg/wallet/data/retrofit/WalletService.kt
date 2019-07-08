@@ -8,5 +8,5 @@ import retrofit2.http.GET
 interface WalletService {
 
     @GET("wallet/vendor")
-    fun getAllVendors(): Single<Response<StallsPojo>>
+    fun getAllStalls():Single<Response<List<StallsPojo>>>
 }

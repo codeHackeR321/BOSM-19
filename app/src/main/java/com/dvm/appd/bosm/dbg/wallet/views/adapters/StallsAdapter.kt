@@ -5,8 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
+import kotlinx.android.synthetic.main.adapter_wallet_stalls.view.*
 
-class StallsAdapter : RecyclerView.Adapter<StallsAdapter.StallsViewHolder>() {
+class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView.Adapter<StallsAdapter.StallsViewHolder>() {
+
+    var stalls: List<StallData> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StallsAdapter.StallsViewHolder {
 
@@ -15,16 +19,25 @@ class StallsAdapter : RecyclerView.Adapter<StallsAdapter.StallsViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return stalls.size
     }
 
     override fun onBindViewHolder(holder: StallsAdapter.StallsViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        holder.stallName.text = stalls[position].stallName
+        holder.stallImg.setOnClickListener {
+            listener.stallSelected(stalls[position].stallId)
+        }
+
     }
 
     inner class StallsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val stallName = view.stallName
 
+        val stallImg = view.stallImage
+    }
 
+    interface OnStallSelectedListener{
+        fun stallSelected(stallId:Int)
     }
 
 }
