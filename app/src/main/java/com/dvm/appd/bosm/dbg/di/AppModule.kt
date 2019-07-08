@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
+import com.dvm.appd.bosm.dbg.shared.BaseInterceptor
 import dagger.Module
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,7 +24,8 @@ class AppModule(private val application: Application) {
 
     fun providesRetrofit():Retrofit{
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl("http://139.59.64.214/")
+            .client(OkHttpClient().newBuilder().addInterceptor(BaseInterceptor()).build())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
