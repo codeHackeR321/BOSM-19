@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.Wallet.viewmodel
+package com.dvm.appd.bosm.dbg.wallet.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

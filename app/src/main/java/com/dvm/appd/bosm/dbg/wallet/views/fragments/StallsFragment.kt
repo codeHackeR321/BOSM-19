@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.Wallet.views.fragments
+package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

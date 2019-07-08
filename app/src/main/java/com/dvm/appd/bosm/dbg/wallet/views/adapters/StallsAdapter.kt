@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.Wallet.views.adapters
+package com.dvm.appd.bosm.dbg.wallet.views.adapters
 
 import android.view.LayoutInflater
 import android.view.View
