@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.Events
+package com.dvm.appd.bosm.dbg.events.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
