@@ -34,7 +34,7 @@ class EventsRepository (val eventsDao: EventsDao){
                     snapshot.data!!.keys.forEach {
                         names.add(SportsNamesData(it, snapshot.data!!.getValue(it) as String))
                     }
-                    
+
                     Log.d("Events", "$names")
                     eventsDao.insertSportsName(names).subscribeOn(Schedulers.io())
                         .subscribe(object : CompletableObserver{
