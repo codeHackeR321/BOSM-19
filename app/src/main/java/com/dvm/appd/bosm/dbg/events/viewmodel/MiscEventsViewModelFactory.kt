@@ -13,6 +13,7 @@ class MiscEventsViewModelFactory: ViewModelProvider.Factory {
     lateinit var eventsRepository: EventsRepository
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        BOSMApp.appComponent.newEventsComponent(EventsModule()).injectMiscEvents(this)
         return MiscEventsViewModel(eventsRepository) as T
     }
 }

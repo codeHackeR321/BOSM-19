@@ -3,7 +3,6 @@ package com.dvm.appd.bosm.dbg.events.data.room.dataclasses
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
 
 @Entity(tableName = "misc_table")
 data class MiscEventsData(
@@ -15,8 +14,8 @@ data class MiscEventsData(
     @ColumnInfo(name = "event_venue")
     var venue: String,
 
-//    @ColumnInfo(name = "event_time")
-//    var time: String,
+    @ColumnInfo(name = "event_time")
+    var time: String,
 
     @ColumnInfo(name = "event_description")
     var description: String,

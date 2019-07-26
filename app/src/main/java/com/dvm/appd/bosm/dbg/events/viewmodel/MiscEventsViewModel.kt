@@ -14,12 +14,15 @@ class MiscEventsViewModel(eventsRepository: EventsRepository): ViewModel() {
 
     init {
 
-        eventsRepository.getMiscEvents().subscribe ({
-            Log.d("EventRepo", "$it")
+        eventsRepository.getMiscEvents()
+        .doOnNext {
+            Log.d("EventRepo", it.toString())
             (miscEvents as MutableLiveData).postValue(it)
-        },{
-            Log.e("EventRepo", "Error : ${it.message}")
-        })
-            .dispose()
+        }
+        .doOnError {
+            Log.d("EventRepo", it.toString())
+        }
+        .subscribe()
+
     }
 }

@@ -10,7 +10,7 @@ import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 import java.util.ArrayList
 
 class EventsRepository (val eventsDao: EventsDao){
@@ -24,7 +24,7 @@ class EventsRepository (val eventsDao: EventsDao){
             .addSnapshotListener { snapshot, exception ->
 
                 if (exception != null) {
-                    Log.e("EventsRepo", "Listen failed", exception)
+                    Log.e("Events", "Listen failed", exception)
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
@@ -68,7 +68,7 @@ class EventsRepository (val eventsDao: EventsDao){
 
                     snapshot.documents.forEach {
                         miscEvents.add(MiscEventsData(name = (it.get("name") as String)
-                            , venue = (it.get("venue") as String)/*, time = (it.get("timestamp") as String)*/
+                            , venue = (it.get("venue") as String), time = ((it.get("timestamp") as Timestamp)).toString()
                             , description = (it.get("description") as String), day = "Day 1"
                             , organiser = (it.get("organiser") as String)))
                     }
@@ -103,7 +103,7 @@ class EventsRepository (val eventsDao: EventsDao){
 
                     snapshot.documents.forEach {
                         miscEvents.add(MiscEventsData(name = (it.get("name") as String)
-                            , venue = (it.get("venue") as String)/*, time = (it.get("timestamp") as String)*/
+                            , venue = (it.get("venue") as String), time = ((it.get("timestamp") as Timestamp)).toString()
                             , description = (it.get("description") as String), day = "Day 2"
                             , organiser = (it.get("organiser") as String)))
                     }
@@ -126,6 +126,7 @@ class EventsRepository (val eventsDao: EventsDao){
 
     fun getSportsName(): Flowable<List<SportsNamesData>>{
         return eventsDao.getSportsName().subscribeOn(Schedulers.io())
+
     }
 
     fun getMiscEvents(): Flowable<List<MiscEventsData>>{

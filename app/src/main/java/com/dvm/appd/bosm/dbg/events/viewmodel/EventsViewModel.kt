@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.events.data.repo.EventsRepository
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
-import java.lang.Exception
 
 class EventsViewModel(eventsRepository: EventsRepository): ViewModel() {
 
@@ -14,14 +13,15 @@ class EventsViewModel(eventsRepository: EventsRepository): ViewModel() {
 
     init {
 
-        eventsRepository.getSportsName().subscribe({
-            Log.d("EventRepo", "$it")
+        eventsRepository.getSportsName()
+        .doOnNext {
+            Log.d("EventRepo", it.toString())
             (sportsName as MutableLiveData).postValue(it)
-        },
-        {
-            Log.e("EventRepo", "Error : ${it.message}")
-        })
-        .dispose()
+        }
+        .doOnError {
+            Log.d("EventRepo", it.toString())
+        }
+        .subscribe()
 
     }
 }
