@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.events.view
+package com.dvm.appd.bosm.dbg.events.view.fragments
 
 import android.os.Bundle
 import android.util.Log

@@ -31,10 +31,10 @@ class EventsRepository (val eventsDao: EventsDao){
 
                     var names: MutableList<SportsNamesData> = arrayListOf()
 
-                    snapshot.data!!.values.forEach {
-                        names.add(SportsNamesData(it.toString()))
+                    snapshot.data!!.keys.forEach {
+                        names.add(SportsNamesData(it, snapshot.data!!.getValue(it) as String))
                     }
-
+                    
                     Log.d("Events", "$names")
                     eventsDao.insertSportsName(names).subscribeOn(Schedulers.io())
                         .subscribe(object : CompletableObserver{

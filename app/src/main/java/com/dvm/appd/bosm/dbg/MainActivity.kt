@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.dvm.appd.bosm.dbg.events.view.EventsFragment
+import com.dvm.appd.bosm.dbg.events.view.fragments.EventsFragment
 import com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

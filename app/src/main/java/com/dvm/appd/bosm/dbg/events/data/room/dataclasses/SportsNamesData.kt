@@ -9,5 +9,8 @@ data class SportsNamesData(
 
     @PrimaryKey
     @ColumnInfo(name = "name")
-    var name: String
+    var name: String,
+
+    @ColumnInfo(name = "group_number")
+    var group: String
 )

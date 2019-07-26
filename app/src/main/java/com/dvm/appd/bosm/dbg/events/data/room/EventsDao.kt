@@ -23,4 +23,7 @@ interface EventsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSportsName(names: List<SportsNamesData>): Completable
+
+    @Query("SELECT group_number FROM sports_names WHERE name = :name")
+    fun getSportGroup(name: String): String
 }
