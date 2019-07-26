@@ -15,7 +15,7 @@ interface EventsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMiscEventData(events: List<MiscEventsData>): Completable
 
-    @Query("SELECT * FROM misc_table ORDER BY event_day , event_time")
+    @Query("SELECT * FROM misc_table ORDER BY event_day")
     fun getMiscEvents(): Flowable<List<MiscEventsData>>
 
     @Query("SELECT * FROM sports_names")
