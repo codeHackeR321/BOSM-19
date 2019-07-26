@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:orientation="vertical"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".events.view.MiscEventsFragment">
+
+    <TextView
+            android:text="Misc Events Fragment"
+            android:layout_width="178dp"
+            android:layout_height="142dp"
+            android:id="@+id/textView" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="299dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="413dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="152dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="201dp" android:textSize="24sp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
