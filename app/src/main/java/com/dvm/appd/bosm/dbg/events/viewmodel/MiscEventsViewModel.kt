@@ -16,11 +16,11 @@ class MiscEventsViewModel(eventsRepository: EventsRepository): ViewModel() {
 
         eventsRepository.getMiscEvents()
         .doOnNext {
-            Log.d("EventRepo", it.toString())
+            Log.d("MiscEventVM", it.toString())
             (miscEvents as MutableLiveData).postValue(it)
         }
         .doOnError {
-            Log.d("EventRepo", it.toString())
+            Log.d("MiscEventVM", it.toString())
         }
         .subscribe()
 

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dvm.appd.bosm.dbg.events.view.fragments.EventsFragment
+import com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment
 import com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_game -> {
-                selectedFragment = EventsFragment()
+                selectedFragment = MiscEventsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
                 Toast.makeText(this,"game",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true

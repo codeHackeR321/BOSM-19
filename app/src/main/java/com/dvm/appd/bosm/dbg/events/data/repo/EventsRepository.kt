@@ -9,9 +9,8 @@ import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 import com.google.firebase.Timestamp
-import java.util.ArrayList
+import com.google.firebase.firestore.DocumentChange
 
 class EventsRepository (val eventsDao: EventsDao){
 
@@ -47,7 +46,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             }
 
                             override fun onError(e: Throwable) {
-                                Log.d("EventsRepo", "Error", e)
+                                Log.e("EventsRepo", "Error", e)
                             }
                         })
                 }
@@ -65,12 +64,48 @@ class EventsRepository (val eventsDao: EventsDao){
 
                     val miscEvents: MutableList<MiscEventsData> = arrayListOf()
 
-                    snapshot.documents.forEach {
-                        miscEvents.add(MiscEventsData(name = (it.get("name") as String)
-                            , venue = (it.get("venue") as String), time = ((it.get("timestamp") as Timestamp)).toString()
-                            , description = (it.get("description") as String), day = (it.get("day") as String)
-                            , organiser = (it.get("organiser") as String)))
+                    for (doc in snapshot.documentChanges){
+
+                        when(doc.type){
+                            DocumentChange.Type.ADDED -> {
+                                Log.d("DocAdded", doc.document.get("name") as String)
+                                miscEvents.add(MiscEventsData(id = doc.document.id, name = (doc.document.get("name")) as String
+                                , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).toString()
+                                , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
+                                , organiser = (doc.document.get("organiser") as String), isFavourite = 0))
+                            }
+
+                            DocumentChange.Type.MODIFIED -> {
+                                Log.d("DocChanged", doc.document.get("name") as String)
+                                eventsDao.updateMiscData(id = doc.document.id, name = (doc.document.get("name")) as String
+                                    , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).toString()
+                                    , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
+                                    , organiser = (doc.document.get("organiser") as String))
+                                    .subscribeOn(Schedulers.io())
+                                    .doOnError {
+                                        Log.e("EventsRepo", it.message, it)
+                                    }
+                                    .subscribe()
+                            }
+
+                            DocumentChange.Type.REMOVED -> {
+                                Log.d("DocRemoved", doc.document.get("name") as String)
+                                eventsDao.deleteMiscEvent(doc.document.id).subscribeOn(Schedulers.io())
+                                    .doOnError {
+                                        Log.e("EventsRepo", it.message, it)
+                                    }
+                                    .subscribe()
+                            }
+
+                        }
                     }
+
+//                    snapshot.documents.forEach {
+//                        miscEvents.add(MiscEventsData(id = it.id, name = (it.get("name") as String)
+//                            , venue = (it.get("venue") as String), time = ((it.get("timestamp") as Timestamp)).toString()
+//                            , description = (it.get("description") as String), day = (it.get("day") as String)
+//                            , organiser = (it.get("organiser") as String), isFavourite = 0))
+//                    }
 
                     Log.d("Events", miscEvents.toString())
                     eventsDao.insertMiscEventData(miscEvents).subscribeOn(Schedulers.io())
@@ -82,6 +117,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             }
 
                             override fun onError(e: Throwable) {
+                                Log.e("EventsRepo", e.message, e)
                             }
                         })
                 }

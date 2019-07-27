@@ -8,6 +8,9 @@ import androidx.room.PrimaryKey
 data class MiscEventsData(
 
     @PrimaryKey
+    @ColumnInfo(name = "event_id")
+    var id: String,
+
     @ColumnInfo(name = "event_name")
     var name: String,
 
@@ -24,5 +27,8 @@ data class MiscEventsData(
     var day: String,
 
     @ColumnInfo(name = "organiser")
-    var organiser: String
+    var organiser: String,
+
+    @ColumnInfo(name = "favourite")
+    var isFavourite: Int
 )

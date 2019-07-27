@@ -24,12 +24,12 @@ class MiscEventsFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fra_misc_events, container, false)
 
-        view.miscEventRecycler.adapter = MiscEventsAdapter()
+        //view.miscEventRecycler.adapter = MiscEventsAdapter()
         miscEventsViewViewModel.miscEvents.observe(this, Observer {
 
             Log.d("MiscEventsFrag", "Observed")
-            (view.miscEventRecycler.adapter as MiscEventsAdapter).miscEvents = it
-            (view.miscEventRecycler.adapter as MiscEventsAdapter).notifyDataSetChanged()
+//            (view.miscEventRecycler.adapter as MiscEventsAdapter).miscEvents = it
+//            (view.miscEventRecycler.adapter as MiscEventsAdapter).notifyDataSetChanged()
         })
         return view
     }
