@@ -8,6 +8,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ChildOrdersData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.OrderData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.OrderItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
+import io.reactivex.Completable
 import io.reactivex.Flowable
 
 @Dao
@@ -23,8 +24,8 @@ interface WalletDao {
     fun getOrdersData(): Flowable<List<ChildOrdersData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNewOrders(orders: List<OrderData>)
+    fun insertNewOrders(orders: List<OrderData>): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNewOrderItems(orderItems: List<OrderItemsData>)
+    fun insertNewOrderItems(orderItems: List<OrderItemsData>): Completable
 }

@@ -20,17 +20,20 @@ import javax.inject.Singleton
 @Module
 class AppModule(private val application: Application) {
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun providesApplicaton():Application{
         return application
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun providesAppDatabase(application: Application):AppDatabase{
         return Room.databaseBuilder(application,AppDatabase::class.java,"bosm.db").build()
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun providesRetrofit():Retrofit{
         return Retrofit.Builder()
             .baseUrl("http://test.bits-bosm.org/")

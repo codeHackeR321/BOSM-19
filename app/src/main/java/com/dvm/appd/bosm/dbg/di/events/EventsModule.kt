@@ -6,6 +6,7 @@ import com.dvm.appd.bosm.dbg.shared.AppDatabase
 import com.google.firebase.firestore.ListenerRegistration
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class EventsModule {

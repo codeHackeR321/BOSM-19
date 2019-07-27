@@ -1,6 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses
 
-data class ModifiedItemsClass(
+data class ModifiedItemsData(
 
     val itemName: String,
 
