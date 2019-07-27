@@ -54,8 +54,7 @@ class EventsRepository (val eventsDao: EventsDao){
             }
 
 
-        //Get misc events data for day 1 form firestore
-        db.collection("events").document("misc").collection("day1")
+        db.collection("events").document("misc").collection("eventdata")
             .addSnapshotListener { snapshot, exception ->
 
                 if (exception != null){
@@ -69,7 +68,7 @@ class EventsRepository (val eventsDao: EventsDao){
                     snapshot.documents.forEach {
                         miscEvents.add(MiscEventsData(name = (it.get("name") as String)
                             , venue = (it.get("venue") as String), time = ((it.get("timestamp") as Timestamp)).toString()
-                            , description = (it.get("description") as String), day = "Day 1"
+                            , description = (it.get("description") as String), day = (it.get("day") as String)
                             , organiser = (it.get("organiser") as String)))
                     }
 
@@ -88,40 +87,6 @@ class EventsRepository (val eventsDao: EventsDao){
                 }
             }
 
-
-        //Get misc events data for day 2 form firestore
-        db.collection("events").document("misc").collection("day2")
-            .addSnapshotListener { snapshot, exception ->
-
-                if (exception != null){
-                    Log.e("EventsRepo", "Listen failed", exception)
-                    return@addSnapshotListener
-                }
-                if (snapshot != null){
-
-                    val miscEvents: MutableList<MiscEventsData> = arrayListOf()
-
-                    snapshot.documents.forEach {
-                        miscEvents.add(MiscEventsData(name = (it.get("name") as String)
-                            , venue = (it.get("venue") as String), time = ((it.get("timestamp") as Timestamp)).toString()
-                            , description = (it.get("description") as String), day = "Day 2"
-                            , organiser = (it.get("organiser") as String)))
-                    }
-
-                    Log.d("Events", miscEvents.toString())
-                    eventsDao.insertMiscEventData(miscEvents).subscribeOn(Schedulers.io())
-                        .subscribe(object : CompletableObserver{
-                            override fun onComplete() {
-                            }
-
-                            override fun onSubscribe(d: Disposable) {
-                            }
-
-                            override fun onError(e: Throwable) {
-                            }
-                        })
-                }
-            }
     }
 
     fun getSportsName(): Flowable<List<SportsNamesData>>{
