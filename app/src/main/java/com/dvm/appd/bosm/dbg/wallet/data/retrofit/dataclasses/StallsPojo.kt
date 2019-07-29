@@ -7,12 +7,13 @@ data class StallsPojo(
 
 
     @SerializedName("name")
-    @Expose
     val stallName: String,
 
     @SerializedName("id")
-    @Expose
     val stallId: Int,
 
-    val closed: Boolean
+    val closed: Boolean,
+
+    @SerializedName("menu")
+    val items : List<StallItemsPojo>
 )
