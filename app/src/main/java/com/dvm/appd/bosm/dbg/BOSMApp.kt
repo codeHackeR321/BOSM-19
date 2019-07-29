@@ -8,6 +8,7 @@ import com.dvm.appd.bosm.dbg.di.DaggerAppComponent
 import io.reactivex.plugins.RxJavaPlugins
 
 class BOSMApp : Application() {
+
     companion object {
         lateinit var appComponent: AppComponent
     }

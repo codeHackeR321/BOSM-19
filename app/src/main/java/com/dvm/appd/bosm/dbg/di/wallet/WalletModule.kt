@@ -7,6 +7,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 class WalletModule {

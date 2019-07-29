@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.dvm.appd.bosm.dbg.Events.EventsFragment
+import com.dvm.appd.bosm.dbg.events.view.fragments.EventsFragment
+import com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment
+import com.dvm.appd.bosm.dbg.wallet.views.fragments.OrdersFragment
 import com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -28,17 +30,17 @@ class MainActivity : AppCompatActivity() {
             R.id.action_food -> {
                 selectedFragment = StallsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
-                //Toast.makeText(this,"food",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"food",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_order_history -> {
-                selectedFragment = EventsFragment()
+                selectedFragment = OrdersFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
                 Toast.makeText(this,"orderhistory",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_game -> {
-                selectedFragment = EventsFragment()
+                selectedFragment = MiscEventsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
                 Toast.makeText(this,"game",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true
@@ -66,7 +68,9 @@ class MainActivity : AppCompatActivity() {
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setOnNavigationItemSelectedListener(navListener)
 
-        supportFragmentManager.beginTransaction().replace(R.id.container, EventsFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.container,
+            EventsFragment()
+        ).commit()
         bottomNav.selectedItemId = R.id.action_events
 
 
