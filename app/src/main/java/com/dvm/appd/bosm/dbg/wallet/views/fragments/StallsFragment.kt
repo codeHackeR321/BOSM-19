@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -34,6 +35,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
     }
 
     override fun stallSelected(stallId: Int) {
-     
+     val bundle = bundleOf("stallId" to stallId)
+
     }
 }

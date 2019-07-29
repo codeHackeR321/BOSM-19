@@ -18,8 +18,9 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
     private lateinit var stallItemsViewModel: StallItemsViewModel
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+        val stallId = arguments?.getInt("stallId")
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
-        stallItemsViewModel = ViewModelProviders.of(this, StallItemsViewModelFactory())[StallItemsViewModel::class.java]
+        stallItemsViewModel = ViewModelProviders.of(this, StallItemsViewModelFactory(stallId!!))[StallItemsViewModel::class.java]
 
         rootView.items_recycler.adapter = StallItemsAdapter(this)
         stallItemsViewModel.items.observe(this, Observer {
@@ -29,7 +30,7 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         return rootView
     }
 
-    override fun addButtonClicked(stallId: Int) {
+    override fun addButtonClicked(itemId: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

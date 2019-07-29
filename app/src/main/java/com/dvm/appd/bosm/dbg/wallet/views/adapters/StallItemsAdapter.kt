@@ -14,7 +14,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
     var stallItems :List<StallItemsData> = emptyList()
 
     interface OnAddClickedListener{
-        fun addButtonClicked(stallId:Int)
+        fun addButtonClicked(itemId:Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
