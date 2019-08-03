@@ -13,7 +13,7 @@ class StallItemsViewModelFactory (val stallId:Int): ViewModelProvider.Factory {
     lateinit var walletRepository: WalletRepository
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        BOSMApp.appComponent.newWalletComponent(WalletModule()).inject(this)
+        BOSMApp.appComponent.newWalletComponent(WalletModule()).injectStallItems(this)
         return StallItemsViewModel(walletRepository,stallId) as T
     }
 }

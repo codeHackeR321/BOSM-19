@@ -10,6 +10,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int):ViewModel() {
 
     var items:LiveData<List<StallItemsData>> = MutableLiveData()
+
     init {
 
          walletRepository.getItemsForStall(stallId).subscribe({
@@ -17,6 +18,7 @@ class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int
          },{
              Log.d("checkve",it.toString())
          })
+             .dispose()
 
     }
 }

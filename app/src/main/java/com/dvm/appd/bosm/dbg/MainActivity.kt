@@ -8,9 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dvm.appd.bosm.dbg.events.view.fragments.EventsFragment
 import com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment
+import com.dvm.appd.bosm.dbg.wallet.views.fragments.CartDialog
 import com.dvm.appd.bosm.dbg.wallet.views.fragments.OrdersFragment
+import com.dvm.appd.bosm.dbg.wallet.views.fragments.StallItemsFragment
 import com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_more-> {
-                selectedFragment = EventsFragment()
+                selectedFragment = StallItemsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
                 Toast.makeText(this,"more",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true
@@ -73,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         ).commit()
         bottomNav.selectedItemId = R.id.action_events
 
-
     }
 
 
@@ -89,6 +91,7 @@ class MainActivity : AppCompatActivity() {
         R.id.action_cart -> {
 
             // Open Cart Fragment with hidden bottom nav and toolbar
+            CartDialog().show(supportFragmentManager, "CartDialog")
             Toast.makeText(this,"Cart Fragment",Toast.LENGTH_LONG).show()
             true
         }

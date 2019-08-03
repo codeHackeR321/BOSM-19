@@ -14,7 +14,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
     var stallItems :List<StallItemsData> = emptyList()
 
     interface OnAddClickedListener{
-        fun addButtonClicked(itemId:Int)
+        fun addButtonClicked(stallItem: StallItemsData, quantity: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
@@ -30,8 +30,28 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
         holder.itemName.text = stallItems[position].itemName
         holder.price.text = stallItems[position].price.toString()
         holder.add.setOnClickListener {
-            listener.addButtonClicked(stallItems[position].stallId)
+            holder.quantity.text = "1"
+            listener.addButtonClicked(stallItems[position], 1)
         }
+
+        holder.plus.setOnClickListener {
+
+            var q = holder.quantity.text as String
+            var qq = q.toInt() + 1
+            holder.quantity.text = qq.toString()
+            listener.addButtonClicked(stallItems[position], qq)
+        }
+
+        holder.minus.setOnClickListener {
+
+            var q = holder.quantity.text as String
+            var qq = q.toInt() - 1
+            holder.quantity.text = qq.toString()
+            listener.addButtonClicked(stallItems[position], qq)
+
+        }
+
+
     }
 
     inner class ItemsViewHolder(view: View):RecyclerView.ViewHolder(view){
@@ -39,6 +59,9 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
         var itemName = view.itemName
         var price = view. price
         var add = view.addBtn
+        var plus = view.plus
+        var minus = view.minus
+        var quantity = view.qunatity
 
     }
 }
