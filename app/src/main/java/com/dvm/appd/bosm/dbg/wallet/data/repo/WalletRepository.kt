@@ -83,9 +83,12 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         response.body()!!.forEach {
                             orders.addAll(it.toOrderData())
                             orderItems.addAll(it.toOrderItemsData())
-                            walletDao.insertNewOrders(orders).subscribeOn(Schedulers.io())
-                            walletDao.insertNewOrderItems(orderItems).subscribeOn(Schedulers.io())
                         }
+
+                        Log.d("Orders", orders.toString())
+                        Log.d("Orders", orderItems.toString())
+                        walletDao.insertNewOrders(orders)
+                        walletDao.insertNewOrderItems(orderItems)
                     }
 
                     400 -> {
@@ -139,11 +142,6 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun getAllOrders(): Flowable<List<ModifiedOrdersData>>{
 
-        //Currently manual data insert
-        val orders: MutableList<OrderData> = arrayListOf(OrderData(orderId = "0", otp = "123", otpSeen = "false", status = "1", price = "230", vendor = "Keventers"))
-        val orderItems: MutableList<OrderItemsData> = arrayListOf(OrderItemsData(itemName = "Shake", itemId = "102", quantity = "2", price = "115", orderId = "0", id = 0))
-        walletDao.insertNewOrders(orders).subscribeOn(Schedulers.io()).subscribe()
-        walletDao.insertNewOrderItems(orderItems).subscribeOn(Schedulers.io()).subscribe()
         return walletDao.getOrdersData().subscribeOn(Schedulers.io())
             .flatMap {
 
@@ -228,6 +226,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
             .subscribe()
 
+        Log.d("PlaceOrder", orderJsonObject.asString)
 
         walletService.placeOrder(orderJsonObject).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->

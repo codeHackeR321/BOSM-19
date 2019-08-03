@@ -15,7 +15,7 @@ interface WalletService {
     @GET("wallet/vendors")
     fun getAllStalls():Single<Response<List<StallsPojo>>>
 
-    @GET("wallet/orders/1")
+    @GET("wallet/orders")
     fun getAllOrders(): Single<Response<List<AllOrdersPojo>>>
 
     @POST("wallet/orders")

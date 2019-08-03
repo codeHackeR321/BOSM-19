@@ -33,10 +33,10 @@ interface WalletDao {
     fun getOrdersData(): Flowable<List<ChildOrdersData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNewOrders(orders: List<OrderData>): Completable
+    fun insertNewOrders(orders: List<OrderData>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNewOrderItems(orderItems: List<OrderItemsData>): Completable
+    fun insertNewOrderItems(orderItems: List<OrderItemsData>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartItems(cartItems: CartData): Completable
