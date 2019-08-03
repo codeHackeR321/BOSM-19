@@ -177,11 +177,6 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletDao.insertCartItems(cartItem).subscribeOn(Schedulers.io())
     }
 
-    fun updateQuantity(quantity: Int, itemId: Int): Completable{
-        return walletDao.updateQuantity(quantity, itemId).subscribeOn(Schedulers.io())
-    }
-
-
     fun deleteCartItem(itemId: Int): Completable{
         return walletDao.deleteCartItem(itemId).subscribeOn(Schedulers.io())
     }

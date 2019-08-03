@@ -15,6 +15,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
 
     interface OnAddClickedListener{
         fun addButtonClicked(stallItem: StallItemsData, quantity: Int)
+        fun deleteCartItemClicked(itemId: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
@@ -45,9 +46,20 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
         holder.minus.setOnClickListener {
 
             var q = holder.quantity.text as String
-            var qq = q.toInt() - 1
-            holder.quantity.text = qq.toString()
-            listener.addButtonClicked(stallItems[position], qq)
+
+            if (q.toInt() < 1){
+
+                var qq = q.toInt() - 1
+                holder.quantity.text = qq.toString()
+                listener.addButtonClicked(stallItems[position], qq)
+
+            }
+
+            else{
+
+                holder.quantity.text = "0"
+                listener.deleteCartItemClicked(stallItems[position].itemId)
+            }
 
         }
 

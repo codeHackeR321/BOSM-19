@@ -29,10 +29,11 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         val stallId = arguments?.getInt("stallId")
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
 
-        stallItemsViewModel = ViewModelProviders.of(this, StallItemsViewModelFactory(stallId!!))[StallItemsViewModel::class.java]
+        stallItemsViewModel = ViewModelProviders.of(this, StallItemsViewModelFactory(1))[StallItemsViewModel::class.java]
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
         rootView.items_recycler.adapter = StallItemsAdapter(this)
+
         stallItemsViewModel.items.observe(this, Observer {
             (rootView.items_recycler.adapter as StallItemsAdapter).stallItems = it
             (rootView.items_recycler.adapter as StallItemsAdapter).notifyDataSetChanged()
@@ -49,5 +50,10 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
 
         cartViewModel.insertCartItems(CartData(stallItem.itemId, quantity, stallItem.stallId))
 
+    }
+
+    override fun deleteCartItemClicked(itemId: Int) {
+
+        cartViewModel.deleteCartItem(itemId)
     }
 }

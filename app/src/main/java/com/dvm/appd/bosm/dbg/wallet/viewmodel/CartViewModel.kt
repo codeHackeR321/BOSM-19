@@ -31,10 +31,6 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
         walletRepository.deleteCartItem(itemId).subscribe()
     }
 
-    fun updateQuantity(quantity: Int, itemId: Int){
-        walletRepository.updateQuantity(quantity, itemId).subscribe()
-    }
-
     fun insertCartItems(cartData: CartData){
         walletRepository.insertCartItems(cartData).subscribe()
     }

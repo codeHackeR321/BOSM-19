@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/addBtn"
             android:textColor="@color/colorGreen"
-android:background="@drawable/add_button"
+            android:background="@drawable/add_button"
             app:layout_constraintTop_toTopOf="@+id/itemName"
             app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintEnd_toEndOf="parent"

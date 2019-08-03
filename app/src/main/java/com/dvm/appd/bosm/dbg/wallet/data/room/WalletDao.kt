@@ -41,9 +41,6 @@ interface WalletDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartItems(cartItems: CartData): Completable
 
-    @Query("UPDATE cart_data SET quantity = :quantity WHERE item_id = :itemId")
-    fun updateQuantity(quantity: Int, itemId: Int): Completable
-
     @Query("DELETE FROM cart_data")
     fun clearCart(): Completable
 
