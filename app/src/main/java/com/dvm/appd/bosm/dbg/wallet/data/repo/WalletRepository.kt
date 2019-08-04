@@ -22,7 +22,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         Log.d("check", "called")
         return walletService.getAllStalls()
             .doOnSuccess { response ->
-                Log.d("check", response.message())
+                Log.d("check", response.body().toString())
+                Log.d("checkfetch",response.code().toString())
                 when (response.code()) {
                     200 -> {
                         var stallList: List<StallData> = emptyList()
@@ -49,12 +50,15 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     fun getAllStalls(): Observable<List<StallData>> {
         Log.d("check", "calledg")
         return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
+            .doOnError {
+                Log.d("checkre",it.toString())
+            }
     }
 
     fun getItemsForStall(stallId:Int):Observable<List<StallItemsData>>{
         return walletDao.getItemsForStallById(stallId).toObservable()
             .doOnError{
-                Log.d("checkre",it.toString())
+                Log.d("checkrwe",it.toString())
             }.subscribeOn(Schedulers.io())
     }
     fun StallsPojo.toStallData(): StallData {
@@ -252,5 +256,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>{
         return walletDao.getAllModifiedCartItems().subscribeOn(Schedulers.io())
+            .doOnError {
+                Log.d("checkre",it.toString())
+            }
     }
 }

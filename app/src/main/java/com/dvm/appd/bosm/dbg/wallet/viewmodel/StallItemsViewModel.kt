@@ -18,7 +18,5 @@ class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int
          },{
              Log.d("checkve",it.toString())
          })
-             .dispose()
-
     }
 }
