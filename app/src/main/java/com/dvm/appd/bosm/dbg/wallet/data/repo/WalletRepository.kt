@@ -2,15 +2,19 @@ package com.dvm.appd.bosm.dbg.wallet.data.repo
 
 import android.util.Log
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
+import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
 import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
 
@@ -67,13 +71,76 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return itemList
     }
 
-    fun getAllOrders(): Flowable<List<ModifiedOrdersData>>{
+    fun updateOrders(): Completable{
+        return walletService.getAllOrders()
+            .doOnSuccess {response ->
+                when(response.code()){
+                    200 -> {
 
-        //Currently manual data insert 
-        val orders: MutableList<OrderData> = arrayListOf(OrderData(orderId = "0", otp = "123", otpSeen = "false", status = "1", price = "230", vendor = "Keventers"))
-        val orderItems: MutableList<OrderItemsData> = arrayListOf(OrderItemsData(itemName = "Shake", itemId = "102", quantity = "2", price = "115", orderId = "0", id = 0))
-        walletDao.insertNewOrders(orders).subscribeOn(Schedulers.io()).subscribe()
-        walletDao.insertNewOrderItems(orderItems).subscribeOn(Schedulers.io()).subscribe()
+                        var orders: MutableList<OrderData> = arrayListOf()
+                        var orderItems: MutableList<OrderItemsData> = arrayListOf()
+
+                        response.body()!!.forEach {
+                            orders.addAll(it.toOrderData())
+                            orderItems.addAll(it.toOrderItemsData())
+                        }
+
+                        Log.d("Orders", orders.toString())
+                        Log.d("Orders", orderItems.toString())
+                        walletDao.insertNewOrders(orders)
+                        walletDao.insertNewOrderItems(orderItems)
+                    }
+
+                    400 -> {
+                        Log.d("GetOrder", "Success Error: 400")
+                    }
+
+                    401 -> {
+                        Log.d("GetOrder", "Success Error: 401")
+                    }
+
+                    403 -> {
+                        Log.d("GetOrder", "Success Error: 403")
+                    }
+
+                    404 -> {
+                        Log.d("GetOrder", "Success Error: 404")
+                    }
+
+                    412 -> {
+                        Log.d("GetOrder", "Success Error: 412")
+                    }
+                }
+            }
+            .doOnError {
+                Log.e("GetOrder", "Error", it)
+            }
+            .ignoreElement()
+            .subscribeOn(Schedulers.io())
+    }
+
+    private fun AllOrdersPojo.toOrderData(): List<OrderData>{
+
+        var orderData: MutableList<OrderData> = arrayListOf()
+        orders.forEach {
+            orderData.add(OrderData(orderId = it.id, otp = it.otp, otpSeen = it.otpSeen, status = it.status, price = it.price, vendor = it.vendor.vendorName))
+        }
+        return orderData
+    }
+
+    private fun AllOrdersPojo.toOrderItemsData(): List<OrderItemsData>{
+
+        var orderItemsData: MutableList<OrderItemsData> = arrayListOf()
+        orders.forEach {
+            it.items.forEach { orderItemsPojo ->
+                orderItemsData.add(OrderItemsData(itemName = orderItemsPojo.itemName, itemId = orderItemsPojo.itemId, quantity = orderItemsPojo.quantity, price = orderItemsPojo.price, orderId = it.id, id = 0))
+            }
+        }
+
+        return orderItemsData
+    }
+
+    fun getAllOrders(): Flowable<List<ModifiedOrdersData>>{
 
         return walletDao.getOrdersData().subscribeOn(Schedulers.io())
             .flatMap {
@@ -104,5 +171,86 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@flatMap Flowable.just(ordersList)
 
             }
+    }
+
+    fun insertCartItems(cartItem: CartData): Completable{
+        return walletDao.insertCartItems(cartItem).subscribeOn(Schedulers.io())
+    }
+
+    fun deleteCartItem(itemId: Int): Completable{
+        return walletDao.deleteCartItem(itemId).subscribeOn(Schedulers.io())
+    }
+
+    fun placeOrder(){
+
+        var orderJsonObject = JsonObject()
+
+        walletDao.getAllCartItems().subscribeOn(Schedulers.io())
+            .doOnNext {
+
+                var orders = JsonObject()
+                var items: MutableList<Pair<Int, Int>> = arrayListOf()
+                for ((index, item) in it.listIterator().withIndex()){
+
+                    items.add(Pair(item.itemId, item.quantity))
+
+                    if (index != it.lastIndex  &&  it[index].vendorId != it[index + 1].vendorId){
+
+                        orders.add("${it[index].vendorId}]", JsonObject().also {
+                            items.forEach { pair ->
+                                it.addProperty("${pair.first}", "${pair.second}")
+                            }
+                        })
+
+                        items = arrayListOf()
+                    }
+                    else if (index == it.lastIndex){
+
+                        orders.add("${it[index].vendorId}]", JsonObject().also {
+                            items.forEach { pair ->
+                                it.addProperty("${pair.first}", "${pair.second}")
+                            }
+                        })
+
+                        items = arrayListOf()
+                    }
+
+                }
+
+                orderJsonObject.add("orderdict", orders)
+            }
+            .subscribe()
+
+        Log.d("PlaceOrder", orderJsonObject.asString)
+
+        walletService.placeOrder(orderJsonObject).subscribeOn(Schedulers.io())
+            .doOnSuccess {response ->
+
+                when(response.code()){
+
+                    200 -> walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
+
+                    400 -> Log.d("PlaceOrder", "Success Error: 400")
+
+                    401 -> Log.d("PlaceOrder", "Success Error: 401")
+
+                    403 -> Log.d("PlaceOrder", "Success Error: 403")
+
+                    404 -> Log.d("PlaceOrder", "Success Error: 404")
+
+                    412 -> Log.d("PlaceOrder", "Success Error: 412")
+                }
+
+
+            }
+            .doOnError {
+                Log.e("PlaceOrder", "Error", it)
+            }
+            .subscribe()
+
+    }
+
+    fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>{
+        return walletDao.getAllModifiedCartItems().subscribeOn(Schedulers.io())
     }
 }

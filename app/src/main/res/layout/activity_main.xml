@@ -39,7 +39,7 @@
             android:layout_height="56dp"
             android:layout_gravity="start"
             app:menu="@menu/bottom_nav_items"
-         app:morphCornerRadius="0dp"
+            app:morphCornerRadius="0dp"
             app:morphItemRadius="50dp"
             android:backgroundTint = "@color/colorPrimary"
             app:morphVerticalOffset="15dp"
@@ -47,4 +47,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
