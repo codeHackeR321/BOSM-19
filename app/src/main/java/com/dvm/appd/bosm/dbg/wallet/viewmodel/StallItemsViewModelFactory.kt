@@ -14,6 +14,7 @@ class StallItemsViewModelFactory (val stallId:Int): ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         BOSMApp.appComponent.newWalletComponent(WalletModule()).injectStallItems(this)
+        @Suppress("UNCHECKED_CAST")
         return StallItemsViewModel(walletRepository,stallId) as T
     }
 }

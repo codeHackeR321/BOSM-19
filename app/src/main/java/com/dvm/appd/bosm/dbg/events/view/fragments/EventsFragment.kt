@@ -32,6 +32,11 @@ class EventsFragment : Fragment() {
             (view.recyclerView.adapter as EventsAdapter).notifyDataSetChanged()
         })
 
+        view.miscEvents.setOnClickListener {
+
+            fragmentManager!!.beginTransaction().replace(R.id.container, MiscEventsFragment()).addToBackStack(null).commit()
+        }
+
      return view
      }
 }

@@ -1,5 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:orientation="vertical"
                                                    android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"/>
+                                                   android:layout_height="wrap_content"
+                                                   android:id="@+id/miscEventsAdapter">
+    <TextView
+            android:text="Event Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventName" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:textSize="24sp" android:textAlignment="center"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventDesc" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/eventName" android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp" android:textAlignment="center"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventOrg"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/eventDesc"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/eventTime" android:layout_marginEnd="8dp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventTime" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc" app:layout_constraintEnd_toStartOf="@+id/eventVenue"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/eventOrg"
+            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventVenue" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintStart_toEndOf="@+id/eventTime"
+            android:layout_marginStart="8dp"/>
+    <Button
+            android:text="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/markFav" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:textStyle="bold" android:textAlignment="center" android:textSize="18sp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

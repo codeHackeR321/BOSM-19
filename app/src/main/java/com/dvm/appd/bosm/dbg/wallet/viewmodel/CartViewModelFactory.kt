@@ -14,6 +14,7 @@ class CartViewModelFactory: ViewModelProvider.Factory{
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         BOSMApp.appComponent.newWalletComponent(WalletModule()).injectCart(this)
+        @Suppress("UNCHECKED_CAST")
         return CartViewModel(walletRepository) as T
     }
 }

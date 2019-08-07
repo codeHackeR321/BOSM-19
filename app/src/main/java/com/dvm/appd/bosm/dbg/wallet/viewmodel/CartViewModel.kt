@@ -24,7 +24,7 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
     }
 
     fun placeOrder(){
-        walletRepository.placeOrder()
+        walletRepository.placeOrder().subscribe()
     }
 
     fun deleteCartItem(itemId: Int){

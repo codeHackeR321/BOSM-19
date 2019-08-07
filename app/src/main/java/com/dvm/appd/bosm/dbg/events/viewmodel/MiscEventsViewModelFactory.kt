@@ -14,6 +14,7 @@ class MiscEventsViewModelFactory: ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         BOSMApp.appComponent.newEventsComponent(EventsModule()).injectMiscEvents(this)
+        @Suppress("UNCHECKED_CAST")
         return MiscEventsViewModel(eventsRepository) as T
     }
 }
