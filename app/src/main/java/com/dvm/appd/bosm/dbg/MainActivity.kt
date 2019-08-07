@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_game -> {
-                selectedFragment = MiscEventsFragment()
+                selectedFragment = EventsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
                 Toast.makeText(this,"game",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true

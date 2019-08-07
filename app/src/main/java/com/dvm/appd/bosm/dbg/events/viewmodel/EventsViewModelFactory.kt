@@ -14,6 +14,7 @@ class EventsViewModelFactory: ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         BOSMApp.appComponent.newEventsComponent(EventsModule()).injectEvents(this)
+        @Suppress("UNCHECKED_CAST")
         return EventsViewModel(eventsRepository) as T
     }
 }

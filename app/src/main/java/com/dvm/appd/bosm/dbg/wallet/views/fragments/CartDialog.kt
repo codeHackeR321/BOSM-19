@@ -32,10 +32,6 @@ class CartDialog: DialogFragment(){
             cartViewModel.placeOrder()
         }
 
-        view.exit.setOnClickListener {
-            dismiss()
-        }
-
         return view
     }
 }
