@@ -29,7 +29,8 @@ class AppModule(private val application: Application) {
     @Provides
     @Singleton
     fun providesAppDatabase(application: Application):AppDatabase{
-        return Room.databaseBuilder(application,AppDatabase::class.java,"bosm.db").build()
+        return Room.databaseBuilder(application,AppDatabase::class.java,"bosm.db")
+            .build()
     }
 
     @Provides
