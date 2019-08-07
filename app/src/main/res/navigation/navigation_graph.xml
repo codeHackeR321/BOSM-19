@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:startDestination="@id/action_events"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/navigation_graph"
+>
+    <fragment android:id="@+id/action_events"
+              android:name="com.dvm.appd.bosm.dbg.events.view.fragments.EventsFragment"
+              android:label="fra_events_fragment" tools:layout="@layout/fra_events_fragment"/>
+
+    <fragment android:id="@+id/action_game" android:name="com.dvm.appd.bosm.dbg.elas.ELASFragment"
+              android:label="ELASFragment"/>
+
+    <fragment android:id="@+id/action_food"
+              android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment"
+              android:label="StallsFragment"/>
+
+    <fragment android:id="@+id/action_order_history"
+              android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.OrdersFragment"
+              android:label="fra_wallet_orders" tools:layout="@layout/fra_wallet_orders"/>
+
+    <fragment android:id="@+id/action_cart" android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.CartDialog"
+              android:label="CartDialog"/>
+
+</navigation>

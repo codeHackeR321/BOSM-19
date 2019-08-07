@@ -67,5 +67,9 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$lifecycle_version"
     testImplementation "android.arch.core:core-testing:$lifecycle_version"
 
+    def nav_version = "2.1.0-beta02"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
     implementation 'com.android.support:multidex:1.0.3'
 }
