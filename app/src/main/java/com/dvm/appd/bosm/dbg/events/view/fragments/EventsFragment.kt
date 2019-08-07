@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.view.adapters.EventsAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModel
@@ -32,10 +33,7 @@ class EventsFragment : Fragment() {
             (view.recyclerView.adapter as EventsAdapter).notifyDataSetChanged()
         })
 
-        view.miscEvents.setOnClickListener {
-
-            fragmentManager!!.beginTransaction().replace(R.id.container, MiscEventsFragment()).addToBackStack(null).commit()
-        }
+        view.miscEvents.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_action_events_to_miscEventsFragment, null))
 
      return view
      }
