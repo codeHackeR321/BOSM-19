@@ -35,5 +35,7 @@
     <fragment android:id="@+id/miscEventsFragment"
               android:name="com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment"
               android:label="fra_misc_events" tools:layout="@layout/fra_misc_events"/>
+    <fragment android:id="@+id/action_more" android:name="com.dvm.appd.bosm.dbg.more.MoreFragment"
+              android:label="fragment_more" tools:layout="@layout/fragment_more"/>
 
 </navigation>

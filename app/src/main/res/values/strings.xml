@@ -28,6 +28,6 @@
     <string name="test_sports_category">FOOTBALL</string>
     <string name="test_timer">00:00:00</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_more_fragment">More</string>
+    <string name="hello_blank_fragment">Hello Blank Fragment</string>
 </resources>
