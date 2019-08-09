@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedStallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 
 class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int):ViewModel() {
@@ -14,6 +15,8 @@ class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int
     var items:LiveData<List<StallItemsData>> = MutableLiveData()
 
     var modifiedCartItems: LiveData<List<ModifiedCartData>> = MutableLiveData()
+
+    var stallItems: LiveData<List<ModifiedStallItemsData>> = MutableLiveData()
 
     init {
 
@@ -24,7 +27,11 @@ class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int
          })
              .dispose()
 
-
+        walletRepository.getModifiedStallItems(stallId)
+            .doOnNext {
+                Log.d("StallItemVM", it.toString())
+            }
+            .subscribe()
 //        walletRepository.getAllModifiedCartItems()
 //            .doOnNext {
 //                Log.d("CartVM", it.toString())

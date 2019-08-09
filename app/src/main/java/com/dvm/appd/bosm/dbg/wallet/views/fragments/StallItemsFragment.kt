@@ -36,6 +36,10 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
             (rootView.items_recycler.adapter as StallItemsAdapter).notifyDataSetChanged()
         })
 
+        stallItemsViewModel.stallItems.observe(this, Observer {
+            Log.d("StallItems", "Observed $it")
+        })
+
 //        stallItemsViewModel.modifiedCartItems.observe(this, Observer {
 //            Log.d("Cart", "Observed: $it")
 //        })

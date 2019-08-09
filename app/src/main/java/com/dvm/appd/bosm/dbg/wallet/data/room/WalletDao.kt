@@ -23,6 +23,9 @@ interface WalletDao {
     @Query("SELECT * FROM stall_items where stallId = :stallId")
     fun getItemsForStallById(stallId:Int):Flowable<List<StallItemsData>>
 
+    @Query("SELECT itemId, itemName, stallId, price, isAvailable, quantity FROM stall_items JOIN cart_data ON stall_items.itemId = cart_data.item_id WHERE stallId = :stallId ORDER BY itemId")
+    fun getStallItemsById(stallId: Int): Flowable<List<ModifiedStallItemsData>>
+
     @Query("DELETE FROM stall_items")
     fun deleteAllStallItems()
 

@@ -260,4 +260,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 Log.d("checkre",it.toString())
             }
     }
+
+    fun getModifiedStallItems(stallId: Int): Flowable<List<ModifiedStallItemsData>>{
+        return walletDao.getStallItemsById(stallId).subscribeOn(Schedulers.io())
+    }
 }
