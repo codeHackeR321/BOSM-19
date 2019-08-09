@@ -8,7 +8,7 @@ import com.dvm.appd.bosm.dbg.events.data.repo.EventsRepository
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class MiscEventsViewModel(eventsRepository: EventsRepository): ViewModel() {
+class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
     var miscEvents: LiveData<List<MiscEventsData>> = MutableLiveData()
 
@@ -24,5 +24,9 @@ class MiscEventsViewModel(eventsRepository: EventsRepository): ViewModel() {
         }
         .subscribe()
 
+    }
+
+    fun markEventFavourite(eventId: String, favouriteMark: Int){
+        eventsRepository.updateFavourite(eventId, favouriteMark).subscribe()
     }
 }

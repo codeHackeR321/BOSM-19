@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentChange
+import io.reactivex.Completable
 
 class EventsRepository (val eventsDao: EventsDao){
 
@@ -134,4 +135,7 @@ class EventsRepository (val eventsDao: EventsDao){
         return eventsDao.getMiscEvents().subscribeOn(Schedulers.io())
     }
 
+    fun updateFavourite(eventId: String, favouriteMark: Int): Completable {
+        return eventsDao.updateMiscFavourite(id = eventId, mark = favouriteMark).subscribeOn(Schedulers.io())
+    }
 }

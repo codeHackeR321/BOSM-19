@@ -15,8 +15,8 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.SingleSource
 import io.reactivex.schedulers.Schedulers
-import org.json.JSONObject
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
 
@@ -188,13 +188,13 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletDao.deleteCartItem(itemId).subscribeOn(Schedulers.io())
     }
 
-    fun placeOrder(){
+    fun placeOrder(): Completable{
 
-        var orderJsonObject = JsonObject()
+        return walletDao.getAllCartItems().subscribeOn(Schedulers.io())
+            .firstOrError()
+            .map {
 
-        walletDao.getAllCartItems().subscribeOn(Schedulers.io())
-            .doOnNext {
-
+                var orderJsonObject = JsonObject()
                 var orders = JsonObject()
                 var items: MutableList<Pair<Int, Int>> = arrayListOf()
                 for ((index, item) in it.listIterator().withIndex()){
@@ -203,9 +203,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                     if (index != it.lastIndex  &&  it[index].vendorId != it[index + 1].vendorId){
 
-                        orders.add("${it[index].vendorId}]", JsonObject().also {
+                        orders.add("${it[index].vendorId}", JsonObject().also {
                             items.forEach { pair ->
-                                it.addProperty("${pair.first}", "${pair.second}")
+                                it.addProperty(pair.first.toString(), pair.second)
                             }
                         })
 
@@ -213,9 +213,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     }
                     else if (index == it.lastIndex){
 
-                        orders.add("${it[index].vendorId}]", JsonObject().also {
+                        orders.add("${it[index].vendorId}", JsonObject().also {
                             items.forEach { pair ->
-                                it.addProperty("${pair.first}", "${pair.second}")
+                                it.addProperty(pair.first.toString(), pair.second)
                             }
                         })
 
@@ -225,36 +225,36 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 }
 
                 orderJsonObject.add("orderdict", orders)
+                Log.d("PlaceOrder", "$orderJsonObject")
+                return@map orderJsonObject
             }
-            .subscribe()
+            .flatMapCompletable {body ->
+                return@flatMapCompletable walletService.placeOrder(body).subscribeOn(Schedulers.io())
+                    .doOnSuccess {response ->
 
-        Log.d("PlaceOrder", orderJsonObject.asString)
+                        when(response.code()){
 
-        walletService.placeOrder(orderJsonObject).subscribeOn(Schedulers.io())
-            .doOnSuccess {response ->
+                            200 -> {
+                                walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
+                            }
 
-                when(response.code()){
+                            400 -> Log.d("PlaceOrder", "Success Error: 400")
 
-                    200 -> walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
+                            401 -> Log.d("PlaceOrder", "Success Error: 401")
 
-                    400 -> Log.d("PlaceOrder", "Success Error: 400")
+                            403 -> Log.d("PlaceOrder", "Success Error: 403")
 
-                    401 -> Log.d("PlaceOrder", "Success Error: 401")
+                            404 -> Log.d("PlaceOrder", "Success Error: 404")
 
-                    403 -> Log.d("PlaceOrder", "Success Error: 403")
+                            412 -> Log.d("PlaceOrder", "Success Error: 412")
+                        }
 
-                    404 -> Log.d("PlaceOrder", "Success Error: 404")
-
-                    412 -> Log.d("PlaceOrder", "Success Error: 412")
-                }
-
-
+                    }
+                    .doOnError {
+                        Log.e("PlaceOrder", "Error", it)
+                    }
+                    .ignoreElement()
             }
-            .doOnError {
-                Log.e("PlaceOrder", "Error", it)
-            }
-            .subscribe()
-
     }
 
     fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>{

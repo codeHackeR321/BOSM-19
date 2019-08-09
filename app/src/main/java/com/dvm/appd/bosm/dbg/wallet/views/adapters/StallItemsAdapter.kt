@@ -47,7 +47,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
 
             var q = holder.quantity.text as String
 
-            if (q.toInt() < 1){
+            if (q.toInt() > 1){
 
                 var qq = q.toInt() - 1
                 holder.quantity.text = qq.toString()
@@ -73,7 +73,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
         var add = view.addBtn
         var plus = view.plus
         var minus = view.minus
-        var quantity = view.qunatity
+        var quantity = view.quantity
 
     }
 }
