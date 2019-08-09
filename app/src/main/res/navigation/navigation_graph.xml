@@ -35,5 +35,11 @@
     <fragment android:id="@+id/miscEventsFragment"
               android:name="com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment"
               android:label="fra_misc_events" tools:layout="@layout/fra_misc_events"/>
+    <fragment android:id="@+id/action_more" android:name="com.dvm.appd.bosm.dbg.more.MoreFragment"
+              android:label="fragment_more" tools:layout="@layout/fragment_more">
+        <action android:id="@+id/action_action_more_to_fragmentWebPage" app:destination="@id/fragmentWebPage"/>
+    </fragment>
+    <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
+              android:label="FragmentWebPage"/>
 
 </navigation>
