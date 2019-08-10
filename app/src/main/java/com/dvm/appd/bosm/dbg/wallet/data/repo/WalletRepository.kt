@@ -17,6 +17,8 @@ import io.reactivex.schedulers.Schedulers
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
 
+
+    // To be implemented after profile (when userId available)
 //    init {
 //
 //        val db = FirebaseFirestore.getInstance()
@@ -34,7 +36,6 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 //                }
 //            }
 //        }
-//
 //    }
 
     fun fetchAllStalls(): Completable {
