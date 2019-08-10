@@ -7,18 +7,17 @@ import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
-import io.reactivex.schedulers.Schedulers
 
 class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
 
-    var modifiedCartItems: LiveData<List<ModifiedCartData>> = MutableLiveData()
+    var cartItems: LiveData<Pair<List<ModifiedCartData>, Int>> = MutableLiveData()
 
     init {
 
         walletRepository.getAllModifiedCartItems()
             .doOnNext {
                 Log.d("CartVM", it.toString())
-                (modifiedCartItems as MutableLiveData).postValue(it)
+                (cartItems as MutableLiveData).postValue(it)
             }
             .subscribe()
     }
@@ -31,7 +30,7 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
         walletRepository.deleteCartItem(itemId).subscribe()
     }
 
-    fun insertCartItems(cartData: CartData){
-        walletRepository.insertCartItems(cartData).subscribe()
+    fun updateCartItems(itemId: Int, quantity: Int){
+        walletRepository.updateCartItems(itemId, quantity).subscribe()
     }
 }

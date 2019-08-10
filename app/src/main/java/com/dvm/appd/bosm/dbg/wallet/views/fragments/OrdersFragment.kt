@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.OrdersViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.OrdersViewModelFactory
+import com.dvm.appd.bosm.dbg.wallet.views.adapters.OrdersAdapter
+import kotlinx.android.synthetic.main.fra_wallet_orders.view.*
 
 class OrdersFragment : Fragment() {
 
@@ -22,10 +24,12 @@ class OrdersFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fra_wallet_orders, container, false)
 
+        view.orderRecycler.adapter = OrdersAdapter()
+
         ordersViewModel.orders.observe(this, Observer {
 
-            Log.d("OrdersFragment", "Observed: $it")
-
+            (view.orderRecycler.adapter as OrdersAdapter).orderItems = it
+            (view.orderRecycler.adapter as OrdersAdapter).notifyDataSetChanged()
         })
 
         return view
