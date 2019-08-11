@@ -33,8 +33,8 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
             it.addProperty("password", password)
         }
 
-        Log.d("check",body.toString())
-       return login(body, false)
+        Log.d("check", body.toString())
+        return login(body, false)
     }
 
     fun getUser(): Maybe<User> {
@@ -44,25 +44,25 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         val jwt = sharedPreferences.getString(Keys.jwt, null)
         val id = sharedPreferences.getString(Keys.userId, null)
         val qr = sharedPreferences.getString(Keys.qrCode, null)
-        val bitsian = sharedPreferences.getBoolean(Keys.isBitsian,false)
-        Log.d("checkSp", listOf(name, email, contact, jwt, qr,bitsian).toString())
+        val bitsian = sharedPreferences.getBoolean(Keys.isBitsian, false)
+        Log.d("checkSp", listOf(name, email, contact, jwt, qr, bitsian).toString())
         if (listOf(name, email, contact, jwt, qr).contains(null)) {
             return Maybe.empty()
         }
-        return Maybe.just(User(name!!, email!!, contact!!, jwt!!, id!!, qr!!,bitsian))
+        return Maybe.just(User(jwt!!, name!!, id!!, email!!, contact!!, qr!!, bitsian))
     }
 
     @SuppressLint("ApplySharedPref")
-    fun setUser(user:User?): Completable {
+    fun setUser(user: User?): Completable {
         return Completable.fromAction {
             sharedPreferences.edit().apply {
-                putString(Keys.name, user?.name)
                 putString(Keys.jwt, user?.jwt)
-                putString(Keys.contact, user?.phone)
-                putString(Keys.email, user?.email)
+                putString(Keys.name, user?.name)
                 putString(Keys.userId, user?.userId)
+                putString(Keys.email, user?.email)
+                putString(Keys.contact, user?.phone)
                 putString(Keys.qrCode, user?.qrCode)
-                putBoolean(Keys.isBitsian,user?.isBitsian!!)
+                putBoolean(Keys.isBitsian, user?.isBitsian!!)
 
             }.commit()
         }
@@ -73,28 +73,28 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
             .flatMap { response ->
                 Log.d("checkr", response.code().toString())
 
-                when(response.code()){
-                 200 -> {
-                     Log.d("checkr", response.body().toString())
-                     setUser(
-                         User(
-                            jwt =  response.body()!!.jwt,
-                            name =  response.body()!!.name,
-                             userId = response.body()!!.userId,
-                             email = response.body()!!.email,
-                            phone =  response.body()!!.phone,
-                             qrCode = response.body()!!.qrCode,
-                             isBitsian = bitsian
-                         )
-                     ).subscribe()
-                     Single.just(LoginState.Success)
-                 }
-                in 400..499 -> Single.just(LoginState.Failure(response.errorBody()!!.string()))
-                else -> Single.just(LoginState.Failure("Something went wrong!!"))
+                when (response.code()) {
+                    200 -> {
+                        Log.d("checkr", response.body().toString())
+                        setUser(
+                            User(
+                                jwt = response.body()!!.jwt,
+                                name = response.body()!!.name,
+                                userId = response.body()!!.userId,
+                                email = response.body()!!.email,
+                                phone = response.body()!!.phone,
+                                qrCode = response.body()!!.qrCode,
+                                isBitsian = bitsian
+                            )
+                        ).subscribe()
+                        Single.just(LoginState.Success)
+                    }
+                    in 400..499 -> Single.just(LoginState.Failure(response.errorBody()!!.string()))
+                    else -> Single.just(LoginState.Failure("Something went wrong!!"))
                 }
 
             }.doOnError {
-                Log.d("checkre",it.toString())
+                Log.d("checkre", it.toString())
             }
             .subscribeOn(Schedulers.io())
     }

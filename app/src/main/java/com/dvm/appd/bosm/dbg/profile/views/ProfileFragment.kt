@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.profile.views
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,8 @@ class ProfileFragment : Fragment() {
                 }
                 is UiState.ShowProfile -> {
                     rootView.loading.visibility = View.GONE
-                    Toast.makeText(context, (state as UiState.ShowProfile).user.toString(), Toast.LENGTH_SHORT).show()
+                    Log.d("check",(state as UiState.ShowProfile).user.toString())
+                    Toast.makeText(context,state.user.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         })
