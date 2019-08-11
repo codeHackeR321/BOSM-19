@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.auth.viewmodel.LoginOutsteeViewModel
@@ -30,6 +31,17 @@ class LoginOutsteeFragment : Fragment() {
                 }
             }
         }
+
+        loginOutsteeViewModel.state.observe(this, Observer {
+            when(it!!){
+                LoginState.Success -> {
+
+                }
+                is LoginState.Failure -> {
+                   Toast.makeText(context,(it as LoginState.Failure).message,Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
 
         return rootView
     }
