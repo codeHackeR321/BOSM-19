@@ -37,19 +37,19 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
        return login(body, false)
     }
 
-    fun getUser(): Maybe<AuthPojo> {
+    fun getUser(): Maybe<User> {
         val name = sharedPreferences.getString(Keys.name, null)
         val email = sharedPreferences.getString(Keys.email, null)
         val contact = sharedPreferences.getString(Keys.contact, null)
         val jwt = sharedPreferences.getString(Keys.jwt, null)
         val id = sharedPreferences.getString(Keys.userId, null)
         val qr = sharedPreferences.getString(Keys.qrCode, null)
-        val bitsian = sharedPreferences.getString(Keys.isBitsian,null)
+        val bitsian = sharedPreferences.getBoolean(Keys.isBitsian,false)
         Log.d("checkSp", listOf(name, email, contact, jwt, qr,bitsian).toString())
         if (listOf(name, email, contact, jwt, qr).contains(null)) {
             return Maybe.empty()
         }
-        return Maybe.just(AuthPojo(name!!, email!!, contact!!, jwt!!, id!!, qr!!))
+        return Maybe.just(User(name!!, email!!, contact!!, jwt!!, id!!, qr!!,bitsian))
     }
 
     @SuppressLint("ApplySharedPref")
@@ -72,25 +72,29 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         return authService.login(body)
             .flatMap { response ->
                 Log.d("checkr", response.code().toString())
+
                 when(response.code()){
                  200 -> {
+                     Log.d("checkr", response.body().toString())
                      setUser(
                          User(
-                             response.body()!!.jwt,
-                             response.body()!!.name,
-                             response.body()!!.userId,
-                             response.body()!!.email,
-                             response.body()!!.phone,
-                             response.body()!!.qrCode,
-                             bitsian
+                            jwt =  response.body()!!.jwt,
+                            name =  response.body()!!.name,
+                             userId = response.body()!!.userId,
+                             email = response.body()!!.email,
+                            phone =  response.body()!!.phone,
+                             qrCode = response.body()!!.qrCode,
+                             isBitsian = bitsian
                          )
-                     )
+                     ).subscribe()
                      Single.just(LoginState.Success)
                  }
                 in 400..499 -> Single.just(LoginState.Failure(response.errorBody()!!.string()))
                 else -> Single.just(LoginState.Failure("Something went wrong!!"))
                 }
 
+            }.doOnError {
+                Log.d("checkre",it.toString())
             }
             .subscribeOn(Schedulers.io())
     }
