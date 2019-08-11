@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedStallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModelFactory
@@ -40,17 +41,12 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         rootView.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }
-//        stallItemsViewModel.modifiedCartItems.observe(this, Observer {
-//            Log.d("Cart", "Observed: $it")
-//        })
-
         return rootView
     }
 
-    override fun addButtonClicked(stallItem: StallItemsData, quantity: Int) {
+    override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {
 
         stallItemsViewModel.insertCartItems(CartData(stallItem.itemId, quantity, stallItem.stallId))
-
     }
 
     override fun deleteCartItemClicked(itemId: Int) {

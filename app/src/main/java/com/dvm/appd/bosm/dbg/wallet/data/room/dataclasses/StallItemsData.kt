@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "stall_items")
 data class StallItemsData(
 
-    @PrimaryKey(autoGenerate = true)
-    val id:Int,
-
+    @PrimaryKey
     @ColumnInfo(name = "itemId")
     val itemId:Int,
 
@@ -24,4 +22,5 @@ data class StallItemsData(
 
     @ColumnInfo(name = "isAvailable")
     val isAvailable:Boolean
-)
+
+    )

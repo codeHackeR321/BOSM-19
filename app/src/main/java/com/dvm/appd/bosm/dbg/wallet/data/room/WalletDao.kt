@@ -20,9 +20,6 @@ interface WalletDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllStallItems(items : List<StallItemsData>)
 
-    @Query("SELECT * FROM stall_items WHERE stallId = :stallId")
-    fun getItemsForStallById(stallId:Int):Flowable<List<StallItemsData>>
-
     @Query("DELETE FROM stall_items")
     fun deleteAllStallItems()
 
@@ -51,5 +48,11 @@ interface WalletDao {
     fun getAllCartItems(): Flowable<List<CartData>>
 
     @Query("SELECT cart_data.item_id AS itemId, stall_items.itemName as itemName, cart_data.vendor_id AS vendorId, stalls.stallName AS vendorName, cart_data.quantity AS quantity, stall_items.price AS price FROM cart_data LEFT JOIN stall_items ON cart_data.item_id = stall_items.itemId LEFT JOIN stalls ON cart_data.vendor_id = stalls.stallId ")
-    fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>
+    fun getAllModifiedCartItems(): Flowable<List<ChildCartData>>
+
+    @Query("SELECT itemId, itemName, stallId, isAvailable, price, COALESCE(cart_data.quantity, 0) AS quantity FROM stall_items LEFT JOIN cart_data ON itemId = item_id WHERE stallId = :stallId")
+    fun getModifiedStallItemsById(stallId: Int): Flowable<List<ModifiedStallItemsData>>
+
+    @Query("UPDATE cart_data SET quantity = :quantity WHERE item_id = :itemId")
+    fun updateCartItem(quantity: Int, itemId: Int): Completable
 }

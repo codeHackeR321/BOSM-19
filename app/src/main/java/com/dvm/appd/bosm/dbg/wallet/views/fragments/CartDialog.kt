@@ -8,12 +8,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartItemsData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.CartViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.CartViewModelFactory
-import kotlinx.android.synthetic.main.fra_cart_dialog.*
+import com.dvm.appd.bosm.dbg.wallet.views.adapters.CartAdapter
+import com.dvm.appd.bosm.dbg.wallet.views.adapters.ChildCartAdapter
 import kotlinx.android.synthetic.main.fra_cart_dialog.view.*
 
-class CartDialog: DialogFragment(){
+class CartDialog: DialogFragment(), ChildCartAdapter.OnButtonClicked{
 
     private lateinit var cartViewModel: CartViewModel
 
@@ -23,9 +25,14 @@ class CartDialog: DialogFragment(){
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
-        cartViewModel.modifiedCartItems.observe(this, Observer {
+        view.cartRecycler.adapter = CartAdapter(this)
 
-            size.text = it.size.toString()
+        cartViewModel.cartItems.observe(this, Observer {
+
+            (view.cartRecycler.adapter as CartAdapter).cartItems = it.first
+            (view.cartRecycler.adapter as CartAdapter).notifyDataSetChanged()
+
+            view.totalPrice.text = "Rupees ${it.second}"
         })
 
         view.placeOrder.setOnClickListener {
@@ -33,5 +40,13 @@ class CartDialog: DialogFragment(){
         }
 
         return view
+    }
+
+    override fun plusButtonClicked(item: ModifiedCartItemsData, quantity: Int) {
+        cartViewModel.updateCartItems(item.itemId, quantity)
+    }
+
+    override fun deleteCartItemClicked(itemId: Int) {
+        cartViewModel.deleteCartItem(itemId)
     }
 }

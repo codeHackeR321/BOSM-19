@@ -10,15 +10,38 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.google.gson.JsonElement
+
+import com.google.firebase.firestore.FirebaseFirestore
+
 import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.SingleSource
 import io.reactivex.schedulers.Schedulers
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
+
+
+    // To be implemented after profile (when userId available)
+//    init {
+//
+//        val db = FirebaseFirestore.getInstance()
+//
+//        db.collection("orders").addSnapshotListener { snapshot, exception ->
+//
+//            if (exception != null){
+//                Log.e("WalletRepo", "Listen failed", exception)
+//                return@addSnapshotListener
+//            }
+//            if (snapshot != null){
+//
+//                snapshot.documents.forEach {
+//
+//                }
+//            }
+//        }
+//    }
 
     fun fetchAllStalls(): Single<StallResult> {
         Log.d("check", "called")
@@ -40,6 +63,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         walletDao.insertAllStalls(stallList)
                         walletDao.insertAllStallItems(itemList)
                         Single.just(StallResult.Success)
+
                     }
 
                     else -> {Log.d("checke", response.body().toString())
@@ -59,13 +83,15 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
-    fun getItemsForStall(stallId:Int):Observable<List<StallItemsData>>{
-        Log.d("checkwmr",stallId.toString())
-        return walletDao.getItemsForStallById(stallId).toObservable().subscribeOn(Schedulers.io())
-            .doOnError{
-                Log.d("checkrwe",it.toString())
+    fun getItemsForStall(stallId: Int): Flowable<List<ModifiedStallItemsData>>{
+
+        return walletDao.getModifiedStallItemsById(stallId)
+            .doOnError {
+
             }
+            .subscribeOn(Schedulers.io())
     }
+
     fun StallsPojo.toStallData(): StallData {
         return StallData(stallId, stallName, closed)
     }
@@ -75,7 +101,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         var itemList: List<StallItemsData> = emptyList()
 
         items.forEach {
-            itemList = itemList.plus(StallItemsData(0, it.itemId, it.itemName, it.stallId, it.price, it.isAvailable))
+            itemList = itemList.plus(StallItemsData(it.itemId, it.itemName, it.stallId, it.price, it.isAvailable))
         }
         return itemList
     }
@@ -259,10 +285,38 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
-    fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>{
+    fun getAllModifiedCartItems(): Flowable<Pair<List<ModifiedCartData>, Int>>{
         return walletDao.getAllModifiedCartItems().subscribeOn(Schedulers.io())
-            .doOnError {
-                Log.d("checkre",it.toString())
+            .flatMap {
+
+                var finalCartData: Pair<List<ModifiedCartData>, Int>
+                var cartData: MutableList<ModifiedCartData> = arrayListOf()
+                var cartItemsData: MutableList<ModifiedCartItemsData> = arrayListOf()
+                var totalPrice = 0
+
+                for ((index, item) in it.listIterator().withIndex()){
+
+                    cartItemsData.add(ModifiedCartItemsData(item.itemId, item.itemName, item.quantity, item.price))
+                    totalPrice += item.quantity * item.price
+
+                    if (index != it.lastIndex  &&  it[index].vendorId != it[index + 1].vendorId){
+
+                        cartData.add(ModifiedCartData(item.vendorId, item.vendorName, cartItemsData))
+                        cartItemsData = arrayListOf()
+                    }
+                    else if (index == it.lastIndex){
+
+                        cartData.add(ModifiedCartData(item.vendorId, item.vendorName, cartItemsData))
+                        cartItemsData = arrayListOf()
+                    }
+                }
+
+                finalCartData = Pair(cartData, totalPrice)
+                return@flatMap Flowable.just(finalCartData)
             }
+    }
+
+    fun updateCartItems(itemId: Int, quantity: Int): Completable{
+        return walletDao.updateCartItem(quantity, itemId).subscribeOn(Schedulers.io())
     }
 }
