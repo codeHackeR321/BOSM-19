@@ -14,7 +14,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".auth.views.AuthActivity">
+        <activity android:name=".auth.views.AuthFragment">
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

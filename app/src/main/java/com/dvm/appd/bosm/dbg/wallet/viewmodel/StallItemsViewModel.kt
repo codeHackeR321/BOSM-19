@@ -16,15 +16,13 @@ class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int
     var modifiedCartItems: LiveData<List<ModifiedCartData>> = MutableLiveData()
 
     init {
-
+        Log.d("checkwm",stallId.toString())
          walletRepository.getItemsForStall(stallId).subscribe({
+             Log.d("checkwm",it.toString())
              (items as MutableLiveData).postValue(it)
          },{
              Log.d("checkve",it.toString())
          })
-             .dispose()
-
-
 //        walletRepository.getAllModifiedCartItems()
 //            .doOnNext {
 //                Log.d("CartVM", it.toString())

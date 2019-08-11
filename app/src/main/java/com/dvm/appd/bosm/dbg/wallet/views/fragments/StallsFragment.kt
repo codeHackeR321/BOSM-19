@@ -49,14 +49,8 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
     }
 
     override fun stallSelected(stallId: Int) {
-<<<<<<< HEAD
-        val bundle = bundleOf("stallId" to stallId)
-
-=======
-        Log.d("Testing", "StallId recived = $stallId")
         val bundle = bundleOf("stallId" to stallId)
         view!!.findNavController().navigate(R.id.action_action_food_to_stallItemsFragment2, bundle)
         // view!!.findNavController().navigate(StallsFragmentDirections.actionActionFoodToStallItemsFragment2(stallId))
->>>>>>> 7d61d4c60b0f9233e424f3ef4b965dc43aa72cea
     }
 }

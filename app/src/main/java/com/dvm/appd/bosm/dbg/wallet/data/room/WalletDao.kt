@@ -20,7 +20,7 @@ interface WalletDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllStallItems(items : List<StallItemsData>)
 
-    @Query("SELECT * FROM stall_items where stallId = :stallId")
+    @Query("SELECT * FROM stall_items WHERE stallId = :stallId")
     fun getItemsForStallById(stallId:Int):Flowable<List<StallItemsData>>
 
     @Query("DELETE FROM stall_items")

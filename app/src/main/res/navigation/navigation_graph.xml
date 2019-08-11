@@ -18,7 +18,7 @@
               android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment"
               android:label="StallsFragment">
         <action android:id="@+id/action_action_food_to_stallItemsFragment2" app:destination="@+id/stallItemsFragment2"
-                app:popUpToInclusive="false"/>
+                app:popUpToInclusive="false" app:popUpTo="@+id/action_food"/>
     </fragment>
 
     <fragment android:id="@+id/action_order_history"

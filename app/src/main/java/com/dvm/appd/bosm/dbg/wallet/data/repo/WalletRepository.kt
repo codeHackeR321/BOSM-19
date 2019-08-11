@@ -34,6 +34,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             stallList = stallList.plus(stall.toStallData())
                             itemList = itemList.plus(stall.toStallItemsData())
                         }
+                        Log.d("checkwmr",itemList.toString())
                         walletDao.deleteAllStalls()
                         walletDao.deleteAllStallItems()
                         walletDao.insertAllStalls(stallList)
@@ -59,10 +60,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     fun getItemsForStall(stallId:Int):Observable<List<StallItemsData>>{
-        return walletDao.getItemsForStallById(stallId).toObservable()
+        Log.d("checkwmr",stallId.toString())
+        return walletDao.getItemsForStallById(stallId).toObservable().subscribeOn(Schedulers.io())
             .doOnError{
                 Log.d("checkrwe",it.toString())
-            }.subscribeOn(Schedulers.io())
+            }
     }
     fun StallsPojo.toStallData(): StallData {
         return StallData(stallId, stallName, closed)

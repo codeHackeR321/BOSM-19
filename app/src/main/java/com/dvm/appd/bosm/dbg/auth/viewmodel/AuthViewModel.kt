@@ -4,4 +4,12 @@ import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 
 class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
+
+    init {
+
+    }
+
+    fun login(bitsian:Boolean){
+
+    }
 }

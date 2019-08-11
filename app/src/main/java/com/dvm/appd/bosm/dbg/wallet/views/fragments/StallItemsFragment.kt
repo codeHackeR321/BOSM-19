@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
@@ -24,7 +25,7 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val stallId = arguments?.getInt("stallId")
-        Log.d("Testing", "StallId recived = $stallId")
+        Log.d("Testing", "StallId received = $stallId")
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
 
         stallItemsViewModel = ViewModelProviders.of(this, StallItemsViewModelFactory(stallId!!))[StallItemsViewModel::class.java]
@@ -36,6 +37,9 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
             (rootView.items_recycler.adapter as StallItemsAdapter).notifyDataSetChanged()
         })
 
+        rootView.backBtn.setOnClickListener {
+            it.findNavController().popBackStack()
+        }
 //        stallItemsViewModel.modifiedCartItems.observe(this, Observer {
 //            Log.d("Cart", "Observed: $it")
 //        })
