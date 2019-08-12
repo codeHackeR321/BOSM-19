@@ -11,16 +11,16 @@ data class OrderItemsData(
     val itemName: String,
 
     @ColumnInfo(name = "item_id")
-    val itemId: String,
+    val itemId: Int,
 
     @ColumnInfo(name = "quantity")
-    val quantity: String,
+    val quantity: Int,
 
     @ColumnInfo(name = "unit_price")
-    val price: String,
+    val price: Int,
 
     @ColumnInfo(name = "order_id")
-    val orderId: String,
+    val orderId: Int,
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

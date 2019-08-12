@@ -8,11 +8,11 @@ data class OrderItemsPojo(
     val itemName: String,
 
     @SerializedName("id")
-    val itemId: String,
+    val itemId: Int,
 
     @SerializedName("quantity")
-    val quantity: String,
+    val quantity: Int,
 
     @SerializedName("unit_price")
-    val price: String
+    val price: Int
 )

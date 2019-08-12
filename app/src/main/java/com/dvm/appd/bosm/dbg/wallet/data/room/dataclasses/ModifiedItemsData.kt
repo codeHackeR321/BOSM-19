@@ -4,9 +4,9 @@ data class ModifiedItemsData(
 
     val itemName: String,
 
-    val itemId: String,
+    val itemId: Int,
 
-    val quantity: String,
+    val quantity: Int,
 
-    val price: String
+    val price: Int
 )

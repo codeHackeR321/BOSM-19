@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class OrderPojo(
 
     @SerializedName("transaction")
-    val transaction: String,
+    val transaction: String?,
 
-    @SerializedName("id")
-    val id: String,
+    @SerializedName("order-id")
+    val id: Int,
 
     @SerializedName("items")
     val items: List<OrderItemsPojo>,
@@ -17,17 +17,17 @@ data class OrderPojo(
     val vendor: OrderVendorPojo,
 
     @SerializedName("shell")
-    val shell: String,
+    val shell: Int,
 
     @SerializedName("otp_seen")
-    val otpSeen: String,
+    val otpSeen: Boolean,
 
     @SerializedName("otp")
-    val otp: String,
+    val otp: Int,
 
     @SerializedName("status")
-    val status: String,
+    val status: Int,
 
     @SerializedName("price")
-    val price: String
+    val price: Int
 )

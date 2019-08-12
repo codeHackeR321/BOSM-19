@@ -9,19 +9,19 @@ data class OrderData(
 
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val orderId: String,
+    val orderId: Int,
 
     @ColumnInfo(name = "otp")
-    val otp: String,
+    val otp: Int,
 
     @ColumnInfo(name = "otp_seen")
-    val otpSeen: String,
+    val otpSeen: Boolean,
 
     @ColumnInfo(name = "status")
-    val status: String,
+    val status: Int,
 
     @ColumnInfo(name = "price")
-    val price: String,
+    val price: Int,
 
     @ColumnInfo(name = "vendor")
     val vendor: String //vendor id or name
