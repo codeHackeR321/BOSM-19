@@ -14,6 +14,7 @@ class StallItemsViewModel(val walletRepository: WalletRepository,val stallId:Int
 
     init {
 
+
         walletRepository.getItemsForStall(stallId)
             .doOnNext {
                 Log.d("StallItemVM", it.toString())

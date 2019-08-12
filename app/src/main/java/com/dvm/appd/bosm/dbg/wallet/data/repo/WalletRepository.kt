@@ -8,11 +8,16 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
+import com.dvm.appd.bosm.dbg.wallet.views.StallResult
+import com.google.gson.JsonElement
+
 import com.google.firebase.firestore.FirebaseFirestore
+
 import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
@@ -37,10 +42,10 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         }
     }
 
-    fun fetchAllStalls(): Completable {
+    fun fetchAllStalls(): Single<StallResult> {
         Log.d("check", "called")
         return walletService.getAllStalls()
-            .doOnSuccess { response ->
+            .flatMap { response ->
                 Log.d("check", response.body().toString())
                 Log.d("checkfetch",response.code().toString())
                 when (response.code()) {
@@ -51,19 +56,21 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             stallList = stallList.plus(stall.toStallData())
                             itemList = itemList.plus(stall.toStallItemsData())
                         }
+                        Log.d("checkwmr",itemList.toString())
                         walletDao.deleteAllStalls()
                         walletDao.deleteAllStallItems()
                         walletDao.insertAllStalls(stallList)
                         walletDao.insertAllStallItems(itemList)
+                        Single.just(StallResult.Success)
 
                     }
 
-                    else -> Log.d("checke", response.body().toString())
+                    else -> {Log.d("checke", response.body().toString())
+                       Single.just(StallResult.Failure)}
                 }
             }.doOnError {
                 Log.d("checke", it.message)
-            }.ignoreElement()
-            .subscribeOn(Schedulers.io())
+            }.subscribeOn(Schedulers.io())
 
     }
 
