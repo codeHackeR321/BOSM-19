@@ -1,5 +1,7 @@
 package com.dvm.appd.bosm.dbg.di
 
+import com.dvm.appd.bosm.dbg.di.elas.ElasComponent
+import com.dvm.appd.bosm.dbg.di.elas.ElasModule
 import com.dvm.appd.bosm.dbg.di.events.EventsComponent
 import com.dvm.appd.bosm.dbg.di.events.EventsModule
 import com.dvm.appd.bosm.dbg.di.wallet.WalletComponent
@@ -12,4 +14,6 @@ interface AppComponent {
     fun newWalletComponent(b:WalletModule):WalletComponent
 
     fun newEventsComponent(a:EventsModule): EventsComponent
+
+    fun newElasComponent(a: ElasModule): ElasComponent
 }

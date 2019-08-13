@@ -2,6 +2,7 @@ package com.dvm.appd.bosm.dbg.shared
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
 import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
 import com.dvm.appd.bosm.dbg.events.data.room.EventsDao
@@ -16,5 +17,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun walletDao(): WalletDao
     abstract fun eventsDao(): EventsDao
-
+    abstract fun elasDao(): ElasDao
 }
