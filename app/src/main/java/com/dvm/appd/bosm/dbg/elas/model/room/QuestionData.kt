@@ -7,7 +7,7 @@ import java.sql.Timestamp
 @Entity(tableName = "question_table")
 data class QuestionData(
     @PrimaryKey val questionId: Long,
-    val answerId: Int,
+    val correctAnswerId: Int,
     val timestamp: Timestamp,
     val question: String,
     var isAnswered: Boolean,
