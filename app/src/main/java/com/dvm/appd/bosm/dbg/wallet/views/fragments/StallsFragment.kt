@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModelFactory
+import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallsAdapter
 import kotlinx.android.synthetic.main.fra_wallet_stalls.*
 import kotlinx.android.synthetic.main.fra_wallet_stalls.view.*
@@ -33,11 +34,21 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
             (rootview.stalls_recycler.adapter as StallsAdapter).notifyDataSetChanged()
         })
 
+        stallsViewModel.result.observe(this, Observer {
+            when (it!!) {
+                StallResult.Success -> {
+                    rootview.progressBar.visibility = View.GONE
+                }
+                StallResult.Failure -> {
+                    rootview.progressBar.visibility = View.VISIBLE
+                }
+            }
+        })
+
         return rootview
     }
 
     override fun stallSelected(stallId: Int) {
-        Log.d("Testing", "StallId recived = $stallId")
         val bundle = bundleOf("stallId" to stallId)
         view!!.findNavController().navigate(R.id.action_action_food_to_stallItemsFragment2, bundle)
         // view!!.findNavController().navigate(StallsFragmentDirections.actionActionFoodToStallItemsFragment2(stallId))

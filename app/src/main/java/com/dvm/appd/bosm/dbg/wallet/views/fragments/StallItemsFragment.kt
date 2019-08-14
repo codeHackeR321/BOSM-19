@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedStallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModelFactory
@@ -24,7 +26,7 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val stallId = arguments?.getInt("stallId")
-        Log.d("Testing", "StallId recived = $stallId")
+        Log.d("Testing", "StallId received = $stallId")
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
 
         stallItemsViewModel = ViewModelProviders.of(this, StallItemsViewModelFactory(stallId!!))[StallItemsViewModel::class.java]
@@ -36,17 +38,15 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
             (rootView.items_recycler.adapter as StallItemsAdapter).notifyDataSetChanged()
         })
 
-//        stallItemsViewModel.modifiedCartItems.observe(this, Observer {
-//            Log.d("Cart", "Observed: $it")
-//        })
-
+        rootView.backBtn.setOnClickListener {
+            it.findNavController().popBackStack()
+        }
         return rootView
     }
 
-    override fun addButtonClicked(stallItem: StallItemsData, quantity: Int) {
+    override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {
 
         stallItemsViewModel.insertCartItems(CartData(stallItem.itemId, quantity, stallItem.stallId))
-
     }
 
     override fun deleteCartItemClicked(itemId: Int) {

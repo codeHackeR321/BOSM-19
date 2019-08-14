@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toStartOf="@+id/addBtn"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginEnd="16dp"/>
     <TextView
             android:text="Price"
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
     <Button
             android:text="Add"
-            android:layout_width="wrap_content"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:id="@+id/addBtn"
             android:textColor="@color/colorGreen"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="@+id/itemName"
             app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp"/>
+            android:layout_marginEnd="8dp"/>
     <Button
             android:text="+"
             android:layout_width="32dp"
@@ -68,10 +68,11 @@
     <TextView
             android:text="0"
             android:layout_width="32dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:id="@+id/quantity"
-            android:textSize="18sp" app:layout_constraintEnd_toStartOf="@+id/plus"
+            android:textSize="24sp" app:layout_constraintEnd_toStartOf="@+id/plus"
             android:textStyle="bold" android:textAlignment="center"
             app:layout_constraintTop_toTopOf="@+id/plus"
-            app:layout_constraintBottom_toBottomOf="@+id/plus"/>
+            app:layout_constraintBottom_toBottomOf="@+id/plus"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

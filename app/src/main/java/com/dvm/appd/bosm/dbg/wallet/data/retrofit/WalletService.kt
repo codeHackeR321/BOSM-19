@@ -13,10 +13,10 @@ interface WalletService {
     fun getAllStalls():Single<Response<List<StallsPojo>>>
 
     @GET("wallet/orders")
-    @Headers("Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjUwMzQ3MDQsInVzZXJuYW1lIjoiYXBwZCIsImVtYWlsIjoiIn0.terKtruR883sHL12PffRuY1BfMOggYkaNnRE1Gn6Dmc")
+    @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjYxNTE3NjAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYXBwZCIsImVtYWlsIjoiIn0.TBpas6sA9DwVIHOfGa7tK1lM6mlsP_SNVrBedKGpjFU")
     fun getAllOrders(): Single<Response<List<AllOrdersPojo>>>
 
     @POST("wallet/orders")
-    @Headers("Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1NjUwMzQ3MDQsInVzZXJuYW1lIjoiYXBwZCIsImVtYWlsIjoiIn0.terKtruR883sHL12PffRuY1BfMOggYkaNnRE1Gn6Dmc")
+    @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjYxNTE3NjAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYXBwZCIsImVtYWlsIjoiIn0.TBpas6sA9DwVIHOfGa7tK1lM6mlsP_SNVrBedKGpjFU")
     fun placeOrder(@Body body: JsonObject): Single<Response<AllOrdersPojo>>
 }
