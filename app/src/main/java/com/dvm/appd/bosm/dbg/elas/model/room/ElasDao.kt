@@ -11,16 +11,16 @@ import io.reactivex.Single
 @Dao
 interface ElasDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertQuestions(questions: List<QuestionData>)
+    fun insertQuestions(questions: List<QuestionData>): Single<Unit>
 
     @Insert
-    fun insertOptions(options: List<OptionData>)
+    fun insertOptions(options: List<OptionData>): Single<Unit>
 
     @Query("DELETE FROM option_table WHERE questionId = :id")
-    fun deleteOptionsForQuestionWithId(id: Long)
+    fun deleteOptionsForQuestionWithId(id: Long): Single<Unit>
 
     @Query("DELETE FROM option_table")
-    fun deleteAllOptions()
+    fun deleteAllOptions(): Single<Unit>
 
     @Query("SELECT * FROM question_table JOIN option_table WHERE category = :category ")
     fun selectQuestionsInCategory(category: String): Flowable<List<CombinedQuestionOptionDataClass>>

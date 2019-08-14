@@ -14,52 +14,56 @@ class ElasRepository(val elasDao: ElasDao) {
     private val TAG = "ELAS REPO"
 
     init {
+        Log.d(TAG, "Init for Repo Called")
         initializeFireStore()
     }
 
     private fun initializeFireStore() {
-        FirebaseFirestore.getInstance().collection("elas").addSnapshotListener{ snapshot, error ->
+        FirebaseFirestore.getInstance().collection("elas").addSnapshotListener { snapshot, error ->
+            Log.d(TAG, "Entered firestore Listener with ${snapshot!!.documents.size} doucuments")
             var questionList = emptyList<QuestionData>()
             var optionList = emptyList<OptionData>()
-            if (error != null){
+            if (error != null) {
                 Log.e(TAG, "Error initializing listener $error")
                 initializeFireStore()
                 return@addSnapshotListener
             }
-            for(document in snapshot!!.documents){
+            for (document in snapshot!!.documents) {
                 Log.d(TAG, "Recived document = ${document.id}")
                 val questionId = document["id"].toString().toLong()
-                elasDao.deleteOptionsForQuestionWithId(questionId)
+                elasDao.deleteOptionsForQuestionWithId(questionId).subscribeOn(Schedulers.io()).doOnError { Log.e(TAG, "Error in delteing databsae = $it") }.subscribe()
                 questionList = questionList.plus(
                     QuestionData(
                         correctAnswerId = document["answer"].toString().toInt(),
                         category = document["category"].toString(),
                         questionId = questionId,
-                        timestamp = document["timestamp"] as Timestamp,
+                        timestamp = document["timestamp"].toString(),
                         isAnswered = false,
                         question = document["question"].toString()
-                ))
-                val options = (document["options"] as Array<String>)
-                for((index,option) in options.iterator().withIndex()){
+                    )
+                )
+                val options = (document["options"] as ArrayList<String>)
+                for ((index, option) in options.iterator().withIndex()) {
                     optionList = optionList.plus(
                         OptionData(
                             id = 0,
                             questionId = questionId,
                             answerId = index,
                             option = option
-                    ))
+                        )
+                    )
                 }
             }
-            elasDao.insertQuestions(questionList)
-            elasDao.insertOptions(optionList)
+            elasDao.insertQuestions(questionList).subscribeOn(Schedulers.io()).doOnError { Log.e(TAG, "Error in adding questions databsae = $it") }.subscribe()
+            elasDao.insertOptions(optionList).subscribeOn(Schedulers.io()).doOnError { Log.e(TAG, "Error in adding options databsae = $it") }.subscribe()
         }
     }
 
     fun getQuestionsFromRoom(category: String = "All"): Flowable<List<CombinedQuestionOptionDataClass>> {
         return if (category.equals("All")) {
-            elasDao.getAllQuestions().subscribeOn(Schedulers.io())
-        }else {
-            elasDao.selectQuestionsInCategory(category).subscribeOn(Schedulers.io())
+            elasDao.getAllQuestions().subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+        } else {
+            elasDao.selectQuestionsInCategory(category).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
         }
     }
 }

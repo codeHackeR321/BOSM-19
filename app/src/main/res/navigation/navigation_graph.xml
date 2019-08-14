@@ -11,7 +11,7 @@
         <action android:id="@+id/action_action_events_to_miscEventsFragment" app:destination="@id/miscEventsFragment"/>
     </fragment>
 
-    <fragment android:id="@+id/action_game" android:name="com.dvm.appd.bosm.dbg.elas.ELASFragment"
+    <fragment android:id="@+id/action_game" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASFragment"
               android:label="ELASFragment"/>
 
     <fragment android:id="@+id/action_food"

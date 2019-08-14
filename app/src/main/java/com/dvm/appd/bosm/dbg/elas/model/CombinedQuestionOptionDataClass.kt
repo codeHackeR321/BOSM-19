@@ -4,7 +4,7 @@ import java.sql.Timestamp
 
 data class CombinedQuestionOptionDataClass(
     val correctAnswerId: Int,
-    val timestamp: Timestamp,
+    val timestamp: String,
     val question: String,
     var isAnswered: Boolean,
     val category: String,
