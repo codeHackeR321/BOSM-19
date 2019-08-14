@@ -15,9 +15,16 @@
     <string name="elas_fragment_heading">ELAS - QUIZ</string>
     <string name="elas_fragment_category">Category :</string>
 
+    <string name="alert_notification_title">Enable Notifications</string>
+    <string name="alert_notification_message">Please enable Auto start on your app to enable notifications on your mobile. Notifications are highly vital for a seamless performance</string>
+    <string name="alert_notification_positive_button">Go to Settings</string>
+    <string name="alert_notification_negative_button">Dismiss</string>
+
     <string name="card_elas_fragment_leaderboardButton">View Leaderboard</string>
 
     <string name="dia_elas_leaderboard_heading">Leader Board</string>
+
+    <string name="dialog_dont_show_again">Don\'t ask me again</string>
 
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
         ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
