@@ -4,12 +4,14 @@ import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
@@ -18,6 +20,7 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.dvm.appd.bosm.dbg.di.AppModule
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import kotlinx.android.synthetic.main.checkbox.view.*
 
 
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sharedPreferences = AppModule(application).providesSharedPreferences(application)
+        checkForInvitation()
         checkNotificationPermissions()
         setSupportActionBar(findViewById(R.id.my_toolbar))
         var navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
@@ -143,6 +147,25 @@ class MainActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
                 Log.e("AutoStart Execute", "Error in opening AutoStart = ${e.toString()}")
+            }
+        }
+    }
+
+    private fun checkForInvitation() {
+        if (sharedPreferences.getBoolean("firstTime", true)) {
+            // sharedPreferences.edit().putBoolean("firstTime", false).apply()
+            FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener {
+                Log.d("Main Activity", "OnSuccess of dynamic link")
+                var deepLink: Uri? = null
+                if (it != null) {
+                    deepLink = it.link
+                    Toast.makeText(this, deepLink.getQueryParameter("invitedBy"), Toast.LENGTH_LONG).show()
+                    Log.d("Main Activity", "Deep link received = $deepLink")
+                } else {
+                    Log.e("Main Activity", "Empty link found")
+                }
+            }.addOnFailureListener {
+                Log.e("Main Activity", "Failed to get Link = $it")
             }
         }
     }
