@@ -1,10 +1,13 @@
 package com.dvm.appd.bosm.dbg
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -167,6 +170,31 @@ class MainActivity : AppCompatActivity() {
             }.addOnFailureListener {
                 Log.e("Main Activity", "Failed to get Link = $it")
             }
+        }
+    }
+
+
+     /*This method is used for the initial setup of the notification channels
+     If the notification chanel already exists, no action is taken, and hence it is safe to call this method every time the app starts*/
+    private fun setupNotificationChannel(){
+        // Notification Channels are only available for Oreo(Api Level 26) and onwards
+        // Since support libraries don't have a library for setting up notification channels, this check is necessary
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            val generalChannel = NotificationChannel(getString(R.string.chanel_id_general_notifications) , getString(R.string.chanel_name_general_notifications) , NotificationManager.IMPORTANCE_HIGH)
+            generalChannel.description = getString(R.string.chanel_desc_general_notifications)
+            generalChannel.canBypassDnd()
+
+            val ratingsChannel = NotificationChannel(getString(R.string.chanel_id_rating_notifications) , getString(R.string.chanel_name_rating_notifications) , NotificationManager.IMPORTANCE_HIGH)
+            ratingsChannel.description = getString(R.string.chanel_desc_rating_notifications)
+            ratingsChannel.canBypassDnd()
+
+            val statusChangeChannel = NotificationChannel(getString(R.string.chanel_id_status_change_notifications) , getString(R.string.chanel_name_status_change_notifications) , NotificationManager.IMPORTANCE_HIGH)
+            statusChangeChannel.description = getString(R.string.chanel_desc_status_change_notifications)
+            statusChangeChannel.canBypassDnd()
+
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannels(listOf(generalChannel, ratingsChannel, statusChangeChannel))
         }
     }
 
