@@ -8,5 +8,5 @@ data class OrderVendorPojo(
     val vendorName: String,
 
     @SerializedName("id")
-    val vendorId: String
+    val vendorId: Int
 )

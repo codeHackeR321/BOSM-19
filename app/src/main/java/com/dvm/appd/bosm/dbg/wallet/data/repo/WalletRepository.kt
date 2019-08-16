@@ -24,24 +24,23 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
 
     // To be implemented after profile (when userId available)
-//    init {
-//
-//        val db = FirebaseFirestore.getInstance()
-//
-//        db.collection("orders").addSnapshotListener { snapshot, exception ->
-//
-//            if (exception != null){
-//                Log.e("WalletRepo", "Listen failed", exception)
-//                return@addSnapshotListener
-//            }
-//            if (snapshot != null){
-//
-//                snapshot.documents.forEach {
-//
-//                }
-//            }
-//        }
-//    }
+    init {
+
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("orders").whereEqualTo("userid", 2)
+            .addSnapshotListener { snapshot, exception ->
+
+            if (exception != null){
+                Log.e("WalletRepo", "Listen Failed", exception)
+                return@addSnapshotListener
+            }
+            if (snapshot != null){
+                Log.d("WalletRepo", "Firebase $snapshot")
+                updateOrders().subscribe()
+            }
+        }
+    }
 
     fun fetchAllStalls(): Single<StallResult> {
         Log.d("check", "called")
@@ -85,7 +84,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun getItemsForStall(stallId: Int): Flowable<List<ModifiedStallItemsData>>{
 
-        return walletDao.getModifiedStallItemsById(stallId)
+        return walletDao.getModifiedStallItemsById(stallId, true)
             .doOnError {
 
             }

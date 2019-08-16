@@ -2,23 +2,23 @@ package com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses
 
 data class ChildOrdersData(
 
-    val orderId: String,
+    val orderId: Int,
 
-    val otp: String,
+    val otp: Int,
 
-    val otpSeen: String,
+    val otpSeen: Boolean,
 
-    val status: String,
+    val status: Int,
 
-    val totalPrice: String,
+    val totalPrice: Int,
 
     val vendor: String,
 
     val itemName: String,
 
-    val itemId: String,
+    val itemId: Int,
 
-    val quantity: String,
+    val quantity: Int,
 
-    val price: String
+    val price: Int
 )

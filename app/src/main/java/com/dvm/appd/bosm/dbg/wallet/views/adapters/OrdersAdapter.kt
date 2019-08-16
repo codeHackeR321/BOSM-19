@@ -23,9 +23,9 @@ class OrdersAdapter: RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>(){
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
 
         holder.orderNumber.text = "Order #${orderItems[position].orderId}"
-        holder.otp.text = orderItems[position].otp
-        holder.price.text = orderItems[position].totalPrice
-        holder.status.text = orderItems[position].status
+        holder.otp.text = orderItems[position].otp.toString()
+        holder.price.text = orderItems[position].totalPrice.toString()
+        holder.status.text = orderItems[position].status.toString()
     }
 
     inner class OrdersViewHolder(view: View): RecyclerView.ViewHolder(view){

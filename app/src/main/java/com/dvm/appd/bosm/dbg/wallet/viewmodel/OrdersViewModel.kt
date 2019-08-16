@@ -14,29 +14,29 @@ class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     init {
 
-        walletRepository.updateOrders().doOnComplete {
-            walletRepository.getAllOrders()
-                .doOnNext {
-                    Log.d("OrdersVM",it.toString())
-                    (orders as MutableLiveData).postValue(it)
-                }
-                .doOnError {
-                    Log.e("OrdersVM","Error",it)
-                }
-                .subscribe()
-        }
-        .subscribe()
+//        walletRepository.updateOrders().doOnComplete {
+//            walletRepository.getAllOrders()
+//                .doOnNext {
+//                    Log.d("OrdersVM",it.toString())
+//                    (orders as MutableLiveData).postValue(it)
+//                }
+//                .doOnError {
+//                    Log.e("OrdersVM","Error",it)
+//                }
+//                .subscribe()
+//        }
+//        .subscribe()
 
 
-//        walletRepository.getAllOrders()
-//            .doOnNext {
-//                Log.d("OrdersVM",it.toString())
-//                (orders as MutableLiveData).postValue(it)
-//            }
-//            .doOnError {
-//                Log.e("OrdersVM","Error",it)
-//            }
-//            .subscribe()
+        walletRepository.getAllOrders()
+            .doOnNext {
+                Log.d("OrdersVM",it.toString())
+                (orders as MutableLiveData).postValue(it)
+            }
+            .doOnError {
+                Log.e("OrdersVM","Error",it)
+            }
+            .subscribe()
 
     }
 }
