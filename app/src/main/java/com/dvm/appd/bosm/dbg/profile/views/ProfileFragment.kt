@@ -25,22 +25,6 @@ class ProfileFragment : Fragment() {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
 
-        profileViewModel.state.observe(this, Observer { state ->
-            when (state!!) {
-                UiState.MoveToLogin -> {
-                    rootView.loading.visibility = View.GONE
-                    rootView.findNavController().navigate(R.id.action_profileFragment_to_authFragment)
-                }
-                UiState.Loading -> {
-                    rootView.loading.visibility = View.VISIBLE
-                }
-                is UiState.ShowProfile -> {
-                    rootView.loading.visibility = View.GONE
-                    Log.d("check",(state as UiState.ShowProfile).user.toString())
-                    Toast.makeText(context,state.user.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
 
         return rootView
     }

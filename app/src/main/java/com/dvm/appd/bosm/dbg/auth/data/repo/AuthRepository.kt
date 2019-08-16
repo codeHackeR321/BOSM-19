@@ -37,6 +37,15 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         return login(body, false)
     }
 
+    fun loginBitsian(id:String):Single<LoginState>{
+        val body = JsonObject().also {
+            it.addProperty("idToken",id)
+            it.addProperty("regToken","")
+        }
+        Log.d("check",body.toString())
+        return login(body,true)
+    }
+
     fun getUser(): Maybe<User> {
         val name = sharedPreferences.getString(Keys.name, null)
         val email = sharedPreferences.getString(Keys.email, null)
