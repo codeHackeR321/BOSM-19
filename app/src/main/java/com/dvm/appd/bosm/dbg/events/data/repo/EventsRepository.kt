@@ -3,6 +3,7 @@ package com.dvm.appd.bosm.dbg.events.data.repo
 import android.util.Log
 import com.dvm.appd.bosm.dbg.events.data.room.EventsDao
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
+import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.CompletableObserver
@@ -11,13 +12,14 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentChange
 import java.util.ArrayList
 
 class EventsRepository (val eventsDao: EventsDao){
 
+    val db = FirebaseFirestore.getInstance()
     init {
 
-        val db = FirebaseFirestore.getInstance()
 
         // Get sports name form firestore
         db.collection("events").document("sports")
@@ -33,8 +35,11 @@ class EventsRepository (val eventsDao: EventsDao){
 
                     snapshot.data!!.keys.forEach {
                         names.add(SportsNamesData(it, snapshot.data!!.getValue(it) as String))
+
                     }
-                    
+                    //get data for all sports
+                    getSportsDataFromFirestore(names)
+
                     Log.d("Events", "$names")
                     eventsDao.insertSportsName(names).subscribeOn(Schedulers.io())
                         .subscribe(object : CompletableObserver{
@@ -133,4 +138,66 @@ class EventsRepository (val eventsDao: EventsDao){
         return eventsDao.getMiscEvents().subscribeOn(Schedulers.io())
     }
 
-}
+    private fun getSportsDataFromFirestore(names: MutableList<SportsNamesData>){
+        for(name in names){
+
+            db.collection("events").document("sports").collection(name.name).get()
+                .addOnSuccessListener { docs ->
+                    val sportsData: MutableList<SportsData> = arrayListOf()
+                    for (doc in docs) {
+                          doc.reference.collection("matches").addSnapshotListener{snapshots , e ->
+
+                              if (e != null) {
+                                  Log.w("Sports", "listen:error", e)
+                                  return@addSnapshotListener
+                              }
+
+                              for (dc in snapshots!!.documentChanges) {
+                                  when (dc.type) {
+                                      DocumentChange.Type.ADDED -> {
+                                          Log.d("sports1", "added doc data : ${dc.document.data}")
+
+
+
+
+                                              sportsData.add(
+                                                  SportsData(match_no = dc.document.id,
+                                                      description = dc.document["description"] as String,
+                                                      name = name.name,result = dc.document["result"] as String,
+                                                      round = dc.document["round"] as String,
+                                                      round_type = dc.document["roundtype"] as String,
+                                                      team_1 = dc.document["team1"] as String,
+                                                      team_2 = dc.document["team2"] as String,
+                                                      time = (dc.document["timestamp"] as Timestamp).toString(),
+                                                      venue = dc.document["venue"] as String
+
+                                                      )
+                                              )
+
+
+
+
+                                      }
+                                      DocumentChange.Type.MODIFIED ->
+                                          Log.d("sports3", "Modified city: ${dc.document.data}")
+                                      DocumentChange.Type.REMOVED ->
+                                          Log.d("sports4", "Removed city: ${dc.document.data}")
+
+                                  }
+                              }
+                          }
+                    }
+
+                    Log.d("sports2", "added sports dta a: ${sportsData}")
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("sports5", "Error getting documents: ", exception)
+                }
+
+            }
+
+        }
+
+    }
+
+
