@@ -1,14 +1,27 @@
 package com.dvm.appd.bosm.dbg.profile.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
+import com.dvm.appd.bosm.dbg.profile.views.UiState
+import java.lang.IllegalStateException
 
 class ProfileViewModel(val authRepository: AuthRepository) :ViewModel() {
 
-
+    var order: LiveData<UiState> = MutableLiveData()
     init {
 
     }
 
+    fun logout(){
+        (order as MutableLiveData).postValue(UiState.ShowLoading)
+        authRepository.setUser(null).subscribe({
+            (order as MutableLiveData).postValue(UiState.MoveToLogin)
+        },{
+            Log.d("checkl",it.toString())
+        })
+    }
 
 }

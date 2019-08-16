@@ -33,7 +33,7 @@ class AuthActivity : AppCompatActivity() {
         authViewModel = ViewModelProviders.of(this, AuthViewModelFactory())[AuthViewModel::class.java]
 
         outsteeLogin.setOnClickListener {
-
+          startActivity(Intent(this,LoginOutsteeActivity::class.java))
         }
 
         bitsianLogin.setOnClickListener {
@@ -42,10 +42,6 @@ class AuthActivity : AppCompatActivity() {
 
 
     }
-
-
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -58,6 +54,7 @@ class AuthActivity : AppCompatActivity() {
             }
             catch (e:ApiException){
                Log.d("checke",e.toString())
+                Toast.makeText(this,"Sign in Failure!",Toast.LENGTH_LONG).show()
             }
         }
     }

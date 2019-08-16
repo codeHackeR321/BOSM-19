@@ -71,7 +71,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                 putString(Keys.email, user?.email)
                 putString(Keys.contact, user?.phone)
                 putString(Keys.qrCode, user?.qrCode)
-                putBoolean(Keys.isBitsian, user?.isBitsian!!)
+                putBoolean(Keys.isBitsian, user?.isBitsian?:false)
 
             }.commit()
         }
