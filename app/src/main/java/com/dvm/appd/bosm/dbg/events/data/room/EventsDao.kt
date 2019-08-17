@@ -7,6 +7,7 @@ import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import retrofit2.http.DELETE
 
 @Dao
 interface EventsDao {
@@ -32,6 +33,9 @@ interface EventsDao {
     //Sports
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveSportsData(sportsData: List<SportsData>): Completable
+
+    @Query("DELETE FROM sports_table WHERE match_no=:matchno")
+    fun deleteSportsData(matchno: Int): Completable
 
     @Query("SELECT DISTINCT gender FROM sports_table  WHERE sport_name = :name")
     fun getDistinctGenderForSport(name: String): Single<List<String>>
