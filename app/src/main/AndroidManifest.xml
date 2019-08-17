@@ -30,7 +30,6 @@
                         android:scheme="https"/>
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <service
         android:name=".notification.FirebaseMessagingService"
         android:exported="false">
@@ -38,14 +37,12 @@
             <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>
     </service>
-=======
         <activity android:name=".auth.views.AuthActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
->>>>>>> 1beab7f8b5f7559c99ed1370eab2b72c0168a605
     </application>
 
 </manifest>
