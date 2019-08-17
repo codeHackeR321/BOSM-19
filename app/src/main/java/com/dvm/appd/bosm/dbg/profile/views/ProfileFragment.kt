@@ -34,6 +34,7 @@ class ProfileFragment : Fragment() {
         profileViewModel.order.observe(this, Observer {
             when(it!!){
                 UiState.MoveToLogin -> {
+                    activity!!.finishAffinity()
                     startActivity(Intent(context!!,AuthActivity::class.java))
                 }
                 UiState.ShowIdle ->{

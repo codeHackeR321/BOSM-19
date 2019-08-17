@@ -2,6 +2,7 @@ package com.dvm.appd.bosm.dbg.auth.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 
 import android.widget.Toast
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_auth.*
 class AuthActivity : AppCompatActivity() {
 
     private lateinit var authViewModel: AuthViewModel
+    private var doubleBackToExitPressedOnce = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
@@ -57,6 +59,18 @@ class AuthActivity : AppCompatActivity() {
                 Toast.makeText(this,"Sign in Failure!",Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity()
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this , "Press Once More to Exit" , Toast.LENGTH_SHORT).show()
+        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 
 
