@@ -9,7 +9,13 @@ data class SportsData(
 
     @PrimaryKey
     @ColumnInfo(name = "match_no")
-    var match_no: String,
+    var match_no: Int,
+
+    @ColumnInfo(name = "layout")
+    var layout: Int,
+
+    @ColumnInfo(name = "gender")
+    var gender: String,
 
     @ColumnInfo(name = "sport_name")
     var name: String,
@@ -20,21 +26,37 @@ data class SportsData(
     @ColumnInfo(name = "time")
     var time: String,
 
-    @ColumnInfo(name = "description")
-    var description: String,
-
-    @ColumnInfo(name = "result")
-    var result: String,
-
     @ColumnInfo(name = "round")
     var round: String,
 
     @ColumnInfo(name = "round_type")
     var round_type: String,
 
+    @ColumnInfo(name = "is_team")
+    var isTeam: Boolean,
+
     @ColumnInfo(name = "team_1")
     var team_1: String,
 
     @ColumnInfo(name = "team_2")
-    var team_2: String
+    var team_2: String,
+
+    @ColumnInfo(name = "is_score")
+    var isScore: Boolean,
+
+    @ColumnInfo(name = "score_1")
+    var score_1: String,
+
+    @ColumnInfo(name = "score_2")
+    var score_2    : String,
+
+    @ColumnInfo(name = "winner_1")
+    var winner1: String,
+
+    @ColumnInfo(name = "score_2")
+    var winner2: String,
+
+    @ColumnInfo(name = "score_3")
+    var winner3: String
+
 )

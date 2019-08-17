@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "stall_items")
 data class StallItemsData(
 
-    @PrimaryKey(autoGenerate = true)
-    val id:Int,
-
+    @PrimaryKey
     @ColumnInfo(name = "itemId")
     val itemId:Int,
 
@@ -17,11 +15,12 @@ data class StallItemsData(
     val itemName:String,
 
     @ColumnInfo(name = "stallId")
-    val stallId:String,
+    val stallId:Int,
 
     @ColumnInfo(name = "price")
     val price:Int,
 
     @ColumnInfo(name = "isAvailable")
     val isAvailable:Boolean
-)
+
+    )

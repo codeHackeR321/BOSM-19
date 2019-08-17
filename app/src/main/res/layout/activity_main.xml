@@ -20,17 +20,17 @@
             app:menu ="@menu/actionbaritems"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-    <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_toolbar" >
-
-
-    </FrameLayout>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+        android:id="@+id/my_nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/navigation_graph"
+        app:defaultNavHost="true" />
 
     <com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
 
@@ -39,7 +39,7 @@
             android:layout_height="56dp"
             android:layout_gravity="start"
             app:menu="@menu/bottom_nav_items"
-         app:morphCornerRadius="0dp"
+            app:morphCornerRadius="0dp"
             app:morphItemRadius="50dp"
             android:backgroundTint = "@color/colorPrimary"
             app:morphVerticalOffset="15dp"
@@ -47,4 +47,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

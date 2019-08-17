@@ -2,17 +2,17 @@ package com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses
 
 data class ModifiedOrdersData(
 
-    val orderId: String,
+    val orderId: Int,
 
-    val otp: String,
+    val otp: Int,
 
-    val otpSeen: String,
+    val otpSeen: Boolean,
 
-    val status: String,
+    val status: Int,
 
-    val totalPrice: String,
+    val totalPrice: Int,
 
     val vendor: String,
 
-    val items: List<ModifiedItemsClass>
+    val items: List<ModifiedItemsData>
 )

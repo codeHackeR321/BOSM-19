@@ -1,21 +1,33 @@
 package com.dvm.appd.bosm.dbg
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.dvm.appd.bosm.dbg.events.view.fragments.EventsFragment
+import com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment
+import com.dvm.appd.bosm.dbg.wallet.views.fragments.CartDialog
+import com.dvm.appd.bosm.dbg.wallet.views.fragments.OrdersFragment
+import com.dvm.appd.bosm.dbg.wallet.views.fragments.StallItemsFragment
 import com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fra_wallet_orders.*
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNav: BottomNavigationView
 
-    private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    /*private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
         var selectedFragment: Fragment
         when (item.itemId) {
@@ -28,11 +40,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_food -> {
                 selectedFragment = StallsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
-                //Toast.makeText(this,"food",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"food",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_order_history -> {
-                selectedFragment = EventsFragment()
+                selectedFragment = OrdersFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
                 Toast.makeText(this,"orderhistory",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true
@@ -44,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_more-> {
-                selectedFragment = EventsFragment()
+                selectedFragment = StallItemsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
                 Toast.makeText(this,"more",Toast.LENGTH_LONG).show()
                 return@OnNavigationItemSelectedListener true
@@ -53,7 +65,9 @@ class MainActivity : AppCompatActivity() {
         false
 
 
-    }
+    }*/
+
+    private lateinit var navController: NavController
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actionbaritems,menu)
@@ -63,21 +77,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
+        var navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
         bottomNav = findViewById(R.id.bottom_navigation_bar)
-        bottomNav.setOnNavigationItemSelectedListener(navListener)
-
-        supportFragmentManager.beginTransaction().replace(R.id.container,
+        bottomNav.setupWithNavController(navController)
+        // bottomNav.setOnNavigationItemSelectedListener(navListener)
+        /*supportFragmentManager.beginTransaction().replace(R.id.container,
             EventsFragment()
-        ).commit()
+        ).commit()*/
         bottomNav.selectedItemId = R.id.action_events
-
 
     }
 
 
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_profile -> {
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+    }
+        /*R.id.action_profile -> {
 
             // Open Profile Fragment with hidden bottom nav and toolbar
             Toast.makeText(this,"Profile Fragment",Toast.LENGTH_LONG).show()
@@ -87,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         R.id.action_cart -> {
 
             // Open Cart Fragment with hidden bottom nav and toolbar
+            CartDialog().show(supportFragmentManager, "CartDialog")
             Toast.makeText(this,"Cart Fragment",Toast.LENGTH_LONG).show()
             true
         }
@@ -103,5 +122,5 @@ class MainActivity : AppCompatActivity() {
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 }
