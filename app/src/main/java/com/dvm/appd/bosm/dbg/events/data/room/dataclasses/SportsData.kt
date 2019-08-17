@@ -3,6 +3,7 @@ package com.dvm.appd.bosm.dbg.events.data.room.dataclasses
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.sql.Timestamp
 
 @Entity(tableName = "sports_table")
 data class SportsData(
@@ -24,16 +25,13 @@ data class SportsData(
     var venue: String,
 
     @ColumnInfo(name = "time")
-    var time: String,
+    var time: Long,
 
     @ColumnInfo(name = "round")
     var round: String,
 
     @ColumnInfo(name = "round_type")
     var round_type: String,
-
-    @ColumnInfo(name = "is_team")
-    var isTeam: Boolean,
 
     @ColumnInfo(name = "team_1")
     var team_1: String,
