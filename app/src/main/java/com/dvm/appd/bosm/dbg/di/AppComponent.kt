@@ -8,6 +8,8 @@ import com.dvm.appd.bosm.dbg.di.events.EventsComponent
 import com.dvm.appd.bosm.dbg.di.events.EventsModule
 import com.dvm.appd.bosm.dbg.di.profile.ProfileComponent
 import com.dvm.appd.bosm.dbg.di.profile.ProfileModule
+import com.dvm.appd.bosm.dbg.di.splash.SplashComponent
+import com.dvm.appd.bosm.dbg.di.splash.SplashModule
 import com.dvm.appd.bosm.dbg.di.wallet.WalletComponent
 import com.dvm.appd.bosm.dbg.di.wallet.WalletModule
 import dagger.Component
@@ -25,4 +27,5 @@ interface AppComponent {
 
     fun newProfileComponent(d:ProfileModule):ProfileComponent
 
+    fun newSplashComponent(e:SplashModule):SplashComponent
 }

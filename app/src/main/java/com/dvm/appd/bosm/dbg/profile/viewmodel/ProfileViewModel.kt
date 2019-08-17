@@ -6,23 +6,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.profile.views.UiState
+import java.lang.IllegalStateException
 
 class ProfileViewModel(val authRepository: AuthRepository) :ViewModel() {
 
-    val state:LiveData<UiState> = MutableLiveData()
-
+    var order: LiveData<UiState> = MutableLiveData()
     init {
-        (state as MutableLiveData).value = UiState.Loading
-        checkUser()
+
     }
 
-    fun checkUser(){
-        authRepository.getUser().subscribe({
-            (state as MutableLiveData).postValue(UiState.ShowProfile(it))
+    fun logout(){
+        (order as MutableLiveData).postValue(UiState.ShowLoading)
+        authRepository.setUser(null).subscribe({
+            (order as MutableLiveData).postValue(UiState.MoveToLogin)
         },{
-            Log.d("checke",it.toString())
-        },{
-            (state as MutableLiveData).postValue(UiState.MoveToLogin)
+            Log.d("checkl",it.toString())
         })
     }
+
 }

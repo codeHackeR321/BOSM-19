@@ -42,18 +42,11 @@
     <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
               android:label="FragmentWebPage"/>
     <fragment android:id="@+id/action_profile" android:name="com.dvm.appd.bosm.dbg.profile.views.ProfileFragment"
-              android:label="ProfileFragment">
-        <action android:id="@+id/action_profileFragment_to_authFragment" app:destination="@id/authFragment"/>
-    </fragment>
-    <fragment android:id="@+id/loginOutsteeFragment"
-              android:name="com.dvm.appd.bosm.dbg.auth.views.LoginOutsteeFragment"
+              android:label="ProfileFragment"/>
+    <activity android:id="@+id/loginOutsteeActivity"
+              android:name="com.dvm.appd.bosm.dbg.auth.views.LoginOutsteeActivity"
               android:label="LoginOutsteeFragment"/>
-    <fragment android:id="@+id/authFragment" android:name="com.dvm.appd.bosm.dbg.auth.views.AuthFragment"
-              android:label="fra_auth" tools:layout="@layout/fra_auth">
-        <action android:id="@+id/action_authFragment_to_loginOutsteeFragment"
-                app:destination="@id/loginOutsteeFragment"
-                app:popUpTo="@+id/action_profile"
-        />
-    </fragment>
+    <activity android:id="@+id/authActivity" android:name="com.dvm.appd.bosm.dbg.auth.views.AuthActivity"
+              android:label="fra_auth" tools:layout="@layout/activity_auth"/>
 
 </navigation>
