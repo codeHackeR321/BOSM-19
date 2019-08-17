@@ -7,12 +7,13 @@ import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
 import com.dvm.appd.bosm.dbg.events.data.room.EventsDao
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
+import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
 import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 
 @Database(entities = [StallData::class,StallItemsData::class, MiscEventsData::class,
-    SportsNamesData::class, OrderItemsData::class, OrderData::class, CartData::class, QuestionData::class, OptionData::class],version = 1)
+    OrderItemsData::class, OrderData::class, CartData::class, QuestionData::class, OptionData::class, SportsData::class],version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun walletDao(): WalletDao

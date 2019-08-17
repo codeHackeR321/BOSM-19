@@ -15,7 +15,7 @@ import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModel
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModelFactory
 import kotlinx.android.synthetic.main.fra_events_fragment.view.*
 
-class EventsFragment : Fragment() {
+class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
 
     private lateinit var eventsViewViewModel: EventsViewModel
 
@@ -25,7 +25,8 @@ class EventsFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fra_events_fragment, container, false)
 
-        view.recyclerView.adapter = EventsAdapter()
+        view.recyclerView.adapter = EventsAdapter(this)
+
         eventsViewViewModel.sportsName.observe(this, Observer {
 
             Log.d("EventsFrag", "Observed")
@@ -37,4 +38,9 @@ class EventsFragment : Fragment() {
 
      return view
      }
+
+    override fun openSportsFragment(name: String) {
+
+        //put navigation code here with name passed in openSportsFragment
+    }
 }

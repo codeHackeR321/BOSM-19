@@ -9,9 +9,13 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
 import kotlinx.android.synthetic.main.adapter_events_fragment.view.*
 
-class EventsAdapter: RecyclerView.Adapter<EventsAdapter.EventsViewHolder>(){
+class EventsAdapter(private val listener: OnSportsNameClicked): RecyclerView.Adapter<EventsAdapter.EventsViewHolder>(){
 
     var sportsName: List<SportsNamesData> = emptyList()
+
+    interface OnSportsNameClicked{
+        fun openSportsFragment(name: String)
+    }
 
     inner class EventsViewHolder(view: View): RecyclerView.ViewHolder(view){
 
@@ -28,6 +32,9 @@ class EventsAdapter: RecyclerView.Adapter<EventsAdapter.EventsViewHolder>(){
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
         holder.sportsName.text = sportsName[position].name
+        holder.sportsName.setOnClickListener {
+            listener.openSportsFragment(sportsName[position].name)
+        }
     }
 
 }
