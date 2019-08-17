@@ -1,20 +1,27 @@
 package com.dvm.appd.bosm.dbg.events.view.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.card_sports_horizontal.view.*
 
-class GenderDataAdapter: RecyclerView.Adapter<GenderDataAdapter.GenderViewHolder>(){
+class GenderDataAdapter(private val listener: GenderDataAdapter.OnGenderClicked): RecyclerView.Adapter<GenderDataAdapter.GenderViewHolder>(){
 
     var gender: List<String> = emptyList()
+    var genderSelected=""
+    interface OnGenderClicked{
+        fun genderClicked(gender: String)
+    }
 
-    inner class GenderViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class GenderViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         val editText: EditText = view.editTextGender
+        val parent:LinearLayout=view.Parent
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenderViewHolder {
@@ -27,6 +34,19 @@ class GenderDataAdapter: RecyclerView.Adapter<GenderDataAdapter.GenderViewHolder
 
     override fun onBindViewHolder(holder: GenderViewHolder, position: Int) {
         holder.editText.setText(gender[position])
+        if (gender[position].equals(genderSelected))
+            holder.editText.setBackgroundColor(Color.MAGENTA)
+        else
+            holder.editText.setBackgroundColor(Color.WHITE)
+
+        holder.parent.setOnClickListener { object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                genderSelected=gender[position]
+                notifyDataSetChanged()
+                listener.genderClicked(gender[position])
+            }
+        } }
+
     }
 
 }

@@ -13,10 +13,14 @@ import com.dvm.appd.bosm.dbg.events.view.adapters.GenderDataAdapter
 import com.dvm.appd.bosm.dbg.events.view.adapters.SportsDataAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.SportsDataViewModel
 import com.dvm.appd.bosm.dbg.events.viewmodel.SportsDataViewModelFactory
+import kotlinx.android.synthetic.main.fragment_sports_data.*
 import kotlinx.android.synthetic.main.fragment_sports_data.view.*
+import kotlinx.android.synthetic.main.fragment_sports_data.view.recy_sports_vertical
 
-class SportsDataFragment() : Fragment() {
+class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
 
+
+    // to be set by Suyash
     var sportName= ""
 
 
@@ -28,13 +32,21 @@ class SportsDataFragment() : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_sports_data, container, false)
 
-        view.recy_sports_horizontal.adapter = GenderDataAdapter()
+        view.textView4.text=sportName.capitalize()
+
+        view.recy_sports_horizontal.adapter = GenderDataAdapter(this)
         sportsDataViewModel.gender.observe(this, Observer {
 
             Log.d("SportsFRag", "Observed")
             (view.recy_sports_horizontal.adapter as GenderDataAdapter).gender = it
+            (view.recy_sports_horizontal.adapter as GenderDataAdapter).genderSelected = it[0]
             (view.recy_sports_horizontal.adapter as GenderDataAdapter).notifyDataSetChanged()
+
+            (view.recy_sports_vertical.adapter as SportsDataAdapter).genderSelected=it[0]
+            (view.recy_sports_vertical.adapter as SportsDataAdapter).notifyDataSetChanged()
+
         })
+
         view.recy_sports_vertical.adapter = SportsDataAdapter()
         sportsDataViewModel.sportsData.observe(this, Observer {
 
@@ -45,7 +57,8 @@ class SportsDataFragment() : Fragment() {
         return view
     }
 
-   /* override fun updateIsFavourite(eventId: String, favouriteMark: Int) {
-        miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark)
-    }*/
+    override fun genderClicked(gender: String) {
+        (recy_sports_vertical.adapter as SportsDataAdapter).genderSelected=gender
+        (recy_sports_vertical.adapter as SportsDataAdapter).notifyDataSetChanged()
+    }
 }

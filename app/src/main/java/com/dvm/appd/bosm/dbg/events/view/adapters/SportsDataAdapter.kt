@@ -22,7 +22,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
 
 
     var sportData: List<SportsData> = emptyList()
-    var gender=""
+    var genderSelected=""
 
     /* interface OnMarkFavouriteClicked{
          fun updateIsFavourite(eventId: String, favouriteMark: Int)
@@ -84,7 +84,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
 
     override fun getItemCount(): Int = sportData.size
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (sportData[position].gender.equals(gender))
+        if (sportData[position].gender.equals(genderSelected))
         {
             if (holder.itemViewType == 1) {
                 val holder1: SportsDataViewHolder1 = holder as SportsDataViewHolder1
