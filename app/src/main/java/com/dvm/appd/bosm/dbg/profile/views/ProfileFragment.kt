@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.profile.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
+import com.dvm.appd.bosm.dbg.auth.views.AuthActivity
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModelFactory
 import kotlinx.android.synthetic.main.fra_profile.view.*
@@ -25,23 +27,24 @@ class ProfileFragment : Fragment() {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
 
-        profileViewModel.state.observe(this, Observer { state ->
-            when (state!!) {
+        rootView.logout.setOnClickListener {
+             profileViewModel.logout()
+        }
+
+        profileViewModel.order.observe(this, Observer {
+            when(it!!){
                 UiState.MoveToLogin -> {
-                    rootView.loading.visibility = View.GONE
-                    rootView.findNavController().navigate(R.id.action_profileFragment_to_authFragment)
+                    activity!!.finishAffinity()
+                    startActivity(Intent(context!!,AuthActivity::class.java))
                 }
-                UiState.Loading -> {
+                UiState.ShowIdle ->{
+                    rootView.loading.visibility = View.GONE
+                }
+                UiState.ShowLoading -> {
                     rootView.loading.visibility = View.VISIBLE
-                }
-                is UiState.ShowProfile -> {
-                    rootView.loading.visibility = View.GONE
-                    Log.d("check",(state as UiState.ShowProfile).user.toString())
-                    Toast.makeText(context,state.user.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         })
-
         return rootView
     }
 }

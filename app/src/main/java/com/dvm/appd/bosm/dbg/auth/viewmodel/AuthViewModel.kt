@@ -9,7 +9,8 @@ class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
 
     }
 
-    fun login(bitsian:Boolean){
+    fun login(id:String){
 
+     authRepository.loginBitsian(id)
     }
 }
