@@ -22,55 +22,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.dvm.appd.bosm.dbg.di.AppModule
+import com.dvm.appd.bosm.dbg.notification.FirebaseMessagingService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.checkbox.view.*
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNav: BottomNavigationView
-
-    /*private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-
-        var selectedFragment: Fragment
-        when (item.itemId) {
-           R.id.action_events -> {
-                selectedFragment = EventsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).commit()
-               Toast.makeText(this,"events",Toast.LENGTH_LONG).show()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.action_food -> {
-                selectedFragment = StallsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
-                Toast.makeText(this,"food",Toast.LENGTH_LONG).show()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.action_order_history -> {
-                selectedFragment = OrdersFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
-                Toast.makeText(this,"orderhistory",Toast.LENGTH_LONG).show()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.action_game -> {
-                selectedFragment = EventsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
-                Toast.makeText(this,"game",Toast.LENGTH_LONG).show()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.action_more-> {
-                selectedFragment = StallItemsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
-                Toast.makeText(this,"more",Toast.LENGTH_LONG).show()
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-
-
-    }*/
-
     private lateinit var navController: NavController
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -83,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sharedPreferences = AppModule(application).providesSharedPreferences(application)
+        setupNotificationChannel()
         checkForInvitation()
         checkNotificationPermissions()
         setSupportActionBar(findViewById(R.id.my_toolbar))
@@ -90,10 +52,6 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setupWithNavController(navController)
-        // bottomNav.setOnNavigationItemSelectedListener(navListener)
-        /*supportFragmentManager.beginTransaction().replace(R.id.container,
-            EventsFragment()
-        ).commit()*/
         bottomNav.selectedItemId = R.id.action_events
 
     }
@@ -141,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                     .setView(checkBoxView)
                     .setCancelable(false)
                     .setPositiveButton(resources.getString(R.string.alert_notification_positive_button), DialogInterface.OnClickListener { dialog, which ->
+                        sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
                         startActivity(intent)
                     })
                     .setNegativeButton(resources.getString(R.string.alert_notification_negative_button), DialogInterface.OnClickListener { dialog, which ->
@@ -173,10 +132,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
      /*This method is used for the initial setup of the notification channels
      If the notification chanel already exists, no action is taken, and hence it is safe to call this method every time the app starts*/
-    private fun setupNotificationChannel(){
+    private fun setupNotificationChannel() {
+         startService(Intent(this, FirebaseMessagingService::class.java))
         // Notification Channels are only available for Oreo(Api Level 26) and onwards
         // Since support libraries don't have a library for setting up notification channels, this check is necessary
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -196,13 +155,60 @@ class MainActivity : AppCompatActivity() {
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannels(listOf(generalChannel, ratingsChannel, statusChangeChannel))
         }
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            Log.d("Main Activity", "Recived New Token = ${it.token}}")
+            // TODO send the new token to the backend server
+        }.addOnFailureListener {
+            Log.e("Main Activity", "Failed to recive token")
+            setupNotificationChannel()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) : Boolean {
-
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
-        /*R.id.action_profile -> {
+
+}
+/*private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+
+        var selectedFragment: Fragment
+        when (item.itemId) {
+           R.id.action_events -> {
+                selectedFragment = EventsFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).commit()
+               Toast.makeText(this,"events",Toast.LENGTH_LONG).show()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.action_food -> {
+                selectedFragment = StallsFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
+                Toast.makeText(this,"food",Toast.LENGTH_LONG).show()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.action_order_history -> {
+                selectedFragment = OrdersFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
+                Toast.makeText(this,"orderhistory",Toast.LENGTH_LONG).show()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.action_game -> {
+                selectedFragment = EventsFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
+                Toast.makeText(this,"game",Toast.LENGTH_LONG).show()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.action_more-> {
+                selectedFragment = StallItemsFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit()
+                Toast.makeText(this,"more",Toast.LENGTH_LONG).show()
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+
+
+    }*/
+/*R.id.action_profile -> {
 
             // Open Profile Fragment with hidden bottom nav and toolbar
             Toast.makeText(this,"Profile Fragment",Toast.LENGTH_LONG).show()
@@ -230,5 +236,3 @@ class MainActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }*/
-
-}
