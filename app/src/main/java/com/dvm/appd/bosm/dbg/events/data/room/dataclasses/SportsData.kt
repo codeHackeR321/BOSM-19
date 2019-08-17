@@ -46,15 +46,15 @@ data class SportsData(
     var score_1: String,
 
     @ColumnInfo(name = "score_2")
-    var score_2    : String,
+    var score_2: String,
 
     @ColumnInfo(name = "winner_1")
     var winner1: String,
 
-    @ColumnInfo(name = "score_2")
+    @ColumnInfo(name = "winner_2")
     var winner2: String,
 
-    @ColumnInfo(name = "score_3")
+    @ColumnInfo(name = "winner_3")
     var winner3: String
 
 )

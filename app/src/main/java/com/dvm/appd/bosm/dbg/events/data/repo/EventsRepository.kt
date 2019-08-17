@@ -25,43 +25,6 @@ class EventsRepository (val eventsDao: EventsDao){
     init {
 
         getSportsDataFromFirestore()
-        // Get sports name form firestore
-        db.collection("events").document("sports")
-            .addSnapshotListener { snapshot, exception ->
-
-                if (exception != null) {
-                    Log.e("Events", "Listen failed", exception)
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-
-                    var names: MutableList<SportsNamesData> = arrayListOf()
-
-                    snapshot.data!!.keys.forEach {
-                        names.add(SportsNamesData(it, snapshot.data!!.getValue(it) as String))
-
-                    }
-
-                    //get data for all sports
-
-                    Log.d("Events", "$names")
-                    eventsDao.insertSportsName(names).subscribeOn(Schedulers.io())
-                        .subscribe(object : CompletableObserver{
-                            override fun onComplete() {
-                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                            }
-
-                            override fun onSubscribe(d: Disposable) {
-                                Log.d("EventsRepo", "Subscribed")
-                            }
-
-                            override fun onError(e: Throwable) {
-                                Log.e("EventsRepo", "Error", e)
-                            }
-                        })
-                }
-            }
-
 
         db.collection("events").document("misc").collection("eventdata")
             .addSnapshotListener { snapshot, exception ->
@@ -109,13 +72,6 @@ class EventsRepository (val eventsDao: EventsDao){
 
                         }
                     }
-
-//                    snapshot.documents.forEach {
-//                        miscEvents.add(MiscEventsData(id = it.id, name = (it.get("name") as String)
-//                            , venue = (it.get("venue") as String), time = ((it.get("timestamp") as Timestamp)).toString()
-//                            , description = (it.get("description") as String), day = (it.get("day") as String)
-//                            , organiser = (it.get("organiser") as String), isFavourite = 0))
-//                    }
 
                     Log.d("Events", miscEvents.toString())
                     eventsDao.insertMiscEventData(miscEvents).subscribeOn(Schedulers.io())
@@ -172,9 +128,6 @@ class EventsRepository (val eventsDao: EventsDao){
                                 when (dc.type) {
                                     DocumentChange.Type.ADDED -> {
                                         Log.d("sports1", "added doc data : ${dc.document.data}")
-
-
-
 
                                         sportsData.add(
                                             SportsData(
