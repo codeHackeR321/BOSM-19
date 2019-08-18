@@ -84,7 +84,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
 
     override fun getItemCount(): Int = sportData.size
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (sportData[position].gender.equals(genderSelected))
+        if (/*sportData[position].gender.equals(genderSelected)*/ true)
         {
             if (holder.itemViewType == 1) {
                 val holder1: SportsDataViewHolder1 = holder as SportsDataViewHolder1
@@ -153,14 +153,14 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
     private fun getDate(timestamp: Long): String {
 
         val sdf = java.text.SimpleDateFormat("d MMM")
-        val date = java.util.Date(timestamp)
+        val date = java.util.Date(timestamp*1000)
         return sdf.format(date)
     }
 
     private fun getTime(timestamp: Long): String {
 
         val sdf = java.text.SimpleDateFormat("h:mm a")
-        val date = java.util.Date(timestamp)
+        val date = java.util.Date(timestamp*1000)
         return sdf.format(date)
     }
 }
