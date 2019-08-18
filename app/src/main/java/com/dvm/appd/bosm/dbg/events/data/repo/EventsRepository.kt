@@ -163,7 +163,7 @@ class EventsRepository (val eventsDao: EventsDao){
                                            venue = dc.document["venue"] as String,
                                            gender = dc.document["gender"] as String,
                                            isScore = dc.document["isscore"] as Boolean,
-                                           layout = dc.document["layout"] as Int,
+                                           layout = (dc.document["layout"] as Long).toInt(),
                                            score_1 = dc.document["score1"] as String,
                                            score_2 = dc.document["score2"] as String,
                                            winner1 = dc.document["winner1"] as String,
