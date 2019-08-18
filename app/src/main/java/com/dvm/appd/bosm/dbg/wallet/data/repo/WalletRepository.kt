@@ -9,7 +9,6 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
-import com.google.gson.JsonElement
 
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -305,28 +304,13 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .flatMap {
 
                 var finalCartData: Pair<List<ModifiedCartData>, Int>
-                var cartData: MutableList<ModifiedCartData> = arrayListOf()
-                var cartItemsData: MutableList<ModifiedCartItemsData> = arrayListOf()
                 var totalPrice = 0
 
-                for ((index, item) in it.listIterator().withIndex()){
-
-                    cartItemsData.add(ModifiedCartItemsData(item.itemId, item.itemName, item.quantity, item.price))
+                for (item in it){
                     totalPrice += item.quantity * item.price
-
-                    if (index != it.lastIndex  &&  it[index].vendorId != it[index + 1].vendorId){
-
-                        cartData.add(ModifiedCartData(item.vendorId, item.vendorName, cartItemsData))
-                        cartItemsData = arrayListOf()
-                    }
-                    else if (index == it.lastIndex){
-
-                        cartData.add(ModifiedCartData(item.vendorId, item.vendorName, cartItemsData))
-                        cartItemsData = arrayListOf()
-                    }
                 }
 
-                finalCartData = Pair(cartData, totalPrice)
+                finalCartData = Pair(it, totalPrice)
                 return@flatMap Flowable.just(finalCartData)
             }
     }
@@ -342,12 +326,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         }
 
         return walletService.makeOtpSeen(body).subscribeOn(Schedulers.io())
-            .doOnSuccess {
+            .doOnComplete {
 
             }
             .doOnError {
 
             }
-            .ignoreElement()
     }
 }

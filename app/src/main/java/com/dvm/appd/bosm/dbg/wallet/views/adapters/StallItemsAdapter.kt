@@ -8,9 +8,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
-import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedStallItemsData
-import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import kotlinx.android.synthetic.main.adapter_wallet_stall_items.view.*
 import java.util.Collections.emptyList
 
@@ -33,7 +31,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
 
         holder.itemName.text = stallItems[position].itemName
-        holder.price.text = "RS ${stallItems[position].price}"
+        holder.price.text = "₹ ${stallItems[position].price}"
         holder.quantity.text = stallItems[position].quantity.toString()
 
         if (stallItems[position].quantity > 0){

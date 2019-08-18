@@ -218,7 +218,7 @@ class MainActivity : AppCompatActivity() {
         R.id.action_cart -> {
 
             // Open Cart Fragment with hidden bottom nav and toolbar
-            CartDialog().show(supportFragmentManager, "CartDialog")
+            CartFragment().show(supportFragmentManager, "CartFragment")
             Toast.makeText(this,"Cart Fragment",Toast.LENGTH_LONG).show()
             true
         }

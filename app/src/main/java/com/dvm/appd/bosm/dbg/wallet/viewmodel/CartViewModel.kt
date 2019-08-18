@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
-import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
 
 class CartViewModel(val walletRepository: WalletRepository): ViewModel(){

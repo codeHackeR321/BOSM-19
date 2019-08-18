@@ -13,7 +13,7 @@ data class SportsData(
     var match_no: Int,
 
     @ColumnInfo(name = "layout")
-    var layout: String,
+    var layout: Int,
 
     @ColumnInfo(name = "gender")
     var gender: String,

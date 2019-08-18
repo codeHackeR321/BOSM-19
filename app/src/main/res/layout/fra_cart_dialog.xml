@@ -5,27 +5,52 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent" android:id="@+id/linearLayout">
 
+    <View
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:id="@+id/cartView"
+            android:background="@drawable/cart_button_gradient"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
     <Button
             android:text="Place Order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/placeOrder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:textSize="24sp"/>
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:background="#0000"
+            app:layout_constraintBottom_toBottomOf="@+id/cartView"
+            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="@+id/cartView"
+            app:layout_constraintTop_toTopOf="@+id/cartView"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/totalPrice"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cartView" app:layout_constraintStart_toStartOf="@+id/cartView"
+            android:layout_marginStart="16dp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemCount" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/cartView" app:layout_constraintStart_toStartOf="@+id/cartView"
+            android:layout_marginStart="16dp" android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/totalPrice" android:textColor="@color/colorWhite"
+            android:textSize="14sp"/>
+
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/cartRecycler"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/totalPrice"/>
-    <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/totalPrice" android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/placeOrder" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="64dp" android:textSize="18sp"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginBottom="32dp" app:layout_constraintBottom_toTopOf="@+id/cartView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

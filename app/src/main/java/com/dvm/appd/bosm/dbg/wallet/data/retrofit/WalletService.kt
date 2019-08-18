@@ -3,6 +3,7 @@ package com.dvm.appd.bosm.dbg.wallet.data.retrofit
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
 import com.google.gson.JsonObject
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
@@ -22,5 +23,5 @@ interface WalletService {
 
     @POST("wallet/orders/make_otp_seen")
     @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjYxNTE3NjAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYXBwZCIsImVtYWlsIjoiIn0.TBpas6sA9DwVIHOfGa7tK1lM6mlsP_SNVrBedKGpjFU")
-    fun makeOtpSeen(@Body body: JsonObject): Single<Response<Any>>
+    fun makeOtpSeen(@Body body: JsonObject): Completable
 }
