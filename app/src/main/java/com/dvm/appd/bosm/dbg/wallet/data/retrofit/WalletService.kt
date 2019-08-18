@@ -19,4 +19,8 @@ interface WalletService {
     @POST("wallet/orders")
     @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjYxNTE3NjAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYXBwZCIsImVtYWlsIjoiIn0.TBpas6sA9DwVIHOfGa7tK1lM6mlsP_SNVrBedKGpjFU")
     fun placeOrder(@Body body: JsonObject): Single<Response<AllOrdersPojo>>
+
+    @POST("wallet/orders/make_otp_seen")
+    @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjYxNTE3NjAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYXBwZCIsImVtYWlsIjoiIn0.TBpas6sA9DwVIHOfGa7tK1lM6mlsP_SNVrBedKGpjFU")
+    fun makeOtpSeen(@Body body: JsonObject): Single<Response<Any>>
 }

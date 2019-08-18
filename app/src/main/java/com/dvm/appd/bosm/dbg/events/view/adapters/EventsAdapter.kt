@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.adapter_events_fragment.view.*
 
 class EventsAdapter(private val listener: OnSportsNameClicked): RecyclerView.Adapter<EventsAdapter.EventsViewHolder>(){
 
-    var sportsName: List<SportsNamesData> = emptyList()
+    var sportsName: List<String> = emptyList()
 
     interface OnSportsNameClicked{
         fun openSportsFragment(name: String)
@@ -31,9 +31,9 @@ class EventsAdapter(private val listener: OnSportsNameClicked): RecyclerView.Ada
     override fun getItemCount(): Int = sportsName.size
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
-        holder.sportsName.text = sportsName[position].name
+        holder.sportsName.text = sportsName[position]
         holder.sportsName.setOnClickListener {
-            listener.openSportsFragment(sportsName[position].name)
+            listener.openSportsFragment(sportsName[position])
         }
     }
 

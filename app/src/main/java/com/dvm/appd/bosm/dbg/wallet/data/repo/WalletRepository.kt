@@ -19,6 +19,7 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
 
@@ -91,11 +92,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .subscribeOn(Schedulers.io())
     }
 
-    fun StallsPojo.toStallData(): StallData {
+    private fun StallsPojo.toStallData(): StallData {
         return StallData(stallId, stallName, closed)
     }
 
-    fun StallsPojo.toStallItemsData(): List<StallItemsData> {
+    private fun StallsPojo.toStallItemsData(): List<StallItemsData> {
 
         var itemList: List<StallItemsData> = emptyList()
 
@@ -105,7 +106,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return itemList
     }
 
-    fun updateOrders(): Completable{
+    private fun updateOrders(): Completable{
         return walletService.getAllOrders()
             .doOnSuccess {response ->
                 when(response.code()){
@@ -265,15 +266,30 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                                 walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
                             }
 
-                            400 -> Log.d("PlaceOrder", "Success Error: 400")
+                            400 -> {
+                                Log.d("PlaceOrder", "Success Error: 400")
+                                throw Exception("400")
+                            }
 
-                            401 -> Log.d("PlaceOrder", "Success Error: 401")
+                            401 -> {
+                                Log.d("PlaceOrder", "Success Error: 401")
+                                throw Exception("401")
+                            }
 
-                            403 -> Log.d("PlaceOrder", "Success Error: 403")
+                            403 -> {
+                                Log.d("PlaceOrder", "Success Error: 403")
+                                throw Exception("403")
+                            }
 
-                            404 -> Log.d("PlaceOrder", "Success Error: 404")
+                            404 -> {
+                                Log.d("PlaceOrder", "Success Error: 404")
+                                throw Exception("404")
+                            }
 
-                            412 -> Log.d("PlaceOrder", "Success Error: 412")
+                            412 -> {
+                                Log.d("PlaceOrder", "Success Error: 412")
+                                throw Exception("412")
+                            }
                         }
 
                     }
@@ -317,5 +333,21 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun updateCartItems(itemId: Int, quantity: Int): Completable{
         return walletDao.updateCartItem(quantity, itemId).subscribeOn(Schedulers.io())
+    }
+
+    fun updateOtpSeen(orderId: Int): Completable{
+
+        val body = JsonObject().also {
+            it.addProperty("order_id", orderId)
+        }
+
+        return walletService.makeOtpSeen(body).subscribeOn(Schedulers.io())
+            .doOnSuccess {
+
+            }
+            .doOnError {
+
+            }
+            .ignoreElement()
     }
 }

@@ -33,7 +33,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
 
         holder.itemName.text = stallItems[position].itemName
-        holder.price.text = stallItems[position].price.toString()
+        holder.price.text = "RS ${stallItems[position].price}"
         holder.quantity.text = stallItems[position].quantity.toString()
 
         if (stallItems[position].quantity > 0){

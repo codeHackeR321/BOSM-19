@@ -27,8 +27,8 @@ interface EventsDao {
     @Query("SELECT * FROM misc_table ORDER BY event_day, event_time")
     fun getMiscEvents(): Flowable<List<MiscEventsData>>
 
-    @Query("SELECT DISTINCT sport_name as name FROM sports_table")
-    fun getSportsName(): Flowable<List<SportsNamesData>>
+    @Query("SELECT DISTINCT sport_name FROM sports_table")
+    fun getSportsName(): Flowable<List<String>>
 
     //Sports
     @Insert(onConflict = OnConflictStrategy.REPLACE)

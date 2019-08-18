@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
@@ -15,7 +15,7 @@ import com.dvm.appd.bosm.dbg.wallet.views.adapters.CartAdapter
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.ChildCartAdapter
 import kotlinx.android.synthetic.main.fra_cart_dialog.view.*
 
-class CartDialog: DialogFragment(), ChildCartAdapter.OnButtonClicked{
+class CartDialog: Fragment(), ChildCartAdapter.OnButtonClicked{
 
     private lateinit var cartViewModel: CartViewModel
 

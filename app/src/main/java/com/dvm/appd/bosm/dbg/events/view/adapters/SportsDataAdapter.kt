@@ -58,8 +58,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return sportData[position].layout
-
+        return sportData[position].layout.toInt()
 //        return super.getItemViewType(position)
     }
 
