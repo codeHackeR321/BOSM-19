@@ -29,8 +29,8 @@ class OrdersAdapter(private val listener:OnOtpClicked): RecyclerView.Adapter<Ord
 
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
 
-        holder.orderNumber.text = "Order #${orderItems[position].orderId}"
-        holder.price.text = orderItems[position].totalPrice.toString()
+        holder.orderNumber.text = "Order ${orderItems[position].orderId}"
+        holder.price.text = "₹ ${orderItems[position].totalPrice}"
 
         when(orderItems[position].status){
 

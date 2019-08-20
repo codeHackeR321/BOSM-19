@@ -12,6 +12,7 @@ class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     var orders: LiveData<List<ModifiedOrdersData>> = MutableLiveData()
     var progressBarMark: LiveData<Int> = MutableLiveData(1)
+    var error: LiveData<String> = MutableLiveData(null)
 
     init {
 
@@ -28,13 +29,11 @@ class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
     }
 
     fun updateOtpSeen(orderId: Int){
-        walletRepository.updateOtpSeen(orderId)
-            .doOnComplete {
-                (progressBarMark as MutableLiveData).postValue(1)
-            }
-            .doOnError {
-                (progressBarMark as MutableLiveData).postValue(1)
-            }
-            .subscribe()
+        walletRepository.updateOtpSeen(orderId).subscribe({
+            (progressBarMark as MutableLiveData).postValue(1)
+        },{
+            (progressBarMark as MutableLiveData).postValue(1)
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 }

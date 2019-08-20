@@ -12,5 +12,7 @@ data class ModifiedCartData(
 
     var quantity: Int,
 
-    var price: Int
+    var price: Int,
+
+    var isVeg: Boolean
 )

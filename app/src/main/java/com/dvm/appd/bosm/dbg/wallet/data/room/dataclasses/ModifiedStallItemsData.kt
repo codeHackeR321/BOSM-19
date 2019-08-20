@@ -10,5 +10,7 @@ data class ModifiedStallItemsData(
 
     val price:Int,
 
-    val quantity: Int
+    val quantity: Int,
+
+    val isVeg: Boolean
 )
