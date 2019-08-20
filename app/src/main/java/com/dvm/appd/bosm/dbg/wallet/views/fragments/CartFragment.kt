@@ -1,9 +1,7 @@
 package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -36,13 +34,13 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
 
         cartViewModel.cartItems.observe(this, Observer {
 
-            (view.cartRecycler.adapter as CartAdapter).cartItems = it.first
+            (view.cartRecycler.adapter as CartAdapter).cartItems = it
             (view.cartRecycler.adapter as CartAdapter).notifyDataSetChanged()
 
-            if (it.second != 0){
+            if (it.sumBy {it1 -> it1.quantity * it1.price } != 0){
                 view.cartOrderView.isVisible = true
-                view.totalPrice.text = "₹ ${it.second}"
-                view.itemCount.text = "${it.first.sumBy { it1 -> it1.quantity }} items"
+                view.totalPrice.text = "₹ ${it.sumBy {it2 ->  it2.quantity * it2.price }}"
+                view.itemCount.text = "${it.sumBy { it3 -> it3.quantity }} items"
             }
             else{
                 view.totalPrice.text = ""
@@ -55,19 +53,24 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         view.placeOrder.setOnClickListener {
             (cartViewModel.progressBarMark as MutableLiveData).postValue(0)
             cartViewModel.placeOrder()
-            Toast.makeText(context, cartViewModel.error.value, Toast.LENGTH_SHORT).show()
-            (cartViewModel.error as MutableLiveData).postValue(null)
         }
+
+        cartViewModel.error.observe(this, Observer {
+            if (it != null){
+                Toast.makeText(context, cartViewModel.error.value, Toast.LENGTH_LONG).show()
+                (cartViewModel.error as MutableLiveData).postValue(null)
+            }
+        })
 
         cartViewModel.progressBarMark.observe(this, Observer {
 
             if (it == 0){
                 view.progressBar.visibility = View.VISIBLE
-                view.placeOrder.isClickable = false
+                activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
             else if (it == 1){
                 view.progressBar.visibility = View.GONE
-                view.placeOrder.isClickable = true
+                activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         })
 

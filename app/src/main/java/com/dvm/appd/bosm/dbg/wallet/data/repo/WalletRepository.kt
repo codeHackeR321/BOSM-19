@@ -65,6 +65,26 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                     }
 
+                    400 -> {
+                        throw Exception("400")
+                    }
+
+                    401 -> {
+                        throw Exception("401")
+                    }
+
+                    403 -> {
+                        throw Exception("403")
+                    }
+
+                    404 -> {
+                        throw Exception("404")
+                    }
+
+                    412 -> {
+                        throw Exception("412")
+                    }
+
                     else -> {Log.d("checke", response.body().toString())
                        Single.just(StallResult.Failure)}
                 }
@@ -100,7 +120,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         var itemList: List<StallItemsData> = emptyList()
 
         items.forEach {
-            itemList = itemList.plus(StallItemsData(it.itemId, it.itemName, it.stallId, it.price, it.isAvailable))
+            itemList = itemList.plus(StallItemsData(it.itemId, it.itemName, it.stallId, it.price, it.isAvailable, it.isVeg))
         }
         return itemList
     }
@@ -127,22 +147,27 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                     400 -> {
                         Log.d("GetOrder", "Success Error: 400")
+                        throw Exception("400")
                     }
 
                     401 -> {
                         Log.d("GetOrder", "Success Error: 401")
+                        throw Exception("401")
                     }
 
                     403 -> {
                         Log.d("GetOrder", "Success Error: 403")
+                        throw Exception("403")
                     }
 
                     404 -> {
                         Log.d("GetOrder", "Success Error: 404")
+                        throw Exception("404 shell id doesn't exist")
                     }
 
                     412 -> {
                         Log.d("GetOrder", "Success Error: 412")
+                        throw Exception("412")
                     }
                 }
             }
@@ -267,53 +292,40 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                             400 -> {
                                 Log.d("PlaceOrder", "Success Error: 400")
-                                throw Error("400")
+                                throw Exception("400 Error in Key or vendor Id or quantity")
                             }
 
                             401 -> {
                                 Log.d("PlaceOrder", "Success Error: 401")
-                                throw Error("401")
+                                throw Exception("401 wrong credentials")
                             }
 
                             403 -> {
                                 Log.d("PlaceOrder", "Success Error: 403")
-                                throw Error("403")
+                                throw Exception("403 user banned")
                             }
 
                             404 -> {
                                 Log.d("PlaceOrder", "Success Error: 404")
-                                throw Error("404")
+                                throw Exception("404 item not available")
                             }
 
                             412 -> {
                                 Log.d("PlaceOrder", "Success Error: 412")
-                                throw Error("412")
+                                throw Exception("412 vendor closed")
                             }
                         }
 
                     }
                     .doOnError {
                         Log.e("PlaceOrder", "Error", it)
-                        throw Error(it)
                     }
                     .ignoreElement()
             }
     }
 
-    fun getAllModifiedCartItems(): Flowable<Pair<List<ModifiedCartData>, Int>>{
+    fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>> {
         return walletDao.getAllModifiedCartItems().subscribeOn(Schedulers.io())
-            .flatMap {
-
-                var finalCartData: Pair<List<ModifiedCartData>, Int>
-                var totalPrice = 0
-
-                for (item in it){
-                    totalPrice += item.quantity * item.price
-                }
-
-                finalCartData = Pair(it, totalPrice)
-                return@flatMap Flowable.just(finalCartData)
-            }
     }
 
     fun updateCartItems(itemId: Int, quantity: Int): Completable{
@@ -336,24 +348,25 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     }
 
                     400 -> {
-
+                        throw Exception("400")
                     }
 
                     401 -> {
-
-                    }
-
-                    402 -> {
-
+                        throw Exception("401")
                     }
 
                     403 -> {
+                        throw Exception("403")
+                    }
 
+                    404 -> {
+                        throw Exception("404")
                     }
 
                     412 -> {
-
+                        throw Exception("412")
                     }
+
                 }
             }
             .doOnError {

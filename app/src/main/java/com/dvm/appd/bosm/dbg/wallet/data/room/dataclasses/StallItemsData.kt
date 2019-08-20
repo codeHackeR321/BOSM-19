@@ -21,6 +21,9 @@ data class StallItemsData(
     val price:Int,
 
     @ColumnInfo(name = "isAvailable")
-    val isAvailable:Boolean
+    val isAvailable:Boolean,
+
+    @ColumnInfo(name = "isVeg")
+    val isVeg: Boolean
 
     )

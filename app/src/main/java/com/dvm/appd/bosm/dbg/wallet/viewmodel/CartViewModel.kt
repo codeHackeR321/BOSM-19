@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.viewmodel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,9 +10,9 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
 
 class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
 
-    var cartItems: LiveData<Pair<List<ModifiedCartData>, Int>> = MutableLiveData()
+    var cartItems: LiveData<List<ModifiedCartData>> = MutableLiveData()
     var progressBarMark: LiveData<Int> = MutableLiveData(1)
-    var error: LiveData<String> = MutableLiveData()
+    var error: LiveData<String> = MutableLiveData(null)
 
     init {
 
@@ -23,16 +24,15 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
             .subscribe()
     }
 
+    @SuppressLint("CheckResult")
     fun placeOrder(){
-        walletRepository.placeOrder()
-            .doOnComplete {
+        walletRepository.placeOrder().subscribe({
+            (progressBarMark as MutableLiveData).postValue(1)
+        },{
                 (progressBarMark as MutableLiveData).postValue(1)
-            }
-            .doOnError {
-                (progressBarMark as MutableLiveData).postValue(1)
+                Log.d("CartError", it.message)
                 (error as MutableLiveData).postValue(it.message)
-            }
-            .subscribe()
+        })
     }
 
     fun deleteCartItem(itemId: Int){

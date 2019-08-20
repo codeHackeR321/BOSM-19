@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -38,11 +40,21 @@ class OrdersFragment : Fragment(), OrdersAdapter.OnOtpClicked {
 
             if (it == 0){
                 view.progressBar.visibility = View.VISIBLE
+                activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
             }
             else if (it == 1){
                 view.progressBar.visibility = View.GONE
+                activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
 
+        })
+
+        ordersViewModel.error.observe(this, Observer {
+            if (it != null){
+                Toast.makeText(context, ordersViewModel.error.value, Toast.LENGTH_LONG).show()
+                (ordersViewModel.error as MutableLiveData).postValue(null)
+            }
         })
 
         return view

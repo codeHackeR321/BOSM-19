@@ -1,9 +1,11 @@
 package com.dvm.appd.bosm.dbg.wallet.views.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
@@ -28,6 +30,7 @@ class CartAdapter(private val listener: OnButtonClicked): RecyclerView.Adapter<C
         val plus: Button = view.plus
         val minus: Button = view.minus
         val vendor: TextView = view.vendor
+        val isVeg: ImageView = view.isVeg
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
@@ -44,6 +47,13 @@ class CartAdapter(private val listener: OnButtonClicked): RecyclerView.Adapter<C
         holder.quantityPrice.text = "₹ ${cartItems[position].quantity * cartItems[position].price}"
         holder.quantity.text = cartItems[position].quantity.toString()
         holder.vendor.text = cartItems[position].vendorName
+
+        if (cartItems[position].isVeg){
+            holder.isVeg.setColorFilter(Color.GREEN)
+        }
+        else{
+            holder.isVeg.setColorFilter(Color.RED)
+        }
 
         holder.plus.setOnClickListener {
 

@@ -16,7 +16,6 @@ import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallsAdapter
-import kotlinx.android.synthetic.main.fra_wallet_stalls.*
 import kotlinx.android.synthetic.main.fra_wallet_stalls.view.*
 
 class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
