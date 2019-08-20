@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.views.adapters
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,26 @@ class OrdersAdapter(private val listener:OnOtpClicked): RecyclerView.Adapter<Ord
 
         holder.orderNumber.text = "Order #${orderItems[position].orderId}"
         holder.price.text = orderItems[position].totalPrice.toString()
-        holder.status.text = orderItems[position].status.toString()
+
+        when(orderItems[position].status){
+
+            0 -> {
+                holder.status.setTextColor(Color.rgb(232, 60, 60))
+                holder.status.text = "Pending"
+            }
+            1 -> {
+                holder.status.setTextColor(Color.rgb(253, 200, 87))
+                holder.status.text = "Accepted"
+            }
+            2 -> {
+                holder.status.setTextColor(Color.rgb(81 ,168, 81))
+                holder.status.text = "Ready"
+            }
+            3 -> {
+                holder.status.setTextColor(Color.rgb(253, 200, 245))
+                holder.status.text = "Finished"
+            }
+        }
 
         if (orderItems[position].otpSeen){
             holder.otp.text = orderItems[position].otp.toString()
@@ -38,9 +58,9 @@ class OrdersAdapter(private val listener:OnOtpClicked): RecyclerView.Adapter<Ord
         }
         else{
             holder.otp.setOnClickListener {
-                if (orderItems[position].status > 1){
+                if (orderItems[position].status == 2){
                     listener.updateOtpSeen(orderItems[position].orderId)
-                    holder.otp.isClickable = false
+                    Log.d("OTP", "Called")
                 }
                 else{
                     Log.d("OTP", "Status not yet ready ${orderItems[position].status}")
@@ -52,7 +72,7 @@ class OrdersAdapter(private val listener:OnOtpClicked): RecyclerView.Adapter<Ord
     inner class OrdersViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         val orderNumber: TextView = view.orderNumber
-        val otp: Button = view.otp
+        val otp: TextView = view.otp
         val price: TextView = view.price
         val status: TextView = view.status
     }

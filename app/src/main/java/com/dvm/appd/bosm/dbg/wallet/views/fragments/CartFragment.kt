@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.CartViewModel
@@ -26,6 +28,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         val view = inflater.inflate(R.layout.fra_cart_dialog, container, false)
 
         activity!!.my_toolbar.isVisible = false
+        activity!!.bottom_navigation_bar.isVisible = false
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
@@ -37,7 +40,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
             (view.cartRecycler.adapter as CartAdapter).notifyDataSetChanged()
 
             if (it.second != 0){
-                view.cartView.isVisible = true
+                view.cartOrderView.isVisible = true
                 view.totalPrice.text = "₹ ${it.second}"
                 view.itemCount.text = "${it.first.sumBy { it1 -> it1.quantity }} items"
             }
@@ -45,13 +48,15 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
                 view.totalPrice.text = ""
                 view.itemCount.text = ""
                 view.placeOrder.text = ""
-                view.cartView.isVisible = false
+                view.cartOrderView.isVisible = false
             }
         })
 
         view.placeOrder.setOnClickListener {
             (cartViewModel.progressBarMark as MutableLiveData).postValue(0)
             cartViewModel.placeOrder()
+            Toast.makeText(context, cartViewModel.error.value, Toast.LENGTH_SHORT).show()
+            (cartViewModel.error as MutableLiveData).postValue(null)
         }
 
         cartViewModel.progressBarMark.observe(this, Observer {
@@ -66,9 +71,9 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
             }
         })
 
-//        view.cartView.setOnClickListener {
-//            cartViewModel.placeOrder()
-//        }
+        view.backBtn.setOnClickListener {
+            it.findNavController().popBackStack()
+        }
 
         return view
     }
@@ -77,6 +82,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         super.onDetach()
 
         activity!!.my_toolbar.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
     }
 
     override fun plusButtonClicked(item: ModifiedCartData, quantity: Int) {

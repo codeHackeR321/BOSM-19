@@ -8,4 +8,5 @@
     <color name="colorGrey">#707070</color>
    <color name="colorGreen">#4ABE65</color>
     <color name="colorBlue">#4293FF</color>
+    <color name="pending">#E83C3C</color>
 </resources>

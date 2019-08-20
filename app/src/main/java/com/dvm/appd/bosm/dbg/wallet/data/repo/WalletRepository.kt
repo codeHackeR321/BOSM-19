@@ -272,28 +272,29 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                             401 -> {
                                 Log.d("PlaceOrder", "Success Error: 401")
-                                throw Exception("401")
+                                throw Error("401")
                             }
 
                             403 -> {
                                 Log.d("PlaceOrder", "Success Error: 403")
-                                throw Exception("403")
+                                throw Error("403")
                             }
 
                             404 -> {
                                 Log.d("PlaceOrder", "Success Error: 404")
-                                throw Exception("404")
+                                throw Error("404")
                             }
 
                             412 -> {
                                 Log.d("PlaceOrder", "Success Error: 412")
-                                throw Exception("412")
+                                throw Error("412")
                             }
                         }
 
                     }
                     .doOnError {
                         Log.e("PlaceOrder", "Error", it)
+                        throw Error(it)
                     }
                     .ignoreElement()
             }

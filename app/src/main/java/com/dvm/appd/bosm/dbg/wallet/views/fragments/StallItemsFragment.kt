@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,6 +18,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallItemsAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_stall_items.view.*
 
 class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
@@ -26,8 +28,13 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val stallId = arguments?.getInt("stallId")
-        Log.d("Testing", "StallId received = $stallId")
+        val stallName = arguments?.getString("stallName")
+
+        activity!!.my_toolbar.isVisible = false
+
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
+
+        rootView.stallName.text = stallName
 
         stallItemsViewModel = ViewModelProviders.of(this, StallItemsViewModelFactory(stallId!!))[StallItemsViewModel::class.java]
 
@@ -42,6 +49,12 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
             it.findNavController().popBackStack()
         }
         return rootView
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        activity!!.my_toolbar.isVisible = true
     }
 
     override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {

@@ -11,6 +11,7 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     var cartItems: LiveData<Pair<List<ModifiedCartData>, Int>> = MutableLiveData()
     var progressBarMark: LiveData<Int> = MutableLiveData(1)
+    var error: LiveData<String> = MutableLiveData()
 
     init {
 
@@ -26,6 +27,10 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
         walletRepository.placeOrder()
             .doOnComplete {
                 (progressBarMark as MutableLiveData).postValue(1)
+            }
+            .doOnError {
+                (progressBarMark as MutableLiveData).postValue(1)
+                (error as MutableLiveData).postValue(it.message)
             }
             .subscribe()
     }

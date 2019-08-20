@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
@@ -48,8 +49,8 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         return rootview
     }
 
-    override fun stallSelected(stallId: Int) {
-        val bundle = bundleOf("stallId" to stallId)
+    override fun stallSelected(stall: StallData) {
+        val bundle = bundleOf("stallId" to stall.stallId, "stallName" to stall.stallName)
         view!!.findNavController().navigate(R.id.action_action_food_to_stallItemsFragment2, bundle)
         // view!!.findNavController().navigate(StallsFragmentDirections.actionActionFoodToStallItemsFragment2(stallId))
     }

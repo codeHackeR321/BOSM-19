@@ -11,6 +11,7 @@ import io.reactivex.schedulers.Schedulers
 class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     var orders: LiveData<List<ModifiedOrdersData>> = MutableLiveData()
+    var progressBarMark: LiveData<Int> = MutableLiveData(1)
 
     init {
 
@@ -28,5 +29,12 @@ class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     fun updateOtpSeen(orderId: Int){
         walletRepository.updateOtpSeen(orderId)
+            .doOnComplete {
+                (progressBarMark as MutableLiveData).postValue(1)
+            }
+            .doOnError {
+                (progressBarMark as MutableLiveData).postValue(1)
+            }
+            .subscribe()
     }
 }

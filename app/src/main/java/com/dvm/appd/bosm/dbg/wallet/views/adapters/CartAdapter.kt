@@ -10,7 +10,7 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
 import kotlinx.android.synthetic.main.adapter_cart_item.view.*
 
-class CartAdapter(private val listener: OnButtonClicked): RecyclerView.Adapter<CartAdapter.ChildCartViewHolder>(){
+class CartAdapter(private val listener: OnButtonClicked): RecyclerView.Adapter<CartAdapter.CartViewHolder>(){
 
     var cartItems: List<ModifiedCartData> = emptyList()
 
@@ -20,7 +20,7 @@ class CartAdapter(private val listener: OnButtonClicked): RecyclerView.Adapter<C
         fun deleteCartItemClicked(itemId: Int)
     }
 
-    inner class ChildCartViewHolder(view: View): RecyclerView.ViewHolder(view){
+    inner class CartViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         val itemName: TextView = view.itemName
         val quantityPrice: TextView = view.price
@@ -30,15 +30,15 @@ class CartAdapter(private val listener: OnButtonClicked): RecyclerView.Adapter<C
         val vendor: TextView = view.vendor
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildCartViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_cart_item, parent, false)
-        return ChildCartViewHolder(view)
+        return CartViewHolder(view)
     }
 
     override fun getItemCount(): Int = cartItems.size
 
-    override fun onBindViewHolder(holder: ChildCartViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
 
         holder.itemName.text = cartItems[position].itemName
         holder.quantityPrice.text = "₹ ${cartItems[position].quantity * cartItems[position].price}"

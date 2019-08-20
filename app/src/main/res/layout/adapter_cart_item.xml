@@ -74,7 +74,7 @@
             android:textColor="#242424"
             android:fontFamily="Circular Std Book"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:layout_marginBottom="16dp"
+            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
             app:layout_constraintTop_toBottomOf="@+id/vendor" android:layout_marginTop="4dp"
             app:layout_constraintVertical_bias="1.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
