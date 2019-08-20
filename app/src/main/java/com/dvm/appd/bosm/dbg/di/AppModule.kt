@@ -52,7 +52,6 @@ class AppModule(private val application: Application) {
     @Singleton
     fun providesAppDatabase(application: Application): AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, "bosm.db")
-            .fallbackToDestructiveMigration()
             .build()
     }
 
