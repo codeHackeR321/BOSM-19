@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.events.data.repo.EventsRepository
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
 
-class EventsViewModel(eventsRepository: EventsRepository): ViewModel() {
+class EventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
-    var sportsName: LiveData<List<SportsNamesData>> = MutableLiveData()
+    var sportsName: LiveData<List<String>> = MutableLiveData()
 
     init {
 

@@ -20,7 +20,7 @@
             android:text="Stall Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/stallName"
+            android:id="@+id/quantity"
             app:layout_constraintEnd_toEndOf="@+id/stallImage"
             app:layout_constraintStart_toStartOf="@+id/stallImage"
             android:layout_marginTop="8dp"

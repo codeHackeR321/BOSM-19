@@ -9,7 +9,6 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
-import com.google.gson.JsonElement
 
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -19,6 +18,7 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
 
@@ -91,11 +91,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .subscribeOn(Schedulers.io())
     }
 
-    fun StallsPojo.toStallData(): StallData {
+    private fun StallsPojo.toStallData(): StallData {
         return StallData(stallId, stallName, closed)
     }
 
-    fun StallsPojo.toStallItemsData(): List<StallItemsData> {
+    private fun StallsPojo.toStallItemsData(): List<StallItemsData> {
 
         var itemList: List<StallItemsData> = emptyList()
 
@@ -105,7 +105,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return itemList
     }
 
-    fun updateOrders(): Completable{
+    private fun updateOrders(): Completable{
         return walletService.getAllOrders()
             .doOnSuccess {response ->
                 when(response.code()){
@@ -265,20 +265,36 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                                 walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
                             }
 
-                            400 -> Log.d("PlaceOrder", "Success Error: 400")
+                            400 -> {
+                                Log.d("PlaceOrder", "Success Error: 400")
+                                throw Error("400")
+                            }
 
-                            401 -> Log.d("PlaceOrder", "Success Error: 401")
+                            401 -> {
+                                Log.d("PlaceOrder", "Success Error: 401")
+                                throw Error("401")
+                            }
 
-                            403 -> Log.d("PlaceOrder", "Success Error: 403")
+                            403 -> {
+                                Log.d("PlaceOrder", "Success Error: 403")
+                                throw Error("403")
+                            }
 
-                            404 -> Log.d("PlaceOrder", "Success Error: 404")
+                            404 -> {
+                                Log.d("PlaceOrder", "Success Error: 404")
+                                throw Error("404")
+                            }
 
-                            412 -> Log.d("PlaceOrder", "Success Error: 412")
+                            412 -> {
+                                Log.d("PlaceOrder", "Success Error: 412")
+                                throw Error("412")
+                            }
                         }
 
                     }
                     .doOnError {
                         Log.e("PlaceOrder", "Error", it)
+                        throw Error(it)
                     }
                     .ignoreElement()
             }
@@ -289,33 +305,60 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .flatMap {
 
                 var finalCartData: Pair<List<ModifiedCartData>, Int>
-                var cartData: MutableList<ModifiedCartData> = arrayListOf()
-                var cartItemsData: MutableList<ModifiedCartItemsData> = arrayListOf()
                 var totalPrice = 0
 
-                for ((index, item) in it.listIterator().withIndex()){
-
-                    cartItemsData.add(ModifiedCartItemsData(item.itemId, item.itemName, item.quantity, item.price))
+                for (item in it){
                     totalPrice += item.quantity * item.price
-
-                    if (index != it.lastIndex  &&  it[index].vendorId != it[index + 1].vendorId){
-
-                        cartData.add(ModifiedCartData(item.vendorId, item.vendorName, cartItemsData))
-                        cartItemsData = arrayListOf()
-                    }
-                    else if (index == it.lastIndex){
-
-                        cartData.add(ModifiedCartData(item.vendorId, item.vendorName, cartItemsData))
-                        cartItemsData = arrayListOf()
-                    }
                 }
 
-                finalCartData = Pair(cartData, totalPrice)
+                finalCartData = Pair(it, totalPrice)
                 return@flatMap Flowable.just(finalCartData)
             }
     }
 
     fun updateCartItems(itemId: Int, quantity: Int): Completable{
         return walletDao.updateCartItem(quantity, itemId).subscribeOn(Schedulers.io())
+    }
+
+    fun updateOtpSeen(orderId: Int): Completable{
+
+        val body = JsonObject().also {
+            it.addProperty("order_id", orderId)
+        }
+
+        return walletService.makeOtpSeen(body).subscribeOn(Schedulers.io())
+            .doOnSuccess {response ->
+
+                when(response.code()){
+
+                    200 -> {
+
+                    }
+
+                    400 -> {
+
+                    }
+
+                    401 -> {
+
+                    }
+
+                    402 -> {
+
+                    }
+
+                    403 -> {
+
+                    }
+
+                    412 -> {
+
+                    }
+                }
+            }
+            .doOnError {
+
+            }
+            .ignoreElement()
     }
 }

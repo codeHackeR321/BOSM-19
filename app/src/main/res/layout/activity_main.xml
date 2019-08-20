@@ -32,17 +32,13 @@
         app:navGraph="@navigation/navigation_graph"
         app:defaultNavHost="true" />
 
-    <com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
 
             android:id="@+id/bottom_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_gravity="start"
             app:menu="@menu/bottom_nav_items"
-            app:morphCornerRadius="0dp"
-            app:morphItemRadius="50dp"
-            android:backgroundTint = "@color/colorPrimary"
-            app:morphVerticalOffset="15dp"
             style="@style/Widget.Design.BottomNavigationView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

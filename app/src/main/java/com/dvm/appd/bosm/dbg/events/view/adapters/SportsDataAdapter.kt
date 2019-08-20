@@ -22,7 +22,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
 
 
     var sportData: List<SportsData> = emptyList()
-    var gender=""
+    var genderSelected=""
 
     /* interface OnMarkFavouriteClicked{
          fun updateIsFavourite(eventId: String, favouriteMark: Int)
@@ -38,6 +38,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
         val date: TextView = view.textViewDate
         val time: TextView = view.textViewTime
         val venue: TextView = view.textViewVenue
+        val winner1: TextView = view.textViewWinner1_1
         //val markFav: Button = view.markFav
 
     }
@@ -59,7 +60,6 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
 
     override fun getItemViewType(position: Int): Int {
         return sportData[position].layout
-
 //        return super.getItemViewType(position)
     }
 
@@ -84,7 +84,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
 
     override fun getItemCount(): Int = sportData.size
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (sportData[position].gender.equals(gender))
+        if (/*sportData[position].gender.equals(genderSelected)*/ true)
         {
             if (holder.itemViewType == 1) {
                 val holder1: SportsDataViewHolder1 = holder as SportsDataViewHolder1
@@ -105,6 +105,11 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                     holder1.score1.visibility=View.GONE
                     holder1.score1.visibility=View.GONE
                 }
+
+                if(sportData[position].winner1.isNullOrEmpty())
+                    holder1.winner1.visibility=View.GONE
+                else
+                    holder1.winner1.text="Winner: ${sportData[position].winner1}"
 
                 holder1.date.text = getDate(timestamp = sportData[position].time)
                 holder1.time.text = getTime(timestamp = sportData[position].time)
@@ -134,17 +139,17 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                 if (sportData[position].winner1.isNullOrEmpty())
                    holder2.winner1.visibility=View.GONE
                 else
-                    holder2.winner1.text=sportData[position].winner1
+                    holder2.winner1.text="1: ${sportData[position].winner1}"
 
                 if (sportData[position].winner2.isNullOrEmpty())
                     holder2.winner2.visibility=View.GONE
                 else
-                    holder2.winner2.text=sportData[position].winner2
+                    holder2.winner2.text="2: "+ sportData[position].winner2
 
                 if (sportData[position].winner3.isNullOrEmpty())
                     holder2.winner3.visibility=View.GONE
                 else
-                    holder2.winner3.text=sportData[position].winner3
+                    holder2.winner3.text="3: "+sportData[position].winner3
 
             }
         }
@@ -153,14 +158,14 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
     private fun getDate(timestamp: Long): String {
 
         val sdf = java.text.SimpleDateFormat("d MMM")
-        val date = java.util.Date(timestamp)
+        val date = java.util.Date(timestamp*1000)
         return sdf.format(date)
     }
 
     private fun getTime(timestamp: Long): String {
 
         val sdf = java.text.SimpleDateFormat("h:mm a")
-        val date = java.util.Date(timestamp)
+        val date = java.util.Date(timestamp*1000)
         return sdf.format(date)
     }
 }

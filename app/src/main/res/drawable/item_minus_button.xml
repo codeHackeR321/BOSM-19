@@ -2,16 +2,16 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorGreen"/>
-            <corners android:bottomLeftRadius="24dp"
-                     android:topLeftRadius="24dp"/>
+            <solid android:color="@color/colorBlue"/>
+            <corners android:bottomLeftRadius="8dp"
+                     android:topLeftRadius="8dp"/>
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <solid android:color="#ffffff"/>
-            <corners android:bottomLeftRadius="24dp"
-                     android:topLeftRadius="24dp"/>
+            <corners android:bottomLeftRadius="8dp"
+                     android:topLeftRadius="8dp"/>
             <stroke android:color="@android:color/transparent"
                     android:width="5dp"
             />

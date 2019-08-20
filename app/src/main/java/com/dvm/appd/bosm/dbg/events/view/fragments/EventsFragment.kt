@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.view.adapters.EventsAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModel
@@ -29,7 +31,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
 
         eventsViewViewModel.sportsName.observe(this, Observer {
 
-            Log.d("EventsFrag", "Observed")
+            Log.d("EventsFrag", "Observed $it")
             (view.recyclerView.adapter as EventsAdapter).sportsName = it
             (view.recyclerView.adapter as EventsAdapter).notifyDataSetChanged()
         })
@@ -40,6 +42,9 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
      }
 
     override fun openSportsFragment(name: String) {
+        val bundle = bundleOf("name" to name)
+        view!!.findNavController().navigate(R.id.sportsDataFragment, bundle)
+
 
         //put navigation code here with name passed in openSportsFragment
     }

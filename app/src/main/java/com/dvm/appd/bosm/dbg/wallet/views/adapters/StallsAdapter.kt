@@ -22,22 +22,22 @@ class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView
         return stalls.size
     }
 
-    override fun onBindViewHolder(holder: StallsAdapter.StallsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: StallsViewHolder, position: Int) {
         holder.stallName.text = stalls[position].stallName
         holder.stallImg.setOnClickListener {
-            listener.stallSelected(stalls[position].stallId)
+            listener.stallSelected(stalls[position])
         }
 
     }
 
     inner class StallsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val stallName = view.stallName
+        val stallName = view.quantity
 
         val stallImg = view.stallImage
     }
 
     interface OnStallSelectedListener{
-        fun stallSelected(stallId:Int)
+        fun stallSelected(stall: StallData)
     }
 
 }

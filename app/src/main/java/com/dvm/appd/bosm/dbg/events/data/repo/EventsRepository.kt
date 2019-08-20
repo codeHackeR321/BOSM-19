@@ -35,7 +35,7 @@ class EventsRepository (val eventsDao: EventsDao){
                 }
                 if (snapshot != null){
 
-                    val miscEvents: MutableList<MiscEventsData> = arrayListOf()
+                    var miscEvents: MutableList<MiscEventsData> = arrayListOf()
 
                     for (doc in snapshot.documentChanges){
 
@@ -43,7 +43,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             DocumentChange.Type.ADDED -> {
                                 Log.d("DocAdded", doc.document.get("name") as String)
                                 miscEvents.add(MiscEventsData(id = doc.document.id, name = (doc.document.get("name")) as String
-                                , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).toString()
+                                , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).seconds
                                 , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
                                 , organiser = (doc.document.get("organiser") as String), isFavourite = 0))
                             }
@@ -51,7 +51,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             DocumentChange.Type.MODIFIED -> {
                                 Log.d("DocChanged", doc.document.get("name") as String)
                                 eventsDao.updateMiscData(id = doc.document.id, name = (doc.document.get("name")) as String
-                                    , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).toString()
+                                    , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).seconds
                                     , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
                                     , organiser = (doc.document.get("organiser") as String))
                                     .subscribeOn(Schedulers.io())
@@ -75,23 +75,19 @@ class EventsRepository (val eventsDao: EventsDao){
 
                     Log.d("Events", miscEvents.toString())
                     eventsDao.insertMiscEventData(miscEvents).subscribeOn(Schedulers.io())
-                        .subscribe(object : CompletableObserver{
-                            override fun onComplete() {
-                            }
+                        .doOnComplete {
 
-                            override fun onSubscribe(d: Disposable) {
-                            }
+                        }
+                        .doOnError {
 
-                            override fun onError(e: Throwable) {
-                                Log.e("EventsRepo", e.message, e)
-                            }
-                        })
+                        }
+                        .subscribe()
                 }
             }
 
     }
 
-    fun getSportsName(): Flowable<List<SportsNamesData>>{
+    fun getSportsName(): Flowable<List<String>>{
         return eventsDao.getSportsName().subscribeOn(Schedulers.io())
 
     }
@@ -109,15 +105,11 @@ class EventsRepository (val eventsDao: EventsDao){
         return eventsDao.getDistinctGenderForSport(name).subscribeOn(Schedulers.io())
     }
 
-
     private fun getSportsDataFromFirestore(){
 
+        var sportsData: MutableList<SportsData> = arrayListOf()
+            db.collection("events").document("sports").collection("matches").addSnapshotListener { snapshots, e ->
 
-            db.collection("events").document("sports").collection("matches").get()
-                .addOnSuccessListener { docs ->
-                    val sportsData: MutableList<SportsData> = arrayListOf()
-                    for (doc in docs) {
-                        doc.reference.collection("matches").addSnapshotListener { snapshots, e ->
 
                             if (e != null) {
                                 Log.w("Sports", "listen:error", e)
@@ -141,7 +133,7 @@ class EventsRepository (val eventsDao: EventsDao){
                                                 venue = dc.document["venue"] as String,
                                                 gender = dc.document["gender"] as String,
                                                 isScore = dc.document["isscore"] as Boolean,
-                                                layout = dc.document["layout"] as Int,
+                                                layout = (dc.document["layout"] as Long).toInt(),
                                                 score_1 = dc.document["score1"] as String,
                                                 score_2 = dc.document["score2"] as String,
                                                 winner1 = dc.document["winner1"] as String,
@@ -151,37 +143,57 @@ class EventsRepository (val eventsDao: EventsDao){
                                             )
                                         )
 
-
                                     }
-                                    DocumentChange.Type.MODIFIED ->
+                                    DocumentChange.Type.MODIFIED ->{
+                                       var position= sportsData.indexOfFirst { it.match_no==dc.document.id.toInt()}
+
+                                       sportsData.set(position,SportsData(
+                                           match_no = dc.document.id.toInt(),
+                                           name = dc.document["sport"] as String,
+                                           round = dc.document["round"] as String,
+                                           round_type = dc.document["roundtype"] as String,
+                                           team_1 = dc.document["team1"] as String,
+                                           team_2 = dc.document["team2"] as String,
+                                           time = (dc.document["timestamp"] as Timestamp).seconds,
+                                           venue = dc.document["venue"] as String,
+                                           gender = dc.document["gender"] as String,
+                                           isScore = dc.document["isscore"] as Boolean,
+                                           layout = (dc.document["layout"] as Long).toInt(),
+                                           score_1 = dc.document["score1"] as String,
+                                           score_2 = dc.document["score2"] as String,
+                                           winner1 = dc.document["winner1"] as String,
+                                           winner2 = dc.document["winner2"] as String,
+                                           winner3 = dc.document["winner3"] as String
+
+                                       ))
+
                                         Log.d("sports3", "Modified city: ${dc.document.data}")
+                                    }
+
                                     DocumentChange.Type.REMOVED ->
+                                    {
                                         Log.d("sports4", "Removed city: ${dc.document.data}")
+                                        eventsDao.deleteSportsData(dc.document.id.toInt())
+                                    }
 
                                 }
                             }
-                        }
-
+                             saveSportsDataRoom(sportsData).subscribe()
+                            Log.d("sports2", "added sports dta a: $sportsData")
                     }
-                    saveSportsDataRoom(sportsData)
-                    Log.d("sports2", "added sports dta a: ${sportsData}")
+
                 }
-                .addOnFailureListener { exception ->
-                    Log.d("sports5", "Error getting documents: ", exception)
-                }
-
-
-
-        }
 
     @SuppressLint("CheckResult")
-    private fun saveSportsDataRoom(sportsData: MutableList<SportsData>) {
-eventsDao.saveSportsData(sportsData).subscribeOn(Schedulers.io()).subscribe({
-    Log.d("Sports","Data Saved")
-},{
-
-    Log.d("Sports","Data Not Saved")
-})
+    private fun saveSportsDataRoom(sportsData: List<SportsData>): Completable {
+        Log.d("sports2", "added sports dta a: $sportsData")
+        return eventsDao.saveSportsData(sportsData).subscribeOn(Schedulers.io())
+            .doOnComplete {
+                Log.d("Sports", "Data Saved")
+            }
+            .doOnError {
+                Log.d("Sports","Data Not Saved")
+            }
     }
 
     fun updateFavourite(eventId: String, favouriteMark: Int): Completable {

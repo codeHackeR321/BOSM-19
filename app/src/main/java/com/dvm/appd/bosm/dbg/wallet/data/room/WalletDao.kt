@@ -48,7 +48,7 @@ interface WalletDao {
     fun getAllCartItems(): Flowable<List<CartData>>
 
     @Query("SELECT cart_data.item_id AS itemId, stall_items.itemName as itemName, cart_data.vendor_id AS vendorId, stalls.stallName AS vendorName, cart_data.quantity AS quantity, stall_items.price AS price FROM cart_data LEFT JOIN stall_items ON cart_data.item_id = stall_items.itemId LEFT JOIN stalls ON cart_data.vendor_id = stalls.stallId ")
-    fun getAllModifiedCartItems(): Flowable<List<ChildCartData>>
+    fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>
 
     @Query("SELECT itemId, itemName, stallId, price, COALESCE(cart_data.quantity, 0) AS quantity FROM stall_items LEFT JOIN cart_data ON itemId = item_id WHERE stallId = :stallId AND isAvailable = :available")
     fun getModifiedStallItemsById(stallId: Int, available: Boolean): Flowable<List<ModifiedStallItemsData>>

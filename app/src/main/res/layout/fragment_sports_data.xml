@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             app:layout_constraintTop_toTopOf="parent"
-
+            android:background="@color/colorAccent"
             android:layout_margin="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,12 +26,14 @@
                                                android:orientation="horizontal"
                                                android:background="@drawable/shape_rectangle_rounded_12dp"
                                                app:layout_constraintBottom_toBottomOf="@id/textView4"
-                                               app:layout_constraintTop_toTopOf="@id/textView4"
-                                               app:layout_constraintStart_toStartOf="parent"
-                                               app:layout_constraintEnd_toEndOf="parent"
+                                               app:layout_constraintTop_toBottomOf="@id/textView4"
+                                               app:layout_constraintStart_toStartOf="@id/textView4"
+                                               app:layout_constraintEnd_toEndOf="@id/textView4"
                                                android:layout_marginEnd="8dp"
                                                android:layout_marginStart="8dp"
-                                               android:id="@+id/recy_sports_horizontal">
+                                               android:id="@+id/recy_sports_horizontal"
+                                               app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                               >
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -45,6 +47,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:id="@+id/recy_sports_vertical"/>
+            android:id="@+id/recy_sports_vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
