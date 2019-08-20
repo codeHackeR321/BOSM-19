@@ -7,9 +7,11 @@ import android.util.Log
 
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.auth.viewmodel.AuthViewModel
 import com.dvm.appd.bosm.dbg.auth.viewmodel.AuthViewModelFactory
@@ -27,36 +29,46 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
-        val gso = GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("941586443518-mq055uo5anq6nem2pvjvteidugeo3vgl.apps.googleusercontent.com")
-            .requestEmail()
-            .requestProfile()
-            .build())
+        val gso = GoogleSignIn.getClient(
+            this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("941586443518-mq055uo5anq6nem2pvjvteidugeo3vgl.apps.googleusercontent.com")
+                .requestEmail()
+                .requestProfile()
+                .build()
+        )
         authViewModel = ViewModelProviders.of(this, AuthViewModelFactory())[AuthViewModel::class.java]
 
         outsteeLogin.setOnClickListener {
-          startActivity(Intent(this,LoginOutsteeActivity::class.java))
+            startActivity(Intent(this, LoginOutsteeActivity::class.java))
         }
 
         bitsianLogin.setOnClickListener {
-            startActivityForResult(gso.signInIntent,108)
+            startActivityForResult(gso.signInIntent, 108)
         }
 
-
+        authViewModel.state.observe(this, Observer {
+            when (it!!) {
+                LoginState.Success -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                is LoginState.Failure -> {
+                    Toast.makeText(this, (it as LoginState.Failure).message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode==108){
+        if (requestCode == 108) {
             try {
                 val profile = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
-                Toast.makeText(this,profile!!.displayName,Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, profile!!.displayName, Toast.LENGTH_SHORT).show()
                 authViewModel.login(profile.idToken!!)
-            }
-            catch (e:ApiException){
-               Log.d("checke",e.toString())
-                Toast.makeText(this,"Sign in Failure!",Toast.LENGTH_LONG).show()
+            } catch (e: ApiException) {
+                Log.d("checke", e.toString())
+                Toast.makeText(this, "Sign in Failure!", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -69,7 +81,7 @@ class AuthActivity : AppCompatActivity() {
         }
 
         this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this , "Press Once More to Exit" , Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Press Once More to Exit", Toast.LENGTH_SHORT).show()
         Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 

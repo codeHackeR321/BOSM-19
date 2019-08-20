@@ -45,6 +45,11 @@ class ProfileFragment : Fragment() {
                 }
             }
         })
+
+        profileViewModel.user.observe(this, Observer {
+            rootView.username.text = it.name
+            rootView.userId.text = it.userId
+        })
         return rootView
     }
 }

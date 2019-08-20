@@ -5,16 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
+import com.dvm.appd.bosm.dbg.R.drawable.gradient_stalls_toolbar
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallsAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_stalls.*
 import kotlinx.android.synthetic.main.fra_wallet_stalls.view.*
 
