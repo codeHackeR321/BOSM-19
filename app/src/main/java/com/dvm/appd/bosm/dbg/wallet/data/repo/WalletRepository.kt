@@ -267,7 +267,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                             400 -> {
                                 Log.d("PlaceOrder", "Success Error: 400")
-                                throw Exception("400")
+                                throw Error("400")
                             }
 
                             401 -> {
@@ -326,11 +326,38 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         }
 
         return walletService.makeOtpSeen(body).subscribeOn(Schedulers.io())
-            .doOnComplete {
+            .doOnSuccess {response ->
 
+                when(response.code()){
+
+                    200 -> {
+
+                    }
+
+                    400 -> {
+
+                    }
+
+                    401 -> {
+
+                    }
+
+                    402 -> {
+
+                    }
+
+                    403 -> {
+
+                    }
+
+                    412 -> {
+
+                    }
+                }
             }
             .doOnError {
 
             }
+            .ignoreElement()
     }
 }

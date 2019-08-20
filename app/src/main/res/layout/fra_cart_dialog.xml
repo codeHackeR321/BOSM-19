@@ -5,6 +5,16 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent" android:id="@+id/linearLayout">
 
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="181dp" android:id="@+id/progressBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="294dp"/>
     <View
             android:layout_width="0dp"
             android:layout_height="64dp"
@@ -52,5 +62,6 @@
             android:id="@+id/cartRecycler"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_marginBottom="32dp" app:layout_constraintBottom_toTopOf="@+id/cartView"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
 import kotlinx.android.synthetic.main.adapter_misc_events.view.*
+import java.text.DateFormat.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerView.Adapter<MiscEventsAdapter.MiscEventsViewHolder>(){
 
@@ -38,10 +42,11 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
 
     override fun onBindViewHolder(holder: MiscEventsViewHolder, position: Int) {
 
+
         holder.event.text = miscEvents[position].name
         holder.description.text = miscEvents[position].description
         holder.organiser.text = miscEvents[position].organiser
-        holder.time.text = miscEvents[position].time
+        holder.time.text = getTime(miscEvents[position].time)
         holder.venue.text = miscEvents[position].venue
         holder.markFav.text = miscEvents[position].isFavourite.toString()
 
@@ -54,6 +59,20 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
                 listener.updateIsFavourite(miscEvents[position].id, 1)
             }
         }
+    }
+
+//    private fun getDate(timestamp: Long): String {
+//
+//        val sdf = java.text.SimpleDateFormat("d MMM")
+//        val date = java.util.Date(timestamp*1000)
+//        return sdf.format(date)
+//    }
+
+    private fun getTime(timestamp: Long): String {
+
+        val sdf = SimpleDateFormat("h:mm a")
+        val date = Date(timestamp*1000)
+        return sdf.format(date)
     }
 
 }

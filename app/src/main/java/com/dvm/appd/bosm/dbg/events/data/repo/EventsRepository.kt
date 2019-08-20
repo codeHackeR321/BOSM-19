@@ -43,7 +43,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             DocumentChange.Type.ADDED -> {
                                 Log.d("DocAdded", doc.document.get("name") as String)
                                 miscEvents.add(MiscEventsData(id = doc.document.id, name = (doc.document.get("name")) as String
-                                , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).toString()
+                                , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).seconds
                                 , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
                                 , organiser = (doc.document.get("organiser") as String), isFavourite = 0))
                             }
@@ -51,7 +51,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             DocumentChange.Type.MODIFIED -> {
                                 Log.d("DocChanged", doc.document.get("name") as String)
                                 eventsDao.updateMiscData(id = doc.document.id, name = (doc.document.get("name")) as String
-                                    , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).toString()
+                                    , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).seconds
                                     , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
                                     , organiser = (doc.document.get("organiser") as String))
                                     .subscribeOn(Schedulers.io())
@@ -179,14 +179,14 @@ class EventsRepository (val eventsDao: EventsDao){
                                 }
                             }
                              saveSportsDataRoom(sportsData).subscribe()
-                            Log.d("sports2", "added sports dta a: ${sportsData}")
+                            Log.d("sports2", "added sports dta a: $sportsData")
                     }
 
                 }
 
     @SuppressLint("CheckResult")
     private fun saveSportsDataRoom(sportsData: List<SportsData>): Completable {
-        Log.d("sports2", "added sports dta a: ${sportsData}")
+        Log.d("sports2", "added sports dta a: $sportsData")
         return eventsDao.saveSportsData(sportsData).subscribeOn(Schedulers.io())
             .doOnComplete {
                 Log.d("Sports", "Data Saved")

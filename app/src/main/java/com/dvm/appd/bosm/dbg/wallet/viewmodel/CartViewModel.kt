@@ -10,6 +10,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
 class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     var cartItems: LiveData<Pair<List<ModifiedCartData>, Int>> = MutableLiveData()
+    var progressBarMark: LiveData<Int> = MutableLiveData(1)
 
     init {
 
@@ -22,7 +23,11 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
     }
 
     fun placeOrder(){
-        walletRepository.placeOrder().subscribe()
+        walletRepository.placeOrder()
+            .doOnComplete {
+                (progressBarMark as MutableLiveData).postValue(1)
+            }
+            .subscribe()
     }
 
     fun deleteCartItem(itemId: Int){
