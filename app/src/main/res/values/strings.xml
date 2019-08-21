@@ -19,15 +19,20 @@
     <string name="chanel_name_status_change_notifications">Order Progress</string>
     <string name="chanel_name_rating_notifications">Food Ratings</string>
     <string name="chanel_desc_general_notifications">Inform about general announcements made by the departments</string>
-    <string name="chanel_desc_status_change_notifications">Inform about the progress of any of your placed orders</string>
-    <string name="chanel_desc_rating_notifications">Reminder to rate your favourite food items that you have recently ordered</string>
+    <string name="chanel_desc_status_change_notifications">Inform about the progress of any of your placed orders
+    </string>
+    <string name="chanel_desc_rating_notifications">Reminder to rate your favourite food items that you have recently
+        ordered
+    </string>
     <string name="notification_content_general_notification">Some random text to be changed</string>
 
     <string name="elas_fragment_heading">ELAS - QUIZ</string>
     <string name="elas_fragment_category">Category :</string>
 
     <string name="alert_notification_title">Enable Notifications</string>
-    <string name="alert_notification_message">Please enable Auto start on your app to enable notifications on your mobile. Notifications are highly vital for a seamless performance</string>
+    <string name="alert_notification_message">Please enable Auto start on your app to enable notifications on your
+        mobile. Notifications are highly vital for a seamless performance
+    </string>
     <string name="alert_notification_positive_button">Go to Settings</string>
     <string name="alert_notification_negative_button">Dismiss</string>
 
