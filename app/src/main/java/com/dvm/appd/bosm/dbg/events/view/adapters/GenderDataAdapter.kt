@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.events.view.adapters
 
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +17,13 @@ class GenderDataAdapter( private val genderDefault: String,private val listener:
 
     var gender: List<String> = emptyList()
     var genderSelected=genderDefault
-    interface OnGenderClicked{
+       interface OnGenderClicked{
         fun genderClicked(gender: String)
     }
 
     class GenderViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        val editText: TextView = view.editTextGender
+        val textView: TextView = view.editTextGender
         val parent:LinearLayout=view.Parent_horizontal
     }
 
@@ -35,17 +36,19 @@ class GenderDataAdapter( private val genderDefault: String,private val listener:
     override fun getItemCount(): Int = gender.size
 
     override fun onBindViewHolder(holder: GenderViewHolder, position: Int) {
-        holder.editText.setText(gender[position])
+        holder.textView.setText(gender[position])
         if (gender[position].equals(genderSelected))
-            holder.editText.setBackgroundColor(Color.MAGENTA)
+        {
+            holder.textView.paintFlags=Paint.UNDERLINE_TEXT_FLAG
+        }
         else
-            holder.editText.setBackgroundColor(Color.WHITE)
+            holder.textView.paintFlags=0
 
 
         Log.d("SportsGender","Gender onBindviewholder genderClicked$${gender[position]}")
 
 
-        holder.editText.setOnClickListener {
+        holder.textView.setOnClickListener {
                 Log.d("SportsGender","Gender data Apadter genderClicked$${gender[position]}")
                 genderSelected=gender[position]
                 notifyDataSetChanged()
