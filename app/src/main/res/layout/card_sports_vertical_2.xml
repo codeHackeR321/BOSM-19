@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                                                    android:layout_height="wrap_content"
+                                                   android:background="@drawable/shape_rectangle_rounded_8dp"
+                                android:padding="8dp"
+                                                   android:elevation="2dp"
                                                    xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,10 +14,10 @@
               app:layout_constraintTop_toTopOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               tools:text="Round1"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textAllCaps="true"
               android:textColor="#8C232A38"
-              android:padding="12dp"
+              android:padding="4dp"
               android:id="@+id/textViewRound"
     />
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -23,9 +26,9 @@
               app:layout_constraintTop_toBottomOf="@id/textViewRound"
               app:layout_constraintEnd_toEndOf="parent"
               tools:text="100 m race"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textColor="#8C232A38"
-              android:padding="8dp"
+              android:padding="4dp"
               android:id="@+id/textViewRoundType"
     />
 
@@ -36,11 +39,11 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               tools:text="Winner1"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textColor="#CC1C7CFA"
               android:layout_marginStart="24dp"
               android:layout_marginEnd="24dp"
-              android:padding="12dp"
+              android:padding="4dp"
               android:textAlignment="center"
               android:id="@+id/textViewWinner1"
     />
@@ -56,10 +59,10 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintEnd_toStartOf="@id/textViewWinner3"
               tools:text="Winner 2"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textColor="#CC1C7CFA"
               android:layout_marginStart="24dp"
-              android:padding="12dp"
+              android:padding="4dp"
               android:id="@+id/textViewWinner2"
     />
     <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -69,11 +72,11 @@
               app:layout_constraintStart_toEndOf="@id/textViewWinner2"
               app:layout_constraintEnd_toEndOf="parent"
               tools:text="Winner 3"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textColor="#CC1C7CFA"
               android:textAlignment="center"
               android:layout_marginEnd="16dp"
-              android:padding="12dp"
+              android:padding="4dp"
               android:id="@+id/textViewWinner3"
     />
 
@@ -84,11 +87,11 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintEnd_toStartOf="@id/textViewTime"
               tools:text="19th Sep"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textColor="#6851DA"
               android:textAlignment="center"
               android:layout_marginStart="24dp"
-              android:padding="12dp"
+              android:padding="4dp"
               android:id="@+id/textViewDate"
     />
 
@@ -99,10 +102,10 @@
               app:layout_constraintStart_toEndOf="@id/textViewDate"
               app:layout_constraintEnd_toStartOf="@id/textViewVenue"
               tools:text="2.30 pm"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textColor="#6851DA"
               android:textAlignment="center"
-              android:padding="12dp"
+              android:padding="4dp"
               android:id="@+id/textViewTime"
     />
     <TextView android:layout_width="0dp" android:layout_height="wrap_content"
@@ -112,11 +115,11 @@
               app:layout_constraintStart_toEndOf="@id/textViewTime"
               app:layout_constraintEnd_toEndOf="parent"
               tools:text="SAC"
-              android:fontFamily="@font/circular_std_font"
+              android:fontFamily="@font/shellypalmer_circular_std_book"
               android:textAlignment="center"
               android:textColor="#6851DA"
               android:layout_marginEnd="24dp"
-              android:padding="12dp"
+              android:padding="4dp"
               android:id="@+id/textViewVenue"
     />
 </androidx.constraintlayout.widget.ConstraintLayout>

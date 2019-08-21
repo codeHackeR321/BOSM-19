@@ -43,12 +43,13 @@ class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
         sportsDataViewModel.gender.observe(this, Observer {
             Log.d("Sports11" , "Entered observer for gender Adapter with list = $it")
             (view.recy_sports_horizontal.adapter as GenderDataAdapter).gender = it
+            (view.recy_sports_horizontal.adapter as GenderDataAdapter).notifyDataSetChanged()
             if (genderSelected.isEmpty()&&it.isNotEmpty())
             {
                 genderSelected=it[0]
                 setGenderWiseData()
             }
-            (view.recy_sports_horizontal.adapter as GenderDataAdapter).notifyDataSetChanged()
+
            // removeLoadingStateActivity()
             Log.d("SportsFRag", "Observed")
 

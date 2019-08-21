@@ -101,7 +101,6 @@ class EventsRepository (val eventsDao: EventsDao){
     }
 
     fun getGenderForSport(name: String):Single<List<String>>{
-
         return eventsDao.getDistinctGenderForSport(name).subscribeOn(Schedulers.io())
     }
 
@@ -192,7 +191,7 @@ class EventsRepository (val eventsDao: EventsDao){
                 Log.d("Sports", "Data Saved")
             }
             .doOnError {
-                Log.d("Sports","Data Not Saved")
+                Log.d("Sports","Data Not Saved$it")
             }
     }
 

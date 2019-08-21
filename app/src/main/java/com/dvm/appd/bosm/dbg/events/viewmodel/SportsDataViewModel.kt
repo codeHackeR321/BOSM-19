@@ -22,17 +22,17 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
         eventsRepository.getGenderForSport(name).subscribe({
             Log.d("Sports6","Sucess getting gender room")
             (gender as MutableLiveData).postValue(it)
-            eventsRepository.getSportData(name).subscribe({
-                Log.d("Sports6","Sucess getting gender room")
 
-                (sportsData as MutableLiveData).postValue(it.groupBy { it.gender})
-
-            },{
-                Log.d("Sports5","Error getting sportdata room")
-            })
         },{
-
             Log.d("Sports5","Error getting gender room")
+        })
+
+        eventsRepository.getSportData(name).subscribe({
+            Log.d("Sports6","Sucess getting sports data  room")
+            (sportsData as MutableLiveData).postValue(it.groupBy { it.gender})
+
+        },{
+            Log.d("Sports5","Error getting sportdata room")
         })
     }
 

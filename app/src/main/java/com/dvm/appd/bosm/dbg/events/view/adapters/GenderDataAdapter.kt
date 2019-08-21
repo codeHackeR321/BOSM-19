@@ -1,11 +1,13 @@
 package com.dvm.appd.bosm.dbg.events.view.adapters
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.card_sports_horizontal.view.*
@@ -20,8 +22,8 @@ class GenderDataAdapter( private val genderDefault: String,private val listener:
 
     class GenderViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        val editText: EditText = view.editTextGender
-        val parent:LinearLayout=view.Parent
+        val editText: TextView = view.editTextGender
+        val parent:LinearLayout=view.Parent_horizontal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenderViewHolder {
@@ -39,13 +41,17 @@ class GenderDataAdapter( private val genderDefault: String,private val listener:
         else
             holder.editText.setBackgroundColor(Color.WHITE)
 
-        holder.parent.setOnClickListener { object : View.OnClickListener{
-            override fun onClick(v: View?) {
+
+        Log.d("SportsGender","Gender onBindviewholder genderClicked$${gender[position]}")
+
+
+        holder.editText.setOnClickListener {
+                Log.d("SportsGender","Gender data Apadter genderClicked$${gender[position]}")
                 genderSelected=gender[position]
                 notifyDataSetChanged()
                 listener.genderClicked(gender[position])
-            }
-        } }
+
+        }
 
     }
 
