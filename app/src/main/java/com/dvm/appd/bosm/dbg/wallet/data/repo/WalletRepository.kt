@@ -1,6 +1,8 @@
 package com.dvm.appd.bosm.dbg.wallet.data.repo
 
 import android.util.Log
+import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
+import com.dvm.appd.bosm.dbg.profile.views.AddMoneyResult
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
@@ -20,7 +22,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
-class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
+class WalletRepository(val walletService: WalletService, val walletDao: WalletDao,val authRepository: AuthRepository) {
 
 
     // To be implemented after profile (when userId available)
@@ -373,5 +375,31 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
             }
             .ignoreElement()
+    }
+
+    fun addMoneyBitsian(amount:Int):Single<AddMoneyResult>{
+
+        val body = JsonObject().also {
+            it.addProperty("amount",amount)
+        }
+
+        Log.d("check",body.toString())
+
+        return authRepository.getUser()
+            .toSingle()
+            .flatMap {
+                walletService.addMoneyBitsian("JWT ${it.jwt}",body).map {
+                    Log.d("check",it.code().toString())
+
+                    when(it.code()){
+                        200 -> AddMoneyResult.Success
+                        in 400..499 -> AddMoneyResult.Failure(it.errorBody()!!.string())
+                        else -> AddMoneyResult.Failure("Something went wrong!!")
+                    }
+                }.doOnError {
+                    Log.d("checke",it.toString())
+                }
+            }.subscribeOn(Schedulers.io())
+
     }
 }

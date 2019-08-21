@@ -24,4 +24,7 @@ interface WalletService {
     @POST("wallet/orders/make_otp_seen")
     @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFwcGQiLCJleHAiOjE1NjY4ODc1NTgsImVtYWlsIjoiIn0.4rTDztFegM-cRSRE9-pRR3mj0kWGDintUUXAhrAST7E")
     fun makeOtpSeen(@Body body: JsonObject): Single<Response<Unit>>
+
+    @POST("wallet/monetary/add/swd")
+    fun addMoneyBitsian(@Header("Authorization")jwt:String, @Body body:JsonObject):Single<Response<Unit>>
 }

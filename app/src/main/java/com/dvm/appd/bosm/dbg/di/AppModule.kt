@@ -23,6 +23,23 @@ import javax.inject.Singleton
 
 @Module
 class AppModule(private val application: Application) {
+    @Provides
+    @Singleton
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao,authRepository: AuthRepository): WalletRepository {
+        return WalletRepository(walletService,walletDao,authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesWalletDao(appDatabase: AppDatabase): WalletDao {
+        return appDatabase.walletDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesWalletService(retrofit: Retrofit): WalletService {
+        return retrofit.create(WalletService::class.java)
+    }
 
     @Provides
     @Singleton
@@ -52,6 +69,7 @@ class AppModule(private val application: Application) {
     @Singleton
     fun providesAppDatabase(application: Application): AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, "bosm.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 
