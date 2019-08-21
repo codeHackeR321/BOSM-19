@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,7 +17,7 @@ import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallsAdapter
-import kotlinx.android.synthetic.main.fra_wallet_stalls.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_stalls.view.*
 
 class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
@@ -27,7 +28,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         stallsViewModel = ViewModelProviders.of(this, StallsViewModelFactory())[StallsViewModel::class.java]
 
         val rootview = inflater.inflate(R.layout.fra_wallet_stalls, container, false)
-
+        activity!!.my_toolbar.setBackgroundResource(R.drawable.gradient_stalls_toolbar)
         rootview.stalls_recycler.adapter = StallsAdapter(this)
 
         stallsViewModel.stalls.observe(this, Observer {
@@ -49,7 +50,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         return rootview
     }
 
-    override fun stallSelected(stall: StallData) {
+        override fun stallSelected(stall: StallData) {
         val bundle = bundleOf("stallId" to stall.stallId, "stallName" to stall.stallName)
         view!!.findNavController().navigate(R.id.action_action_food_to_stallItemsFragment2, bundle)
         // view!!.findNavController().navigate(StallsFragmentDirections.actionActionFoodToStallItemsFragment2(stallId))

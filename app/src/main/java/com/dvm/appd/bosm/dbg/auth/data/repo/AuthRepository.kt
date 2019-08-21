@@ -39,8 +39,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
 
     fun loginBitsian(id:String):Single<LoginState>{
         val body = JsonObject().also {
-            it.addProperty("idToken",id)
-            it.addProperty("regToken","")
+            it.addProperty("id_token",id)
         }
         Log.d("check",body.toString())
         return login(body,true)

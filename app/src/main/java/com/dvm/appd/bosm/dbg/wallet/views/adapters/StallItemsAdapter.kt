@@ -1,9 +1,12 @@
 package com.dvm.appd.bosm.dbg.wallet.views.adapters
 
+import android.graphics.Color
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +36,13 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
         holder.itemName.text = stallItems[position].itemName
         holder.price.text = "₹ ${stallItems[position].price}"
         holder.quantity.text = stallItems[position].quantity.toString()
+
+        if (stallItems[position].isVeg){
+            holder.isVeg.setColorFilter(Color.GREEN)
+        }
+        else{
+            holder.isVeg.setColorFilter(Color.RED)
+        }
 
         if (stallItems[position].quantity > 0){
 
@@ -90,6 +100,7 @@ class StallItemsAdapter(private val listener:OnAddClickedListener) :RecyclerView
         val plus: Button = view.plus
         val minus: Button = view.minus
         val quantity: TextView = view.quantity
+        val isVeg: ImageView = view.isVeg
 
     }
 }

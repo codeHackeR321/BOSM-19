@@ -1,6 +1,8 @@
 package com.dvm.appd.bosm.dbg.profile.views
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +17,13 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.auth.views.AuthActivity
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModelFactory
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.journeyapps.barcodescanner.BarcodeEncoder
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_profile.view.*
 
 class ProfileFragment : Fragment() {
@@ -23,14 +32,19 @@ class ProfileFragment : Fragment() {
         ViewModelProviders.of(this, ProfileViewModelFactory())[ProfileViewModel::class.java]
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
+        activity!!.my_toolbar.visibility = View.GONE
 
         rootView.logout.setOnClickListener {
              profileViewModel.logout()
         }
 
+        rootView.backBtn.setOnClickListener {
+            it.findNavController().popBackStack()
+        }
         profileViewModel.order.observe(this, Observer {
             when(it!!){
                 UiState.MoveToLogin -> {
@@ -45,6 +59,27 @@ class ProfileFragment : Fragment() {
                 }
             }
         })
+
+        profileViewModel.user.observe(this, Observer {
+            rootView.username.text = it.name
+            rootView.userId.text = "User id: ${it.userId}"
+            Observable.just(it.qrCode.generateQr())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    rootView.qrCode.setImageBitmap(it)
+                }
+        })
         return rootView
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        activity!!.my_toolbar.visibility = View.VISIBLE
+    }
+
+    fun String.generateQr(): Bitmap {
+        val bitMatrix = MultiFormatWriter().encode(this, BarcodeFormat.QR_CODE,400,400)
+        return BarcodeEncoder().createBitmap(bitMatrix)
     }
 }
