@@ -4,7 +4,7 @@ import android.provider.ContactsContract
 
 data class Contact(
     val name: String,
-    val role: RoleEnum,
+    val role: String,
     val email: String,
     val phone: String,
     val imageLink: String

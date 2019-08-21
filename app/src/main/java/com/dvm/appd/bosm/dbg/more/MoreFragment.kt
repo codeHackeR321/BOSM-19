@@ -33,6 +33,10 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
     override fun moreButtonClicked(item: Int) {
         Toast.makeText(context, "Position clicked = $item.", Toast.LENGTH_LONG).show()
         when(item) {
+            0 -> {
+                val bundle = bundleOf("title" to "Contact Us")
+                view!!.findNavController().navigate(R.id.action_action_more_to_fragmentRecyclerView, bundle)
+            }
             3 -> {
                 val bundle = bundleOf("link" to view!!.resources.getString(R.string.link_EPC), "title" to "EPC Blog")
                 view!!.findNavController().navigate(R.id.action_action_more_to_fragmentWebPage, bundle)

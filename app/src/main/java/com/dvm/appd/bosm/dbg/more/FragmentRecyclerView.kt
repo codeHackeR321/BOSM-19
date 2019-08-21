@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 import com.dvm.appd.bosm.dbg.R
+import kotlinx.android.synthetic.main.fragment_fragment_recycler_view.*
 
 class FragmentRecyclerView : Fragment() {
 
@@ -20,7 +21,6 @@ class FragmentRecyclerView : Fragment() {
         arguments?.let {
             title = it.getString("title")!!
         }
-        setAdapter()
     }
 
     override fun onCreateView(
@@ -31,9 +31,17 @@ class FragmentRecyclerView : Fragment() {
         return inflater.inflate(R.layout.fragment_fragment_recycler_view, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setAdapter()
+    }
+
     private fun setAdapter() {
         when(title) {
-            
+            "Contact Us" -> {
+                recycler_commonRecyclerView.adapter = ContactUsAdapter()
+                (recycler_commonRecyclerView.adapter as ContactUsAdapter).notifyDataSetChanged()
+            }
         }
     }
 
