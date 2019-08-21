@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
                                                    xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:background="#F3F3F3"
                                                    android:layout_height="match_parent"
                                                    android:layout_width="match_parent">
 
@@ -11,13 +12,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:fontFamily=""
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/colorAccent"
+            android:background="@drawable/gra_sports_frag_heading"
             android:layout_margin="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:drawableStart="@drawable/ic_ui_back_button"
+            android:drawablePadding="16dp"
             android:paddingBottom="32dp"
             android:id="@+id/textView4"/>
 

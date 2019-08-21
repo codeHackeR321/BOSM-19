@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.card_sports_horizontal.view.*
 
-class GenderDataAdapter(private val listener: GenderDataAdapter.OnGenderClicked): RecyclerView.Adapter<GenderDataAdapter.GenderViewHolder>(){
+class GenderDataAdapter( private val genderDefault: String,private val listener: GenderDataAdapter.OnGenderClicked): RecyclerView.Adapter<GenderDataAdapter.GenderViewHolder>(){
 
     var gender: List<String> = emptyList()
-    var genderSelected=""
+    var genderSelected=genderDefault
     interface OnGenderClicked{
         fun genderClicked(gender: String)
     }

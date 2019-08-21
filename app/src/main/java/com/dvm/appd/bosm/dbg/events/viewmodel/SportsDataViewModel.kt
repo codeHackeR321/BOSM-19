@@ -10,7 +10,7 @@ import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
 
 class SportsDataViewModel(val eventsRepository: EventsRepository, private var name: String) : ViewModel() {
 
-    var sportsData: LiveData<List<SportsData>> = MutableLiveData()
+    var sportsData: LiveData<Map<String,List<SportsData>>> = MutableLiveData()
     var gender: LiveData<List<String>> = MutableLiveData()
 
     init {
@@ -24,7 +24,8 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
             (gender as MutableLiveData).postValue(it)
             eventsRepository.getSportData(name).subscribe({
                 Log.d("Sports6","Sucess getting gender room")
-                (sportsData as MutableLiveData).postValue(it)
+
+                (sportsData as MutableLiveData).postValue(it.groupBy { it.gender})
 
             },{
                 Log.d("Sports5","Error getting sportdata room")
