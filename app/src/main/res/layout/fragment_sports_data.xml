@@ -15,7 +15,7 @@
             android:textColor="#FFFFFF"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/gra_sports_frag_heading"
+            android:background="@drawable/gra_events_heading"
             android:layout_margin="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
