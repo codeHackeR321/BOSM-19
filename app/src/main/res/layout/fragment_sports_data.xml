@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textColor="#FFFFFF"
-            android:fontFamily=""
+            android:fontFamily="@font/circular_std_font"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/gra_sports_frag_heading"
             android:layout_margin="0dp"
@@ -22,7 +22,7 @@
             android:textAlignment="viewStart"
             android:paddingTop="16dp"
             android:paddingLeft="16dp"
-            android:drawableStart="@drawable/ic_ui_back_button"
+            android:drawableStart="@drawable/ic_left_arrow"
             android:drawablePadding="16dp"
             android:paddingBottom="32dp"
             android:id="@+id/textView4"/>
