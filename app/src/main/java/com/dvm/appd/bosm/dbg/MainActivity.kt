@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var sharedPreferences: SharedPreferences
 
-        override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.actionbaritems,menu)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbaritems, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -65,49 +65,72 @@ class MainActivity : AppCompatActivity() {
         val wantsNotifications = sharedPreferences.getBoolean("wantsNotification", true)
         if (wantsNotifications) {
             try {
-                val intent = Intent()
+                var intent: Intent? = null
                 val manufacturer = android.os.Build.MANUFACTURER
                 when {
-                    "xiaomi".equals(manufacturer, ignoreCase = true) -> intent.component = ComponentName(
-                        "com.miui.securitycenter",
-                        "com.miui.permcenter.autostart.AutoStartManagementActivity"
-                    )
-                    "oppo".equals(manufacturer, ignoreCase = true) -> intent.component = ComponentName(
-                        "com.coloros.safecenter",
-                        "com.coloros.safecenter.permission.startup.StartupAppListActivity"
-                    )
-                    "vivo".equals(manufacturer, ignoreCase = true) -> intent.component = ComponentName(
-                        "com.vivo.permissionmanager",
-                        "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"
-                    )
-                    "Letv".equals(manufacturer, ignoreCase = true) -> intent.component =
-                        ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")
-                    "Honor".equals(manufacturer, ignoreCase = true) -> intent.component = ComponentName(
-                        "com.huawei.systemmanager",
-                        "com.huawei.systemmanager.optimize.process.ProtectActivity"
-                    )
-                }
-                val checkBoxView = View.inflate(this, R.layout.checkbox, null)
-                checkBoxView.checkbox_alertBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (isChecked) {
-                        sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
-                    } else {
-                        sharedPreferences.edit().putBoolean("wantsNotification", true).apply()
+                    "xiaomi".equals(manufacturer, ignoreCase = true) -> {
+                        intent = Intent()
+                        intent.component = ComponentName(
+                            "com.miui.securitycenter",
+                            "com.miui.permcenter.autostart.AutoStartManagementActivity"
+                        )
+                    }
+                    "oppo".equals(manufacturer, ignoreCase = true) -> {
+                        intent = Intent()
+                        intent.component = ComponentName(
+                            "com.coloros.safecenter",
+                            "com.coloros.safecenter.permission.startup.StartupAppListActivity"
+                        )
+                    }
+                    "vivo".equals(manufacturer, ignoreCase = true) -> {
+                        intent = Intent()
+                        intent.component = ComponentName(
+                            "com.vivo.permissionmanager",
+                            "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"
+                        )
+                    }
+                    "Letv".equals(manufacturer, ignoreCase = true) -> {
+                        intent = Intent()
+                        intent.component =
+                            ComponentName(
+                                "com.letv.android.letvsafe",
+                                "com.letv.android.letvsafe.AutobootManageActivity"
+                            )
+                    }
+                    "Honor".equals(manufacturer, ignoreCase = true) -> {
+                        intent = Intent()
+                        intent.component = ComponentName(
+                            "com.huawei.systemmanager",
+                            "com.huawei.systemmanager.optimize.process.ProtectActivity"
+                        )
                     }
                 }
-                val alertDialogBuilder = android.app.AlertDialog.Builder(this)
-                alertDialogBuilder.setTitle(resources.getString(R.string.alert_notification_title))
-                alertDialogBuilder.setMessage(resources.getString(R.string.alert_notification_message))
-                    .setView(checkBoxView)
-                    .setCancelable(false)
-                    .setPositiveButton(resources.getString(R.string.alert_notification_positive_button), DialogInterface.OnClickListener { dialog, which ->
-                        sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
-                        startActivity(intent)
-                    })
-                    .setNegativeButton(resources.getString(R.string.alert_notification_negative_button), DialogInterface.OnClickListener { dialog, which ->
-                        dialog.cancel()
-                    }).show()
-
+                if (intent != null) {
+                    val checkBoxView = View.inflate(this, R.layout.checkbox, null)
+                    checkBoxView.checkbox_alertBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (isChecked) {
+                            sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
+                        } else {
+                            sharedPreferences.edit().putBoolean("wantsNotification", true).apply()
+                        }
+                    }
+                    val alertDialogBuilder = android.app.AlertDialog.Builder(this)
+                    alertDialogBuilder.setTitle(resources.getString(R.string.alert_notification_title))
+                    alertDialogBuilder.setMessage(resources.getString(R.string.alert_notification_message))
+                        .setView(checkBoxView)
+                        .setCancelable(false)
+                        .setPositiveButton(
+                            resources.getString(R.string.alert_notification_positive_button),
+                            DialogInterface.OnClickListener { dialog, which ->
+                                sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
+                                startActivity(intent)
+                            })
+                        .setNegativeButton(
+                            resources.getString(R.string.alert_notification_negative_button),
+                            DialogInterface.OnClickListener { dialog, which ->
+                                dialog.cancel()
+                            }).show()
+                }
 
             } catch (e: Exception) {
                 Log.e("AutoStart Execute", "Error in opening AutoStart = ${e.toString()}")
@@ -134,23 +157,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-     /*This method is used for the initial setup of the notification channels
-     If the notification chanel already exists, no action is taken, and hence it is safe to call this method every time the app starts*/
+    /*This method is used for the initial setup of the notification channels
+    If the notification chanel already exists, no action is taken, and hence it is safe to call this method every time the app starts*/
     private fun setupNotificationChannel() {
-         startService(Intent(this, FirebaseMessagingService::class.java))
+        startService(Intent(this, FirebaseMessagingService::class.java))
         // Notification Channels are only available for Oreo(Api Level 26) and onwards
         // Since support libraries don't have a library for setting up notification channels, this check is necessary
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            val generalChannel = NotificationChannel(getString(R.string.chanel_id_general_notifications) , getString(R.string.chanel_name_general_notifications) , NotificationManager.IMPORTANCE_HIGH)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val generalChannel = NotificationChannel(
+                getString(R.string.chanel_id_general_notifications),
+                getString(R.string.chanel_name_general_notifications),
+                NotificationManager.IMPORTANCE_HIGH
+            )
             generalChannel.description = getString(R.string.chanel_desc_general_notifications)
             generalChannel.canBypassDnd()
 
-            val ratingsChannel = NotificationChannel(getString(R.string.chanel_id_rating_notifications) , getString(R.string.chanel_name_rating_notifications) , NotificationManager.IMPORTANCE_HIGH)
+            val ratingsChannel = NotificationChannel(
+                getString(R.string.chanel_id_rating_notifications),
+                getString(R.string.chanel_name_rating_notifications),
+                NotificationManager.IMPORTANCE_HIGH
+            )
             ratingsChannel.description = getString(R.string.chanel_desc_rating_notifications)
             ratingsChannel.canBypassDnd()
 
-            val statusChangeChannel = NotificationChannel(getString(R.string.chanel_id_status_change_notifications) , getString(R.string.chanel_name_status_change_notifications) , NotificationManager.IMPORTANCE_HIGH)
+            val statusChangeChannel = NotificationChannel(
+                getString(R.string.chanel_id_status_change_notifications),
+                getString(R.string.chanel_name_status_change_notifications),
+                NotificationManager.IMPORTANCE_HIGH
+            )
             statusChangeChannel.description = getString(R.string.chanel_desc_status_change_notifications)
             statusChangeChannel.canBypassDnd()
 
@@ -166,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
