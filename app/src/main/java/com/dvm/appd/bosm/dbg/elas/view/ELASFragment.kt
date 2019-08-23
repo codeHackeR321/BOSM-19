@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
+import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
 import com.dvm.appd.bosm.dbg.elas.view.adapter.ElasQuestionsAdapter
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasViewModel
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fra_elas_fragment.*
 
 class ELASFragment : Fragment() {
@@ -31,15 +34,34 @@ class ELASFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initializeView()
-        elasViewModel.questions.observe(this, Observer {
+        elasViewModel.uiState.observe(this, Observer {
+            when(it!!) {
+                UIStateElas.Loading -> {
+                    progress_fra_elas.visibility = View.VISIBLE
+                    activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                }
+                is UIStateElas.Failure -> {
+                    progress_fra_elas.visibility = View.INVISIBLE
+                    activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    Snackbar.make(view, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE).show()
+                }
+                is UIStateElas.Questions -> {
+                    progress_fra_elas.visibility = View.INVISIBLE
+                    activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = (it as UIStateElas.Questions).questions
+                    (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
+                }
+            }
+        })
+        /*elasViewModel.questions.observe(this, Observer {
             Log.d(TAG, "Entered Observer with ${it.toString()}")
             (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = it
             (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
-        })
+        })*/
     }
 
     private fun initializeView() {
-        var recycler = view!!.findViewById<RecyclerView>(R.id.recycler_elasFrag_questions)
+        val recycler = view!!.findViewById<RecyclerView>(R.id.recycler_elasFrag_questions)
         recycler.adapter = ElasQuestionsAdapter()
     }
 }
