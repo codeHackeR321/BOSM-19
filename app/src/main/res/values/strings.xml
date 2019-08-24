@@ -54,6 +54,9 @@
     <string name="title_more_fragment">More</string>
     <string name="hello_blank_fragment">Hello Blank Fragment</string>
 
+    <string name="bttn_elasFragQuestions_Submit">Submit Answer</string>
+    <string name="bttn_elasFragQuestions_Leaderboard">View Leaderboard</string>
+
     <string name="link_EPC">https://epcbits.wordpress.com/</string>
     <string name="link_Sponsors">https://bits-apogee.org/sponsors.html</string>
     <string name="link_HPC">http://hpconline-bits.weebly.com/</string>
