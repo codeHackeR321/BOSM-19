@@ -92,8 +92,12 @@ class EventsRepository (val eventsDao: EventsDao){
 
     }
 
-    fun getMiscEvents(): Flowable<List<MiscEventsData>>{
-        return eventsDao.getMiscEvents().subscribeOn(Schedulers.io())
+    fun miscEventDays(): Flowable<List<String>>{
+        return eventsDao.getMiscDays().subscribeOn(Schedulers.io())
+    }
+
+    fun getDayMiscEvents(day: String): Flowable<List<MiscEventsData>>{
+        return eventsDao.getDayMiscEvents(day).subscribeOn(Schedulers.io())
     }
 
     fun getSportData(name:String): Single<List<SportsData>> {
@@ -101,7 +105,6 @@ class EventsRepository (val eventsDao: EventsDao){
     }
 
     fun getGenderForSport(name: String):Single<List<String>>{
-
         return eventsDao.getDistinctGenderForSport(name).subscribeOn(Schedulers.io())
     }
 
@@ -192,7 +195,7 @@ class EventsRepository (val eventsDao: EventsDao){
                 Log.d("Sports", "Data Saved")
             }
             .doOnError {
-                Log.d("Sports","Data Not Saved")
+                Log.d("Sports","Data Not Saved$it")
             }
     }
 

@@ -22,7 +22,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
 
 
     var sportData: List<SportsData> = emptyList()
-    var genderSelected=""
+   // var genderSelected=""
 
     /* interface OnMarkFavouriteClicked{
          fun updateIsFavourite(eventId: String, favouriteMark: Int)

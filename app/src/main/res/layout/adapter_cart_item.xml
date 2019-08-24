@@ -8,7 +8,7 @@
 
     <TextView
             android:text="TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/itemName"
             android:textColor="#242424"
             android:fontFamily="Circular Std Book"
@@ -16,18 +16,20 @@
             tools:layout_conversion_absoluteWidth="411dp"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="4dp"
             android:textSize="22sp"
-            android:textAlignment="center" app:layout_constraintStart_toEndOf="@+id/isVeg"
-            android:layout_marginStart="16dp"/>
+            android:textAlignment="viewStart" app:layout_constraintStart_toEndOf="@+id/isVeg"
+            android:layout_marginStart="16dp" android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/minus"/>
     <TextView
             android:text="TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/vendor"
             android:fontFamily="Circular Std Book"
             android:textColor="#7E242424"
             android:textSize="18sp" android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@+id/itemName"
-            app:layout_constraintStart_toEndOf="@+id/isVeg" android:layout_marginStart="16dp"/>
+            app:layout_constraintStart_toEndOf="@+id/isVeg" android:layout_marginStart="16dp"
+            android:layout_marginEnd="32dp" app:layout_constraintEnd_toStartOf="@+id/minus"/>
 
     <Button
             android:text="+"
@@ -68,7 +70,7 @@
             app:layout_constraintTop_toTopOf="@+id/plus" app:layout_constraintBottom_toBottomOf="@+id/plus"/>
     <TextView
             android:text="TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/price" android:textSize="18sp"
             android:textColor="#242424"
@@ -77,7 +79,8 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintTop_toBottomOf="@+id/vendor" android:layout_marginTop="4dp"
             app:layout_constraintVertical_bias="0.0" app:layout_constraintStart_toEndOf="@+id/isVeg"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="16dp" android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toStartOf="@+id/minus"/>
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@color/colorGreen"

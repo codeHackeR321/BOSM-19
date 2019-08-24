@@ -11,22 +11,35 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
     var miscEvents: LiveData<List<MiscEventsData>> = MutableLiveData()
+    var eventDays: LiveData<List<String>> = MutableLiveData()
 
     init {
 
-        eventsRepository.getMiscEvents()
-        .doOnNext {
-            Log.d("MiscEventVM", it.toString())
-            (miscEvents as MutableLiveData).postValue(it)
-        }
-        .doOnError {
-            Log.d("MiscEventVM", it.toString())
-        }
-        .subscribe()
+        eventsRepository.miscEventDays()
+            .doOnNext {
+                Log.d("MiscEventVM", it.toString())
+                (eventDays as MutableLiveData).postValue(it)
+            }
+            .doOnError {
+                Log.d("MiscEventVM", it.toString())
+            }
+            .subscribe()
 
     }
 
     fun markEventFavourite(eventId: String, favouriteMark: Int){
         eventsRepository.updateFavourite(eventId, favouriteMark).subscribe()
+    }
+
+    fun getMiscEventsData(day: String){
+        eventsRepository.getDayMiscEvents(day)
+            .doOnNext {
+                Log.d("MiscEventVM", it.toString())
+                (miscEvents as MutableLiveData).postValue(it)
+            }
+            .doOnError {
+                Log.d("MiscEventVM", it.toString())
+            }
+            .subscribe()
     }
 }

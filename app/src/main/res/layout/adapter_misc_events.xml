@@ -12,49 +12,50 @@
             android:layout_height="wrap_content"
             android:id="@+id/eventName" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:textSize="24sp" android:textAlignment="center"/>
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:textSize="24sp" android:textAlignment="center" android:textColor="@color/colorBlack"/>
     <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/eventDesc" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/eventDesc"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/eventName" android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp" android:textAlignment="center"/>
+            app:layout_constraintTop_toBottomOf="@+id/eventName"
+            android:layout_marginStart="24dp" android:textAlignment="center"/>
     <TextView
             android:text="TextView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/eventOrg"
             android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/eventDesc"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/eventTime" android:layout_marginEnd="8dp"/>
+            android:textColor="#6851DA"/>
     <TextView
             android:text="TextView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/eventTime" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/eventDesc" app:layout_constraintEnd_toStartOf="@+id/eventVenue"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/eventOrg"
-            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:id="@+id/eventTime"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintTop_toBottomOf="@+id/eventDesc"
+            android:layout_marginTop="16dp" android:textColor="#6851DA"/>
     <TextView
             android:text="TextView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/eventVenue" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/eventDesc" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/eventVenue"
+            app:layout_constraintEnd_toStartOf="@+id/eventTime"
             android:layout_marginEnd="16dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintStart_toEndOf="@+id/eventTime"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginBottom="8dp" app:layout_constraintTop_toBottomOf="@+id/eventDesc"
+            android:layout_marginTop="16dp" android:textColor="#6851DA"/>
     <Button
             android:text="1"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/markFav" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:textStyle="bold" android:textAlignment="center" android:textSize="18sp"/>
+            android:textStyle="bold" android:textAlignment="center" android:textSize="18sp"
+            android:textColor="#6851DA"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
