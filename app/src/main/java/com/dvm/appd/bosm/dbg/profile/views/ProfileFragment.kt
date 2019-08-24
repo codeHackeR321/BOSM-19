@@ -42,6 +42,9 @@ class ProfileFragment : Fragment() {
         rootView.logout.setOnClickListener {
              profileViewModel.logout()
         }
+        profileViewModel.balance.observe(this, Observer {
+            rootView.balance.text = it!!
+        })
    rootView.AddBtn.setOnClickListener {
        it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
    }

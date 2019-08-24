@@ -10,6 +10,7 @@ import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
 import com.dvm.appd.bosm.dbg.shared.BaseInterceptor
+import com.dvm.appd.bosm.dbg.shared.MoneyTracker
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
@@ -23,10 +24,16 @@ import javax.inject.Singleton
 
 @Module
 class AppModule(private val application: Application) {
+
     @Provides
     @Singleton
-    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao,authRepository: AuthRepository): WalletRepository {
-        return WalletRepository(walletService,walletDao,authRepository)
+    fun providesMoneyTracker(authRepository: AuthRepository):MoneyTracker{
+        return MoneyTracker(authRepository)
+    }
+    @Provides
+    @Singleton
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao,authRepository: AuthRepository,moneyTracker: MoneyTracker): WalletRepository {
+        return WalletRepository(walletService,walletDao,authRepository,moneyTracker)
     }
 
     @Provides
