@@ -33,8 +33,9 @@ class AppModule(private val application: Application) {
     }
     @Provides
     @Singleton
-    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao,authRepository: AuthRepository,moneyTracker: MoneyTracker,networkChecker: NetworkChecker): WalletRepository {
-        return WalletRepository(walletService,walletDao,authRepository,moneyTracker,networkChecker)
+
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker,networkChecker: NetworkChecker,sharedPreferences: SharedPreferences): WalletRepository {
+        return WalletRepository(walletService,walletDao,authRepository,moneyTracker,networkChecker,sharedPreferences)
     }
 
     @Provides
@@ -56,7 +57,7 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun providesAuthRepository(authService: AuthService,sharedPreferences: SharedPreferences):AuthRepository{
+    fun providesAuthRepository(authService: AuthService, sharedPreferences: SharedPreferences):AuthRepository{
         return AuthRepository(authService,sharedPreferences)
     }
 

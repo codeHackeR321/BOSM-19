@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.di.wallet
 
+import android.content.SharedPreferences
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
@@ -11,6 +12,5 @@ import javax.inject.Singleton
 
 @Module
 class WalletModule {
-
 
 }
