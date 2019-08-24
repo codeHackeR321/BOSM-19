@@ -4,6 +4,7 @@ import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.profile.views.AddMoneyResult
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker
+import com.dvm.appd.bosm.dbg.shared.NetworkChecker
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
@@ -27,7 +28,8 @@ class WalletRepository(
     val walletService: WalletService,
     val walletDao: WalletDao,
     val authRepository: AuthRepository,
-    val moneyTracker: MoneyTracker
+    val moneyTracker: MoneyTracker,
+    val networkChecker: NetworkChecker
 ) {
 
 
@@ -50,10 +52,10 @@ class WalletRepository(
             }
     }
 
-    fun fetchAllStalls(): Single<StallResult> {
+    fun fetchAllStalls(): Completable {
         Log.d("check", "called")
         return walletService.getAllStalls()
-            .flatMap { response ->
+            .doOnSuccess { response ->
                 Log.d("check", response.body().toString())
                 Log.d("checkfetch", response.code().toString())
                 when (response.code()) {
@@ -69,36 +71,14 @@ class WalletRepository(
                         walletDao.deleteAllStallItems()
                         walletDao.insertAllStalls(stallList)
                         walletDao.insertAllStallItems(itemList)
-                        Single.just(StallResult.Success)
 
                     }
-
-                    400 -> {
-                        throw Exception("400")
-                    }
-
-                    401 -> {
-                        throw Exception("401")
-                    }
-
-                    403 -> {
-                        throw Exception("403")
-                    }
-
-                    404 -> {
-                        throw Exception("404")
-                    }
-
-                    412 -> {
-                        throw Exception("412")
-                    }
-
                     else -> {
-                        Log.d("checke", response.body().toString())
-                        Single.just(StallResult.Failure)
+                        Log.d("checke", response.errorBody()!!.string())
                     }
                 }
-            }.doOnError {
+            }.ignoreElement()
+            .doOnError {
                 Log.d("checke", it.message)
             }.subscribeOn(Schedulers.io())
 
@@ -106,9 +86,18 @@ class WalletRepository(
 
     fun getAllStalls(): Observable<List<StallData>> {
         Log.d("check", "calledg")
-        return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
+
+        if (networkChecker.isConnected() == false) {
+            return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
+                .doOnError {
+                    Log.d("checkre", it.toString())
+                }
+        }
+
+        return fetchAllStalls().andThen(walletDao.getAllStalls().toObservable())
+            .subscribeOn(Schedulers.io())
             .doOnError {
-                Log.d("checkre", it.toString())
+                Log.d("checke", it.toString())
             }
     }
 
