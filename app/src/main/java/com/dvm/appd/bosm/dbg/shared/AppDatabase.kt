@@ -13,7 +13,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 
 @Database(entities = [StallData::class,StallItemsData::class, MiscEventsData::class,
-    OrderItemsData::class, OrderData::class, CartData::class, QuestionData::class, OptionData::class, SportsData::class],version = 1)
+    OrderItemsData::class, OrderData::class, CartData::class, QuestionData::class, OptionData::class, SportsData::class],version = 3)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun walletDao(): WalletDao

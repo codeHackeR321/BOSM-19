@@ -21,4 +21,8 @@ interface WalletService {
 
     @POST("wallet/orders/make_otp_seen")
     fun makeOtpSeen(@Header("Authorization") jwt: String, @Body body: JsonObject): Single<Response<Unit>>
+
+    @POST("wallet/monetary/add/swd")
+    fun addMoneyBitsian(@Header("Authorization")jwt:String, @Body body:JsonObject):Single<Response<Unit>>
+
 }

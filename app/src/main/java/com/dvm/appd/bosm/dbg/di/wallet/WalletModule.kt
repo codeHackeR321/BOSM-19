@@ -13,18 +13,4 @@ import javax.inject.Singleton
 @Module
 class WalletModule {
 
-    @Provides
-    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, sharedPreferences: SharedPreferences): WalletRepository {
-        return WalletRepository(walletService, walletDao, sharedPreferences)
-    }
-
-    @Provides
-    fun providesWalletDao(appDatabase: AppDatabase): WalletDao {
-        return appDatabase.walletDao()
-    }
-
-    @Provides
-    fun providesWalletService(retrofit: Retrofit): WalletService {
-        return retrofit.create(WalletService::class.java)
-    }
 }

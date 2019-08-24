@@ -3,6 +3,8 @@ package com.dvm.appd.bosm.dbg.wallet.data.repo
 import android.content.SharedPreferences
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
+import com.dvm.appd.bosm.dbg.profile.views.AddMoneyResult
+import com.dvm.appd.bosm.dbg.shared.MoneyTracker
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
@@ -11,9 +13,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
-
 import com.google.firebase.firestore.FirebaseFirestore
-
 import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -22,8 +22,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
-class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val sharedPreferences: SharedPreferences) {
-
+class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val sharedPreferences: SharedPreferences) {
 
     // To be implemented after profile (when userId available)
     init {
@@ -33,15 +32,15 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         db.collection("orders").whereEqualTo("userid", 2)
             .addSnapshotListener { snapshot, exception ->
 
-            if (exception != null){
-                Log.e("WalletRepo", "Listen Failed", exception)
-                return@addSnapshotListener
+                if (exception != null) {
+                    Log.e("WalletRepo", "Listen Failed", exception)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    Log.d("WalletRepo", "Firebase $snapshot")
+                    updateOrders().subscribe()
+                }
             }
-            if (snapshot != null){
-                Log.d("WalletRepo", "Firebase $snapshot")
-                updateOrders().subscribe()
-            }
-        }
     }
 
     fun fetchAllStalls(): Single<StallResult> {
@@ -49,7 +48,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletService.getAllStalls()
             .flatMap { response ->
                 Log.d("check", response.body().toString())
-                Log.d("checkfetch",response.code().toString())
+                Log.d("checkfetch", response.code().toString())
                 when (response.code()) {
                     200 -> {
                         var stallList: List<StallData> = emptyList()
@@ -58,7 +57,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             stallList = stallList.plus(stall.toStallData())
                             itemList = itemList.plus(stall.toStallItemsData())
                         }
-                        Log.d("checkwmr",itemList.toString())
+                        Log.d("checkwmr", itemList.toString())
                         walletDao.deleteAllStalls()
                         walletDao.deleteAllStallItems()
                         walletDao.insertAllStalls(stallList)
@@ -87,8 +86,10 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         throw Exception("412")
                     }
 
-                    else -> {Log.d("checke", response.body().toString())
-                       Single.just(StallResult.Failure)}
+                    else -> {
+                        Log.d("checke", response.body().toString())
+                        Single.just(StallResult.Failure)
+                    }
                 }
             }.doOnError {
                 Log.d("checke", it.message)
@@ -100,11 +101,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         Log.d("check", "calledg")
         return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
             .doOnError {
-                Log.d("checkre",it.toString())
+                Log.d("checkre", it.toString())
             }
     }
 
-    fun getItemsForStall(stallId: Int): Flowable<List<ModifiedStallItemsData>>{
+    fun getItemsForStall(stallId: Int): Flowable<List<ModifiedStallItemsData>> {
 
         return walletDao.getModifiedStallItemsById(stallId, true)
             .doOnError {
@@ -122,7 +123,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         var itemList: List<StallItemsData> = emptyList()
 
         items.forEach {
-            itemList = itemList.plus(StallItemsData(it.itemId, it.itemName, it.stallId, it.price, it.isAvailable, it.isVeg))
+            itemList =
+                itemList.plus(StallItemsData(it.itemId, it.itemName, it.stallId, it.price, it.isAvailable, it.isVeg))
         }
         return itemList
     }
@@ -180,28 +182,46 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .subscribeOn(Schedulers.io())
     }
 
-    private fun AllOrdersPojo.toOrderData(): List<OrderData>{
+    private fun AllOrdersPojo.toOrderData(): List<OrderData> {
 
         var orderData: MutableList<OrderData> = arrayListOf()
         orders.forEach {
-            orderData.add(OrderData(orderId = it.id, otp = it.otp, otpSeen = it.otpSeen, status = it.status, price = it.price, vendor = it.vendor.vendorName))
+            orderData.add(
+                OrderData(
+                    orderId = it.id,
+                    otp = it.otp,
+                    otpSeen = it.otpSeen,
+                    status = it.status,
+                    price = it.price,
+                    vendor = it.vendor.vendorName
+                )
+            )
         }
         return orderData
     }
 
-    private fun AllOrdersPojo.toOrderItemsData(): List<OrderItemsData>{
+    private fun AllOrdersPojo.toOrderItemsData(): List<OrderItemsData> {
 
         var orderItemsData: MutableList<OrderItemsData> = arrayListOf()
         orders.forEach {
             it.items.forEach { orderItemsPojo ->
-                orderItemsData.add(OrderItemsData(itemName = orderItemsPojo.itemName, itemId = orderItemsPojo.itemId, quantity = orderItemsPojo.quantity, price = orderItemsPojo.price, orderId = it.id, id = 0))
+                orderItemsData.add(
+                    OrderItemsData(
+                        itemName = orderItemsPojo.itemName,
+                        itemId = orderItemsPojo.itemId,
+                        quantity = orderItemsPojo.quantity,
+                        price = orderItemsPojo.price,
+                        orderId = it.id,
+                        id = 0
+                    )
+                )
             }
         }
 
         return orderItemsData
     }
 
-    fun getAllOrders(): Flowable<List<ModifiedOrdersData>>{
+    fun getAllOrders(): Flowable<List<ModifiedOrdersData>> {
 
         return walletDao.getOrdersData().subscribeOn(Schedulers.io())
             .flatMap {
@@ -209,21 +229,44 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 var ordersList: MutableList<ModifiedOrdersData> = arrayListOf()
                 var itemsList: MutableList<ModifiedItemsData> = arrayListOf()
 
-                for ((index, item) in it.listIterator().withIndex()){
+                for ((index, item) in it.listIterator().withIndex()) {
 
-                    itemsList.add(ModifiedItemsData(itemName = item.itemName, itemId = item.itemId,
-                        quantity = item.quantity, price = item.price))
+                    itemsList.add(
+                        ModifiedItemsData(
+                            itemName = item.itemName, itemId = item.itemId,
+                            quantity = item.quantity, price = item.price
+                        )
+                    )
 
-                    if (index != it.lastIndex && it[index].orderId != it[index + 1].orderId){
+                    if (index != it.lastIndex && it[index].orderId != it[index + 1].orderId) {
 
-                        ordersList.add(ModifiedOrdersData(orderId = item.orderId, otp = item.otp, otpSeen = item.otpSeen
-                            , status = item.status, totalPrice = item.totalPrice, vendor = item.vendor, items = itemsList))
+                        ordersList.add(
+                            ModifiedOrdersData(
+                                orderId = item.orderId,
+                                otp = item.otp,
+                                otpSeen = item.otpSeen
+                                ,
+                                status = item.status,
+                                totalPrice = item.totalPrice,
+                                vendor = item.vendor,
+                                items = itemsList
+                            )
+                        )
 
                         itemsList = arrayListOf()
-                    }
-                    else if (index == it.lastIndex){
-                        ordersList.add(ModifiedOrdersData(orderId = item.orderId, otp = item.otp, otpSeen = item.otpSeen
-                            , status = item.status, totalPrice = item.totalPrice, vendor = item.vendor, items = itemsList))
+                    } else if (index == it.lastIndex) {
+                        ordersList.add(
+                            ModifiedOrdersData(
+                                orderId = item.orderId,
+                                otp = item.otp,
+                                otpSeen = item.otpSeen
+                                ,
+                                status = item.status,
+                                totalPrice = item.totalPrice,
+                                vendor = item.vendor,
+                                items = itemsList
+                            )
+                        )
 
                         itemsList = arrayListOf()
                     }
@@ -234,15 +277,15 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
-    fun insertCartItems(cartItem: CartData): Completable{
+    fun insertCartItems(cartItem: CartData): Completable {
         return walletDao.insertCartItems(cartItem).subscribeOn(Schedulers.io())
     }
 
-    fun deleteCartItem(itemId: Int): Completable{
+    fun deleteCartItem(itemId: Int): Completable {
         return walletDao.deleteCartItem(itemId).subscribeOn(Schedulers.io())
     }
 
-    fun placeOrder(): Completable{
+    fun placeOrder(): Completable {
 
         return walletDao.getAllCartItems().subscribeOn(Schedulers.io())
             .firstOrError()
@@ -251,11 +294,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 var orderJsonObject = JsonObject()
                 var orders = JsonObject()
                 var items: MutableList<Pair<Int, Int>> = arrayListOf()
-                for ((index, item) in it.listIterator().withIndex()){
+                for ((index, item) in it.listIterator().withIndex()) {
 
                     items.add(Pair(item.itemId, item.quantity))
 
-                    if (index != it.lastIndex  &&  it[index].vendorId != it[index + 1].vendorId){
+                    if (index != it.lastIndex && it[index].vendorId != it[index + 1].vendorId) {
 
                         orders.add("${it[index].vendorId}", JsonObject().also {
                             items.forEach { pair ->
@@ -264,8 +307,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         })
 
                         items = arrayListOf()
-                    }
-                    else if (index == it.lastIndex){
+                    } else if (index == it.lastIndex) {
 
                         orders.add("${it[index].vendorId}", JsonObject().also {
                             items.forEach { pair ->
@@ -286,7 +328,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@flatMapCompletable walletService.placeOrder("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
-                        when(response.code()){
+                        when (response.code()) {
 
                             200 -> {
                                 walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
@@ -330,11 +372,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletDao.getAllModifiedCartItems().subscribeOn(Schedulers.io())
     }
 
-    fun updateCartItems(itemId: Int, quantity: Int): Completable{
+    fun updateCartItems(itemId: Int, quantity: Int): Completable {
         return walletDao.updateCartItem(quantity, itemId).subscribeOn(Schedulers.io())
     }
 
-    fun updateOtpSeen(orderId: Int): Completable{
+    fun updateOtpSeen(orderId: Int): Completable {
 
         val body = JsonObject().also {
             it.addProperty("order_id", orderId)
@@ -343,7 +385,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletService.makeOtpSeen("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
-                when(response.code()){
+                when (response.code()) {
 
                     200 -> {
 
@@ -375,5 +417,37 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
             }
             .ignoreElement()
+    }
+
+    fun addMoneyBitsian(amount: Int): Single<AddMoneyResult> {
+
+        val body = JsonObject().also {
+            it.addProperty("amount", amount)
+        }
+
+        Log.d("check", body.toString())
+
+        return authRepository.getUser()
+            .toSingle()
+            .flatMap {
+                walletService.addMoneyBitsian("JWT ${it.jwt}", body).map {
+                    Log.d("check", it.code().toString())
+
+                    when (it.code()) {
+                        200 -> AddMoneyResult.Success
+                        in 400..499 -> AddMoneyResult.Failure(it.errorBody()!!.string())
+                        else -> AddMoneyResult.Failure("Something went wrong!!")
+                    }
+                }.doOnError {
+                    Log.d("checke", it.toString())
+                }
+            }.subscribeOn(Schedulers.io())
+
+    }
+
+    fun getBalance(): Flowable<Int> {
+        return moneyTracker.getBalance().doOnError {
+            Log.d("checke", it.toString())
+        }
     }
 }
