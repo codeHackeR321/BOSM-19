@@ -1,6 +1,8 @@
 package com.dvm.appd.bosm.dbg.wallet.data.repo
 
+import android.content.SharedPreferences
 import android.util.Log
+import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
@@ -20,7 +22,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
-class WalletRepository(val walletService: WalletService, val walletDao: WalletDao) {
+class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val sharedPreferences: SharedPreferences) {
 
 
     // To be implemented after profile (when userId available)
@@ -126,7 +128,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     private fun updateOrders(): Completable{
-        return walletService.getAllOrders()
+        return walletService.getAllOrders("JWT ${sharedPreferences.getString("JWT", null)}")
             .doOnSuccess {response ->
                 when(response.code()){
                     200 -> {
@@ -281,7 +283,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@map orderJsonObject
             }
             .flatMapCompletable {body ->
-                return@flatMapCompletable walletService.placeOrder(body).subscribeOn(Schedulers.io())
+                return@flatMapCompletable walletService.placeOrder("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
                         when(response.code()){
@@ -338,7 +340,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             it.addProperty("order_id", orderId)
         }
 
-        return walletService.makeOtpSeen(body).subscribeOn(Schedulers.io())
+        return walletService.makeOtpSeen("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
                 when(response.code()){

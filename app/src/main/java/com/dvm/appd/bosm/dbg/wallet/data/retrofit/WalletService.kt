@@ -14,14 +14,11 @@ interface WalletService {
     fun getAllStalls():Single<Response<List<StallsPojo>>>
 
     @GET("wallet/orders")
-    @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFwcGQiLCJleHAiOjE1NjY4ODc1NTgsImVtYWlsIjoiIn0.4rTDztFegM-cRSRE9-pRR3mj0kWGDintUUXAhrAST7E")
-    fun getAllOrders(): Single<Response<List<AllOrdersPojo>>>
+    fun getAllOrders(@Header("Authorization") jwt: String): Single<Response<List<AllOrdersPojo>>>
 
     @POST("wallet/orders")
-    @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFwcGQiLCJleHAiOjE1NjY4ODc1NTgsImVtYWlsIjoiIn0.4rTDztFegM-cRSRE9-pRR3mj0kWGDintUUXAhrAST7E")
-    fun placeOrder(@Body body: JsonObject): Single<Response<AllOrdersPojo>>
+    fun placeOrder(@Header("Authorization") jwt: String, @Body body: JsonObject): Single<Response<AllOrdersPojo>>
 
     @POST("wallet/orders/make_otp_seen")
-    @Headers("Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFwcGQiLCJleHAiOjE1NjY4ODc1NTgsImVtYWlsIjoiIn0.4rTDztFegM-cRSRE9-pRR3mj0kWGDintUUXAhrAST7E")
-    fun makeOtpSeen(@Body body: JsonObject): Single<Response<Unit>>
+    fun makeOtpSeen(@Header("Authorization") jwt: String, @Body body: JsonObject): Single<Response<Unit>>
 }
