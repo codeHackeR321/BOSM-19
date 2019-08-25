@@ -449,4 +449,8 @@ class WalletRepository(
             Log.d("checke", it.toString())
         }
     }
+
+    fun transferMoney(){
+
+    }
 }
