@@ -24,6 +24,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dia_wallet_add_money.view.*
 import kotlinx.android.synthetic.main.fra_profile.view.*
 
 class ProfileFragment : Fragment() {
@@ -41,7 +42,12 @@ class ProfileFragment : Fragment() {
         rootView.logout.setOnClickListener {
              profileViewModel.logout()
         }
-
+        profileViewModel.balance.observe(this, Observer {
+            rootView.balance.text = it!!
+        })
+   rootView.AddBtn.setOnClickListener {
+       it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
+   }
         rootView.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }

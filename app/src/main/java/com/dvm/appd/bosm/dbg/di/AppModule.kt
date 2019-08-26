@@ -10,6 +10,7 @@ import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
 import com.dvm.appd.bosm.dbg.shared.BaseInterceptor
+import com.dvm.appd.bosm.dbg.shared.MoneyTracker
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
@@ -26,7 +27,30 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun providesAuthRepository(authService: AuthService,sharedPreferences: SharedPreferences):AuthRepository{
+    fun providesMoneyTracker(authRepository: AuthRepository):MoneyTracker{
+        return MoneyTracker(authRepository)
+    }
+    @Provides
+    @Singleton
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker, sharedPreferences: SharedPreferences): WalletRepository {
+        return WalletRepository(walletService,walletDao,authRepository,moneyTracker, sharedPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun providesWalletDao(appDatabase: AppDatabase): WalletDao {
+        return appDatabase.walletDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesWalletService(retrofit: Retrofit): WalletService {
+        return retrofit.create(WalletService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesAuthRepository(authService: AuthService, sharedPreferences: SharedPreferences):AuthRepository{
         return AuthRepository(authService,sharedPreferences)
     }
 
@@ -52,6 +76,7 @@ class AppModule(private val application: Application) {
     @Singleton
     fun providesAppDatabase(application: Application): AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, "bosm.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 

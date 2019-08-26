@@ -1,5 +1,7 @@
 package com.dvm.appd.bosm.dbg.di.profile
 
+
+import com.dvm.appd.bosm.dbg.profile.viewmodel.AddMoneyViewModelFactory
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModelFactory
 import dagger.Subcomponent
 
@@ -8,4 +10,5 @@ import dagger.Subcomponent
 interface ProfileComponent {
 
     fun inject(factory:ProfileViewModelFactory)
+    fun inject(factory:AddMoneyViewModelFactory)
 }

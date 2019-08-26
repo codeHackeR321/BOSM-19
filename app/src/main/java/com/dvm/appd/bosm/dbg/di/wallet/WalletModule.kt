@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.di.wallet
 
+import android.content.SharedPreferences
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
@@ -12,18 +13,4 @@ import javax.inject.Singleton
 @Module
 class WalletModule {
 
-    @Provides
-    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao): WalletRepository {
-        return WalletRepository(walletService,walletDao)
-    }
-
-    @Provides
-    fun providesWalletDao(appDatabase: AppDatabase): WalletDao {
-        return appDatabase.walletDao()
-    }
-
-    @Provides
-    fun providesWalletService(retrofit: Retrofit): WalletService {
-        return retrofit.create(WalletService::class.java)
-    }
 }

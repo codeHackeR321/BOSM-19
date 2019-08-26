@@ -52,7 +52,9 @@
     <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
               android:label="FragmentWebPage"/>
     <fragment android:id="@+id/action_profile" android:name="com.dvm.appd.bosm.dbg.profile.views.ProfileFragment"
-              android:label="ProfileFragment"/>
+              android:label="ProfileFragment">
+        <action android:id="@+id/action_action_profile_to_addMoneyDialog" app:destination="@id/addMoneyDialog"/>
+    </fragment>
     <activity android:id="@+id/loginOutsteeActivity"
               android:name="com.dvm.appd.bosm.dbg.auth.views.LoginOutsteeActivity"
               android:label="LoginOutsteeFragment"/>
@@ -60,7 +62,12 @@
               android:label="fra_auth" tools:layout="@layout/activity_auth"/>
     <fragment android:id="@+id/fragmentRecyclerView" android:name="com.dvm.appd.bosm.dbg.more.FragmentRecyclerView"
               android:label="FragmentRecyclerView"/>
+
     <fragment android:id="@+id/ELASQuestionFragment" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASQuestionFragment"
               android:label="ELASQuestionFragment"/>
+
+    <dialog android:id="@+id/addMoneyDialog" android:name="com.dvm.appd.bosm.dbg.profile.views.AddMoneyDialog"
+              android:label="AddMoneyDialog"/>
+
 
 </navigation>
