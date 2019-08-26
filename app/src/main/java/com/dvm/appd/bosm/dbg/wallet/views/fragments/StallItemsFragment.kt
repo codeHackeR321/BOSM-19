@@ -45,6 +45,16 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
             (rootView.items_recycler.adapter as StallItemsAdapter).notifyDataSetChanged()
         })
 
+        stallItemsViewModel.cartItems.observe(this, Observer {
+
+            if(it.isNotEmpty()){
+                rootView
+            }
+            else{
+                rootView
+            }
+        })
+
         rootView.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }

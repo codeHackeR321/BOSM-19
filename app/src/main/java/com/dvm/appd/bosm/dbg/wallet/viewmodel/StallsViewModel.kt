@@ -17,18 +17,17 @@ class StallsViewModel(val walletRepository: WalletRepository):ViewModel() {
 
   init{
       (result as MutableLiveData).postValue(StallResult.Failure)
-      walletRepository.fetchAllStalls().observeOn(AndroidSchedulers.mainThread()).subscribe({Result ->
-          walletRepository.getAllStalls().subscribe{
-                  Log.d("check", it.toString())
-                  (stalls as MutableLiveData).postValue(it)
-              (result as MutableLiveData).postValue(Result)
-              }
-          },
-          {
-              Log.d("check", it.message)
-              (error as MutableLiveData).postValue(it.message)
-          }
-      )
+
+      walletRepository.getAllStalls().subscribe({
+          Log.d("check", it.toString())
+          (stalls as MutableLiveData).postValue(it)
+          (result as MutableLiveData).postValue(StallResult.Success)
+      },{
+          Log.d("check", it.message)
+          (error as MutableLiveData).postValue(it.message)
+      })
+
   }
+
 
 }

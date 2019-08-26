@@ -1,10 +1,10 @@
 package com.dvm.appd.bosm.dbg.wallet.data.repo
 
-import android.content.SharedPreferences
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
-import com.dvm.appd.bosm.dbg.profile.views.AddMoneyResult
+import com.dvm.appd.bosm.dbg.profile.views.TransactionResult
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker
+import com.dvm.appd.bosm.dbg.shared.NetworkChecker
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
@@ -12,7 +12,6 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
-import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.JsonObject
 import io.reactivex.Completable
@@ -22,14 +21,16 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
-class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val sharedPreferences: SharedPreferences) {
+class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
 
-    // To be implemented after profile (when userId available)
+    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
+    private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
+    // To be implemented after profile (when userId available)  sharedPreferences.getString("ID", "1")?.toInt()
     init {
 
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("orders").whereEqualTo("userid", 2)
+        db.collection("orders").whereEqualTo("userid", userId.blockingGet())
             .addSnapshotListener { snapshot, exception ->
 
                 if (exception != null) {
@@ -43,10 +44,10 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
-    fun fetchAllStalls(): Single<StallResult> {
+    fun fetchAllStalls(): Completable {
         Log.d("check", "called")
         return walletService.getAllStalls()
-            .flatMap { response ->
+            .doOnSuccess { response ->
                 Log.d("check", response.body().toString())
                 Log.d("checkfetch", response.code().toString())
                 when (response.code()) {
@@ -62,36 +63,14 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         walletDao.deleteAllStallItems()
                         walletDao.insertAllStalls(stallList)
                         walletDao.insertAllStallItems(itemList)
-                        Single.just(StallResult.Success)
 
                     }
-
-                    400 -> {
-                        throw Exception("400")
-                    }
-
-                    401 -> {
-                        throw Exception("401")
-                    }
-
-                    403 -> {
-                        throw Exception("403")
-                    }
-
-                    404 -> {
-                        throw Exception("404")
-                    }
-
-                    412 -> {
-                        throw Exception("412")
-                    }
-
                     else -> {
-                        Log.d("checke", response.body().toString())
-                        Single.just(StallResult.Failure)
+                        Log.d("checke", response.errorBody()!!.string())
                     }
                 }
-            }.doOnError {
+            }.ignoreElement()
+            .doOnError {
                 Log.d("checke", it.message)
             }.subscribeOn(Schedulers.io())
 
@@ -99,9 +78,18 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun getAllStalls(): Observable<List<StallData>> {
         Log.d("check", "calledg")
-        return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
+
+        if (networkChecker.isConnected() == false) {
+            return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
+                .doOnError {
+                    Log.d("checkre", it.toString())
+                }
+        }
+
+        return fetchAllStalls().andThen(walletDao.getAllStalls().toObservable())
+            .subscribeOn(Schedulers.io())
             .doOnError {
-                Log.d("checkre", it.toString())
+                Log.d("checke", it.toString())
             }
     }
 
@@ -130,7 +118,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     private fun updateOrders(): Completable{
-        return walletService.getAllOrders("JWT ${sharedPreferences.getString("JWT", null)}")
+        return walletService.getAllOrders(jwt.blockingGet().toString())
             .doOnSuccess {response ->
                 when(response.code()){
                     200 -> {
@@ -277,6 +265,29 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
+    fun getOrderById(orderId: Int): Flowable<ModifiedOrdersData>{
+        return walletDao.getOrderById(orderId).subscribeOn(Schedulers.io())
+            .flatMap {
+
+                var order: ModifiedOrdersData
+                var itemsList: MutableList<ModifiedItemsData> = arrayListOf()
+
+                it.forEach{item ->
+
+                    itemsList.add(
+                        ModifiedItemsData(
+                            itemName = item.itemName, itemId = item.itemId,
+                            quantity = item.quantity, price = item.price
+                        )
+                    )
+                }
+
+                order = ModifiedOrdersData(it.last().orderId, it.last().otp, it.last().otpSeen, it.last().status, it.last().totalPrice, it.last().vendor, itemsList)
+
+                return@flatMap Flowable.just(order)
+            }
+    }
+
     fun insertCartItems(cartItem: CartData): Completable {
         return walletDao.insertCartItems(cartItem).subscribeOn(Schedulers.io())
     }
@@ -325,7 +336,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@map orderJsonObject
             }
             .flatMapCompletable {body ->
-                return@flatMapCompletable walletService.placeOrder("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
+                return@flatMapCompletable walletService.placeOrder(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
                         when (response.code()) {
@@ -382,7 +393,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             it.addProperty("order_id", orderId)
         }
 
-        return walletService.makeOtpSeen("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
+        return walletService.makeOtpSeen(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
                 when (response.code()) {
@@ -419,7 +430,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .ignoreElement()
     }
 
-    fun addMoneyBitsian(amount: Int): Single<AddMoneyResult> {
+    fun addMoneyBitsian(amount: Int): Single<TransactionResult> {
 
         val body = JsonObject().also {
             it.addProperty("amount", amount)
@@ -430,13 +441,13 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return authRepository.getUser()
             .toSingle()
             .flatMap {
-                walletService.addMoneyBitsian("JWT ${it.jwt}", body).map {
+                walletService.addMoneyBitsian("jwt ${it.jwt}", body).map {
                     Log.d("check", it.code().toString())
 
                     when (it.code()) {
-                        200 -> AddMoneyResult.Success
-                        in 400..499 -> AddMoneyResult.Failure(it.errorBody()!!.string())
-                        else -> AddMoneyResult.Failure("Something went wrong!!")
+                        200 -> TransactionResult.Success
+                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        else -> TransactionResult.Failure("Something went wrong!!")
                     }
                 }.doOnError {
                     Log.d("checke", it.toString())
@@ -449,5 +460,30 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return moneyTracker.getBalance().doOnError {
             Log.d("checke", it.toString())
         }
+    }
+
+    fun transferMoney(id:Int,amount:Int):Single<TransactionResult>{
+
+        val body = JsonObject().also {
+            it.addProperty("id",id)
+            it.addProperty("amount",amount)
+        }
+        Log.d("check",body.toString())
+        return authRepository.getUser()
+            .toSingle()
+            .flatMap {
+                walletService.transferMoney("JWT ${it.jwt}",body).map {
+                    Log.d("check",it.code().toString())
+                    when(it.code()){
+                        200 -> TransactionResult.Success
+                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        else -> TransactionResult.Failure("Something went wrong!!")
+
+                    }
+                }.doOnError {
+                    Log.d("checke", it.toString())
+                }
+            }.subscribeOn(Schedulers.io())
+
     }
 }

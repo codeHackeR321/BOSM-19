@@ -11,6 +11,7 @@ import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
 import com.dvm.appd.bosm.dbg.shared.BaseInterceptor
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker
+import com.dvm.appd.bosm.dbg.shared.NetworkChecker
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
@@ -30,12 +31,18 @@ class AppModule(private val application: Application) {
     fun providesMoneyTracker(authRepository: AuthRepository):MoneyTracker{
         return MoneyTracker(authRepository)
     }
+
     @Provides
     @Singleton
-    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker, sharedPreferences: SharedPreferences): WalletRepository {
-        return WalletRepository(walletService,walletDao,authRepository,moneyTracker, sharedPreferences)
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker, networkChecker: NetworkChecker): WalletRepository {
+        return WalletRepository(walletService,walletDao,authRepository,moneyTracker, networkChecker)
     }
 
+    @Provides
+    @Singleton
+    fun providesNetworkChecker(application: Application):NetworkChecker{
+        return NetworkChecker(application)
+    }
     @Provides
     @Singleton
     fun providesWalletDao(appDatabase: AppDatabase): WalletDao {
