@@ -35,12 +35,12 @@ class AddMoneyDialog : DialogFragment() {
 
         addMoneyViewModel.result.observe(this, Observer {
             when (it!!) {
-                AddMoneyResult.Success -> {
+                TransactionResult.Success -> {
                     dismiss()
                     Toast.makeText(context!!, "Money added successfully!", Toast.LENGTH_SHORT).show()
                 }
-                is AddMoneyResult.Failure -> {
-                    Toast.makeText(context!!, (it as AddMoneyResult.Failure).message, Toast.LENGTH_SHORT).show()
+                is TransactionResult.Failure -> {
+                    Toast.makeText(context!!, (it as TransactionResult.Failure).message, Toast.LENGTH_SHORT).show()
                     rootView.addBtn.isClickable = true
                 }
             }

@@ -51,6 +51,9 @@
     <fragment android:id="@+id/action_profile" android:name="com.dvm.appd.bosm.dbg.profile.views.ProfileFragment"
               android:label="ProfileFragment">
         <action android:id="@+id/action_action_profile_to_addMoneyDialog" app:destination="@id/addMoneyDialog"/>
+        <action
+                android:id="@+id/action_action_profile_to_sendMoneyDialog"
+                app:destination="@id/sendMoneyDialog" />
     </fragment>
     <activity android:id="@+id/loginOutsteeActivity"
               android:name="com.dvm.appd.bosm.dbg.auth.views.LoginOutsteeActivity"
@@ -61,5 +64,9 @@
               android:label="FragmentRecyclerView"/>
     <dialog android:id="@+id/addMoneyDialog" android:name="com.dvm.appd.bosm.dbg.profile.views.AddMoneyDialog"
               android:label="AddMoneyDialog"/>
+    <dialog
+            android:id="@+id/sendMoneyDialog"
+            android:name="com.dvm.appd.bosm.dbg.profile.views.SendMoneyDialog"
+            android:label="SendMoneyDialog" />
 
 </navigation>

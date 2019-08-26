@@ -3,7 +3,7 @@ package com.dvm.appd.bosm.dbg.wallet.data.repo
 import android.content.SharedPreferences
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
-import com.dvm.appd.bosm.dbg.profile.views.AddMoneyResult
+import com.dvm.appd.bosm.dbg.profile.views.TransactionResult
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker
 import com.dvm.appd.bosm.dbg.shared.NetworkChecker
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
@@ -13,7 +13,6 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
-import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.JsonObject
 import io.reactivex.Completable
@@ -418,7 +417,7 @@ class WalletRepository(
             .ignoreElement()
     }
 
-    fun addMoneyBitsian(amount: Int): Single<AddMoneyResult> {
+    fun addMoneyBitsian(amount: Int): Single<TransactionResult> {
 
         val body = JsonObject().also {
             it.addProperty("amount", amount)
@@ -433,9 +432,9 @@ class WalletRepository(
                     Log.d("check", it.code().toString())
 
                     when (it.code()) {
-                        200 -> AddMoneyResult.Success
-                        in 400..499 -> AddMoneyResult.Failure(it.errorBody()!!.string())
-                        else -> AddMoneyResult.Failure("Something went wrong!!")
+                        200 -> TransactionResult.Success
+                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        else -> TransactionResult.Failure("Something went wrong!!")
                     }
                 }.doOnError {
                     Log.d("checke", it.toString())
@@ -450,7 +449,28 @@ class WalletRepository(
         }
     }
 
-    fun transferMoney(){
+    fun transferMoney(id:Int,amount:Int):Single<TransactionResult>{
+
+        val body = JsonObject().also {
+            it.addProperty("id",id)
+            it.addProperty("amount",amount)
+        }
+        Log.d("check",body.toString())
+        return authRepository.getUser()
+            .toSingle()
+            .flatMap {
+                walletService.transferMoney("JWT ${it.jwt}",body).map {
+                    Log.d("check",it.code().toString())
+                    when(it.code()){
+                        200 -> TransactionResult.Success
+                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        else -> TransactionResult.Failure("Something went wrong!!")
+
+                    }
+                }.doOnError {
+                    Log.d("checke", it.toString())
+                }
+            }.subscribeOn(Schedulers.io())
 
     }
 }
