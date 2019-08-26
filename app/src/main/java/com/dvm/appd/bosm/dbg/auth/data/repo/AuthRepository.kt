@@ -25,12 +25,16 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         const val userId = "ID"
         const val qrCode = "QR"
         const val isBitsian = "ISBITSIAN"
+        const val REGTOKEN = "REGTOKEN"
     }
 
     fun loginOutstee(username: String, password: String): Single<LoginState> {
+        val regToken = sharedPreferences.getString(Keys.REGTOKEN, "")
         val body = JsonObject().also {
             it.addProperty("username", username)
             it.addProperty("password", password)
+            if(regToken != "")
+                it.addProperty("reg_token", regToken)
         }
 
         Log.d("check", body.toString())
@@ -38,8 +42,11 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
     }
 
     fun loginBitsian(id:String):Single<LoginState>{
+        val regToken = sharedPreferences.getString(Keys.REGTOKEN, "")
         val body = JsonObject().also {
             it.addProperty("id_token",id)
+            if(regToken != "")
+                it.addProperty("reg_token", regToken)
         }
         Log.d("check",body.toString())
         return login(body,true)
@@ -73,6 +80,13 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                 putBoolean(Keys.isBitsian, user?.isBitsian?:false)
 
             }.commit()
+        }
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    fun addRegToken(token: String) {
+        sharedPreferences.edit().apply {
+            putString(Keys.REGTOKEN, token)
         }
     }
 
