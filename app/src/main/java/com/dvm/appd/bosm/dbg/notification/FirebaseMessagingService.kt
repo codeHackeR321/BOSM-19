@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.media.RingtoneManager
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.dvm.appd.bosm.dbg.MainActivity
@@ -15,11 +16,11 @@ import com.google.firebase.messaging.RemoteMessage
 class FirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(p0: RemoteMessage?) {
         Log.d("Notification" , "Message recived is ${p0!!.data}")
-       sendNotification(p0.data.toString())
-
+        sendNotification(p0)
+        Toast.makeText(this, p0.data.toString(), Toast.LENGTH_LONG).show()
     }
 
-    private fun sendNotification(messageBody: String) {
+    private fun sendNotification(message: RemoteMessage?) {
         val intent = Intent(this, SplashActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 , intent,
@@ -31,8 +32,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_launcher_background)
-            .setContentTitle(getString(R.string.notification_content_general_notification))
-            .setContentText(messageBody)
+            .setContentTitle(message.notification!!.title)
+            .setContentText(message.notification!!.body)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
             .build()
@@ -44,6 +45,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String?) {
         Log.d("FirebaseMgingService", "Refreshed token: $token")
+        //
+        // Toast.makeText(this, "New Token", Toast.LENGTH_LONG).show()
         // TODO send the new registration token to the server
     }
 

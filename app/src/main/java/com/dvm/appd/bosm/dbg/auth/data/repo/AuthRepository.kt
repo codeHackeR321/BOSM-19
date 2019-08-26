@@ -42,7 +42,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
     }
 
     fun loginBitsian(id:String):Single<LoginState>{
-        val regToken = sharedPreferences.getString(Keys.REGTOKEN, "")
+        val regToken = sharedPreferences.getString(Keys.REGTOKEN, "Default Value")
         val body = JsonObject().also {
             it.addProperty("id_token",id)
             if(regToken != "")
@@ -85,9 +85,8 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
 
     @SuppressLint("CommitPrefEdits")
     fun addRegToken(token: String) {
-        sharedPreferences.edit().apply {
-            putString(Keys.REGTOKEN, token)
-        }
+        Log.d("Auth Repo", "Entered to add token")
+        sharedPreferences.edit().putString(Keys.REGTOKEN, token).apply()
     }
 
     fun login(body: JsonObject, bitsian: Boolean): Single<LoginState> {
