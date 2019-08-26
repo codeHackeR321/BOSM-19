@@ -2,8 +2,9 @@ package com.dvm.appd.bosm.dbg.wallet.data.repo
 
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
-import com.dvm.appd.bosm.dbg.profile.views.AddMoneyResult
+import com.dvm.appd.bosm.dbg.profile.views.TransactionResult
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker
+import com.dvm.appd.bosm.dbg.shared.NetworkChecker
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
@@ -11,7 +12,6 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
-import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.JsonObject
 import io.reactivex.Completable
@@ -21,7 +21,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
-class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker) {
+class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
 
     private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
     private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
@@ -44,10 +44,10 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
-    fun fetchAllStalls(): Single<StallResult> {
+    fun fetchAllStalls(): Completable {
         Log.d("check", "called")
         return walletService.getAllStalls()
-            .flatMap { response ->
+            .doOnSuccess { response ->
                 Log.d("check", response.body().toString())
                 Log.d("checkfetch", response.code().toString())
                 when (response.code()) {
@@ -63,36 +63,14 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         walletDao.deleteAllStallItems()
                         walletDao.insertAllStalls(stallList)
                         walletDao.insertAllStallItems(itemList)
-                        Single.just(StallResult.Success)
 
                     }
-
-                    400 -> {
-                        throw Exception("400")
-                    }
-
-                    401 -> {
-                        throw Exception("401")
-                    }
-
-                    403 -> {
-                        throw Exception("403")
-                    }
-
-                    404 -> {
-                        throw Exception("404")
-                    }
-
-                    412 -> {
-                        throw Exception("412")
-                    }
-
                     else -> {
-                        Log.d("checke", response.body().toString())
-                        Single.just(StallResult.Failure)
+                        Log.d("checke", response.errorBody()!!.string())
                     }
                 }
-            }.doOnError {
+            }.ignoreElement()
+            .doOnError {
                 Log.d("checke", it.message)
             }.subscribeOn(Schedulers.io())
 
@@ -100,9 +78,18 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun getAllStalls(): Observable<List<StallData>> {
         Log.d("check", "calledg")
-        return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
+
+        if (networkChecker.isConnected() == false) {
+            return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
+                .doOnError {
+                    Log.d("checkre", it.toString())
+                }
+        }
+
+        return fetchAllStalls().andThen(walletDao.getAllStalls().toObservable())
+            .subscribeOn(Schedulers.io())
             .doOnError {
-                Log.d("checkre", it.toString())
+                Log.d("checke", it.toString())
             }
     }
 
@@ -443,7 +430,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .ignoreElement()
     }
 
-    fun addMoneyBitsian(amount: Int): Single<AddMoneyResult> {
+    fun addMoneyBitsian(amount: Int): Single<TransactionResult> {
 
         val body = JsonObject().also {
             it.addProperty("amount", amount)
@@ -458,9 +445,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     Log.d("check", it.code().toString())
 
                     when (it.code()) {
-                        200 -> AddMoneyResult.Success
-                        in 400..499 -> AddMoneyResult.Failure(it.errorBody()!!.string())
-                        else -> AddMoneyResult.Failure("Something went wrong!!")
+                        200 -> TransactionResult.Success
+                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        else -> TransactionResult.Failure("Something went wrong!!")
                     }
                 }.doOnError {
                     Log.d("checke", it.toString())
@@ -473,5 +460,30 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return moneyTracker.getBalance().doOnError {
             Log.d("checke", it.toString())
         }
+    }
+
+    fun transferMoney(id:Int,amount:Int):Single<TransactionResult>{
+
+        val body = JsonObject().also {
+            it.addProperty("id",id)
+            it.addProperty("amount",amount)
+        }
+        Log.d("check",body.toString())
+        return authRepository.getUser()
+            .toSingle()
+            .flatMap {
+                walletService.transferMoney("JWT ${it.jwt}",body).map {
+                    Log.d("check",it.code().toString())
+                    when(it.code()){
+                        200 -> TransactionResult.Success
+                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        else -> TransactionResult.Failure("Something went wrong!!")
+
+                    }
+                }.doOnError {
+                    Log.d("checke", it.toString())
+                }
+            }.subscribeOn(Schedulers.io())
+
     }
 }

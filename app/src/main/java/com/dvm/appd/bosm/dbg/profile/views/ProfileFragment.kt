@@ -34,21 +34,29 @@ class ProfileFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
         activity!!.my_toolbar.visibility = View.GONE
 
         rootView.logout.setOnClickListener {
-             profileViewModel.logout()
+            profileViewModel.logout()
         }
 
         profileViewModel.balance.observe(this, Observer {
-            rootView.balance.text = it!!
+            rootView.balance.text = "-/${it!!}"
         })
 
         rootView.AddBtn.setOnClickListener {
             it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
+        }
+
+        rootView.sendBtn.setOnClickListener {
+            it.findNavController().navigate(R.id.action_action_profile_to_sendMoneyDialog)
         }
 
         rootView.backBtn.setOnClickListener {
@@ -56,12 +64,12 @@ class ProfileFragment : Fragment() {
         }
 
         profileViewModel.order.observe(this, Observer {
-            when(it!!){
+            when (it!!) {
                 UiState.MoveToLogin -> {
                     activity!!.finishAffinity()
-                    startActivity(Intent(context!!,AuthActivity::class.java))
+                    startActivity(Intent(context!!, AuthActivity::class.java))
                 }
-                UiState.ShowIdle ->{
+                UiState.ShowIdle -> {
                     rootView.loading.visibility = View.GONE
                 }
                 UiState.ShowLoading -> {
@@ -76,7 +84,7 @@ class ProfileFragment : Fragment() {
             Observable.just(it.qrCode.generateQr())
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{
+                .subscribe {
                     rootView.qrCode.setImageBitmap(it)
                 }
         })
@@ -90,7 +98,7 @@ class ProfileFragment : Fragment() {
     }
 
     fun String.generateQr(): Bitmap {
-        val bitMatrix = MultiFormatWriter().encode(this, BarcodeFormat.QR_CODE,400,400)
+        val bitMatrix = MultiFormatWriter().encode(this, BarcodeFormat.QR_CODE, 400, 400)
         return BarcodeEncoder().createBitmap(bitMatrix)
     }
 }

@@ -38,8 +38,4 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
         })
     }
 
-
-   fun transferMoney(){
-       
-   }
 }
