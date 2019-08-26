@@ -12,7 +12,10 @@
     </fragment>
 
     <fragment android:id="@+id/action_game" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASFragment"
-              android:label="ELASFragment"/>
+              android:label="ELASFragment">
+        <action android:id="@+id/action_action_game_to_ELASQuestionFragment"
+                app:destination="@id/ELASQuestionFragment"/>
+    </fragment>
 
     <fragment android:id="@+id/action_food"
               android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.StallsFragment"
@@ -62,11 +65,16 @@
               android:label="fra_auth" tools:layout="@layout/activity_auth"/>
     <fragment android:id="@+id/fragmentRecyclerView" android:name="com.dvm.appd.bosm.dbg.more.FragmentRecyclerView"
               android:label="FragmentRecyclerView"/>
+
+    <fragment android:id="@+id/ELASQuestionFragment" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASQuestionFragment"
+              android:label="ELASQuestionFragment"/>
+
     <dialog android:id="@+id/addMoneyDialog" android:name="com.dvm.appd.bosm.dbg.profile.views.AddMoneyDialog"
               android:label="AddMoneyDialog"/>
     <dialog
             android:id="@+id/sendMoneyDialog"
             android:name="com.dvm.appd.bosm.dbg.profile.views.SendMoneyDialog"
             android:label="SendMoneyDialog" />
+
 
 </navigation>

@@ -8,7 +8,12 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.elas.model.CombinedQuestionOptionDataClass
 import kotlinx.android.synthetic.main.card_recycler_elas_frag_questions.view.*
 
-class ElasQuestionsAdapter : RecyclerView.Adapter<ElasQuestionsAdapter.ElasQuestionsViewHolder>() {
+class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView.Adapter<ElasQuestionsAdapter.ElasQuestionsViewHolder>() {
+
+    interface onQuestionButtonClicked {
+        fun answerQuestion(questionId: Long)
+        fun viewLeaderboard(questionId: Long)
+    }
 
     var questionsList: Map<Long, List<CombinedQuestionOptionDataClass>> = emptyMap()
 
@@ -24,6 +29,18 @@ class ElasQuestionsAdapter : RecyclerView.Adapter<ElasQuestionsAdapter.ElasQuest
     override fun onBindViewHolder(holder: ElasQuestionsViewHolder, position: Int) {
         holder.textCategory.text = questionsList.toList()[position].second.first().category
         holder.textQuestion.text = questionsList.toList()[position].second.first().question
+        if(questionsList.toList()[position].second.first().isAnswered) {
+            holder.buttonLeaderBoard.text = "View Leaderboard"
+        } else {
+            holder.buttonLeaderBoard.text = "Answer The Question"
+        }
+        holder.buttonLeaderBoard.setOnClickListener {
+            if (holder.buttonLeaderBoard.text == "View Leaderboard") {
+                listener.viewLeaderboard(questionsList.toList()[position].first)
+            } else {
+                listener.answerQuestion(questionsList.toList()[position].first)
+            }
+        }
     }
 
     inner class ElasQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
