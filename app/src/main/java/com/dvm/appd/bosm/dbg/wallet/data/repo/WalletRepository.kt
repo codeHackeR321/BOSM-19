@@ -1,6 +1,5 @@
 package com.dvm.appd.bosm.dbg.wallet.data.repo
 
-import android.content.SharedPreferences
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.profile.views.AddMoneyResult
@@ -22,14 +21,16 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
-class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val sharedPreferences: SharedPreferences) {
+class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker) {
 
-    // To be implemented after profile (when userId available)
+    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
+    private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
+    // To be implemented after profile (when userId available)  sharedPreferences.getString("ID", "1")?.toInt()
     init {
 
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("orders").whereEqualTo("userid", 2)
+        db.collection("orders").whereEqualTo("userid", userId.blockingGet())
             .addSnapshotListener { snapshot, exception ->
 
                 if (exception != null) {
@@ -130,7 +131,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     private fun updateOrders(): Completable{
-        return walletService.getAllOrders("JWT ${sharedPreferences.getString("JWT", null)}")
+        return walletService.getAllOrders(jwt.blockingGet().toString())
             .doOnSuccess {response ->
                 when(response.code()){
                     200 -> {
@@ -277,6 +278,29 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
+    fun getOrderById(orderId: Int): Flowable<ModifiedOrdersData>{
+        return walletDao.getOrderById(orderId).subscribeOn(Schedulers.io())
+            .flatMap {
+
+                var order: ModifiedOrdersData
+                var itemsList: MutableList<ModifiedItemsData> = arrayListOf()
+
+                it.forEach{item ->
+
+                    itemsList.add(
+                        ModifiedItemsData(
+                            itemName = item.itemName, itemId = item.itemId,
+                            quantity = item.quantity, price = item.price
+                        )
+                    )
+                }
+
+                order = ModifiedOrdersData(it.last().orderId, it.last().otp, it.last().otpSeen, it.last().status, it.last().totalPrice, it.last().vendor, itemsList)
+
+                return@flatMap Flowable.just(order)
+            }
+    }
+
     fun insertCartItems(cartItem: CartData): Completable {
         return walletDao.insertCartItems(cartItem).subscribeOn(Schedulers.io())
     }
@@ -325,7 +349,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@map orderJsonObject
             }
             .flatMapCompletable {body ->
-                return@flatMapCompletable walletService.placeOrder("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
+                return@flatMapCompletable walletService.placeOrder(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
                         when (response.code()) {
@@ -382,7 +406,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             it.addProperty("order_id", orderId)
         }
 
-        return walletService.makeOtpSeen("JWT ${sharedPreferences.getString("JWT", null)}", body).subscribeOn(Schedulers.io())
+        return walletService.makeOtpSeen(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
                 when (response.code()) {
@@ -430,7 +454,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return authRepository.getUser()
             .toSingle()
             .flatMap {
-                walletService.addMoneyBitsian("JWT ${it.jwt}", body).map {
+                walletService.addMoneyBitsian("jwt ${it.jwt}", body).map {
                     Log.d("check", it.code().toString())
 
                     when (it.code()) {

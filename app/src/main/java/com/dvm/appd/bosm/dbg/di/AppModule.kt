@@ -32,8 +32,8 @@ class AppModule(private val application: Application) {
     }
     @Provides
     @Singleton
-    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker, sharedPreferences: SharedPreferences): WalletRepository {
-        return WalletRepository(walletService,walletDao,authRepository,moneyTracker, sharedPreferences)
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker): WalletRepository {
+        return WalletRepository(walletService,walletDao,authRepository,moneyTracker)
     }
 
     @Provides
