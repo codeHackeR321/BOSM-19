@@ -204,6 +204,11 @@ class MainActivity : AppCompatActivity() {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        startService(Intent(this, FirebaseMessagingService::class.java))
+        super.onResume()
+    }
+
 }
 /*private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
