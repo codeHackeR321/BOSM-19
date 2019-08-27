@@ -26,6 +26,7 @@ class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
             Log.d("Auth ViewModel", "Reg Token recived = ${it.result!!.token}")
             authRepository.addRegToken(it.result!!.token)
         }.addOnFailureListener {
+            listenRegToken()
             Log.e("Auth ViewModel", "Exception in listening for token \n ${it.toString()}")
         }
     }
@@ -34,6 +35,7 @@ class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
     fun login(id:String){
 
      authRepository.loginBitsian(id).subscribe({
+         authRepository.subscribeToTopics()
          (state as MutableLiveData).postValue(it)
      },{
          Log.d("checke",it.toString())

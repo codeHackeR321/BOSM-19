@@ -7,6 +7,7 @@ import com.dvm.appd.bosm.dbg.auth.data.User
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthPojo
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
 import com.dvm.appd.bosm.dbg.auth.views.LoginState
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Maybe
@@ -26,6 +27,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         const val qrCode = "QR"
         const val isBitsian = "ISBITSIAN"
         const val REGTOKEN = "REGTOKEN"
+        const val TOPIC_SUBSCIPTION = "TOPIC_SUBSCRIPTION"
     }
 
     fun loginOutstee(username: String, password: String): Single<LoginState> {
@@ -118,5 +120,29 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                 Log.d("checkre", it.toString())
             }
             .subscribeOn(Schedulers.io())
+    }
+
+    fun subscribeToTopics() {
+        if (!sharedPreferences.getBoolean(Keys.TOPIC_SUBSCIPTION, false)) {
+            FirebaseMessaging.getInstance().subscribeToTopic("User").addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    Log.e("Auth Repo", "Falied to subscribe to topic")
+                    return@addOnCompleteListener
+                }
+                val isBitsian = sharedPreferences.getBoolean(Keys.isBitsian, false)
+                val topic = if (isBitsian) {
+                    "Bitsian"
+                } else {
+                    "Outstee"
+                }
+                FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnCompleteListener {
+                    if (!it.isSuccessful) {
+                        Log.e("Auth Repo", "Falied to subscribe to topic $topic")
+                        return@addOnCompleteListener
+                    }
+                    sharedPreferences.edit().putBoolean(Keys.TOPIC_SUBSCIPTION, true).apply()
+                }
+            }
+        }
     }
 }
