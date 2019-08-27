@@ -459,11 +459,11 @@ class WalletRepository(
         return authRepository.getUser()
             .toSingle()
             .flatMap {
-                walletService.transferMoney("JWT ${it.jwt}",body).map {
-                    Log.d("check",it.code().toString())
-                    when(it.code()){
+                walletService.transferMoney("JWT ${it.jwt}",body).map {response ->
+                    Log.d("check",response.code().toString())
+                    when(response.code()){
                         200 -> TransactionResult.Success
-                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        in 400..499 -> TransactionResult.Failure(response.errorBody()!!.string())
                         else -> TransactionResult.Failure("Something went wrong!!")
 
                     }
