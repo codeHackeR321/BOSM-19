@@ -46,9 +46,11 @@ class ProfileFragment : Fragment() {
         rootView.logout.setOnClickListener {
             profileViewModel.logout()
         }
+
         profileViewModel.balance.observe(this, Observer {
             rootView.balance.text = "-/${it!!}"
         })
+
         rootView.AddBtn.setOnClickListener {
             it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
         }
@@ -56,9 +58,11 @@ class ProfileFragment : Fragment() {
         rootView.sendBtn.setOnClickListener {
             it.findNavController().navigate(R.id.action_action_profile_to_sendMoneyDialog)
         }
+
         rootView.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }
+
         profileViewModel.order.observe(this, Observer {
             when (it!!) {
                 UiState.MoveToLogin -> {
@@ -84,6 +88,7 @@ class ProfileFragment : Fragment() {
                     rootView.qrCode.setImageBitmap(it)
                 }
         })
+
         return rootView
     }
 

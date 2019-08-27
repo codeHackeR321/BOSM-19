@@ -31,11 +31,11 @@ class AppModule(private val application: Application) {
     fun providesMoneyTracker(authRepository: AuthRepository):MoneyTracker{
         return MoneyTracker(authRepository)
     }
+
     @Provides
     @Singleton
-
-    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker,networkChecker: NetworkChecker,sharedPreferences: SharedPreferences): WalletRepository {
-        return WalletRepository(walletService,walletDao,authRepository,moneyTracker,networkChecker,sharedPreferences)
+    fun providesWalletRepository(walletService: WalletService, walletDao: WalletDao, authRepository: AuthRepository, moneyTracker: MoneyTracker, networkChecker: NetworkChecker): WalletRepository {
+        return WalletRepository(walletService,walletDao,authRepository,moneyTracker, networkChecker)
     }
 
     @Provides
@@ -91,7 +91,7 @@ class AppModule(private val application: Application) {
     @Singleton
     fun providesRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://test.bits-bosm.org/")
+            .baseUrl("http://test.bits-bosm.org")
             .client(OkHttpClient().newBuilder().addInterceptor(BaseInterceptor()).build())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

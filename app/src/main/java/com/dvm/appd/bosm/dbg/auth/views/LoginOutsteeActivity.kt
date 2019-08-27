@@ -44,6 +44,7 @@ class LoginOutsteeActivity : AppCompatActivity(){
                 LoginState.Success -> {
                     loading.visibility = View.GONE
                     startActivity(Intent(this,MainActivity::class.java))
+                    finishAffinity()
                 }
                 is LoginState.Failure -> {
                     loading.visibility = View.GONE
