@@ -93,11 +93,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
-    fun getItemsForStall(stallId: Int): Flowable<List<ModifiedStallItemsData>> {
+    fun getItemsForStall(stallId: Int): Observable<List<ModifiedStallItemsData>> {
 
-        return walletDao.getModifiedStallItemsById(stallId, true)
+        return walletDao.getModifiedStallItemsById(stallId, true).toObservable()
             .doOnError {
-
+              Log.d("checke",it.toString())
             }
             .subscribeOn(Schedulers.io())
     }
@@ -472,7 +472,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return authRepository.getUser()
             .toSingle()
             .flatMap {
-                walletService.transferMoney("JWT ${it.jwt}",body).map {response ->
+                walletService.transferMoney("jwt ${it.jwt}",body).map {response ->
                     Log.d("check",response.code().toString())
                     when(response.code()){
                         200 -> TransactionResult.Success
