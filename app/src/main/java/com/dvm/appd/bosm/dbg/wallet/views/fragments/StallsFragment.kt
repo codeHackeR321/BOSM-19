@@ -1,11 +1,9 @@
 package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,7 +26,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         stallsViewModel = ViewModelProviders.of(this, StallsViewModelFactory())[StallsViewModel::class.java]
 
         val rootview = inflater.inflate(R.layout.fra_wallet_stalls, container, false)
-        activity!!.my_toolbar.setBackgroundResource(R.drawable.gradient_stalls_toolbar)
+        activity!!.my_toolbar.setBackgroundResource(R.drawable.gradient_loginBtn)
         rootview.stalls_recycler.adapter = StallsAdapter(this)
 
         stallsViewModel.stalls.observe(this, Observer {
