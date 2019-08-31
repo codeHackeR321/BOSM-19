@@ -111,8 +111,9 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                 else
                     holder1.winner1.text="Winner: ${sportData[position].winner1}"
 
-                holder1.date.text = getDate(timestamp = sportData[position].time)
-                holder1.time.text = getTime(timestamp = sportData[position].time)
+                // TODO Extract date and time from UTC timestamp as String
+                holder1.date.text = sportData[position].time
+                holder1.time.text = sportData[position].time
                 holder1.venue.text=sportData[position].venue
                 holder1.team1.text=sportData[position].team_1
                 holder1.team2.text=sportData[position].team_2
@@ -132,8 +133,8 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                 else
                     holder2.roundType.text=sportData[position].round_type
 
-                holder2.date.text = getDate(timestamp = sportData[position].time)
-                holder2.time.text = getTime(timestamp = sportData[position].time)
+                holder2.date.text = sportData[position].time
+                holder2.time.text = sportData[position].time
                 holder2.venue.text=sportData[position].venue
 
                 if (sportData[position].winner1.isNullOrEmpty())

@@ -19,7 +19,7 @@ interface EventsDao {
     fun updateMiscFavourite(id: String, mark: Int): Completable
 
     @Query("UPDATE misc_table SET event_name = :name, event_venue = :venue, event_time = :time, event_description = :description, event_day = :day, organiser = :organiser WHERE event_id = :id")
-    fun updateMiscData(id: String, name: String, venue: String, time: Long, description: String, day: String, organiser: String): Completable
+    fun updateMiscData(id: String, name: String, venue: String, time: String, description: String, day: String, organiser: String): Completable
 
     @Query("DELETE FROM misc_table WHERE event_id = :id")
     fun deleteMiscEvent(id: String): Completable
