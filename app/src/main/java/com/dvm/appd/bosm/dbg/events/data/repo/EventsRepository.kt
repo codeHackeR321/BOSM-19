@@ -182,14 +182,14 @@ class EventsRepository (val eventsDao: EventsDao){
                                 }
                             }
                              saveSportsDataRoom(sportsData).subscribe()
-                            Log.d("sports2", "added sports dta a: $sportsData")
+                            Log.d("sports2", "added sports data a: $sportsData")
                     }
 
                 }
 
     @SuppressLint("CheckResult")
     private fun saveSportsDataRoom(sportsData: List<SportsData>): Completable {
-        Log.d("sports2", "added sports dta a: $sportsData")
+        Log.d("sports2", "added sports data a: $sportsData")
         return eventsDao.saveSportsData(sportsData).subscribeOn(Schedulers.io())
             .doOnComplete {
                 Log.d("Sports", "Data Saved")
