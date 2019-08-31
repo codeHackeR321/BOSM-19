@@ -10,7 +10,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallsViewModel
@@ -32,6 +34,14 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         activity!!.mainView.setBackgroundResource(R.drawable.stalls_title)
         activity!!.fragmentName.text = "Stalls"
         rootview.stalls_recycler.adapter = StallsAdapter(this)
+
+        activity!!.cart.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_food_to_action_cart)
+        }
+
+        activity!!.profile.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_food_to_action_profile)
+        }
 
         stallsViewModel.stalls.observe(this, Observer {
             (rootview.stalls_recycler.adapter as StallsAdapter).stalls = it

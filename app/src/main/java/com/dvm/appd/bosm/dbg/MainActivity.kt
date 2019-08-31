@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         setupNotificationChannel()
         checkForInvitation()
         checkNotificationPermissions()
-        setSupportActionBar(findViewById(R.id.my_toolbar))
+        // setSupportActionBar(findViewById(R.id.my_toolbar))
         var navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         bottomNav = findViewById(R.id.bottom_navigation_bar)

@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 
 import com.dvm.appd.bosm.dbg.R
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_more.*
 
 class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
@@ -28,6 +31,14 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
         recycler_card_more.adapter = MoreAdapter(this)
         (recycler_card_more.adapter as MoreAdapter).moreItems = moreItems
         (recycler_card_more.adapter as MoreAdapter).notifyDataSetChanged()
+
+        activity!!.cart.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_more_to_action_cart)
+        }
+
+        activity!!.profile.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_more_to_action_profile)
+        }
     }
 
     override fun moreButtonClicked(item: Int) {

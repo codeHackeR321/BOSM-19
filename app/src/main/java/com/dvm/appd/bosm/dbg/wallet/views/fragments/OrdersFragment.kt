@@ -11,7 +11,9 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedOrdersData
@@ -33,6 +35,14 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
 
         activity!!.mainView.setBackgroundResource(R.drawable.orders_title)
         activity!!.fragmentName.text = "Orders"
+
+        activity!!.cart.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_order_history_to_action_cart)
+        }
+
+        activity!!.profile.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_order_history_to_action_profile)
+        }
 
         view.orderRecycler.adapter = OrdersAdapter(this)
 
