@@ -25,7 +25,7 @@ data class SportsData(
     var venue: String,
 
     @ColumnInfo(name = "time")
-    var time: Long,
+    var time: String,
 
     @ColumnInfo(name = "round")
     var round: String,

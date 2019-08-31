@@ -45,7 +45,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             DocumentChange.Type.ADDED -> {
                                 Log.d("DocAdded", doc.document.get("name") as String)
                                 miscEvents.add(MiscEventsData(id = doc.document.id, name = (doc.document.get("name")) as String
-                                , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).seconds
+                                , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as String))
                                 , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
                                 , organiser = (doc.document.get("organiser") as String), isFavourite = 0))
                             }
@@ -53,7 +53,7 @@ class EventsRepository (val eventsDao: EventsDao){
                             DocumentChange.Type.MODIFIED -> {
                                 Log.d("DocChanged", doc.document.get("name") as String)
                                 eventsDao.updateMiscData(id = doc.document.id, name = (doc.document.get("name")) as String
-                                    , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as Timestamp)).seconds
+                                    , venue = (doc.document.get("venue") as String), time = ((doc.document.get("timestamp") as String))
                                     , description = (doc.document.get("description") as String), day = (doc.document.get("day") as String)
                                     , organiser = (doc.document.get("organiser") as String))
                                     .subscribeOn(Schedulers.io())
@@ -134,7 +134,7 @@ class EventsRepository (val eventsDao: EventsDao){
                                                 round_type = dc.document["round_type"] as String,
                                                 team_1 = dc.document["team1"] as String,
                                                 team_2 = dc.document["team2"] as String,
-                                                time = (dc.document["timestamp"] as Timestamp).seconds,
+                                                time = dc.document["timestamp"] as String,
                                                 venue = dc.document["venue"] as String,
                                                 gender = dc.document["gender"] as String,
                                                 isScore = dc.document["is_score"] as Boolean,
@@ -159,7 +159,7 @@ class EventsRepository (val eventsDao: EventsDao){
                                            round_type = dc.document["round_type"] as String,
                                            team_1 = dc.document["team1"] as String,
                                            team_2 = dc.document["team2"] as String,
-                                           time = (dc.document["timestamp"] as Timestamp).seconds,
+                                           time = dc.document["timestamp"] as String,
                                            venue = dc.document["venue"] as String,
                                            gender = dc.document["gender"] as String,
                                            isScore = dc.document["is_score"] as Boolean,

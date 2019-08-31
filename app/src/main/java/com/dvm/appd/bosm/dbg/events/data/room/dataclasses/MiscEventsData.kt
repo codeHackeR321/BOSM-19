@@ -18,7 +18,7 @@ data class MiscEventsData(
     var venue: String,
 
     @ColumnInfo(name = "event_time")
-    var time: Long,
+    var time: String,
 
     @ColumnInfo(name = "event_description")
     var description: String,

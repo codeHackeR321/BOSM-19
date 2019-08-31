@@ -46,7 +46,8 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
         holder.event.text = miscEvents[position].name
         holder.description.text = miscEvents[position].description
         holder.organiser.text = miscEvents[position].organiser
-        holder.time.text = getTime(miscEvents[position].time)
+        // TODO Extract Date and time from UTC String
+        holder.time.text = miscEvents[position].time
         holder.venue.text = miscEvents[position].venue
         holder.markFav.text = miscEvents[position].isFavourite.toString()
 

@@ -25,13 +25,18 @@ import androidx.navigation.ui.setupWithNavController
 import com.dvm.appd.bosm.dbg.di.AppModule
 import com.dvm.appd.bosm.dbg.notification.FirebaseMessagingService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.adapter_order_items.*
 import kotlinx.android.synthetic.main.checkbox.view.*
 
+interface NetworkChangeNotifier {
+    fun onNetworkStatusScahnged(isConnected: Boolean)
+}
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
 
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var navController: NavController
@@ -207,6 +212,14 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         startService(Intent(this, FirebaseMessagingService::class.java))
         super.onResume()
+    }
+
+    override fun onNetworkStatusScahnged(isConnected: Boolean) {
+        if (isConnected) {
+            Snackbar.make(this.view, "Back Online", Snackbar.LENGTH_SHORT).show()
+        } else {
+            Snackbar.make(this.view, "Not Connected to the internet", Snackbar.LENGTH_INDEFINITE).show()
+        }
     }
 
 }
