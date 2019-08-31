@@ -7,30 +7,40 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <View
+            android:id="@+id/mainView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/events_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
+            android:visibility="invisible"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu ="@menu/actionbaritems"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"/>-->
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
-        android:id="@+id/my_nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        app:navGraph="@navigation/navigation_graph"
-        app:defaultNavHost="true" />
+            android:id="@+id/my_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainView"
+            app:navGraph="@navigation/navigation_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -43,5 +53,68 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+            android:id="@+id/cart"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/notifications"
+            app:layout_constraintTop_toTopOf="@+id/mainView"
+            app:srcCompat="@drawable/ic_outline_shopping_cart_24px" />
+
+    <ImageView
+            android:id="@+id/notifications"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/mainView"
+            app:layout_constraintTop_toTopOf="@+id/mainView"
+            app:srcCompat="@drawable/ic_outline_notifications_none_24px" />
+
+    <ImageView
+            android:id="@+id/profile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/cart"
+            app:layout_constraintTop_toTopOf="@+id/mainView"
+            app:srcCompat="@drawable/ic_outline_profile_identity_24px" />
+
+    <TextView
+            android:id="@+id/fragmentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="Circular Std Medium"
+            android:text="@string/action_events"
+            android:textColor="@color/colorWhite"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/mainView"
+            app:layout_constraintEnd_toEndOf="@+id/mainView"
+            app:layout_constraintStart_toStartOf="@+id/mainView"
+            app:layout_constraintTop_toBottomOf="@+id/profile" />
+
+    <EditText
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="88dp"
+            android:layout_marginEnd="88dp"
+            android:background="@drawable/shape_rectangle_rounded_8dp"
+            android:hint="Search"
+            android:paddingLeft="8dp"
+            android:paddingTop="4dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="4dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/mainView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

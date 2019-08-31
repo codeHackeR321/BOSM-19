@@ -5,14 +5,16 @@
                                                    android:orientation="vertical"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent">
+
     <View
-            android:layout_width="0dp"
-            android:layout_height="60dp"
             android:id="@+id/stallNameView"
-            android:background="@drawable/stall_item_view"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:background="@drawable/wallet_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,17 +22,19 @@
             android:id="@+id/backBtn"
             app:layout_constraintBottom_toBottomOf="@+id/stallName" app:layout_constraintTop_toTopOf="@+id/stallName"
             app:layout_constraintStart_toStartOf="@id/stallNameView" android:layout_marginStart="24dp"/>
+
     <TextView
+            android:id="@+id/stallName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Stall Name"
             android:textColor="@color/colorWhite"
             android:textSize="30sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/stallName"
-            app:layout_constraintStart_toEndOf="@+id/backBtn" android:layout_marginStart="24dp"
-            app:layout_constraintTop_toTopOf="@+id/stallNameView"
             app:layout_constraintBottom_toBottomOf="@+id/stallNameView"
-    />
+            app:layout_constraintEnd_toEndOf="@+id/stallNameView"
+            app:layout_constraintStart_toStartOf="@+id/stallNameView"
+            app:layout_constraintTop_toTopOf="@+id/stallNameView" />
+
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"

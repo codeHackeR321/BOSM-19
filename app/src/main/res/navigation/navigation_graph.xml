@@ -9,12 +9,27 @@
               android:name="com.dvm.appd.bosm.dbg.events.view.fragments.EventsFragment"
               android:label="fra_events_fragment" tools:layout="@layout/fra_events_fragment">
         <action android:id="@+id/action_action_events_to_miscEventsFragment" app:destination="@id/miscEventsFragment"/>
+        <action
+                android:id="@+id/action_action_events_to_sportsDataFragment"
+                app:destination="@id/sportsDataFragment" />
+        <action
+                android:id="@+id/action_action_events_to_action_profile"
+                app:destination="@id/action_profile" />
+        <action
+                android:id="@+id/action_action_events_to_action_cart"
+                app:destination="@id/action_cart" />
     </fragment>
 
     <fragment android:id="@+id/action_game" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASFragment"
               android:label="ELASFragment">
         <action android:id="@+id/action_action_game_to_ELASQuestionFragment"
                 app:destination="@id/ELASQuestionFragment"/>
+        <action
+                android:id="@+id/action_action_game_to_action_profile"
+                app:destination="@id/action_profile" />
+        <action
+                android:id="@+id/action_action_game_to_action_cart"
+                app:destination="@id/action_cart" />
     </fragment>
 
     <fragment android:id="@+id/action_food"
@@ -22,11 +37,24 @@
               android:label="StallsFragment">
         <action android:id="@+id/action_action_food_to_stallItemsFragment2" app:destination="@+id/stallItemsFragment2"
                 app:popUpToInclusive="false" app:popUpTo="@+id/action_food"/>
+        <action
+                android:id="@+id/action_action_food_to_action_cart"
+                app:destination="@id/action_cart" />
+        <action
+                android:id="@+id/action_action_food_to_action_profile"
+                app:destination="@id/action_profile" />
     </fragment>
 
     <fragment android:id="@+id/action_order_history"
               android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.OrdersFragment"
-              android:label="fra_wallet_orders" tools:layout="@layout/fra_wallet_orders"/>
+              android:label="fra_wallet_orders" tools:layout="@layout/fra_wallet_orders">
+        <action
+                android:id="@+id/action_action_order_history_to_action_profile"
+                app:destination="@id/action_profile" />
+        <action
+                android:id="@+id/action_action_order_history_to_action_cart"
+                app:destination="@id/action_cart" />
+    </fragment>
 
     <fragment android:id="@+id/action_cart" android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.CartFragment"
               android:label="CartDialog"/>
@@ -48,6 +76,12 @@
         <action android:id="@+id/action_action_more_to_fragmentWebPage" app:destination="@id/fragmentWebPage"/>
         <action android:id="@+id/action_action_more_to_fragmentRecyclerView"
                 app:destination="@id/fragmentRecyclerView"/>
+        <action
+                android:id="@+id/action_action_more_to_action_profile"
+                app:destination="@id/action_profile" />
+        <action
+                android:id="@+id/action_action_more_to_action_cart"
+                app:destination="@id/action_cart" />
     </fragment>
     <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
               android:label="FragmentWebPage"/>

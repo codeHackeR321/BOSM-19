@@ -22,6 +22,7 @@ import io.reactivex.Single
 class EventsRepository (val eventsDao: EventsDao){
 
     val db = FirebaseFirestore.getInstance()
+
     init {
 
         getSportsDataFromFirestore()
@@ -40,6 +41,7 @@ class EventsRepository (val eventsDao: EventsDao){
                     for (doc in snapshot.documentChanges){
 
                         when(doc.type){
+
                             DocumentChange.Type.ADDED -> {
                                 Log.d("DocAdded", doc.document.get("name") as String)
                                 miscEvents.add(MiscEventsData(id = doc.document.id, name = (doc.document.get("name")) as String
@@ -167,7 +169,6 @@ class EventsRepository (val eventsDao: EventsDao){
                                            winner1 = dc.document["winner1"] as String,
                                            winner2 = dc.document["winner2"] as String,
                                            winner3 = dc.document["winner3"] as String
-
                                        ))
 
                                         Log.d("sports3", "Modified city: ${dc.document.data}")

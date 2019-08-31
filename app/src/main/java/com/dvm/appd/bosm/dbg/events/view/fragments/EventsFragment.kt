@@ -9,12 +9,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.view.adapters.EventsAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModel
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_events_fragment.view.*
 
 class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
@@ -27,13 +30,24 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
 
         val view = inflater.inflate(R.layout.fra_events_fragment, container, false)
 
-        view.recyclerView.adapter = EventsAdapter(this)
+        activity!!.mainView.setBackgroundResource(R.drawable.events_title)
+        activity!!.fragmentName.text = "Events"
+
+        activity!!.cart.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_events_to_action_cart)
+        }
+
+        activity!!.profile.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_events_to_action_profile)
+        }
+
+        view.eventsRecycler.adapter = EventsAdapter(this)
 
         eventsViewViewModel.sportsName.observe(this, Observer {
 
             Log.d("EventsFrag", "Observed $it")
-            (view.recyclerView.adapter as EventsAdapter).sportsName = it
-            (view.recyclerView.adapter as EventsAdapter).notifyDataSetChanged()
+            (view.eventsRecycler.adapter as EventsAdapter).sportsName = it
+            (view.eventsRecycler.adapter as EventsAdapter).notifyDataSetChanged()
         })
 
         view.miscEvents.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_action_events_to_miscEventsFragment, null))

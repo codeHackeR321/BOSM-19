@@ -25,8 +25,13 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
 
         val view = inflater.inflate(R.layout.fra_cart_dialog, container, false)
 
-        activity!!.my_toolbar.isVisible = false
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
         activity!!.bottom_navigation_bar.isVisible = false
+        activity!!.mainView.visibility = View.GONE
+        activity!!.textView.visibility = View.GONE
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
@@ -84,7 +89,11 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
     override fun onDetach() {
         super.onDetach()
 
-        activity!!.my_toolbar.isVisible = true
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
         activity!!.bottom_navigation_bar.isVisible = true
     }
 

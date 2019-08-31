@@ -10,7 +10,9 @@ import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
@@ -18,6 +20,7 @@ import com.dvm.appd.bosm.dbg.elas.view.adapter.ElasQuestionsAdapter
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasViewModel
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_elas_fragment.*
 
 class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
@@ -66,6 +69,14 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     private fun initializeView() {
         val recycler = view!!.findViewById<RecyclerView>(R.id.recycler_elasFrag_questions)
         recycler.adapter = ElasQuestionsAdapter(this)
+
+        activity!!.cart.setOnClickListener{
+            this.findNavController().navigate(R.id.action_action_game_to_action_cart)
+        }
+
+        activity!!.profile.setOnClickListener{
+            this.findNavController().navigate(R.id.action_action_game_to_action_profile)
+        }
     }
 
     override fun answerQuestion(questionId: Long) {

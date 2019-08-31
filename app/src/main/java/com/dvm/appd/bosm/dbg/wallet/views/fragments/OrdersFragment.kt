@@ -11,13 +11,16 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedOrdersData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.OrdersViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.OrdersViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.OrdersAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_orders.view.*
 
 class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
@@ -29,6 +32,17 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
         ordersViewModel = ViewModelProviders.of(this, OrdersViewModelFactory())[OrdersViewModel::class.java]
 
         val view = inflater.inflate(R.layout.fra_wallet_orders, container, false)
+
+        activity!!.mainView.setBackgroundResource(R.drawable.orders_title)
+        activity!!.fragmentName.text = "Orders"
+
+        activity!!.cart.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_order_history_to_action_cart)
+        }
+
+        activity!!.profile.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_order_history_to_action_profile)
+        }
 
         view.orderRecycler.adapter = OrdersAdapter(this)
 

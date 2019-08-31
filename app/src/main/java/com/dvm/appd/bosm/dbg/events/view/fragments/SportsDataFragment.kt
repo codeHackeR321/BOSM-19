@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,7 +34,11 @@ class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
         sportsDataViewModel = ViewModelProviders.of(this, SportsDataViewModelFactory(sportName!!))[SportsDataViewModel::class.java]
 
         val view = inflater.inflate(R.layout.fragment_sports_data, container, false)
-        activity!!.my_toolbar.visibility=View.GONE
+        activity!!.mainView.visibility=View.GONE
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
 
         view.textView4.text=sportName.capitalize()
 
@@ -116,7 +121,11 @@ class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
     }
 
     override fun onDetach() {
-        activity!!.my_toolbar.visibility=View.VISIBLE
+        activity!!.mainView.visibility=View.VISIBLE
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
         super.onDetach()
 
     }

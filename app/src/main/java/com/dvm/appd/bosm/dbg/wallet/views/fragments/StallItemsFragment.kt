@@ -30,7 +30,11 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         val stallId = arguments?.getInt("stallId")
         val stallName = arguments?.getString("stallName")
 
-        activity!!.my_toolbar.isVisible = false
+        activity!!.mainView.isVisible = false
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
 
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
 
@@ -64,7 +68,11 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
     override fun onDetach() {
         super.onDetach()
 
-        activity!!.my_toolbar.isVisible = true
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
     }
 
     override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {
