@@ -9,8 +9,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.view.adapters.EventsAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModel
@@ -30,6 +32,14 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
 
         activity!!.mainView.setBackgroundResource(R.drawable.events_title)
         activity!!.fragmentName.text = "Events"
+
+        activity!!.cart.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_events_to_action_cart)
+        }
+
+        activity!!.profile.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_events_to_action_profile)
+        }
 
         view.eventsRecycler.adapter = EventsAdapter(this)
 

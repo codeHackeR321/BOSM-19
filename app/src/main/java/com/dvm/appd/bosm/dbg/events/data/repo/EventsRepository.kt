@@ -139,8 +139,8 @@ class EventsRepository (val eventsDao: EventsDao){
                                                 gender = dc.document["gender"] as String,
                                                 isScore = dc.document["is_score"] as Boolean,
                                                 layout = (dc.document["layout"] as Long).toInt(),
-                                                score_1 = (dc.document["score1"] as Long).toString(),
-                                                score_2 = (dc.document["score2"] as Long).toString(),
+                                                score_1 = dc.document["score1"] as String,
+                                                score_2 = dc.document["score2"] as String,
                                                 winner1 = dc.document["winner1"] as String,
                                                 winner2 = dc.document["winner2"] as String,
                                                 winner3 = dc.document["winner3"] as String
@@ -164,8 +164,8 @@ class EventsRepository (val eventsDao: EventsDao){
                                            gender = dc.document["gender"] as String,
                                            isScore = dc.document["is_score"] as Boolean,
                                            layout = (dc.document["layout"] as Long).toInt(),
-                                           score_1 = (dc.document["score1"] as Long).toString(),
-                                           score_2 = (dc.document["score2"] as Long).toString(),
+                                           score_1 = dc.document["score1"] as String,
+                                           score_2 = dc.document["score2"] as String,
                                            winner1 = dc.document["winner1"] as String,
                                            winner2 = dc.document["winner2"] as String,
                                            winner3 = dc.document["winner3"] as String
