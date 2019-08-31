@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
@@ -19,7 +20,7 @@ class EventsAdapter(private val listener: OnSportsNameClicked): RecyclerView.Ada
 
     inner class EventsViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        val sportsName: Button = view.sportsEvents
+        val sportsName: TextView = view.sportsEvents
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsViewHolder {

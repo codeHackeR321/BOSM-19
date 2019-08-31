@@ -18,6 +18,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedOrdersData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.OrdersViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.OrdersViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.OrdersAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_orders.view.*
 
 class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
@@ -29,6 +30,9 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
         ordersViewModel = ViewModelProviders.of(this, OrdersViewModelFactory())[OrdersViewModel::class.java]
 
         val view = inflater.inflate(R.layout.fra_wallet_orders, container, false)
+
+        activity!!.mainView.setBackgroundResource(R.drawable.orders_title)
+        activity!!.fragmentName.text = "Orders"
 
         view.orderRecycler.adapter = OrdersAdapter(this)
 

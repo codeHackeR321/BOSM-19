@@ -28,7 +28,9 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         stallsViewModel = ViewModelProviders.of(this, StallsViewModelFactory())[StallsViewModel::class.java]
 
         val rootview = inflater.inflate(R.layout.fra_wallet_stalls, container, false)
-        activity!!.my_toolbar.setBackgroundResource(R.drawable.gradient_stalls_toolbar)
+        //activity!!.my_toolbar.setBackgroundResource(R.drawable.gradient_stalls_toolbar)
+        activity!!.mainView.setBackgroundResource(R.drawable.stalls_title)
+        activity!!.fragmentName.text = "Stalls"
         rootview.stalls_recycler.adapter = StallsAdapter(this)
 
         stallsViewModel.stalls.observe(this, Observer {

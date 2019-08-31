@@ -22,6 +22,7 @@ import io.reactivex.Single
 class EventsRepository (val eventsDao: EventsDao){
 
     val db = FirebaseFirestore.getInstance()
+
     init {
 
         getSportsDataFromFirestore()
@@ -40,6 +41,7 @@ class EventsRepository (val eventsDao: EventsDao){
                     for (doc in snapshot.documentChanges){
 
                         when(doc.type){
+
                             DocumentChange.Type.ADDED -> {
                                 Log.d("DocAdded", doc.document.get("name") as String)
                                 miscEvents.add(MiscEventsData(id = doc.document.id, name = (doc.document.get("name")) as String
@@ -128,17 +130,17 @@ class EventsRepository (val eventsDao: EventsDao){
                                             SportsData(
                                                 match_no = dc.document.id.toInt(),
                                                 name = dc.document["sport"] as String,
-                                                round = dc.document["round"] as String,
-                                                round_type = dc.document["roundtype"] as String,
+                                                round = dc.document["round_name"] as String,
+                                                round_type = dc.document["round_type"] as String,
                                                 team_1 = dc.document["team1"] as String,
                                                 team_2 = dc.document["team2"] as String,
                                                 time = (dc.document["timestamp"] as Timestamp).seconds,
                                                 venue = dc.document["venue"] as String,
                                                 gender = dc.document["gender"] as String,
-                                                isScore = dc.document["isscore"] as Boolean,
+                                                isScore = dc.document["is_score"] as Boolean,
                                                 layout = (dc.document["layout"] as Long).toInt(),
-                                                score_1 = dc.document["score1"] as String,
-                                                score_2 = dc.document["score2"] as String,
+                                                score_1 = (dc.document["score1"] as Long).toString(),
+                                                score_2 = (dc.document["score2"] as Long).toString(),
                                                 winner1 = dc.document["winner1"] as String,
                                                 winner2 = dc.document["winner2"] as String,
                                                 winner3 = dc.document["winner3"] as String
@@ -153,21 +155,20 @@ class EventsRepository (val eventsDao: EventsDao){
                                        sportsData.set(position,SportsData(
                                            match_no = dc.document.id.toInt(),
                                            name = dc.document["sport"] as String,
-                                           round = dc.document["round"] as String,
-                                           round_type = dc.document["roundtype"] as String,
+                                           round = dc.document["round_name"] as String,
+                                           round_type = dc.document["round_type"] as String,
                                            team_1 = dc.document["team1"] as String,
                                            team_2 = dc.document["team2"] as String,
                                            time = (dc.document["timestamp"] as Timestamp).seconds,
                                            venue = dc.document["venue"] as String,
                                            gender = dc.document["gender"] as String,
-                                           isScore = dc.document["isscore"] as Boolean,
+                                           isScore = dc.document["is_score"] as Boolean,
                                            layout = (dc.document["layout"] as Long).toInt(),
-                                           score_1 = dc.document["score1"] as String,
-                                           score_2 = dc.document["score2"] as String,
+                                           score_1 = (dc.document["score1"] as Long).toString(),
+                                           score_2 = (dc.document["score2"] as Long).toString(),
                                            winner1 = dc.document["winner1"] as String,
                                            winner2 = dc.document["winner2"] as String,
                                            winner3 = dc.document["winner3"] as String
-
                                        ))
 
                                         Log.d("sports3", "Modified city: ${dc.document.data}")
