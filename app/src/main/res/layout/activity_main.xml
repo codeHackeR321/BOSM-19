@@ -105,23 +105,27 @@
                 app:layout_constraintStart_toStartOf="@+id/mainView"
                 app:layout_constraintTop_toBottomOf="@+id/profile" />
 
-        <EditText
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="88dp"
-                android:layout_marginEnd="88dp"
-                android:background="@drawable/shape_rectangle_rounded_8dp"
-                android:hint="Search"
-                android:paddingLeft="8dp"
-                android:paddingTop="4dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="4dp"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/mainView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mainView" />
+
+<!--    <EditText-->
+<!--            android:id="@+id/search"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="88dp"-->
+<!--            android:layout_marginEnd="88dp"-->
+<!--            android:background="@drawable/shape_rectangle_rounded_8dp"-->
+<!--            android:hint="Search"-->
+<!--            android:inputType="text"-->
+<!--            android:maxLines="1"-->
+<!--            android:paddingLeft="8dp"-->
+<!--            android:paddingTop="4dp"-->
+<!--            android:paddingRight="8dp"-->
+<!--            android:paddingBottom="4dp"-->
+<!--            android:singleLine="true"-->
+<!--            android:textSize="20sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/mainView"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/mainView" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

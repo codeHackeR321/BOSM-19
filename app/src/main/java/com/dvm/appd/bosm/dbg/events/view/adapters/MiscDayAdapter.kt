@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.adapter_misc_day.view.*
@@ -17,7 +18,7 @@ class MiscDayAdapter(private val listener: OnDaySelected): RecyclerView.Adapter<
     }
 
     inner class MiscDayViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val day: Button = view.day
+        val day: TextView = view.day
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MiscDayViewHolder {
