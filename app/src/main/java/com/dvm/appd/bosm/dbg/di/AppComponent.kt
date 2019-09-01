@@ -6,6 +6,8 @@ import com.dvm.appd.bosm.dbg.di.auth.AuthComponent
 import com.dvm.appd.bosm.dbg.di.auth.AuthModule
 import com.dvm.appd.bosm.dbg.di.events.EventsComponent
 import com.dvm.appd.bosm.dbg.di.events.EventsModule
+import com.dvm.appd.bosm.dbg.di.notification.NotificationComponent
+import com.dvm.appd.bosm.dbg.di.notification.NotificationModule
 import com.dvm.appd.bosm.dbg.di.profile.ProfileComponent
 import com.dvm.appd.bosm.dbg.di.profile.ProfileModule
 import com.dvm.appd.bosm.dbg.di.splash.SplashComponent
@@ -28,4 +30,6 @@ interface AppComponent {
     fun newProfileComponent(d:ProfileModule):ProfileComponent
 
     fun newSplashComponent(e:SplashModule):SplashComponent
+
+    fun newNotificationComponent(n: NotificationModule): NotificationComponent
 }
