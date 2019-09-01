@@ -66,7 +66,7 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
             }
         })
 
-        rootView.viewCart.setOnClickListener {
+        rootView.stallOrderView.setOnClickListener {
             //TODO add navigation to cart fragment
         }
 

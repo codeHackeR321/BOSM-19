@@ -43,26 +43,32 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
 
         when(sdf.format(c.time)){
             "13 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 1")
                 miscEventsViewViewModel.getMiscEventsData("Day 1")
             }
 
             "14 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 2")
                 miscEventsViewViewModel.getMiscEventsData("Day 2")
             }
 
             "15 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 3")
                 miscEventsViewViewModel.getMiscEventsData("Day 3")
             }
 
             "16 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 4")
                 miscEventsViewViewModel.getMiscEventsData("Day 4")
             }
 
             "17 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 5")
                 miscEventsViewViewModel.getMiscEventsData("Day 5")
             }
 
             else -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 1")
                 miscEventsViewViewModel.getMiscEventsData("Day 1")
             }
         }
@@ -81,6 +87,12 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
             Log.d("MiscEventsFrag", "Observed")
             (view.miscEventRecycler.adapter as MiscEventsAdapter).miscEvents = it
             (view.miscEventRecycler.adapter as MiscEventsAdapter).notifyDataSetChanged()
+        })
+
+        miscEventsViewViewModel.daySelected.observe(this, Observer {
+
+            (view.dayRecycler.adapter as MiscDayAdapter).daySelected = it
+            (view.dayRecycler.adapter as MiscDayAdapter).notifyDataSetChanged()
         })
 
         view.backBtn.setOnClickListener {
@@ -103,7 +115,9 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark)
     }
 
-    override fun daySelected(day: String) {
+    override fun daySelected(day: String, position: Int) {
+        (miscEventsViewViewModel.daySelected as MutableLiveData).postValue(day)
         miscEventsViewViewModel.getMiscEventsData(day)
+        view!!.dayRecycler.smoothScrollToPosition(position)
     }
 }

@@ -44,7 +44,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
 
             if (it.sumBy {it1 -> it1.quantity * it1.price } != 0){
                 view.cartOrderView.isVisible = true
-                view.totalPrice.text = "₹ ${it.sumBy {it2 ->  it2.quantity * it2.price }}"
+                view.totalPrice.text = "Total: ₹ ${it.sumBy {it2 ->  it2.quantity * it2.price }}"
                 view.itemCount.text = "${it.sumBy { it3 -> it3.quantity }} items"
             }
             else{
@@ -55,7 +55,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
             }
         })
 
-        view.placeOrder.setOnClickListener {
+        view.cartOrderView.setOnClickListener {
             (cartViewModel.progressBarMark as MutableLiveData).postValue(0)
             cartViewModel.placeOrder()
         }
