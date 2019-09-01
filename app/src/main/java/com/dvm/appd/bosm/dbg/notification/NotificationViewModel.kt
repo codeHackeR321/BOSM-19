@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.notification
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,14 +19,16 @@ class NotificationViewModel(val notificationRepository: NotificationRepository) 
     }
 
     @SuppressLint("CheckResult")
-    private fun readNotificationsFromRoom() {
+    fun readNotificationsFromRoom() {
         notificationRepository.getNotifications().subscribe({
-            if (notifications.value!!.size > 0){
+            Log.d("Notification", "Data form room = ${it.toString()}")
+            if (it.isNotEmpty()){
                 isLoading.asMut().postValue(false)
             }
             notifications.asMut().postValue(it)
         },{
             // TODO add analytics log
+            Log.e("Notification", "Room Error = \n${it.toString()}")
             error.asMut().postValue("Error in local database. Please Restart the app")
         })
     }

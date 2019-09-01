@@ -2,6 +2,7 @@ package com.dvm.appd.bosm.dbg.notification
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,8 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        notificationViewModel.readNotificationsFromRoom()
+
         activity!!.fragmentName.isVisible = false
         activity!!.cart.isVisible = false
         activity!!.profile.isVisible = false
@@ -43,6 +46,7 @@ class NotificationFragment : Fragment() {
 
         notificationViewModel.error.observe(this, Observer {
             if (it != null) {
+                Log.e("Notification", "Error in reading messages")
                 // TODO show alert dialog box
             }
         })
@@ -57,6 +61,7 @@ class NotificationFragment : Fragment() {
         notificationRecycler.adapter = NotificationAdapter()
 
         notificationViewModel.notifications.observe(this, Observer {
+            Log.d("Notification", "List Observed = ${it[0].toString()}")
             (notificationRecycler.adapter as NotificationAdapter).notifications = it
             (notificationRecycler.adapter as NotificationAdapter).notifyDataSetChanged()
         })

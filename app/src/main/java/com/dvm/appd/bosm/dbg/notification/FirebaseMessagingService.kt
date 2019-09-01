@@ -54,14 +54,12 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         Log.d("Notification", "Notification = ${notificatoin.toString()}")
         sendNotification(notificatoin)
 
-        var roomDatabsae = Room.databaseBuilder(this.application, AppDatabase::class.java, "bosm.db")
-            .fallbackToDestructiveMigration()
-            .build()
+        var roomDatabsae = AppModule(application).providesAppDatabase(application)
         Log.d("Notification", "Room instance = ${roomDatabsae.toString()}")
         roomDatabsae.notificationDao().insertNotification(notificatoin).doOnSubscribe {
             Log.d("Notification", "Started adding data to table")
 
-        }
+            }
             .subscribe({
                 Log.d("Notification", "Succesfully added data to table")
                 // TODO setup firbase analytic log
