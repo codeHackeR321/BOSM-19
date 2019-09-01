@@ -43,7 +43,7 @@ class ProfileFragment : Fragment() {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
         activity!!.mainView.visibility = View.GONE
-        activity!!.textView.visibility = View.GONE
+        //activity!!.textView.visibility = View.GONE
         activity!!.fragmentName.isVisible = false
         activity!!.cart.isVisible = false
         activity!!.profile.isVisible = false

@@ -71,7 +71,7 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
             }
         }
 
-        holder.view.setOnClickListener {
+        holder.orderNumber.setOnClickListener {
             listener.showOrderItemDialog(orderItems[position].orderId, orderItems.size - position)
         }
     }
@@ -82,7 +82,6 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
         val otp: TextView = view.otp
         val price: TextView = view.price
         val status: TextView = view.status
-        val view: View = view.view
         val orderId: TextView = view.orderId
     }
 
