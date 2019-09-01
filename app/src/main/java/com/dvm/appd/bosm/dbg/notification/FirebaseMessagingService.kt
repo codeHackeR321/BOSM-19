@@ -7,17 +7,34 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.splash.views.SplashActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.json.JSONObject
+import java.lang.Exception
 
 class FirebaseMessagingService : FirebaseMessagingService() {
-    override fun onMessageReceived(p0: RemoteMessage?) {
-        Log.d("Notification" , "Message recived is ${p0!!.data}")
-        sendNotification(p0)
-        Toast.makeText(this, p0.data.toString(), Toast.LENGTH_LONG).show()
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        if (remoteMessage == null)
+            return
+        if (remoteMessage.data.size > 0) {
+            try {
+                var json = JSONObject(remoteMessage.data.toString())
+                handleDataMessage(json)
+            }catch (e: Exception) {
+                // TODO setup firebase analytic log here
+            }
+        }
+
+    }
+
+    private fun handleDataMessage(json: JSONObject) {
+        val title = json["title"]
+        val body = json["body"]
+        val channel = json["channel"]
+
+
     }
 
     private fun sendNotification(message: RemoteMessage?) {
@@ -41,13 +58,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             // notificationId is a unique int for each notification that you must define
             notify(java.lang.Integer.parseInt("0") , notificationBuilder)
         }
-    }
-
-    override fun onNewToken(token: String?) {
-        Log.d("FirebaseMgingService", "Refreshed token: $token")
-        //
-        // Toast.makeText(this, "New Token", Toast.LENGTH_LONG).show()
-        // TODO send the new registration token to the server
     }
 
 }
