@@ -39,7 +39,7 @@ class NotificationFragment : Fragment() {
         activity!!.notifications.isVisible = false
         activity!!.bottom_navigation_bar.isVisible = false
         activity!!.mainView.visibility = View.GONE
-        activity!!.textView.visibility = View.GONE
+        activity!!.fragmentName.visibility = View.GONE
 
         notificationViewModel.error.observe(this, Observer {
             if (it != null) {
