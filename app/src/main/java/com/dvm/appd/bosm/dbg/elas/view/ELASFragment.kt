@@ -77,6 +77,10 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.profile.setOnClickListener{
             this.findNavController().navigate(R.id.action_action_game_to_action_profile)
         }
+
+        activity!!.notifications.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_game_to_notificationFragment)
+        }
     }
 
     override fun answerQuestion(questionId: Long) {

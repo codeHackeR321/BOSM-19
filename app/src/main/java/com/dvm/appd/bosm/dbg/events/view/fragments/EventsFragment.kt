@@ -41,6 +41,10 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
             this.findNavController().navigate(R.id.action_action_events_to_action_profile)
         }
 
+        activity!!.notifications.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_events_to_notificationFragment)
+        }
+
         view.eventsRecycler.adapter = EventsAdapter(this)
 
         eventsViewViewModel.sportsName.observe(this, Observer {

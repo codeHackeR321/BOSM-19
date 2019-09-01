@@ -18,6 +18,9 @@
         <action
                 android:id="@+id/action_action_events_to_action_cart"
                 app:destination="@id/action_cart" />
+        <action
+                android:id="@+id/action_action_events_to_notificationFragment"
+                app:destination="@id/notificationFragment" />
     </fragment>
 
     <fragment android:id="@+id/action_game" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASFragment"
@@ -30,6 +33,9 @@
         <action
                 android:id="@+id/action_action_game_to_action_cart"
                 app:destination="@id/action_cart" />
+        <action
+                android:id="@+id/action_action_game_to_notificationFragment"
+                app:destination="@id/notificationFragment" />
     </fragment>
 
     <fragment android:id="@+id/action_food"
@@ -43,6 +49,9 @@
         <action
                 android:id="@+id/action_action_food_to_action_profile"
                 app:destination="@id/action_profile" />
+        <action
+                android:id="@+id/action_action_food_to_notificationFragment"
+                app:destination="@id/notificationFragment" />
     </fragment>
 
     <fragment android:id="@+id/action_order_history"
@@ -54,6 +63,9 @@
         <action
                 android:id="@+id/action_action_order_history_to_action_cart"
                 app:destination="@id/action_cart" />
+        <action
+                android:id="@+id/action_action_order_history_to_notificationFragment"
+                app:destination="@id/notificationFragment" />
     </fragment>
 
     <fragment android:id="@+id/action_cart" android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.CartFragment"
@@ -82,6 +94,9 @@
         <action
                 android:id="@+id/action_action_more_to_action_cart"
                 app:destination="@id/action_cart" />
+        <action
+                android:id="@+id/action_action_more_to_notificationFragment"
+                app:destination="@id/notificationFragment" />
     </fragment>
     <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
               android:label="FragmentWebPage"/>
@@ -109,6 +124,11 @@
             android:id="@+id/sendMoneyDialog"
             android:name="com.dvm.appd.bosm.dbg.profile.views.SendMoneyDialog"
             android:label="SendMoneyDialog" />
+    <fragment
+            android:id="@+id/notificationFragment"
+            android:name="com.dvm.appd.bosm.dbg.notification.NotificationFragment"
+            android:label="fragment_notification"
+            tools:layout="@layout/fragment_notification" />
 
 
 </navigation>

@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 
 import com.dvm.appd.bosm.dbg.R
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_notification.*
 
 /**
@@ -30,6 +32,14 @@ class NotificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
+        activity!!.bottom_navigation_bar.isVisible = false
+        activity!!.mainView.visibility = View.GONE
+        activity!!.textView.visibility = View.GONE
 
         notificationViewModel.error.observe(this, Observer {
             if (it != null) {
@@ -54,6 +64,16 @@ class NotificationFragment : Fragment() {
         backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }
+    }
+
+    override fun onDetach() {
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
+        super.onDetach()
     }
 
 }
