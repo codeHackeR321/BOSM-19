@@ -14,14 +14,6 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <receiver
-                android:name=".shared.NetworkChangeReciver"
-                android:enabled="true"
-                android:exported="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
 
         <activity android:name=".auth.views.LoginOutsteeActivity" />
         <activity android:name=".splash.views.SplashActivity">
