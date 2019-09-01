@@ -8,6 +8,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
+import com.dvm.appd.bosm.dbg.notification.NotificationDao
+import com.dvm.appd.bosm.dbg.notification.NotificationRepository
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
 import com.dvm.appd.bosm.dbg.shared.BaseInterceptor
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker

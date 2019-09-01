@@ -41,6 +41,10 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
             this.findNavController().navigate(R.id.action_action_food_to_action_profile)
         }
 
+        activity!!.notifications.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_food_to_notificationFragment)
+        }
+
         stallsViewModel.stalls.observe(this, Observer {
             (rootview.stalls_recycler.adapter as StallsAdapter).stalls = it
             (rootview.stalls_recycler.adapter as StallsAdapter).notifyDataSetChanged()

@@ -31,7 +31,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         activity!!.notifications.isVisible = false
         activity!!.bottom_navigation_bar.isVisible = false
         activity!!.mainView.visibility = View.GONE
-        activity!!.textView.visibility = View.GONE
+        //activity!!.textView.visibility = View.GONE
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 

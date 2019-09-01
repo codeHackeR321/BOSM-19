@@ -39,6 +39,10 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
         activity!!.profile.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_more_to_action_profile)
         }
+
+        activity!!.notifications.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_more_to_notificationFragment)
+        }
     }
 
     override fun moreButtonClicked(item: Int) {

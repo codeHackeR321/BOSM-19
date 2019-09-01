@@ -44,6 +44,9 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
             this.findNavController().navigate(R.id.action_action_order_history_to_action_profile)
         }
 
+        activity!!.notifications.setOnClickListener {
+            this.findNavController().navigate(R.id.action_action_order_history_to_notificationFragment)
+        }
         view.orderRecycler.adapter = OrdersAdapter(this)
 
         ordersViewModel.orders.observe(this, Observer {
