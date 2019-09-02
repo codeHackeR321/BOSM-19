@@ -24,7 +24,7 @@ class NotificationAdapter() : RecyclerView.Adapter<NotificationAdapter.Notificat
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         holder.body.text = notifications[position].body
-        holder.title.text = notifications[position].body
+        holder.title.text = notifications[position].title
     }
 
     inner class NotificationViewHolder(view: View): RecyclerView.ViewHolder(view) {
