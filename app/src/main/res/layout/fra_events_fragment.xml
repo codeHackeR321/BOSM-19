@@ -8,15 +8,6 @@
                                                    android:background="#F5F2FF"
                                                    tools:context=".events.view.fragments.EventsFragment">
 
-<!--    <View-->
-<!--            android:id="@+id/view3"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="72dp"-->
-<!--            android:background="@drawable/events_title"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
     <View
             android:id="@+id/view2"
             android:layout_width="0dp"
@@ -24,9 +15,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="6dp"
             android:background="@drawable/shape_rectangle_rounded_8dp"
-            android:elevation="10dp"
+            android:elevation="1dp"
             app:layout_constraintBottom_toTopOf="@+id/eventsRecycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
@@ -56,9 +47,9 @@
             android:id="@+id/miscEvents"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:elevation="11dp"
+            android:elevation="2dp"
             android:fontFamily="Circular Std Medium"
-            android:padding="10dp"
+            android:padding="4dp"
             android:text="@string/miscellaneous"
             android:textAllCaps="false"
             android:textColor="#3B3B3B"
@@ -74,13 +65,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_rectangle_rounded_8dp"
+            android:elevation="1dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:background="@drawable/shape_rectangle_rounded_8dp"
-            android:elevation="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,8 +82,8 @@
             android:id="@+id/icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:elevation="12dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
+            android:elevation="2dp"
             android:src="@drawable/ic_checklist"
             app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintStart_toStartOf="@+id/view2"
@@ -103,7 +94,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginEnd="8dp"
-            android:elevation="12dp"
+            android:elevation="2dp"
             android:src="@drawable/ic_next"
             app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="@+id/view2"

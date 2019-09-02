@@ -3,62 +3,121 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:orientation="vertical"
-                                                   android:background="@drawable/shape_rectangle_rounded_8dp"
-                                                   android:padding="8dp"
-                                                   android:elevation="8dp"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="wrap_content"
                                                    android:id="@+id/miscEventsAdapter">
-    <TextView
-            android:text="Event Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/eventName" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="24dp"
+
+    <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textSize="24sp" android:textAlignment="center" android:textColor="@color/colorBlack"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_rectangle_rounded_8dp"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
+            android:id="@+id/eventName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="64dp"
+            android:elevation="2dp"
+            android:fontFamily="Circular Std Medium"
+            android:text="Event Name"
+            android:textAlignment="textStart"
+            android:textColor="#393939"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@id/view"
+            app:layout_constraintTop_toTopOf="@id/view" />
+
+    <TextView
             android:id="@+id/eventDesc"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/eventName"
-            android:layout_marginStart="24dp" android:textAlignment="center"/>
-    <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:elevation="2dp"
+            android:text="TextView"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@id/view"
+            app:layout_constraintTop_toBottomOf="@+id/eventName" />
+
+    <TextView
             android:id="@+id/eventOrg"
-            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/eventDesc"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-            android:textColor="#6851DA"/>
-    <TextView
-            android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="2dp"
+            android:text="TextView"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textColor="#6851DA"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/view"
+            app:layout_constraintStart_toStartOf="@id/view"
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+
+    <TextView
             android:id="@+id/eventTime"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintTop_toBottomOf="@+id/eventDesc"
-            android:layout_marginTop="16dp" android:textColor="#6851DA"/>
-    <TextView
-            android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="2dp"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#6851DA"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/view"
+            app:layout_constraintEnd_toEndOf="@id/view"
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+
+    <TextView
             android:id="@+id/eventVenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="2dp"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#6851DA"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/view"
             app:layout_constraintEnd_toStartOf="@+id/eventTime"
-            android:layout_marginEnd="16dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp" app:layout_constraintTop_toBottomOf="@+id/eventDesc"
-            android:layout_marginTop="16dp" android:textColor="#6851DA"/>
-    <Button
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+
+    <ImageView
+            android:id="@+id/markFav"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="2dp"
             android:text="1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/markFav" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:textStyle="bold" android:textAlignment="center" android:textSize="18sp"
-            android:textColor="#6851DA"/>
+            android:src="@drawable/ic_not_favourite"
+            android:textAlignment="center"
+            android:textColor="#6851DA"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/view"
+            app:layout_constraintTop_toTopOf="@id/view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository.Keys.name
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
@@ -74,6 +75,11 @@ class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
         })
         */
         setGenderWiseDataObserver()
+
+        view.back.setOnClickListener {
+           it.findNavController().popBackStack()
+        }
+
         return view
     }
 
