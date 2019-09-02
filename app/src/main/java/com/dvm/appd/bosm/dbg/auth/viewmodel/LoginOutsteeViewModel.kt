@@ -14,6 +14,7 @@ class LoginOutsteeViewModel(val authRepository: AuthRepository) : ViewModel() {
     fun login(username: String, password: String) {
 
         authRepository.loginOutstee(username, password).doOnSuccess {
+            authRepository.subscribeToTopics()
             (state as MutableLiveData).postValue(it!!)
         }.doOnError {
             Log.d("checkve", it.toString())

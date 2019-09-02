@@ -24,8 +24,11 @@ interface EventsDao {
     @Query("DELETE FROM misc_table WHERE event_id = :id")
     fun deleteMiscEvent(id: String): Completable
 
-    @Query("SELECT * FROM misc_table ORDER BY event_day, event_time")
-    fun getMiscEvents(): Flowable<List<MiscEventsData>>
+    @Query("SELECT * FROM misc_table WHERE event_day = :day ORDER BY event_day, event_time")
+    fun getDayMiscEvents(day: String): Flowable<List<MiscEventsData>>
+
+    @Query("SELECT DISTINCT event_day FROM misc_table ORDER BY event_day")
+    fun getMiscDays(): Flowable<List<String>>
 
     @Query("SELECT DISTINCT sport_name FROM sports_table")
     fun getSportsName(): Flowable<List<String>>

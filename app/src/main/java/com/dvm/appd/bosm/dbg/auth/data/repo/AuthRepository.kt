@@ -7,6 +7,7 @@ import com.dvm.appd.bosm.dbg.auth.data.User
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthPojo
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
 import com.dvm.appd.bosm.dbg.auth.views.LoginState
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Maybe
@@ -25,12 +26,17 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         const val userId = "ID"
         const val qrCode = "QR"
         const val isBitsian = "ISBITSIAN"
+        const val REGTOKEN = "REGTOKEN"
+        const val TOPIC_SUBSCIPTION = "TOPIC_SUBSCRIPTION"
     }
 
     fun loginOutstee(username: String, password: String): Single<LoginState> {
+        val regToken = sharedPreferences.getString(Keys.REGTOKEN, "")
         val body = JsonObject().also {
             it.addProperty("username", username)
             it.addProperty("password", password)
+            if(regToken != "")
+                it.addProperty("reg_token", regToken)
         }
 
         Log.d("check", body.toString())
@@ -38,8 +44,11 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
     }
 
     fun loginBitsian(id:String):Single<LoginState>{
+        val regToken = sharedPreferences.getString(Keys.REGTOKEN, "Default Value")
         val body = JsonObject().also {
             it.addProperty("id_token",id)
+            if(regToken != "")
+                it.addProperty("reg_token", regToken)
         }
         Log.d("check",body.toString())
         return login(body,true)
@@ -76,6 +85,12 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
+    fun addRegToken(token: String) {
+        Log.d("Auth Repo", "Entered to add token")
+        sharedPreferences.edit().putString(Keys.REGTOKEN, token).apply()
+    }
+
     fun login(body: JsonObject, bitsian: Boolean): Single<LoginState> {
         return authService.login(body)
             .flatMap { response ->
@@ -105,5 +120,29 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                 Log.d("checkre", it.toString())
             }
             .subscribeOn(Schedulers.io())
+    }
+
+    fun subscribeToTopics() {
+        if (!sharedPreferences.getBoolean(Keys.TOPIC_SUBSCIPTION, false)) {
+            FirebaseMessaging.getInstance().subscribeToTopic("User").addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    Log.e("Auth Repo", "Falied to subscribe to topic")
+                    return@addOnCompleteListener
+                }
+                val isBitsian = sharedPreferences.getBoolean(Keys.isBitsian, false)
+                val topic = if (isBitsian) {
+                    "Bitsian"
+                } else {
+                    "Outstee"
+                }
+                FirebaseMessaging.getInstance().subscribeToTopic(topic).addOnCompleteListener {
+                    if (!it.isSuccessful) {
+                        Log.e("Auth Repo", "Falied to subscribe to topic $topic")
+                        return@addOnCompleteListener
+                    }
+                    sharedPreferences.edit().putBoolean(Keys.TOPIC_SUBSCIPTION, true).apply()
+                }
+            }
+        }
     }
 }

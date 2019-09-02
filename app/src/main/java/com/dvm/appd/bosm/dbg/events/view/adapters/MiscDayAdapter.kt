@@ -8,10 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.adapter_misc_day.view.*
 
-class MiscDayAdapter(): RecyclerView.Adapter<MiscDayAdapter.MiscDayViewHolder>(){
+class MiscDayAdapter(private val listener: OnDaySelected): RecyclerView.Adapter<MiscDayAdapter.MiscDayViewHolder>(){
+
+    var miscDays: List<String> = emptyList()
+
+    interface OnDaySelected{
+        fun daySelected(day: String)
+    }
 
     inner class MiscDayViewHolder(view: View): RecyclerView.ViewHolder(view){
-
         val day: Button = view.day
     }
 
@@ -22,13 +27,13 @@ class MiscDayAdapter(): RecyclerView.Adapter<MiscDayAdapter.MiscDayViewHolder>()
         return MiscDayViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = miscDays.size
 
     override fun onBindViewHolder(holder: MiscDayViewHolder, position: Int) {
 
-        holder.day.text = "Day"
+        holder.day.text = miscDays[position]
         holder.day.setOnClickListener {
-
+            listener.daySelected(miscDays[position])
         }
     }
 

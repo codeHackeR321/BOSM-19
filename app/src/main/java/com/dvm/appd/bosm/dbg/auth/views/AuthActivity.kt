@@ -50,6 +50,7 @@ class AuthActivity : AppCompatActivity() {
             when (it!!) {
                 LoginState.Success -> {
                     startActivity(Intent(this, MainActivity::class.java))
+                    finishAffinity()
                 }
                 is LoginState.Failure -> {
                     Toast.makeText(this, (it as LoginState.Failure).message, Toast.LENGTH_LONG).show()

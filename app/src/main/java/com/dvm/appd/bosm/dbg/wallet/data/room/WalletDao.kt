@@ -29,6 +29,9 @@ interface WalletDao {
     @Query("SELECT orders.id as orderId, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id ORDER BY order_id DESC")
     fun getOrdersData(): Flowable<List<ChildOrdersData>>
 
+    @Query("SELECT orders.id as orderId, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id WHERE orders.id = :orderId ORDER BY order_id DESC")
+    fun getOrderById(orderId: Int): Flowable<List<ChildOrdersData>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNewOrders(orders: List<OrderData>)
 

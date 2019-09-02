@@ -18,13 +18,14 @@
             android:layout_marginBottom="16dp" android:layout_marginEnd="8dp" android:layout_marginStart="8dp"/>
     <TextView
             android:text="TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:elevation="12dp"
             android:id="@+id/orderNumber" app:layout_constraintTop_toTopOf="@id/view"
             app:layout_constraintStart_toStartOf="@id/view"
             android:layout_marginStart="16dp" android:textSize="30sp" android:layout_marginTop="4dp"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack" android:layout_marginEnd="64dp"
+            app:layout_constraintEnd_toStartOf="@+id/otp"/>
     <TextView
             android:text="OTP"
             android:layout_width="wrap_content"
@@ -43,7 +44,8 @@
             android:id="@+id/price" android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@+id/orderNumber" app:layout_constraintStart_toStartOf="@id/view"
             android:layout_marginStart="16dp" android:textSize="18sp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/view" android:textColor="@color/colorBlack"/>
+            app:layout_constraintBottom_toBottomOf="@id/view" android:textColor="@color/colorBlack"
+    />
     <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
@@ -56,4 +58,19 @@
             app:layout_constraintTop_toBottomOf="@+id/otp"
             app:layout_constraintStart_toStartOf="@+id/otp" app:layout_constraintEnd_toEndOf="@+id/otp"
             android:textColor="@color/colorBlack"/>
+
+    <TextView
+            android:id="@+id/orderId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="12dp"
+            android:text="TextView"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/price"
+            app:layout_constraintTop_toBottomOf="@+id/orderNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>

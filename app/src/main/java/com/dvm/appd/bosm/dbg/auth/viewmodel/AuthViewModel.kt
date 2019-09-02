@@ -7,19 +7,35 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.auth.views.LoginState
+import com.google.firebase.iid.FirebaseInstanceId
 
 class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
 
     var state:LiveData<LoginState> = MutableLiveData()
 
     init {
+        listenRegToken()
+    }
 
+    private fun listenRegToken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            if (!it.isSuccessful) {
+                Log.e("Auth ViewModel", "Errror Retriving Reg Token")
+                return@addOnCompleteListener
+            }
+            Log.d("Auth ViewModel", "Reg Token recived = ${it.result!!.token}")
+            authRepository.addRegToken(it.result!!.token)
+        }.addOnFailureListener {
+            listenRegToken()
+            Log.e("Auth ViewModel", "Exception in listening for token \n ${it.toString()}")
+        }
     }
 
     @SuppressLint("CheckResult")
     fun login(id:String){
 
      authRepository.loginBitsian(id).subscribe({
+         authRepository.subscribeToTopics()
          (state as MutableLiveData).postValue(it)
      },{
          Log.d("checke",it.toString())
