@@ -2,6 +2,7 @@ package com.dvm.appd.bosm.dbg.events.view.adapters
 
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.card_sports_horizontal.view.*
@@ -24,7 +26,8 @@ class GenderDataAdapter( private val genderDefault: String,private val listener:
     class GenderViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         val textView: TextView = view.editTextGender
-        val parent:LinearLayout=view.Parent_horizontal
+        val parent:ConstraintLayout=view.Parent_horizontal
+        val line: View = view.line
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenderViewHolder {
@@ -39,10 +42,16 @@ class GenderDataAdapter( private val genderDefault: String,private val listener:
         holder.textView.setText(gender[position])
         if (gender[position].equals(genderSelected))
         {
-            holder.textView.paintFlags=Paint.UNDERLINE_TEXT_FLAG
+            holder.textView.setTextColor(Color.rgb(104, 81, 218))
+            holder.textView.setTypeface(null, Typeface.BOLD)
+            holder.line.setBackgroundColor(Color.rgb(104, 81, 218))
         }
         else
-            holder.textView.paintFlags=0
+        {
+            holder.textView.setTextColor(Color.rgb(137, 134, 134))
+            holder.textView.setTypeface(null, Typeface.NORMAL)
+            holder.line.setBackgroundColor(Color.WHITE)
+        }
 
 
         Log.d("SportsGender","Gender onBindviewholder genderClicked$${gender[position]}")

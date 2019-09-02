@@ -7,9 +7,9 @@
     </item>
     <item
             android:bottom="0dp"
-            android:left="-100dp"
-            android:right="-100dp"
-            android:top="-80dp">
+            android:left="-70dp"
+            android:right="-70dp"
+            android:top="-120dp">
         <shape android:shape="oval">
             <gradient
                     android:startColor="#002DE1"
