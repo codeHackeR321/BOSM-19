@@ -115,75 +115,81 @@ class EventsRepository (val eventsDao: EventsDao){
         var sportsData: MutableList<SportsData> = arrayListOf()
             db.collection("events").document("sports").collection("matches").addSnapshotListener { snapshots, e ->
 
+                    try {
+                        if (e != null) {
+                            Log.w("Sports", "listen:error", e)
+                            return@addSnapshotListener
+                        }
 
-                            if (e != null) {
-                                Log.w("Sports", "listen:error", e)
-                                return@addSnapshotListener
-                            }
+                        for (dc in snapshots!!.documentChanges) {
+                            when (dc.type) {
+                                DocumentChange.Type.ADDED -> {
+                                    Log.d("sports1", "added doc data : ${dc.document.data}")
 
-                            for (dc in snapshots!!.documentChanges) {
-                                when (dc.type) {
-                                    DocumentChange.Type.ADDED -> {
-                                        Log.d("sports1", "added doc data : ${dc.document.data}")
+                                    sportsData.add(
+                                        SportsData(
+                                            match_no = dc.document.id.toInt(),
+                                            name = dc.document["sport"] as String,
+                                            round = dc.document["round_name"] as String,
+                                            round_type = dc.document["round_type"] as String,
+                                            team_1 = dc.document["team1"] as String,
+                                            team_2 = dc.document["team2"] as String,
+                                            time = dc.document["timestamp"] as String,
+                                            venue = dc.document["venue"] as String,
+                                            gender = dc.document["gender"] as String,
+                                            isScore = dc.document["is_score"] as Boolean,
+                                            layout = (dc.document["layout"] as Long).toInt(),
+                                            score_1 = dc.document["score1"] as String,
+                                            score_2 = dc.document["score2"] as String,
+                                            winner1 = dc.document["winner1"] as String,
+                                            winner2 = dc.document["winner2"] as String,
+                                            winner3 = dc.document["winner3"] as String
 
-                                        sportsData.add(
-                                            SportsData(
-                                                match_no = dc.document.id.toInt(),
-                                                name = dc.document["sport"] as String,
-                                                round = dc.document["round_name"] as String,
-                                                round_type = dc.document["round_type"] as String,
-                                                team_1 = dc.document["team1"] as String,
-                                                team_2 = dc.document["team2"] as String,
-                                                time = dc.document["timestamp"] as String,
-                                                venue = dc.document["venue"] as String,
-                                                gender = dc.document["gender"] as String,
-                                                isScore = dc.document["is_score"] as Boolean,
-                                                layout = (dc.document["layout"] as Long).toInt(),
-                                                score_1 = dc.document["score1"] as String,
-                                                score_2 = dc.document["score2"] as String,
-                                                winner1 = dc.document["winner1"] as String,
-                                                winner2 = dc.document["winner2"] as String,
-                                                winner3 = dc.document["winner3"] as String
-
-                                            )
                                         )
-
-                                    }
-                                    DocumentChange.Type.MODIFIED ->{
-                                       var position= sportsData.indexOfFirst { it.match_no==dc.document.id.toInt()}
-
-                                       sportsData.set(position,SportsData(
-                                           match_no = dc.document.id.toInt(),
-                                           name = dc.document["sport"] as String,
-                                           round = dc.document["round_name"] as String,
-                                           round_type = dc.document["round_type"] as String,
-                                           team_1 = dc.document["team1"] as String,
-                                           team_2 = dc.document["team2"] as String,
-                                           time = dc.document["timestamp"] as String,
-                                           venue = dc.document["venue"] as String,
-                                           gender = dc.document["gender"] as String,
-                                           isScore = dc.document["is_score"] as Boolean,
-                                           layout = (dc.document["layout"] as Long).toInt(),
-                                           score_1 = dc.document["score1"] as String,
-                                           score_2 = dc.document["score2"] as String,
-                                           winner1 = dc.document["winner1"] as String,
-                                           winner2 = dc.document["winner2"] as String,
-                                           winner3 = dc.document["winner3"] as String
-                                       ))
-
-                                        Log.d("sports3", "Modified city: ${dc.document.data}")
-                                    }
-
-                                    DocumentChange.Type.REMOVED ->
-                                    {
-                                        Log.d("sports4", "Removed city: ${dc.document.data}")
-                                        eventsDao.deleteSportsData(dc.document.id.toInt())
-                                    }
+                                    )
 
                                 }
+                                DocumentChange.Type.MODIFIED -> {
+                                    var position =
+                                        sportsData.indexOfFirst { it.match_no == dc.document.id.toInt() }
+
+                                    sportsData.set(
+                                        position, SportsData(
+                                            match_no = dc.document.id.toInt(),
+                                            name = dc.document["sport"] as String,
+                                            round = dc.document["round_name"] as String,
+                                            round_type = dc.document["round_type"] as String,
+                                            team_1 = dc.document["team1"] as String,
+                                            team_2 = dc.document["team2"] as String,
+                                            time = dc.document["timestamp"] as String,
+                                            venue = dc.document["venue"] as String,
+                                            gender = dc.document["gender"] as String,
+                                            isScore = dc.document["is_score"] as Boolean,
+                                            layout = (dc.document["layout"] as Long).toInt(),
+                                            score_1 = dc.document["score1"] as String,
+                                            score_2 = dc.document["score2"] as String,
+                                            winner1 = dc.document["winner1"] as String,
+                                            winner2 = dc.document["winner2"] as String,
+                                            winner3 = dc.document["winner3"] as String
+                                        )
+                                    )
+
+                                    Log.d("sports3", "Modified city: ${dc.document.data}")
+                                }
+
+                                DocumentChange.Type.REMOVED -> {
+                                    Log.d("sports4", "Removed city: ${dc.document.data}")
+                                    eventsDao.deleteSportsData(dc.document.id.toInt())
+                                }
+
                             }
-                             saveSportsDataRoom(sportsData).subscribe()
-                            Log.d("sports2", "added sports data a: $sportsData")
+                        }
+                        saveSportsDataRoom(sportsData).subscribe()
+                        Log.d("sports2", "added sports data a: $sportsData")
+                    }catch (e: Exception) {
+
+                    }
+
                     }
 
                 }

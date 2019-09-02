@@ -13,9 +13,10 @@
     <string name="action_more">More</string>
 
     <string name="chanel_id_general_notifications">General</string>
-    <string name="chanel_id_status_change_notifications">StatusChange</string>
+    <string name="chanel_id_status_change_notifications">Orders</string>
     <string name="chanel_id_rating_notifications">Rating</string>
     <string name="channel_id_rating_events">Events</string>
+    <string name="channel_id_quiz">Quiz</string>
     <string name="chanel_name_general_notifications">Announcements</string>
     <string name="chanel_name_status_change_notifications">Order Progress</string>
     <string name="chanel_name_rating_notifications">Food Ratings</string>

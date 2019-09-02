@@ -35,18 +35,23 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         Log.d("Notification", "onMessageRecived called")
-        if (remoteMessage == null)
-            return
-        if (remoteMessage.data.size > 0) {
+        if (remoteMessage == null) {
+            Log.d("Notification", "Null Data")
+        }
+
+        if (remoteMessage!!.data.size > 0) {
             Log.d("Notification", "Non null data")
             try {
-                var json = JSONObject(remoteMessage.data.toString())
+                var json = JSONObject(remoteMessage!!.data.toString())
                 Log.d("Notification", "Recived json = ${remoteMessage.data.toString()}")
                 handleDataMessage(json)
             }catch (e: Exception) {
                 Log.e("Notification", "Failed to convert to json = $e")
                 // TODO setup firebase analytic log here
             }
+        }
+        else {
+            Log.d("Notification", "Entered Else ${remoteMessage.data.toString()}")
         }
 
     }
@@ -57,7 +62,13 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val id = json.getString("id")
         val title = json.getString("title")
         val body = json.getString("body")
-        val channel = json.getString("channel")
+        var channel: String
+        try {
+            channel = json.getString("channel")
+        }catch (e:Exception) {
+            channel = resources.getString(R.string.chanel_id_general_notifications)
+        }
+
         val notificatoin = Notification(id = id, title = title, body = body, channel = channel)
         Log.d("Notification", "Notification = ${notificatoin.toString()}")
         sendNotification(notificatoin)
@@ -83,6 +94,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(message: Notification) {
+        var channel = resources.getString(R.string.chanel_id_general_notifications)
         Log.d("Notification", "Sending Notification")
         val pendingIntent = NavDeepLinkBuilder(applicationContext).setGraph(com.dvm.appd.bosm.dbg.R.navigation.navigation_graph).setComponentName(MainActivity::class.java).setDestination(
             com.dvm.appd.bosm.dbg.R.id.action_profile).createPendingIntent()
