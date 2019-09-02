@@ -47,8 +47,7 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
         holder.event.text = miscEvents[position].name
         holder.description.text = miscEvents[position].description
         holder.organiser.text = miscEvents[position].organiser
-        // TODO Extract Date and time from UTC String
-        holder.time.text = miscEvents[position].time
+        holder.time.text = getTime(miscEvents[position].time)
         holder.venue.text = miscEvents[position].venue
         if (miscEvents[position].isFavourite == 1){
             holder.markFav.setImageResource(R.drawable.ic_is_favourite)
@@ -67,18 +66,10 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
         }
     }
 
-//    private fun getDate(timestamp: Long): String {
-//
-//        val sdf = java.text.SimpleDateFormat("d MMM")
-//        val date = java.util.Date(timestamp*1000)
-//        return sdf.format(date)
-//    }
+    private fun getTime(datetime: String): String {
 
-    private fun getTime(timestamp: Long): String {
-
-        val sdf = SimpleDateFormat("h:mm a")
-        val date = Date(timestamp*1000)
-        return sdf.format(date)
+        val sdf = java.text.SimpleDateFormat("h:mm a")
+        return sdf.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'").parse(datetime))
     }
 
 }

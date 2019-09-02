@@ -23,6 +23,13 @@ import kotlinx.android.synthetic.main.fra_events_fragment.view.*
 class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
 
     private lateinit var eventsViewViewModel: EventsViewModel
+    private val icons = mapOf(
+        "Football" to R.drawable.ic_football,
+        "Basketball" to R.drawable.ic_basketball,
+        "Tennis" to R.drawable.ic_tennis,
+        "Hockey" to R.drawable.ic_hockey,
+        "Squash" to R.drawable.ic_squash
+    )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -45,7 +52,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
             this.findNavController().navigate(R.id.action_action_events_to_notificationFragment)
         }
 
-        view.eventsRecycler.adapter = EventsAdapter(this)
+        view.eventsRecycler.adapter = EventsAdapter(icons, this)
 
         eventsViewViewModel.sportsName.observe(this, Observer {
 

@@ -3,6 +3,7 @@ package com.dvm.appd.bosm.dbg.events.view.adapters
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ class MiscDayAdapter(private val listener: OnDaySelected): RecyclerView.Adapter<
 
     inner class MiscDayViewHolder(view: View): RecyclerView.ViewHolder(view){
         val day: TextView = view.day
+        val underline: View = view.underline
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MiscDayViewHolder {
@@ -39,11 +41,13 @@ class MiscDayAdapter(private val listener: OnDaySelected): RecyclerView.Adapter<
 
         if (daySelected == miscDays[position]){
             holder.day.setTextColor(Color.rgb(104, 81, 218))
-            holder.day.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+            holder.day.setTypeface(null, Typeface.BOLD)
+            holder.underline.setBackgroundColor(Color.rgb(104, 81, 218))
         }
         else{
             holder.day.setTextColor(Color.rgb(137, 134, 134))
-            holder.day.paintFlags = 0
+            holder.day.setTypeface(null, Typeface.NORMAL)
+            holder.underline.setBackgroundColor(Color.WHITE)
         }
 
         holder.day.setOnClickListener {
