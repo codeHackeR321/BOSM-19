@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.subjects.BehaviorSubject
+import java.lang.Exception
 
 class MoneyTracker(val authRepository: AuthRepository) {
 
@@ -16,8 +17,14 @@ class MoneyTracker(val authRepository: AuthRepository) {
         authRepository.getUser()
             .subscribe{
                 db.collection("users").document(it.userId).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                    val balance = documentSnapshot?.getLong("total_balance")
-                    subject.onNext(balance!!.toInt())
+                    val balance: Int
+                    //TODO Determine correct default value
+                    balance = try {
+                        (documentSnapshot?.getLong("total_balance"))!!.toInt()
+                    } catch (e: Exception) {
+                        Integer.MAX_VALUE
+                    }
+                    subject.onNext(balance)
                 }
 
             }
