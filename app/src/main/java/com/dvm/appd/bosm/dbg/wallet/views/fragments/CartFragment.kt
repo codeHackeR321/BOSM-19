@@ -25,8 +25,13 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
 
         val view = inflater.inflate(R.layout.fra_cart_dialog, container, false)
 
-        activity!!.my_toolbar.isVisible = false
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
         activity!!.bottom_navigation_bar.isVisible = false
+        activity!!.mainView.visibility = View.GONE
+        //activity!!.textView.visibility = View.GONE
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
@@ -39,7 +44,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
 
             if (it.sumBy {it1 -> it1.quantity * it1.price } != 0){
                 view.cartOrderView.isVisible = true
-                view.totalPrice.text = "₹ ${it.sumBy {it2 ->  it2.quantity * it2.price }}"
+                view.totalPrice.text = "Total: ₹ ${it.sumBy {it2 ->  it2.quantity * it2.price }}"
                 view.itemCount.text = "${it.sumBy { it3 -> it3.quantity }} items"
             }
             else{
@@ -50,7 +55,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
             }
         })
 
-        view.placeOrder.setOnClickListener {
+        view.cartOrderView.setOnClickListener {
             (cartViewModel.progressBarMark as MutableLiveData).postValue(0)
             cartViewModel.placeOrder()
         }
@@ -84,7 +89,11 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
     override fun onDetach() {
         super.onDetach()
 
-        activity!!.my_toolbar.isVisible = true
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
         activity!!.bottom_navigation_bar.isVisible = true
     }
 

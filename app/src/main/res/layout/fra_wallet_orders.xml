@@ -3,19 +3,23 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   android:background="@color/colorWhite"
+                                                   android:background="#F3F7FF"
                                                    tools:context=".wallet.views.fragments.OrdersFragment"
 >
+
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="#ffff"
-            android:layout_marginStart="32dp" android:layout_marginEnd="32dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="32dp"
-            android:id="@+id/orderRecycler"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_marginTop="32dp" app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"

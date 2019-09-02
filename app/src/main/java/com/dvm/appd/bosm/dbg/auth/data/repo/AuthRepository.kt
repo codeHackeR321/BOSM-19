@@ -99,6 +99,8 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                 when (response.code()) {
                     200 -> {
                         Log.d("checkr", response.body().toString())
+                        var name = response.body()!!.name
+                        Log.d("Checkerer", "Name = $name")
                         setUser(
                             User(
                                 jwt = response.body()!!.jwt,

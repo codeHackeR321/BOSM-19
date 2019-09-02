@@ -111,8 +111,9 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                 else
                     holder1.winner1.text="Winner: ${sportData[position].winner1}"
 
-                holder1.date.text = getDate(timestamp = sportData[position].time)
-                holder1.time.text = getTime(timestamp = sportData[position].time)
+                // TODO Extract date and time from UTC timestamp as String
+                holder1.date.text = getDate(sportData[position].time)
+                holder1.time.text = getTime(sportData[position].time)
                 holder1.venue.text=sportData[position].venue
                 holder1.team1.text=sportData[position].team_1
                 holder1.team2.text=sportData[position].team_2
@@ -132,8 +133,8 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                 else
                     holder2.roundType.text=sportData[position].round_type
 
-                holder2.date.text = getDate(timestamp = sportData[position].time)
-                holder2.time.text = getTime(timestamp = sportData[position].time)
+                holder2.date.text = getDate(sportData[position].time)
+                holder2.time.text = getTime(sportData[position].time)
                 holder2.venue.text=sportData[position].venue
 
                 if (sportData[position].winner1.isNullOrEmpty())
@@ -155,17 +156,22 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
         }
     }
 
-    private fun getDate(timestamp: Long): String {
+    private fun getDate(datetime:String): String {
 
-        val sdf = java.text.SimpleDateFormat("d MMM")
+       /* val sdf = java.text.SimpleDateFormat("d MMM")
         val date = java.util.Date(timestamp*1000)
-        return sdf.format(date)
+        return sdf.format(date)*/
+        val sdf = java.text.SimpleDateFormat("d MMM")
+       // val date = java.util.Date()
+        return sdf.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'").parse(datetime))
     }
 
-    private fun getTime(timestamp: Long): String {
+    private fun getTime(datetime:String): String {
 
-        val sdf = java.text.SimpleDateFormat("h:mm a")
+       /* val sdf = java.text.SimpleDateFormat("h:mm a")
         val date = java.util.Date(timestamp*1000)
-        return sdf.format(date)
+        return sdf.format(date)*/
+        val sdf = java.text.SimpleDateFormat("h:mm a")
+        return sdf.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'").parse(datetime))
     }
 }

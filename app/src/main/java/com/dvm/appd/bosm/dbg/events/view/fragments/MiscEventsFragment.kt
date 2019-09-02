@@ -32,32 +32,43 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
 
         val view = inflater.inflate(R.layout.fra_misc_events, container, false)
 
-        activity!!.my_toolbar.isVisible = false
+        activity!!.mainView.isVisible = false
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
+
         val sdf = SimpleDateFormat("dd MM yyyy")
         val c = Calendar.getInstance()
 
         when(sdf.format(c.time)){
             "13 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 1")
                 miscEventsViewViewModel.getMiscEventsData("Day 1")
             }
 
             "14 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 2")
                 miscEventsViewViewModel.getMiscEventsData("Day 2")
             }
 
             "15 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 3")
                 miscEventsViewViewModel.getMiscEventsData("Day 3")
             }
 
             "16 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 4")
                 miscEventsViewViewModel.getMiscEventsData("Day 4")
             }
 
             "17 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 5")
                 miscEventsViewViewModel.getMiscEventsData("Day 5")
             }
 
             else -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 1")
                 miscEventsViewViewModel.getMiscEventsData("Day 1")
             }
         }
@@ -78,6 +89,12 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
             (view.miscEventRecycler.adapter as MiscEventsAdapter).notifyDataSetChanged()
         })
 
+        miscEventsViewViewModel.daySelected.observe(this, Observer {
+
+            (view.dayRecycler.adapter as MiscDayAdapter).daySelected = it
+            (view.dayRecycler.adapter as MiscDayAdapter).notifyDataSetChanged()
+        })
+
         view.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }
@@ -87,14 +104,20 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
 
     override fun onDetach() {
         super.onDetach()
-        activity!!.my_toolbar.isVisible = true
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
     }
 
     override fun updateIsFavourite(eventId: String, favouriteMark: Int) {
         miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark)
     }
 
-    override fun daySelected(day: String) {
+    override fun daySelected(day: String, position: Int) {
+        (miscEventsViewViewModel.daySelected as MutableLiveData).postValue(day)
         miscEventsViewViewModel.getMiscEventsData(day)
+        view!!.dayRecycler.smoothScrollToPosition(position)
     }
 }

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
@@ -30,7 +31,11 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         val stallId = arguments?.getInt("stallId")
         val stallName = arguments?.getString("stallName")
 
-        activity!!.my_toolbar.isVisible = false
+        activity!!.mainView.isVisible = false
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
 
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
 
@@ -47,13 +52,23 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
 
         stallItemsViewModel.cartItems.observe(this, Observer {
 
-            if(it.isNotEmpty()){
-                rootView
+            if (it.sumBy {it1 -> it1.quantity * it1.price } != 0){
+                rootView.stallOrderView.isVisible = true
+                rootView.viewCart.text = "View Cart"
+                rootView.totalPrice.text = "₹ ${it.sumBy {it2 ->  it2.quantity * it2.price }}"
+                rootView.itemCount.text = "${it.sumBy { it3 -> it3.quantity }} items"
             }
             else{
-                rootView
+                rootView.totalPrice.text = ""
+                rootView.itemCount.text = ""
+                rootView.viewCart.text = ""
+                rootView.stallOrderView.isVisible = false
             }
         })
+
+        rootView.stallOrderView.setOnClickListener {
+            //TODO add navigation to cart fragment
+        }
 
         rootView.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
@@ -64,7 +79,11 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
     override fun onDetach() {
         super.onDetach()
 
-        activity!!.my_toolbar.isVisible = true
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
     }
 
     override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {

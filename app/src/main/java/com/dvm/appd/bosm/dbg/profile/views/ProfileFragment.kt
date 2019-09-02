@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -41,11 +42,18 @@ class ProfileFragment : Fragment() {
     ): View? {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
-        activity!!.my_toolbar.visibility = View.GONE
+        activity!!.mainView.visibility = View.GONE
+        //activity!!.textView.visibility = View.GONE
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
+        activity!!.bottom_navigation_bar.isVisible = false
 
         rootView.logout.setOnClickListener {
             profileViewModel.logout()
         }
+        activity!!.mainView.visibility = View.GONE
 
         profileViewModel.balance.observe(this, Observer {
             rootView.balance.text = "-/${it!!}"
@@ -94,7 +102,12 @@ class ProfileFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        activity!!.my_toolbar.visibility = View.VISIBLE
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
     }
 
     fun String.generateQr(): Bitmap {

@@ -30,7 +30,6 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
             (progressBarMark as MutableLiveData).postValue(1)
         },{
                 (progressBarMark as MutableLiveData).postValue(1)
-                Log.d("CartError", it.message)
                 (error as MutableLiveData).postValue(it.message)
         })
     }

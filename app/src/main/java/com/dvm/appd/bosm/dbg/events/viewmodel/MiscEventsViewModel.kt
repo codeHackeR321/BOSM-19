@@ -12,6 +12,7 @@ class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
     var miscEvents: LiveData<List<MiscEventsData>> = MutableLiveData()
     var eventDays: LiveData<List<String>> = MutableLiveData()
+    var daySelected: LiveData<String> = MutableLiveData()
 
     init {
 

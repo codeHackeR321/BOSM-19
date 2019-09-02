@@ -2,10 +2,8 @@ package com.dvm.appd.bosm.dbg
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.ComponentName
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -24,18 +22,26 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.dvm.appd.bosm.dbg.di.AppModule
 import com.dvm.appd.bosm.dbg.notification.FirebaseMessagingService
+import com.dvm.appd.bosm.dbg.shared.NetworkChangeReciver
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.adapter_order_items.*
 import kotlinx.android.synthetic.main.checkbox.view.*
 
+interface NetworkChangeNotifier {
+    fun onNetworkStatusScahnged(isConnected: Boolean)
+}
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
 
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var navController: NavController
     private lateinit var sharedPreferences: SharedPreferences
+    private var receiver: NetworkChangeReciver? = null
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actionbaritems, menu)
@@ -49,12 +55,16 @@ class MainActivity : AppCompatActivity() {
         setupNotificationChannel()
         checkForInvitation()
         checkNotificationPermissions()
-        setSupportActionBar(findViewById(R.id.my_toolbar))
+        // setSupportActionBar(findViewById(R.id.my_toolbar))
         var navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setupWithNavController(navController)
         bottomNav.selectedItemId = R.id.action_events
+
+        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        receiver = NetworkChangeReciver(this)
+        this.registerReceiver(receiver, filter)
 
     }
 
@@ -207,6 +217,25 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         startService(Intent(this, FirebaseMessagingService::class.java))
         super.onResume()
+    }
+
+    override fun onDestroy() {
+        this.unregisterReceiver(receiver)
+        super.onDestroy()
+    }
+
+    override fun onNetworkStatusScahnged(isConnected: Boolean) {
+        if (isConnected) {
+            val snackbar = Snackbar.make(this.coordinator_parent, "Back Online", Snackbar.LENGTH_SHORT)
+            snackbar.view.setBackgroundColor(resources.getColor(R.color.colorGreen))
+            snackbar.show()
+        } else {
+            Snackbar.make(this.coordinator_parent, "Not Connected to the internet", Snackbar.LENGTH_INDEFINITE).setBehavior(object : BaseTransientBottomBar.Behavior(){
+                override fun canSwipeDismissView(child: View): Boolean {
+                    return false
+                }
+            }).show()
+        }
     }
 
 }
