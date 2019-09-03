@@ -41,15 +41,20 @@ class LoginOutsteeActivity : AppCompatActivity(){
 
         loginOutsteeViewModel.state.observe(this, Observer {
             when(it!!){
-                LoginState.Success -> {
+                LoginState.MoveToMainApp -> {
                     loading.visibility = View.GONE
                     startActivity(Intent(this,MainActivity::class.java))
+                    finishAffinity()
+                }
+                LoginState.MoveToOnBoarding ->{
+                    loading.visibility = View.GONE
                     finishAffinity()
                 }
                 is LoginState.Failure -> {
                     loading.visibility = View.GONE
                     Toast.makeText(this,(it as LoginState.Failure).message,Toast.LENGTH_SHORT).show()
                 }
+
             }
         })
     }
