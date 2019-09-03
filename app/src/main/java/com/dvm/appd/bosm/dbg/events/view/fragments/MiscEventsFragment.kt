@@ -111,8 +111,9 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         activity!!.notifications.isVisible = true
     }
 
-    override fun updateIsFavourite(eventId: String, favouriteMark: Int) {
-        miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark)
+    override fun updateIsFavourite(eventId: String, favouriteMark: Int, day: String) {
+        miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark, day)
+        miscEventsViewViewModel.getMiscEventsData(day)
     }
 
     override fun daySelected(day: String, position: Int) {

@@ -45,10 +45,10 @@
             android:id="@+id/totalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="Circular Std Book"
             android:text="TextView"
             android:textColor="#00802A"
-            android:fontFamily="Circular Std Book"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/cartOrderView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,9 +100,9 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cartName"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cartName"
             app:srcCompat="@drawable/ic_back" />
 
     <ImageView

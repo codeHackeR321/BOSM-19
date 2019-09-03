@@ -28,8 +28,12 @@ class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
     }
 
-    fun markEventFavourite(eventId: String, favouriteMark: Int){
-        eventsRepository.updateFavourite(eventId, favouriteMark).subscribe()
+    fun markEventFavourite(eventId: String, favouriteMark: Int, day: String){
+        eventsRepository.updateFavourite(eventId, favouriteMark)
+            .doOnComplete {
+                getMiscEventsData(day)
+            }
+            .subscribe()
     }
 
     fun getMiscEventsData(day: String){

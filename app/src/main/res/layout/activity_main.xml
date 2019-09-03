@@ -22,27 +22,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <!--<androidx.appcompat.widget.Toolbar
-                android:id="@+id/my_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:elevation="4dp"
-                android:visibility="invisible"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:menu ="@menu/actionbaritems"
-                app:layout_constraintEnd_toEndOf="parent"/>-->
-
         <fragment
                 android:id="@+id/my_nav_host_fragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:defaultNavHost="true"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mainView"
@@ -54,6 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_gravity="start"
+                android:elevation="16dp"
+                android:background="@color/colorWhite"
                 app:menu="@menu/bottom_nav_items"
                 style="@style/Widget.Design.BottomNavigationView"
                 app:layout_constraintBottom_toBottomOf="parent"

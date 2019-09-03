@@ -441,16 +441,16 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return authRepository.getUser()
             .toSingle()
             .flatMap {
-                walletService.addMoneyBitsian("jwt ${it.jwt}", body).map {
-                    Log.d("check", it.code().toString())
+                walletService.addMoneyBitsian("jwt ${it.jwt}", body).map { response ->
+                    Log.d("check", response.code().toString())
 
-                    when (it.code()) {
+                    when (response.code()) {
                         200 -> TransactionResult.Success
-                        in 400..499 -> TransactionResult.Failure(it.errorBody()!!.string())
+                        in 400..499 -> TransactionResult.Failure(response.errorBody()!!.string())
                         else -> TransactionResult.Failure("Something went wrong!!")
                     }
-                }.doOnError {
-                    Log.d("checke", it.toString())
+                }.doOnError { throwable ->
+                    Log.d("checke", throwable.toString())
                 }
             }.subscribeOn(Schedulers.io())
 
@@ -480,8 +480,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         else -> TransactionResult.Failure("Something went wrong!!")
 
                     }
-                }.doOnError {
-                    Log.d("checke", it.toString())
+                }.doOnError { throwable ->
+                    Log.d("checke", throwable.toString())
                 }
             }.subscribeOn(Schedulers.io())
 
