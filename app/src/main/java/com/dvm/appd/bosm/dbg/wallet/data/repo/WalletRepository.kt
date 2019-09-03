@@ -369,6 +369,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                                 Log.d("PlaceOrder", "Success Error: 412")
                                 throw Exception("412 vendor closed")
                             }
+
                         }
 
                     }
