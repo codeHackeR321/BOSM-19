@@ -12,9 +12,9 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/stallName"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/stallName"
             app:srcCompat="@drawable/ic_back" />
 
     <TextView
@@ -37,9 +37,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:paddingBottom="56dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/stallOrderView"
+            app:layout_constraintBottom_toBottomOf="@+id/stallOrderView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stallName" />
@@ -48,10 +48,11 @@
             android:id="@+id/stallOrderView"
             android:layout_width="0dp"
             android:layout_height="56dp"
+            android:layout_marginBottom="56dp"
             android:background="@drawable/cart_button_gradient"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

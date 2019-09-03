@@ -39,7 +39,7 @@ class MiscDayAdapter(private val listener: OnDaySelected): RecyclerView.Adapter<
 
         holder.day.text = miscDays[position]
 
-        if (daySelected == miscDays[position]){
+        if (miscDays[position] == daySelected){
             holder.day.setTextColor(Color.rgb(104, 81, 218))
             holder.day.setTypeface(null, Typeface.BOLD)
             holder.underline.setBackgroundColor(Color.rgb(104, 81, 218))
@@ -54,6 +54,4 @@ class MiscDayAdapter(private val listener: OnDaySelected): RecyclerView.Adapter<
             listener.daySelected(miscDays[position], position)
         }
     }
-
-
 }
