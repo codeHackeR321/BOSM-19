@@ -23,11 +23,9 @@ class NotificationViewModel(val notificationRepository: NotificationRepository) 
         notificationRepository.getNotifications().subscribe({
             Log.d("Notification", "Data form room = ${it.toString()}")
             if (it.isNotEmpty()){
-                notifications.asMut().postValue(it)
-            } else {
-                notifications.asMut().postValue(it.plus(Notification("0","No Notifications yet", "You have not received any notifications", "")))
+                isLoading.asMut().postValue(false)
             }
-            isLoading.asMut().postValue(false)
+            notifications.asMut().postValue(it)
         },{
             // TODO add analytics log
             Log.e("Notification", "Room Error = \n${it.toString()}")
