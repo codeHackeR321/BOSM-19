@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,8 +23,15 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dia_wallet_add_money.view.*
-import kotlinx.android.synthetic.main.fra_profile.view.*
+import kotlinx.android.synthetic.main.fra_auth_outstee.view.*
+import kotlinx.android.synthetic.main.fra_profile.view.AddBtn
+import kotlinx.android.synthetic.main.fra_profile.view.backBtn
+import kotlinx.android.synthetic.main.fra_profile.view.balance
+import kotlinx.android.synthetic.main.fra_profile.view.logout
+import kotlinx.android.synthetic.main.fra_profile.view.qrCode
+import kotlinx.android.synthetic.main.fra_profile.view.sendBtn
+import kotlinx.android.synthetic.main.fra_profile.view.userId
+import kotlinx.android.synthetic.main.fra_profile.view.username
 
 class ProfileFragment : Fragment() {
 
@@ -56,7 +61,7 @@ class ProfileFragment : Fragment() {
         activity!!.mainView.visibility = View.GONE
 
         profileViewModel.balance.observe(this, Observer {
-            rootView.balance.text = "-/${it!!}"
+            rootView.balance.text = "${it!!}/-"
         })
 
         rootView.AddBtn.setOnClickListener {
