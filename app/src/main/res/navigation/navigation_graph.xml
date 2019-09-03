@@ -75,6 +75,9 @@
               android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.StallItemsFragment"
               android:label="StallItemsFragment">
         <argument android:name="stallId" app:argType="integer" android:defaultValue="1"/>
+        <action
+                android:id="@+id/action_stallItemsFragment2_to_action_cart"
+                app:destination="@id/action_cart" />
     </fragment>
     <fragment android:id="@+id/miscEventsFragment"
               android:name="com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment"

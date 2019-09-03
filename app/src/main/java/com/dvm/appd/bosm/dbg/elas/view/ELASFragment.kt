@@ -33,6 +33,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        activity!!.fragmentName.text = "Quiz"
         return inflater.inflate(R.layout.fra_elas_fragment, container, false)
     }
 

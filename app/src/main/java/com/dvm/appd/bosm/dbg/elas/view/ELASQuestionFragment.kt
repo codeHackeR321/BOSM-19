@@ -7,14 +7,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 
 import com.dvm.appd.bosm.dbg.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 class ELASQuestionFragment : Fragment() {
 
     var questionId: Long = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
+        activity!!.bottom_navigation_bar.isVisible = false
+        activity!!.mainView.visibility = View.GONE
         // Inflate the layout for this fragment
         questionId = arguments?.getLong("questionId")!!
         return inflater.inflate(R.layout.fragment_elasquestion, container, false)
@@ -22,6 +30,16 @@ class ELASQuestionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onDetach() {
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
+        super.onDetach()
     }
 
 
