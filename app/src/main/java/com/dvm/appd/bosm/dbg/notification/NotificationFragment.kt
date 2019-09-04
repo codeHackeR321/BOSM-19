@@ -61,6 +61,7 @@ class NotificationFragment : Fragment() {
         notificationRecycler.adapter = NotificationAdapter()
 
         notificationViewModel.notifications.observe(this, Observer {
+            Log.d("Notification", "List Observed = ${it[0].toString()}")
             (notificationRecycler.adapter as NotificationAdapter).notifications = it
             (notificationRecycler.adapter as NotificationAdapter).notifyDataSetChanged()
         })

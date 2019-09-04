@@ -20,7 +20,7 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
     var miscEvents: List<MiscEventsData> = emptyList()
 
     interface OnMarkFavouriteClicked{
-        fun updateIsFavourite(eventId: String, favouriteMark: Int)
+        fun updateIsFavourite(eventId: String, favouriteMark: Int, day: String)
     }
 
     inner class MiscEventsViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -58,17 +58,17 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
         holder.markFav.setOnClickListener {
 
             if (miscEvents[position].isFavourite == 1){
-                listener.updateIsFavourite(miscEvents[position].id, 0)
+                listener.updateIsFavourite(miscEvents[position].id, 0, miscEvents[position].day)
             }
             else if (miscEvents[position].isFavourite == 0){
-                listener.updateIsFavourite(miscEvents[position].id, 1)
+                listener.updateIsFavourite(miscEvents[position].id, 1, miscEvents[position].day)
             }
         }
     }
 
     private fun getTime(datetime: String): String {
 
-        val sdf = java.text.SimpleDateFormat("h:mm a")
+        val sdf = SimpleDateFormat("h:mm a")
         return sdf.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'").parse(datetime))
     }
 

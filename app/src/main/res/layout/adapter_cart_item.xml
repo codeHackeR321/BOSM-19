@@ -17,7 +17,7 @@
             android:text="TextView"
             android:textAlignment="textStart"
             android:textColor="#242424"
-            android:textSize="18sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@+id/minus"
             app:layout_constraintStart_toEndOf="@+id/isVeg"
             app:layout_constraintTop_toTopOf="parent"
