@@ -126,9 +126,11 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     private fun sendNotification(message: Notification) {
         Log.d("Notification", "Sending Notification")
-        val pendingIntent = NavDeepLinkBuilder(applicationContext).setGraph(R.navigation.navigation_graph).setComponentName(MainActivity::class.java).setDestination(R.id.action_profile).createPendingIntent()
-
-        //TODO: Select appropriate notification channel
+        val pendingIntent = NavDeepLinkBuilder(this.baseContext)
+            .setGraph(R.navigation.navigation_graph)
+            .setComponentName(MainActivity::class.java)
+            .setDestination(R.id.action_events)
+            .createPendingIntent()
         // TODO: Change icon appropriately
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, message.channel)
@@ -136,6 +138,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             .setContentTitle(message.title)
             .setContentText(message.body)
             .setSound(defaultSoundUri)
+            .setContentIntent(pendingIntent)
             .build()
         with(NotificationManagerCompat.from(this)) {
             // notificationId is a unique int for each notification that you must define
@@ -144,10 +147,19 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun sendNotification(message: Notification, sport: String) {
-
+        val pendingIntent = NavDeepLinkBuilder(this.baseContext)
+            .setGraph(R.navigation.navigation_graph)
+            .setComponentName(MainActivity::class.java)
+            .setDestination(R.id.action_events)
+            .createPendingIntent()
     }
 
     private fun sendNotification(message: Notification, orderId: String, otp: String) {
+        val pendingIntent = NavDeepLinkBuilder(this.baseContext)
+            .setGraph(R.navigation.navigation_graph)
+            .setComponentName(MainActivity::class.java)
+            .setDestination(R.id.action_order_history)
+            .createPendingIntent()
         if (otp.equals("0000")) {
             val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             val notificationBuilder = NotificationCompat.Builder(this, message.channel)
@@ -155,6 +167,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 .setContentTitle(message.title)
                 .setContentText(message.body)
                 .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
                 .build()
             with(NotificationManagerCompat.from(this)) {
                 // notificationId is a unique int for each notification that you must define
@@ -162,7 +175,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             }
         } else {
             // TODO Correct the pending intent
-            val pendingIntent = NavDeepLinkBuilder(applicationContext).setGraph(R.navigation.navigation_graph).setComponentName(MainActivity::class.java).setDestination(R.id.action_profile).createPendingIntent()
             val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             val notificationBuilder = NotificationCompat.Builder(this, message.channel)
                 .setSmallIcon(R.drawable.ic_launcher_background)

@@ -57,12 +57,12 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         setupNotificationChannel()
         checkForInvitation()
         checkNotificationPermissions()
-        // setSupportActionBar(findViewById(R.id.my_toolbar))
+
         var navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setupWithNavController(navController)
-        bottomNav.selectedItemId = R.id.action_events
+
 
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         receiver = NetworkChangeReciver(this)
