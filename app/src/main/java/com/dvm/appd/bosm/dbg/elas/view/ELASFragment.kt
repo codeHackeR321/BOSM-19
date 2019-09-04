@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -33,7 +34,6 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        activity!!.fragmentName.text = "Quiz"
         return inflater.inflate(R.layout.fra_elas_fragment, container, false)
     }
 
@@ -82,6 +82,17 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.notifications.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_game_to_notificationFragment)
         }
+    }
+
+    override fun onResume() {
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
+        activity!!.fragmentName.text = "Quiz"
+        super.onResume()
     }
 
     override fun answerQuestion(questionId: Long) {

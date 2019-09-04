@@ -67,6 +67,7 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         })
 
         rootView.stallOrderView.setOnClickListener {
+            this.findNavController().navigate(R.id.action_stallItemsFragment2_to_action_cart)
             //TODO add navigation to cart fragment
         }
 
@@ -76,15 +77,6 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         return rootView
     }
 
-    override fun onDetach() {
-        super.onDetach()
-
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-    }
 
     override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {
 

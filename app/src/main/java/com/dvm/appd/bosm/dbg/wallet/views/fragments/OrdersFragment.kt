@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -87,6 +88,16 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
     override fun showOrderItemDialog(orderId: Int, orderNumber: Int) {
         val bundle = bundleOf("orderId" to orderId, "orderNumber" to orderNumber)
         OrderItemsDialog().apply { arguments = bundle }.show(childFragmentManager, "OrderItemDialog")
+    }
+
+    override fun onResume() {
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
+        super.onResume()
     }
 
 }
