@@ -68,10 +68,12 @@
 
     <TextView
             android:id="@+id/quantity"
-            android:layout_width="28dp"
+            android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:background="@color/colorBlue"
             android:text="0"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"

@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository.Keys.name
 import com.dvm.appd.bosm.dbg.events.data.room.EventsDao
+import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.EventsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
-import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
+import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.FavNamesData
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
@@ -141,20 +142,18 @@ class EventsRepository(val eventsDao: EventsDao) {
                                     organiser = organiser
                                 )
                                     .subscribeOn(Schedulers.io())
-                                    .doOnError {
+                                    .subscribe({},{
                                         Log.e("EventsRepo", it.message, it)
-                                    }
-                                    .subscribe()
+                                    })
                             }
 
                             DocumentChange.Type.REMOVED -> {
                                 Log.d("DocRemoved", doc.document.get("name") as String)
                                 eventsDao.deleteMiscEvent(doc.document.id)
                                     .subscribeOn(Schedulers.io())
-                                    .doOnError {
+                                    .subscribe({},{
                                         Log.e("EventsRepo", it.message, it)
-                                    }
-                                    .subscribe()
+                                    })
                             }
 
                         }
@@ -162,19 +161,15 @@ class EventsRepository(val eventsDao: EventsDao) {
 
                     Log.d("Events", miscEvents.toString())
                     eventsDao.insertMiscEventData(miscEvents).subscribeOn(Schedulers.io())
-                        .doOnComplete {
-
-                        }
-                        .doOnError {
-
-                        }
-                        .subscribe()
+                        .subscribe({},{
+                            Log.e("EventsRepo", it.message, it)
+                        })
                 }
             }
 
     }
 
-    fun getSportsName(): Flowable<List<String>> {
+    fun getSportsName(): Flowable<List<EventsData>> {
         return eventsDao.getSportsName().subscribeOn(Schedulers.io())
 
     }
@@ -198,6 +193,7 @@ class EventsRepository(val eventsDao: EventsDao) {
     private fun getSportsDataFromFirestore() {
 
         var sportsData: MutableList<SportsData> = arrayListOf()
+        var sportsName: MutableList<EventsData> = arrayListOf()
         db.collection("events").document("sports").collection("matches")
             .addSnapshotListener { snapshots, e ->
 
@@ -327,10 +323,12 @@ class EventsRepository(val eventsDao: EventsDao) {
                                     score_2 = score_2,
                                     winner1 = winner1,
                                     winner2 = winner2,
-                                    winner3 = winner3
-
+                                    winner3 = winner3,
+                                    isFavourite = 0
                                 )
                             )
+
+                            sportsName.add(EventsData(event = name, isFav = 0))
 
                         }
 
@@ -418,35 +416,29 @@ class EventsRepository(val eventsDao: EventsDao) {
                                 "Not Available"
                             }
 
-                            try {
-                                var position =
-                                    sportsData.indexOfFirst { it.match_no == dc.document.id.toInt() }
+                            sportsName.add(EventsData(event = name, isFav = 0))
 
-                                sportsData.set(
-                                    position, SportsData(
-                                        match_no = match_no,
-                                        name = name,
-                                        round = round,
-                                        round_type = round_type,
-                                        team_1 = team_1,
-                                        team_2 = team_2,
-                                        time = time_stamp,
-                                        venue = venue,
-                                        gender = gender,
-                                        isScore = isScore,
-                                        layout = layout,
-                                        score_1 = score_1,
-                                        score_2 = score_2,
-                                        winner1 = winner1,
-                                        winner2 = winner2,
-                                        winner3 = winner3
-
-                                    )
-                                )
-                            } catch (e: Exception) {
-                                // TODO Do something with this exception
-                                // TODO Add crashanalytic log for this
-                            }
+                            eventsDao.updateSportsData(
+                                matchNo = match_no,
+                                name = name,
+                                round = round,
+                                roundType = round_type,
+                                team1 = team_1,
+                                team2 = team_2,
+                                time = time_stamp,
+                                venue = venue,
+                                gender = gender,
+                                isScore = isScore,
+                                layout = layout,
+                                score1 = score_1,
+                                score2 = score_2,
+                                winner1 = winner1,
+                                winner2 = winner2,
+                                winner3 = winner3)
+                                .subscribeOn(Schedulers.io())
+                                .subscribe({},{
+                                    Log.e("EventsRepo", it.message, it)
+                                })
                             Log.d("sports3", "Modified city: ${dc.document.data}")
                         }
 
@@ -456,6 +448,11 @@ class EventsRepository(val eventsDao: EventsDao) {
                         }
                     }
                 }
+                eventsDao.setSportName(sportsName).subscribeOn(Schedulers.io())
+                    .subscribe({},{
+                        Log.e("EventsRepo", it.message, it)
+                })
+
                 saveSportsDataRoom(sportsData).subscribe()
                 Log.d("sports2", "added sports data a: $sportsData")
             }
@@ -473,8 +470,18 @@ class EventsRepository(val eventsDao: EventsDao) {
             }
     }
 
-    fun updateFavourite(eventId: String, favouriteMark: Int): Completable {
+    fun updateMiscFavourite(eventId: String, favouriteMark: Int): Completable {
         return eventsDao.updateMiscFavourite(id = eventId, mark = favouriteMark)
+            .subscribeOn(Schedulers.io())
+    }
+
+    fun updateSportsFavourite(matchNo: Int, favouriteMark: Int): Completable{
+        return eventsDao.updateSportsFavourite(matchNo, favouriteMark)
+            .subscribeOn(Schedulers.io())
+    }
+
+    fun updateEventFavourite(sport: String, favouriteMark: Int): Completable{
+        return eventsDao.updateSportFav(sport, favouriteMark)
             .subscribeOn(Schedulers.io())
     }
 }

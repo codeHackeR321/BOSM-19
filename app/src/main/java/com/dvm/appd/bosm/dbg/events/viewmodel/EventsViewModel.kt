@@ -5,11 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.events.data.repo.EventsRepository
-import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsNamesData
+import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.EventsData
+import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.FavNamesData
 
 class EventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
-    var sportsName: LiveData<List<String>> = MutableLiveData()
+    var sportsName: LiveData<List<EventsData>> = MutableLiveData()
 
     init {
 
@@ -23,5 +24,9 @@ class EventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
         }
         .subscribe()
 
+    }
+
+    fun markFavourite(sport: String, favMark: Int){
+        eventsRepository.updateEventFavourite(sport, favMark).subscribe()
     }
 }

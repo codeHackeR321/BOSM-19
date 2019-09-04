@@ -36,7 +36,7 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
         })
     }
 
-    /*fun markMatchFavourite(eventId: String, favouriteMark: Int){
-        eventsRepository.updateFavourite(eventId, favouriteMark).subscribe()
-    }*/
+    fun markMatchFavourite(matchNo: Int, favouriteMark: Int){
+        eventsRepository.updateSportsFavourite(matchNo, favouriteMark).subscribe()
+    }
 }

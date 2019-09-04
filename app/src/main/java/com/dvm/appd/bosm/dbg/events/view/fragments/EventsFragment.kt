@@ -9,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -20,7 +19,7 @@ import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_events_fragment.view.*
 
-class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
+class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
 
     private lateinit var eventsViewViewModel: EventsViewModel
     private val icons = mapOf(
@@ -72,5 +71,9 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
 
 
         //put navigation code here with name passed in openSportsFragment
+    }
+
+    override fun onHeartClick(sports: String, favMark: Int) {
+        eventsViewViewModel.markFavourite(sports, favMark)
     }
 }

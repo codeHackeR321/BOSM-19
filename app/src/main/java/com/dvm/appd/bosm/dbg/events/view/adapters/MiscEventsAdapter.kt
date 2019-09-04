@@ -20,7 +20,7 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
     var miscEvents: List<MiscEventsData> = emptyList()
 
     interface OnMarkFavouriteClicked{
-        fun updateIsFavourite(eventId: String, favouriteMark: Int, day: String)
+        fun updateIsFavourite(eventId: String, favouriteMark: Int)
     }
 
     inner class MiscEventsViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -58,10 +58,10 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
         holder.markFav.setOnClickListener {
 
             if (miscEvents[position].isFavourite == 1){
-                listener.updateIsFavourite(miscEvents[position].id, 0, miscEvents[position].day)
+                listener.updateIsFavourite(miscEvents[position].id, 0)
             }
             else if (miscEvents[position].isFavourite == 0){
-                listener.updateIsFavourite(miscEvents[position].id, 1, miscEvents[position].day)
+                listener.updateIsFavourite(miscEvents[position].id, 1)
             }
         }
     }

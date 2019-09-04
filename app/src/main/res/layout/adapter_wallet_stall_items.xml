@@ -30,17 +30,19 @@
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/itemName" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
     <Button
-            android:text="Add  +"
+            android:id="@+id/addBtn"
             android:layout_width="80dp"
             android:layout_height="32dp"
-            android:id="@+id/addBtn"
-            android:textColor="#4ABE65"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/add_button"
-            app:layout_constraintTop_toTopOf="@+id/itemName"
+            android:text="Add  +"
+            android:textColor="#4ABE65"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:textSize="14sp"/>
+            app:layout_constraintTop_toTopOf="@+id/itemName" />
     <Button
             android:text="+"
             android:layout_width="28dp"
@@ -53,29 +55,37 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintTop_toTopOf="@+id/itemName"
             app:layout_constraintBottom_toBottomOf="@+id/price"/>
+
     <Button
-            android:text="-"
+            android:id="@+id/minus"
             android:layout_width="28dp"
             android:layout_height="32dp"
-            android:id="@+id/minus"
-            android:textSize="14sp"
-            android:textColor="@color/colorBlue"
+            android:layout_marginStart="4dp"
             android:background="@drawable/item_minus_button"
+            android:text="-"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlue"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/price"
             app:layout_constraintEnd_toStartOf="@+id/quantity"
-            app:layout_constraintTop_toTopOf="@+id/itemName"
-            app:layout_constraintBottom_toBottomOf="@+id/price" android:textAlignment="center"/>
+            app:layout_constraintTop_toTopOf="@+id/itemName" />
+
     <TextView
-            android:text="0"
-            android:layout_width="24dp"
-            android:layout_height="32dp"
             android:id="@+id/quantity"
-            android:textColor="@color/colorWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:background="@color/colorBlue"
-            android:textSize="24sp" app:layout_constraintEnd_toStartOf="@+id/plus"
-            android:textStyle="bold" android:textAlignment="center"
-            app:layout_constraintTop_toTopOf="@+id/plus"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:paddingRight="4dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/plus"
-    />
+            app:layout_constraintEnd_toStartOf="@+id/plus"
+            app:layout_constraintTop_toTopOf="@+id/plus" />
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@color/colorGreen"
