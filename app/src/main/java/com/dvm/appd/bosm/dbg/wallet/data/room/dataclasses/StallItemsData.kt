@@ -17,6 +17,9 @@ data class StallItemsData(
     @ColumnInfo(name = "stallId")
     val stallId:Int,
 
+    @ColumnInfo(name = "category")
+    val category: String,
+
     @ColumnInfo(name = "price")
     val price:Int,
 

@@ -120,10 +120,10 @@
             android:textColor="#4F32D7"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="@+id/category"
             app:layout_constraintHorizontal_bias="0.03"
-            app:layout_constraintStart_toStartOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintStart_toStartOf="@+id/category"
+            app:layout_constraintTop_toBottomOf="@+id/category" />
 
     <ImageView
             android:id="@+id/imageView7"

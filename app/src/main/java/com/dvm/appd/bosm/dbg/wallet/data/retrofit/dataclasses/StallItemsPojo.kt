@@ -10,6 +10,9 @@ data class StallItemsPojo(
     @SerializedName("name")
     val itemName: String,
 
+    @SerializedName("description")
+    val category: String,
+
     @SerializedName("vendor_id")
     val stallId: Int,
 

@@ -85,8 +85,8 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
         ordersViewModel.updateOtpSeen(orderId)
     }
 
-    override fun showOrderItemDialog(orderId: Int, orderNumber: Int) {
-        val bundle = bundleOf("orderId" to orderId, "orderNumber" to orderNumber)
+    override fun showOrderItemDialog(orderId: Int) {
+        val bundle = bundleOf("orderId" to orderId)
         OrderItemsDialog().apply { arguments = bundle }.show(childFragmentManager, "OrderItemDialog")
     }
 

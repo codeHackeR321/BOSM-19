@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
-import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedOrdersData
 import kotlinx.android.synthetic.main.adapter_order_items.view.*
 
@@ -18,7 +17,7 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
 
     interface OrderCardClick{
         fun updateOtpSeen(orderId: Int)
-        fun showOrderItemDialog(orderId: Int, orderNumber: Int)
+        fun showOrderItemDialog(orderId: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrdersViewHolder {
@@ -31,7 +30,7 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
 
 
-        holder.orderNumber.text = "Order ${orderItems.size - position}"
+        holder.stallName.text = orderItems[position].vendor
         holder.orderId.text = "# ${orderItems[position].orderId}"
         holder.price.text = "₹ ${orderItems[position].totalPrice}"
 
@@ -53,36 +52,41 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
                 holder.status.setTextColor(Color.rgb(253, 200, 245))
                 holder.status.text = "Finished"
             }
-        }
-
-        if (orderItems[position].otpSeen){
-            holder.otp.text = orderItems[position].otp.toString()
-            holder.otp.isClickable = false
-        }
-        else{
-            holder.otp.setOnClickListener {
-                if (orderItems[position].status == 2){
-                    listener.updateOtpSeen(orderItems[position].orderId)
-                    Log.d("OTP", "Called")
-                }
-                else{
-                    Log.d("OTP", "Status not yet ready ${orderItems[position].status}")
-                }
+            4 -> {
+                holder.status.setTextColor(Color.rgb(232, 60, 60))
+                holder.status.text = "Declined"
             }
         }
 
-        holder.orderNumber.setOnClickListener {
-            listener.showOrderItemDialog(orderItems[position].orderId, orderItems.size - position)
+        //OTP to be decided
+//        if (orderItems[position].otpSeen){
+//            holder.otp.text = orderItems[position].otp.toString()
+//            holder.otp.isClickable = false
+//        }
+//        else{
+//            holder.otp.setOnClickListener {
+//                if (orderItems[position].status == 2){
+//                    listener.updateOtpSeen(orderItems[position].orderId)
+//                    Log.d("OTP", "Called")
+//                }
+//                else{
+//                    Log.d("OTP", "Status not yet ready ${orderItems[position].status}")
+//                }
+//            }
+//        }
+
+        holder.view.setOnClickListener {
+            listener.showOrderItemDialog(orderItems[position].orderId)
         }
     }
 
     inner class OrdersViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        val orderNumber: TextView = view.orderNumber
-        val otp: TextView = view.otp
-        val price: TextView = view.price
+        val stallName: TextView = view.stallName
         val status: TextView = view.status
         val orderId: TextView = view.orderId
+        val price: TextView = view.price
+        val view: View = view.view
     }
 
 }

@@ -25,7 +25,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
     private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
-    // To be implemented after profile (when userId available)  sharedPreferences.getString("ID", "1")?.toInt()
+
     init {
 
         val db = FirebaseFirestore.getInstance()
@@ -93,9 +93,30 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }
     }
 
-    fun getItemsForStall(stallId: Int): Observable<List<ModifiedStallItemsData>> {
+    fun getItemsForStall(stallId: Int): Observable<MutableList<Pair<String, List<ModifiedStallItemsData>>>> {
 
         return walletDao.getModifiedStallItemsById(stallId, true).toObservable()
+            .flatMap {
+
+                var stallItems: MutableList<Pair<String, List<ModifiedStallItemsData>>> = arrayListOf()
+                var categoryItems: MutableList<ModifiedStallItemsData> = arrayListOf()
+
+                for ((index, item) in it.listIterator().withIndex()){
+
+                    categoryItems.add(item)
+
+                    if (index != it.lastIndex && it[index].category != it[index+1].category){
+                        stallItems.add(Pair(item.category, categoryItems))
+                        categoryItems = arrayListOf()
+                    }
+                    else if (index == it.lastIndex){
+                        stallItems.add(Pair(item.category, categoryItems))
+                        categoryItems = arrayListOf()
+                    }
+                }
+
+               return@flatMap Observable.just(stallItems)
+            }
             .doOnError {
               Log.d("checke",it.toString())
             }
@@ -112,7 +133,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
         items.forEach {
             itemList =
-                itemList.plus(StallItemsData(it.itemId, it.itemName, it.stallId, it.price, it.isAvailable, it.isVeg))
+                itemList.plus(StallItemsData(it.itemId, it.itemName, it.stallId, it.category, it.price, it.isAvailable, it.isVeg))
         }
         return itemList
     }
@@ -133,8 +154,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                         Log.d("Orders", orders.toString())
                         Log.d("Orders", orderItems.toString())
-                        walletDao.insertNewOrders(orders)
-                        walletDao.insertNewOrderItems(orderItems)
+
+                        walletDao.deleteAllOrderItems().doOnComplete {
+                            walletDao.insertNewOrders(orders)
+                            walletDao.insertNewOrderItems(orderItems)
+                        }
                     }
 
                     400 -> {
@@ -177,6 +201,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             orderData.add(
                 OrderData(
                     orderId = it.id,
+                    shell = it.shell,
                     otp = it.otp,
                     otpSeen = it.otpSeen,
                     status = it.status,
@@ -231,9 +256,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         ordersList.add(
                             ModifiedOrdersData(
                                 orderId = item.orderId,
+                                shell = item.shell,
                                 otp = item.otp,
-                                otpSeen = item.otpSeen
-                                ,
+                                otpSeen = item.otpSeen,
                                 status = item.status,
                                 totalPrice = item.totalPrice,
                                 vendor = item.vendor,
@@ -246,9 +271,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         ordersList.add(
                             ModifiedOrdersData(
                                 orderId = item.orderId,
+                                shell = item.shell,
                                 otp = item.otp,
-                                otpSeen = item.otpSeen
-                                ,
+                                otpSeen = item.otpSeen,
                                 status = item.status,
                                 totalPrice = item.totalPrice,
                                 vendor = item.vendor,
@@ -269,6 +294,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletDao.getOrderById(orderId).subscribeOn(Schedulers.io())
             .flatMap {
 
+                Log.d("OrderDetailRepo", it.toString())
                 var order: ModifiedOrdersData
                 var itemsList: MutableList<ModifiedItemsData> = arrayListOf()
 
@@ -282,7 +308,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     )
                 }
 
-                order = ModifiedOrdersData(it.last().orderId, it.last().otp, it.last().otpSeen, it.last().status, it.last().totalPrice, it.last().vendor, itemsList)
+                order = ModifiedOrdersData(it.last().orderId, it.last().shell, it.last().otp, it.last().otpSeen, it.last().status, it.last().totalPrice, it.last().vendor, itemsList)
 
                 return@flatMap Flowable.just(order)
             }
@@ -487,4 +513,31 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             }.subscribeOn(Schedulers.io())
 
     }
+
+    fun rateOrder(orderId: Int, shell: Int, rating: Int): Completable{
+
+        walletDao.insertRating(Ratings(orderId, rating)).subscribeOn(Schedulers.io()).subscribe()
+        val body = JsonObject().also {
+            it.addProperty("order_shell_id", shell)
+            it.addProperty("order_id", orderId)
+            it.addProperty("rating", rating)
+            it.addProperty("comments", "")
+        }
+        return walletService.rateOrder(jwt.blockingGet().toString(), body, orderId, shell)
+            .map {
+                when(it.code()){
+
+                    200 -> Log.d("Rated", "rated")
+                    else -> null
+                }
+            }
+            .subscribeOn(Schedulers.io())
+            .ignoreElement()
+    }
+
+    fun getRating(orderId: Int): Flowable<Int>{
+        return walletDao.getOrderRating(orderId).subscribeOn(Schedulers.io())
+    }
+
+
 }

@@ -26,10 +26,10 @@ interface WalletDao {
     @Query("DELETE FROM stalls")
     fun deleteAllStalls()
 
-    @Query("SELECT orders.id as orderId, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id ORDER BY order_id DESC")
+    @Query("SELECT orders.id as orderId, orders.shell as shell, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id ORDER BY order_id DESC")
     fun getOrdersData(): Flowable<List<ChildOrdersData>>
 
-    @Query("SELECT orders.id as orderId, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id WHERE orders.id = :orderId ORDER BY order_id DESC")
+    @Query("SELECT orders.id as orderId, orders.shell as shell, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id WHERE orders.id = :orderId ORDER BY order_id DESC")
     fun getOrderById(orderId: Int): Flowable<List<ChildOrdersData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -37,6 +37,9 @@ interface WalletDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNewOrderItems(orderItems: List<OrderItemsData>)
+
+    @Query("DELETE FROM order_items")
+    fun deleteAllOrderItems(): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartItems(cartItems: CartData): Completable
@@ -53,9 +56,15 @@ interface WalletDao {
     @Query("SELECT cart_data.item_id AS itemId, stall_items.itemName as itemName, stall_items.isVeg as isVeg, cart_data.vendor_id AS vendorId, stalls.stallName AS vendorName, cart_data.quantity AS quantity, stall_items.price AS price FROM cart_data LEFT JOIN stall_items ON cart_data.item_id = stall_items.itemId LEFT JOIN stalls ON cart_data.vendor_id = stalls.stallId ")
     fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>
 
-    @Query("SELECT itemId, itemName, stallId, price, isVeg, COALESCE(cart_data.quantity, 0) AS quantity FROM stall_items LEFT JOIN cart_data ON itemId = item_id WHERE stallId = :stallId AND isAvailable = :available")
+    @Query("SELECT itemId, itemName, stallId, category, price, isVeg, COALESCE(cart_data.quantity, 0) AS quantity FROM stall_items LEFT JOIN cart_data ON itemId = item_id WHERE stallId = :stallId AND isAvailable = :available")
     fun getModifiedStallItemsById(stallId: Int, available: Boolean): Flowable<List<ModifiedStallItemsData>>
 
     @Query("UPDATE cart_data SET quantity = :quantity WHERE item_id = :itemId")
     fun updateCartItem(quantity: Int, itemId: Int): Completable
+
+    @Query("SELECT COALESCE(rating, 0) FROM ratings WHERE order_id = :orderId ")
+    fun getOrderRating(orderId: Int): Flowable<Int>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRating(rating: Ratings): Completable
 }

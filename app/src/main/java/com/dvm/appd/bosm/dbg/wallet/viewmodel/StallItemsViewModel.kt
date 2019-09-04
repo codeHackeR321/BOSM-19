@@ -11,7 +11,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedStallItemsData
 
 class StallItemsViewModel(val walletRepository: WalletRepository, val stallId: Int) : ViewModel() {
 
-    var items:LiveData<List<ModifiedStallItemsData>> = MutableLiveData()
+    var items:LiveData<List<Pair<String, List<ModifiedStallItemsData>>>> = MutableLiveData()
     var cartItems: LiveData<List<ModifiedCartData>> = MutableLiveData()
 
     init {
