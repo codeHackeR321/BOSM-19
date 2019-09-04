@@ -104,6 +104,9 @@
         <action
                 android:id="@+id/action_action_more_to_notificationFragment"
                 app:destination="@id/notificationFragment" />
+        <action
+                android:id="@+id/action_action_more_to_mapFragment"
+                app:destination="@id/mapFragment" />
     </fragment>
     <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
               android:label="FragmentWebPage"/>
@@ -136,6 +139,11 @@
             android:name="com.dvm.appd.bosm.dbg.notification.NotificationFragment"
             android:label="fragment_notification"
             tools:layout="@layout/fragment_notification" />
+    <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.dvm.appd.bosm.dbg.more.MapFragment"
+            android:label="fragment_map"
+            tools:layout="@layout/fragment_map" />
 
 
 </navigation>
