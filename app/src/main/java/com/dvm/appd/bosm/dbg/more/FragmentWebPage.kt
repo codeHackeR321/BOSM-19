@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.fragment_fragment_web_page.*
@@ -32,6 +35,19 @@ class FragmentWebPage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         text_commonWebView_title.text = title
+        webView_commonWebView_webPage.webViewClient = CustomWebViewClient()
         webView_commonWebView_webPage.loadUrl(link)
+    }
+
+    inner class CustomWebViewClient : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            progress_commonWebView.visibility = View.VISIBLE
+            return super.shouldOverrideUrlLoading(view, request)
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            progress_commonWebView.visibility = View.INVISIBLE
+            super.onPageFinished(view, url)
+        }
     }
 }

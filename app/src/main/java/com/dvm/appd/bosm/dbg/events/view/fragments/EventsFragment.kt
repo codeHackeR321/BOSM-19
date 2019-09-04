@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -75,5 +76,15 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
 
     override fun onHeartClick(sports: String, favMark: Int) {
         eventsViewViewModel.markFavourite(sports, favMark)
+    }
+
+    override fun onResume() {
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
+        super.onResume()
     }
 }

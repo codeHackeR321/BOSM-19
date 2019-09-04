@@ -24,10 +24,13 @@
                 app:launchSingleTop="true" />
     </fragment>
 
-    <fragment android:id="@+id/action_game" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASFragment"
-              android:label="ELASFragment">
-        <action android:id="@+id/action_action_game_to_ELASQuestionFragment"
-                app:destination="@id/ELASQuestionFragment"/>
+    <fragment
+            android:id="@+id/action_game"
+            android:name="com.dvm.appd.bosm.dbg.elas.view.ELASFragment"
+            android:label="ELASFragment">
+        <action
+                android:id="@+id/action_action_game_to_ELASQuestionFragment"
+                app:destination="@id/ELASQuestionFragment" />
         <action
                 android:id="@+id/action_action_game_to_action_profile"
                 app:destination="@id/action_profile" />
@@ -75,6 +78,12 @@
               android:name="com.dvm.appd.bosm.dbg.wallet.views.fragments.StallItemsFragment"
               android:label="StallItemsFragment">
         <argument android:name="stallId" app:argType="integer" android:defaultValue="1"/>
+        <action
+                android:id="@+id/action_stallItemsFragment2_to_action_cart"
+                app:destination="@id/action_cart"
+                app:launchSingleTop="true"
+                app:popUpTo="@+id/action_food"
+                app:popUpToInclusive="false" />
     </fragment>
     <fragment android:id="@+id/miscEventsFragment"
               android:name="com.dvm.appd.bosm.dbg.events.view.fragments.MiscEventsFragment"
@@ -98,6 +107,9 @@
         <action
                 android:id="@+id/action_action_more_to_notificationFragment"
                 app:destination="@id/notificationFragment" />
+        <action
+                android:id="@+id/action_action_more_to_mapFragment"
+                app:destination="@id/mapFragment" />
     </fragment>
     <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
               android:label="FragmentWebPage"/>
@@ -130,6 +142,11 @@
             android:name="com.dvm.appd.bosm.dbg.notification.NotificationFragment"
             android:label="fragment_notification"
             tools:layout="@layout/fragment_notification" />
+    <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.dvm.appd.bosm.dbg.more.MapFragment"
+            android:label="fragment_map"
+            tools:layout="@layout/fragment_map" />
 
 
 </navigation>

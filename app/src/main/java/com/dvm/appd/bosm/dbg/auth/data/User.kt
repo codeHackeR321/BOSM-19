@@ -7,5 +7,6 @@ data class User(
     val email: String,
     val phone: String,
     val qrCode: String,
-    val isBitsian:Boolean
+    val isBitsian:Boolean,
+    val firstLogin:Boolean
 )

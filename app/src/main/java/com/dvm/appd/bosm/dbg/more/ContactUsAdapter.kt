@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.more.dataClasses.Contact
 import kotlinx.android.synthetic.main.row_contact_us.view.*
@@ -13,17 +15,18 @@ import kotlinx.android.synthetic.main.row_contact_us.view.*
 
 class ContactUsAdapter : RecyclerView.Adapter<ContactUsAdapter.ContactVHolder>() {
 
+    private val baseImageLink = "https://www.bits-bosm.org/"
+
     private val contacts = listOf(
-        Contact("Mehul Jain", "For medical emergencies", "+91-8427878749", "N/A", "N/A"),
-        Contact("Satyansh Rai", "President, Student Union", "+91-9151178228", "president@pilani.bits-pilani.ac.in", "https://bits-apogee.org/3f48d8dff7707dc4d5eff6453b7db8aa.jpg"),
-        Contact("Aakash Singh", "General Secretary, Student Union", "+91-9468923617", "gensec@pilani.bits-pilani.ac.in", "https://bits-apogee.org/d2922f9db921923834c804c1705beacc.jpg"),
-        Contact("Megh Thakkar", "For app related queries", "+91-9829799877", "webmaster@bits-apogee.org", "https://bits-apogee.org/48524dae9913a21ac36b617e1ce44058.jpg"),
-        Contact("Parv Panthari", "Registrations and Correspondence", "+91-9462011235", "pcr@bits-apogee.org", "https://bits-apogee.org/561b0cde1229afdda21420f97ac9ff41.jpg"),
-        Contact("Anushka Pathak", "Sponsorship and Marketing", "+91-7795025103", "sponsorship@bits-apogee.org", "https://bits-apogee.org/6fcb439c24576a5236f38cbf1342f900.jpg"),
-        Contact("Apoorv Saxena", "Registration, Events and Projects", "+91-7239805667", "controls@bits-apogee.org", "https://bits-apogee.org/eeb0c0443872cd1f96e4411474110509.jpg"),
-        Contact("Yatharth Singh", "Reception and Accomodation", "+91-9971393939", "recnacc@bits-apogee.org", "https://bits-apogee.org/ae5a18b484ba677cf3589d3cd581db3d.jpg"),
-        Contact("Aditya Pawar", "Publicity and Online Partnerships", "+91-9829971666", "adp@bits-apogee.org", "https://bits-apogee.org/0378ed88538d1beb8e939902a59b8bbc.jpg"),
-        Contact("Anirudh Singla", "Guest Lectures and Paper Presentation", "+91-9818536680", "pep@bits-apogee.org", "https://bits-apogee.org/65ceaf2463bc5cd5c4c7a15f9f3b9981.jpg")
+        Contact("Raihan Riaz", "Controls", "controls@bits-bosm.org", "+91-9989401360", "${baseImageLink}img/contacts/controls.png"),
+        Contact("Amol Dalal", "Sponsorship", "sponsorship@bits-bosm.org", "+91-7020141770 ", "${baseImageLink}img/contacts/spons.png"),
+        Contact("Abhinav Kumar Singh", "Reception and Accomodation", "recnacc@bits-bosm.org", "+91-9654298614 ", "${baseImageLink}/contacts/recanec.jpg"),
+        Contact("Damanjot Singh", "Publications and Correspondence", "pcr@bits-bosm.org", "+91-8966911000", "${baseImageLink}img/contacts/pcr.png"),
+        Contact("Mayank Kulkarni", "Sports Secretary", "sportssecretary@bits-bosm.org", "+91-9929855583", "${baseImageLink}img/contacts/ss.png"),
+        Contact("Mansi Mittal", "Joint Sports Secretary", "N/A", "+91-9602775333", "${baseImageLink}img/contacts/jss1.png"),
+        Contact("Ankur Jain", "Joint Sports Secretary", "N/A", "+91-9549905512", "${baseImageLink}img/contacts/jss2.png"),
+        Contact("Kunal Gupta", "Joint Sports Secretary", "N/A", "+91-7985564751", "${baseImageLink}img/contacts/jss.jpg"),
+        Contact("Divyam Goel", "Online Registrations", "webmaster@bits-bosm.org", "+91-9602775333", "${baseImageLink}img/contacts/dvm.jpg")
     )
 
 
@@ -41,6 +44,15 @@ class ContactUsAdapter : RecyclerView.Adapter<ContactUsAdapter.ContactVHolder>()
         holder.roleLBL.text = contact.role
         holder.phoneLBL.text = contact.phone
         holder.emailLBL.text = contact.email
+
+        val glideConfig = RequestOptions()
+            .placeholder(R.drawable.ic_person_placeholder)
+            .circleCrop()
+
+        Glide.with(holder.nameLBL.context)
+            .load(contact.imageLink)
+            .apply(glideConfig)
+            .into(holder.picIMG)
 
     }
 

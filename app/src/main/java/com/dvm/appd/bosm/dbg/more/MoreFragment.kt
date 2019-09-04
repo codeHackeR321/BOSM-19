@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -56,6 +57,9 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
                 val bundle = bundleOf("title" to "Developers")
                 view!!.findNavController().navigate(R.id.action_action_more_to_fragmentRecyclerView, bundle)
             }
+            2 -> {
+                view!!.findNavController().navigate(R.id.action_action_more_to_mapFragment)
+            }
             3 -> {
                 val bundle = bundleOf("link" to view!!.resources.getString(R.string.link_EPC), "title" to "EPC Blog")
                 view!!.findNavController().navigate(R.id.action_action_more_to_fragmentWebPage, bundle)
@@ -69,5 +73,15 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
                 view!!.findNavController().navigate(R.id.action_action_more_to_fragmentWebPage, bundle)
             }
         }
+    }
+
+    override fun onResume() {
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
+        super.onResume()
     }
 }

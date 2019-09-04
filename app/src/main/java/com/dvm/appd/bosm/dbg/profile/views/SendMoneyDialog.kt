@@ -17,7 +17,7 @@ import com.dvm.appd.bosm.dbg.profile.viewmodel.SendMoneyViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.SendMoneyViewModelFactory
 import kotlinx.android.synthetic.main.dia_wallet_add_money.view.*
 import kotlinx.android.synthetic.main.dia_wallet_send_money.view.*
-import kotlinx.android.synthetic.main.fra_profile.*
+
 
 class SendMoneyDialog : DialogFragment() {
 

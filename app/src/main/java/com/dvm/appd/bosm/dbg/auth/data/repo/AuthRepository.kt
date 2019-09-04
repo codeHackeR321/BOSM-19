@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.User
-import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthPojo
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
 import com.dvm.appd.bosm.dbg.auth.views.LoginState
 import com.google.firebase.messaging.FirebaseMessaging
@@ -13,7 +12,6 @@ import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import java.security.Key
 
 class AuthRepository(val authService: AuthService, val sharedPreferences: SharedPreferences) {
 
@@ -27,7 +25,8 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         const val qrCode = "QR"
         const val isBitsian = "ISBITSIAN"
         const val REGTOKEN = "REGTOKEN"
-        const val TOPIC_SUBSCIPTION = "TOPIC_SUBSCRIPTION"
+        const val TOPIC_SUBSCRIPTION = "TOPIC_SUBSCRIPTION"
+        const val first_login = "FIRST_LOGIN"
     }
 
     fun loginOutstee(username: String, password: String): Single<LoginState> {
@@ -62,11 +61,12 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         val id = sharedPreferences.getString(Keys.userId, null)
         val qr = sharedPreferences.getString(Keys.qrCode, null)
         val bitsian = sharedPreferences.getBoolean(Keys.isBitsian, false)
-        Log.d("checkSp", listOf(name, email, contact, jwt, qr, bitsian).toString())
+        val firstLogin = sharedPreferences.getBoolean(Keys.first_login,false)
+        Log.d("checkSp", listOf(name, email, contact, jwt, qr, bitsian,firstLogin).toString())
         if (listOf(name, email, contact, jwt, qr).contains(null)) {
             return Maybe.empty()
         }
-        return Maybe.just(User(jwt!!, name!!, id!!, email!!, contact!!, qr!!, bitsian))
+        return Maybe.just(User(jwt!!, name!!, id!!, email!!, contact!!, qr!!,bitsian,firstLogin))
     }
 
     @SuppressLint("ApplySharedPref")
@@ -109,7 +109,8 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                                 email = response.body()!!.email,
                                 phone = response.body()!!.phone,
                                 qrCode = response.body()!!.qrCode,
-                                isBitsian = bitsian
+                                isBitsian = bitsian,
+                                firstLogin = true
                             )
                         ).subscribe()
                         Single.just(LoginState.Success)
@@ -125,7 +126,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
     }
 
     fun subscribeToTopics() {
-        if (!sharedPreferences.getBoolean(Keys.TOPIC_SUBSCIPTION, false)) {
+        if (!sharedPreferences.getBoolean(Keys.TOPIC_SUBSCRIPTION, false)) {
             FirebaseMessaging.getInstance().subscribeToTopic("User").addOnCompleteListener {
                 if (!it.isSuccessful) {
                     Log.e("Auth Repo", "Falied to subscribe to topic")
@@ -142,7 +143,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                         Log.e("Auth Repo", "Falied to subscribe to topic $topic")
                         return@addOnCompleteListener
                     }
-                    sharedPreferences.edit().putBoolean(Keys.TOPIC_SUBSCIPTION, true).apply()
+                    sharedPreferences.edit().putBoolean(Keys.TOPIC_SUBSCRIPTION, true).apply()
                 }
             }
         }
