@@ -27,5 +27,8 @@ data class OrderData(
     val price: Int,
 
     @ColumnInfo(name = "vendor")
-    val vendor: String
+    val vendor: String,
+
+    @ColumnInfo(name = "rating")
+    val rating: Int
 )

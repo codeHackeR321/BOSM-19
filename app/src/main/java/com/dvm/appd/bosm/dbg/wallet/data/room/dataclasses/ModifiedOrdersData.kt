@@ -16,5 +16,7 @@ data class ModifiedOrdersData(
 
     val vendor: String,
 
-    val items: List<ModifiedItemsData>
+    val items: List<ModifiedItemsData>,
+
+    val rating: Int
 )

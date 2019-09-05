@@ -22,5 +22,7 @@ data class ChildOrdersData(
 
     val quantity: Int,
 
-    val price: Int
+    val price: Int,
+
+    val rating: Int
 )

@@ -5,5 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ComboShowPojo(
 
     @SerializedName("id")
-    val id: String
+    val id: Int,
+
+    @SerializedName("name")
+    val name: String
 )
