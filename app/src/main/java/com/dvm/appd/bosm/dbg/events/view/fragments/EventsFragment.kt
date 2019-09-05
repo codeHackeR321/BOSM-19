@@ -26,9 +26,23 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
     private val icons = mapOf(
         "Football" to R.drawable.ic_football,
         "Basketball" to R.drawable.ic_basketball,
-        "Tennis" to R.drawable.ic_tennis,
+        "Lawn Tennis" to R.drawable.ic_tennis,
         "Hockey" to R.drawable.ic_hockey,
-        "Squash" to R.drawable.ic_squash
+        "Squash" to R.drawable.ic_squash,
+        "Volleyball" to R.drawable.ic_volleyball,
+        "Cricket" to R.drawable.ic_surface1,
+        "Athletics" to R.drawable.ic_racing,
+        "Chess" to R.drawable.ic_chess,
+        "Carrom" to R.drawable.ic_surface1,
+        "Snooker" to R.drawable.ic_pool,
+        "Pool" to R.drawable.ic_pool,
+        "Power Lifting" to R.drawable.ic_dumbbell,
+        "Bodybuilding" to R.drawable.ic_weightlifting,
+        "Taekwondo" to R.drawable.ic_dumbbell,
+        "Table Tennis" to R.drawable.ic_squash,
+        "Badminton" to R.drawable.ic_squash,
+        "Ultimate Frisbee" to R.drawable.ic_racing,
+        "Swimming" to R.drawable.ic_swimsuit
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

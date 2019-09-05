@@ -38,11 +38,15 @@ class StallItemsChildAdapter(private val listener:OnAddClickedListener) : Recycl
         holder.price.text = "₹ ${stallItems[position].price}"
         holder.quantity.text = stallItems[position].quantity.toString()
 
+        if (position == stallItems.lastIndex){
+            holder.view.isVisible = false
+        }
+
         if (stallItems[position].isVeg){
-            holder.isVeg.setColorFilter(Color.GREEN)
+            holder.isVeg.setImageResource(R.drawable.ic_veg)
         }
         else{
-            holder.isVeg.setColorFilter(Color.RED)
+            holder.isVeg.setImageResource(R.drawable.ic_non_veg)
         }
 
         if (stallItems[position].quantity > 0){
@@ -102,6 +106,7 @@ class StallItemsChildAdapter(private val listener:OnAddClickedListener) : Recycl
         val minus: Button = view.minus
         val quantity: TextView = view.quantity
         val isVeg: ImageView = view.isVeg
+        val view: View = view.view11
 
     }
 }

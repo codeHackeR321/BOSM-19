@@ -139,7 +139,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     private fun updateOrders(): Completable{
-        return walletService.getAllOrders(jwt.blockingGet().toString())
+        return walletService.getAllOrders(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
                 when(response.code()){
                     200 -> {
@@ -155,10 +155,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         Log.d("Orders", orders.toString())
                         Log.d("Orders", orderItems.toString())
 
-                        walletDao.deleteAllOrderItems().doOnComplete {
-                            walletDao.insertNewOrders(orders)
-                            walletDao.insertNewOrderItems(orderItems)
-                        }
+                        walletDao.deleteAndInsertOrders(orders)
+                        walletDao.deleteAndInsertOrderItems(orderItems)
+
                     }
 
                     400 -> {
@@ -191,7 +190,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 Log.e("GetOrder", "Error", it)
             }
             .ignoreElement()
-            .subscribeOn(Schedulers.io())
+
     }
 
     private fun AllOrdersPojo.toOrderData(): List<OrderData> {

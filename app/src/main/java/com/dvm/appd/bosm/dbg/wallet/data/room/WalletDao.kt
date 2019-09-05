@@ -1,9 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.data.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -39,7 +36,10 @@ interface WalletDao {
     fun insertNewOrderItems(orderItems: List<OrderItemsData>)
 
     @Query("DELETE FROM order_items")
-    fun deleteAllOrderItems(): Completable
+    fun deleteAllOrderItems()
+
+    @Query("DELETE FROM orders")
+    fun deleteAllOrders()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartItems(cartItems: CartData): Completable
@@ -49,6 +49,18 @@ interface WalletDao {
 
     @Query("DELETE FROM cart_data WHERE item_id = :itemId")
     fun deleteCartItem(itemId: Int): Completable
+
+    @Transaction
+    fun deleteAndInsertOrders(orders: List<OrderData>){
+        deleteAllOrders()
+        insertNewOrders(orders)
+    }
+
+    @Transaction
+    fun deleteAndInsertOrderItems(orderItems: List<OrderItemsData>){
+        deleteAllOrderItems()
+        insertNewOrderItems(orderItems)
+    }
 
     @Query("SELECT * FROM cart_data ORDER BY vendor_id")
     fun getAllCartItems(): Flowable<List<CartData>>

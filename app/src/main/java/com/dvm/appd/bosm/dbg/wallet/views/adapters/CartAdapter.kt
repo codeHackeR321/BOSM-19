@@ -49,10 +49,10 @@ class CartAdapter(private val listener: OnButtonClicked): RecyclerView.Adapter<C
         holder.vendor.text = cartItems[position].vendorName
 
         if (cartItems[position].isVeg){
-            holder.isVeg.setColorFilter(Color.GREEN)
+            holder.isVeg.setImageResource(R.drawable.ic_veg)
         }
         else{
-            holder.isVeg.setColorFilter(Color.RED)
+            holder.isVeg.setImageResource(R.drawable.ic_non_veg)
         }
 
         holder.plus.setOnClickListener {
