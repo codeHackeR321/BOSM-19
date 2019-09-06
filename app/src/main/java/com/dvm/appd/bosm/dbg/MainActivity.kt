@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg
 
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.*
@@ -26,6 +27,9 @@ import com.dvm.appd.bosm.dbg.shared.NetworkChangeReciver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.FirebaseApp
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.iid.FirebaseInstanceId
@@ -43,6 +47,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
     private lateinit var navController: NavController
     private lateinit var sharedPreferences: SharedPreferences
     private var receiver: NetworkChangeReciver? = null
+    private val REQUEST_CODE_UPDATE_IMMIDIATE = 101
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actionbaritems, menu)
@@ -57,6 +62,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         setupNotificationChannel()
         checkForInvitation()
         checkNotificationPermissions()
+        checkForUpdates()
 
         var navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -212,13 +218,57 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         }
     }
 
+    private fun checkForUpdates() {
+        val updateManager = AppUpdateManagerFactory.create(this)
+        updateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                updateManager.startUpdateFlowForResult(
+                    it,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    REQUEST_CODE_UPDATE_IMMIDIATE
+                )
+            }
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
         startService(Intent(this, FirebaseMessagingService::class.java))
+        val updateManager = AppUpdateManagerFactory.create(this)
+        updateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                updateManager.startUpdateFlowForResult(
+                    it,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    REQUEST_CODE_UPDATE_IMMIDIATE
+                )
+            }
+        }
         super.onResume()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE_UPDATE_IMMIDIATE) {
+            if (resultCode != Activity.RESULT_OK) {
+                // TODO Add analytics log here
+                var builder = AlertDialog.Builder(this)
+                builder.setTitle(resources.getString(R.string.title_update_failed))
+                builder.setMessage(resources.getString(R.string.message_update_falied))
+                builder.setNegativeButton(
+                    "OK",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        // TODO Restart app instead of closing it
+                        finishAffinity()
+                    }
+                )
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onDestroy() {
