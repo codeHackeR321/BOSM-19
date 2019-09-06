@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_auth.*
+import kotlinx.android.synthetic.main.fra_auth_outstee.*
 
 
 class AuthActivity : AppCompatActivity() {
@@ -48,8 +50,14 @@ class AuthActivity : AppCompatActivity() {
 
         authViewModel.state.observe(this, Observer {
             when (it!!) {
-                LoginState.Success -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                LoginState.MoveToMainApp -> {
+                    loadingPbr.visibility=View.GONE
+                    startActivity(Intent(this,MainActivity::class.java))
+                    finishAffinity()
+                }
+                LoginState.MoveToOnBoarding ->{
+                  loadingPbr.visibility = View.GONE
+                    startActivity(Intent(this,OnboardingActivity::class.java))
                     finishAffinity()
                 }
                 is LoginState.Failure -> {

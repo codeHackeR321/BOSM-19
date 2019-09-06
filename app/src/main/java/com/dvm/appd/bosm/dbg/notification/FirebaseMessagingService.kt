@@ -36,7 +36,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         super.onCreate()
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(p0: RemoteMessage) {
+        var remoteMessage = p0
         Log.d("Notification", "onMessageRecived called")
         if (remoteMessage == null) {
             Log.d("Notification", "Null Data")
@@ -61,7 +62,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         else {
             Log.d("Notification", "Entered Else ${remoteMessage.data.toString()}")
         }
-
+        super.onMessageReceived(p0)
     }
 
     @SuppressLint("CheckResult")

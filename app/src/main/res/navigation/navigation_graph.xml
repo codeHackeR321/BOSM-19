@@ -142,11 +142,18 @@
             android:name="com.dvm.appd.bosm.dbg.notification.NotificationFragment"
             android:label="fragment_notification"
             tools:layout="@layout/fragment_notification" />
+    <activity
+            android:id="@+id/onboardingActivity"
+            android:name="com.dvm.appd.bosm.dbg.auth.views.OnboardingActivity"
+            android:label="activity_onboarding"
+            tools:layout="@layout/activity_onboarding" />
+
     <fragment
             android:id="@+id/mapFragment"
             android:name="com.dvm.appd.bosm.dbg.more.MapFragment"
             android:label="fragment_map"
             tools:layout="@layout/fragment_map" />
+
 
 
 </navigation>

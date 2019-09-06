@@ -15,7 +15,18 @@ class LoginOutsteeViewModel(val authRepository: AuthRepository) : ViewModel() {
 
         authRepository.loginOutstee(username, password).doOnSuccess {
             authRepository.subscribeToTopics()
-            (state as MutableLiveData).postValue(it!!)
+            when(it!!){
+                LoginState.Success -> {
+                    authRepository.getUser().subscribe {
+                        if(it.firstLogin==true)
+                            (state as MutableLiveData).postValue(LoginState.MoveToOnBoarding)
+                        else
+                            (state as MutableLiveData).postValue(LoginState.MoveToMainApp)
+                    }
+                }
+               is LoginState.Failure -> {(state as MutableLiveData).postValue(it)}
+            }
+
         }.doOnError {
             Log.d("checkve", it.toString())
         }.subscribe()
