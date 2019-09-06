@@ -29,5 +29,8 @@ data class OrderPojo(
     val status: Int,
 
     @SerializedName("price")
-    val price: Int
+    val price: Int,
+
+    @SerializedName("rating")
+    val rating: Int
 )

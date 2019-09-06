@@ -2,6 +2,7 @@ package com.dvm.appd.bosm.dbg.wallet.data.retrofit
 
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllTicketsPojo
+import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllUserShowsPojo
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
 import com.google.gson.JsonObject
 import io.reactivex.Completable
@@ -34,4 +35,10 @@ interface WalletService {
 
     @GET("/tickets-manager/shows")
     fun getAllShows(@Header("Authorization")jwt:String): Single<Response<AllTicketsPojo>>
+
+    @GET("/tickets-manager/tickets")
+    fun getUserTickets(@Header("Authorization")jwt:String): Single<Response<AllUserShowsPojo>>
+
+    @POST("/tickets-manager/signup")
+    fun buyTickets(@Header("Authorization")jwt:String,@Body body: JsonObject): Single<Response<Unit>>
 }

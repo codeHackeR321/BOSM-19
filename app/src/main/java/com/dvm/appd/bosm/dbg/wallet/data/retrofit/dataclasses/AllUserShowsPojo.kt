@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class AllUserShowsPojo(
 
-    @SerializedName("")
+    @SerializedName("shows")
     val shows: List<UserShowPojo>
 )

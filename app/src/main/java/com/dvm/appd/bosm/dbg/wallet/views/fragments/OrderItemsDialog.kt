@@ -81,132 +81,119 @@ class OrderItemsDialog: DialogFragment() {
                 view.rating4.isVisible = true
                 view.rating5.isVisible = true
 
-            }
+                    when (order.rating) {
 
-        })
+                        0 -> {
+                            view.rating1.setImageResource(R.drawable.ic_star)
+                            view.rating2.setImageResource(R.drawable.ic_star)
+                            view.rating3.setImageResource(R.drawable.ic_star)
+                            view.rating4.setImageResource(R.drawable.ic_star)
+                            view.rating5.setImageResource(R.drawable.ic_star)
 
-        orderItemViewModel.orderRating.observe(this, Observer { rating ->
+                            view.rating1.isClickable = true
+                            view.rating2.isClickable = true
+                            view.rating3.isClickable = true
+                            view.rating4.isClickable = true
+                            view.rating5.isClickable = true
 
-            if (orderItemViewModel.order.value!!.status == 3) {
+                        }
 
-                when (rating) {
+                        1 -> {
+                            view.rating1.setImageResource(R.drawable.ic_star_full)
+                            view.rating2.setImageResource(R.drawable.ic_star)
+                            view.rating3.setImageResource(R.drawable.ic_star)
+                            view.rating4.setImageResource(R.drawable.ic_star)
+                            view.rating5.setImageResource(R.drawable.ic_star)
 
-                    0 -> {
-                        view.rating1.setImageResource(R.drawable.ic_star)
-                        view.rating2.setImageResource(R.drawable.ic_star)
-                        view.rating3.setImageResource(R.drawable.ic_star)
-                        view.rating4.setImageResource(R.drawable.ic_star)
-                        view.rating5.setImageResource(R.drawable.ic_star)
+                            view.rating1.isClickable = false
+                            view.rating2.isClickable = false
+                            view.rating3.isClickable = false
+                            view.rating4.isClickable = false
+                            view.rating5.isClickable = false
+                        }
 
-                        view.rating1.isClickable = true
-                        view.rating2.isClickable = true
-                        view.rating3.isClickable = true
-                        view.rating4.isClickable = true
-                        view.rating5.isClickable = true
+                        2 -> {
+                            view.rating1.setImageResource(R.drawable.ic_star_full)
+                            view.rating2.setImageResource(R.drawable.ic_star_full)
+                            view.rating3.setImageResource(R.drawable.ic_star)
+                            view.rating4.setImageResource(R.drawable.ic_star)
+                            view.rating5.setImageResource(R.drawable.ic_star)
 
-                    }
+                            view.rating1.isClickable = false
+                            view.rating2.isClickable = false
+                            view.rating3.isClickable = false
+                            view.rating4.isClickable = false
+                            view.rating5.isClickable = false
+                        }
 
-                    1 -> {
-                        view.rating1.setImageResource(R.drawable.ic_star_full)
-                        view.rating2.setImageResource(R.drawable.ic_star)
-                        view.rating3.setImageResource(R.drawable.ic_star)
-                        view.rating4.setImageResource(R.drawable.ic_star)
-                        view.rating5.setImageResource(R.drawable.ic_star)
+                        3 -> {
+                            view.rating1.setImageResource(R.drawable.ic_star_full)
+                            view.rating2.setImageResource(R.drawable.ic_star_full)
+                            view.rating3.setImageResource(R.drawable.ic_star_full)
+                            view.rating4.setImageResource(R.drawable.ic_star)
+                            view.rating5.setImageResource(R.drawable.ic_star)
 
-                        view.rating1.isClickable = false
-                        view.rating2.isClickable = false
-                        view.rating3.isClickable = false
-                        view.rating4.isClickable = false
-                        view.rating5.isClickable = false
-                    }
+                            view.rating1.isClickable = false
+                            view.rating2.isClickable = false
+                            view.rating3.isClickable = false
+                            view.rating4.isClickable = false
+                            view.rating5.isClickable = false
+                        }
 
-                    2 -> {
-                        view.rating1.setImageResource(R.drawable.ic_star_full)
-                        view.rating2.setImageResource(R.drawable.ic_star_full)
-                        view.rating3.setImageResource(R.drawable.ic_star)
-                        view.rating4.setImageResource(R.drawable.ic_star)
-                        view.rating5.setImageResource(R.drawable.ic_star)
+                        4 -> {
+                            view.rating1.setImageResource(R.drawable.ic_star_full)
+                            view.rating2.setImageResource(R.drawable.ic_star_full)
+                            view.rating3.setImageResource(R.drawable.ic_star_full)
+                            view.rating4.setImageResource(R.drawable.ic_star_full)
+                            view.rating5.setImageResource(R.drawable.ic_star)
 
-                        view.rating1.isClickable = false
-                        view.rating2.isClickable = false
-                        view.rating3.isClickable = false
-                        view.rating4.isClickable = false
-                        view.rating5.isClickable = false
-                    }
+                            view.rating1.isClickable = false
+                            view.rating2.isClickable = false
+                            view.rating3.isClickable = false
+                            view.rating4.isClickable = false
+                            view.rating5.isClickable = false
+                        }
 
-                    3 -> {
-                        view.rating1.setImageResource(R.drawable.ic_star_full)
-                        view.rating2.setImageResource(R.drawable.ic_star_full)
-                        view.rating3.setImageResource(R.drawable.ic_star_full)
-                        view.rating4.setImageResource(R.drawable.ic_star)
-                        view.rating5.setImageResource(R.drawable.ic_star)
+                        5 -> {
+                            view.rating1.setImageResource(R.drawable.ic_star_full)
+                            view.rating2.setImageResource(R.drawable.ic_star_full)
+                            view.rating3.setImageResource(R.drawable.ic_star_full)
+                            view.rating4.setImageResource(R.drawable.ic_star_full)
+                            view.rating5.setImageResource(R.drawable.ic_star_full)
 
-                        view.rating1.isClickable = false
-                        view.rating2.isClickable = false
-                        view.rating3.isClickable = false
-                        view.rating4.isClickable = false
-                        view.rating5.isClickable = false
-                    }
-
-                    4 -> {
-                        view.rating1.setImageResource(R.drawable.ic_star_full)
-                        view.rating2.setImageResource(R.drawable.ic_star_full)
-                        view.rating3.setImageResource(R.drawable.ic_star_full)
-                        view.rating4.setImageResource(R.drawable.ic_star_full)
-                        view.rating5.setImageResource(R.drawable.ic_star)
-
-                        view.rating1.isClickable = false
-                        view.rating2.isClickable = false
-                        view.rating3.isClickable = false
-                        view.rating4.isClickable = false
-                        view.rating5.isClickable = false
-                    }
-
-                    5 -> {
-                        view.rating1.setImageResource(R.drawable.ic_star_full)
-                        view.rating2.setImageResource(R.drawable.ic_star_full)
-                        view.rating3.setImageResource(R.drawable.ic_star_full)
-                        view.rating4.setImageResource(R.drawable.ic_star_full)
-                        view.rating5.setImageResource(R.drawable.ic_star_full)
-
-                        view.rating1.isClickable = false
-                        view.rating2.isClickable = false
-                        view.rating3.isClickable = false
-                        view.rating4.isClickable = false
-                        view.rating5.isClickable = false
+                            view.rating1.isClickable = false
+                            view.rating2.isClickable = false
+                            view.rating3.isClickable = false
+                            view.rating4.isClickable = false
+                            view.rating5.isClickable = false
+                        }
                     }
                 }
-            }
         })
 
         view.rating1.setOnClickListener {
             Log.d("Rating","Clicked")
             orderItemViewModel.rateOrder(orderItemViewModel.order.value!!.shell, 1)
-            orderItemViewModel.getRating()
         }
 
         view.rating2.setOnClickListener {
             Log.d("Rating","Clicked")
             orderItemViewModel.rateOrder(orderItemViewModel.order.value!!.shell, 2)
-            orderItemViewModel.getRating()
         }
 
         view.rating3.setOnClickListener {
             Log.d("Rating","Clicked")
             orderItemViewModel.rateOrder(orderItemViewModel.order.value!!.shell, 3)
-            orderItemViewModel.getRating()
         }
 
         view.rating4.setOnClickListener {
             Log.d("Rating","Clicked")
             orderItemViewModel.rateOrder(orderItemViewModel.order.value!!.shell, 4)
-            orderItemViewModel.getRating()
         }
 
         view.rating5.setOnClickListener {
             Log.d("Rating","Clicked")
             orderItemViewModel.rateOrder(orderItemViewModel.order.value!!.shell, 5)
-            orderItemViewModel.getRating()
         }
 
         return view

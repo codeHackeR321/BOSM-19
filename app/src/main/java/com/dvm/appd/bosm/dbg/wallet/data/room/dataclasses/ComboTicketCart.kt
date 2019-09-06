@@ -4,13 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "ratings")
-data class Ratings(
+@Entity(tableName = "combo_cart")
+data class ComboTicketCart(
 
-    @ColumnInfo(name = "order_id")
+    @ColumnInfo(name = "id")
     @PrimaryKey
-    val orderId: Int,
+    val id: Int,
 
-    @ColumnInfo(name = "rating")
-    val rating: Int
+    @ColumnInfo(name = "quantity")
+    val quantity: Int
 )

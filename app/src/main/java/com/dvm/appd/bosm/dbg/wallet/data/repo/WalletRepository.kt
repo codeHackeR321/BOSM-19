@@ -6,8 +6,7 @@ import com.dvm.appd.bosm.dbg.profile.views.TransactionResult
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker
 import com.dvm.appd.bosm.dbg.shared.NetworkChecker
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
-import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.AllOrdersPojo
-import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.StallsPojo
+import com.dvm.appd.bosm.dbg.wallet.data.retrofit.dataclasses.*
 import com.dvm.appd.bosm.dbg.wallet.data.room.WalletDao
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
@@ -139,7 +138,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     private fun updateOrders(): Completable{
-        return walletService.getAllOrders(jwt.blockingGet().toString())
+        return walletService.getAllOrders(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
                 when(response.code()){
                     200 -> {
@@ -155,10 +154,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         Log.d("Orders", orders.toString())
                         Log.d("Orders", orderItems.toString())
 
-                        walletDao.deleteAllOrderItems().doOnComplete {
-                            walletDao.insertNewOrders(orders)
-                            walletDao.insertNewOrderItems(orderItems)
-                        }
+                        walletDao.deleteAndInsertOrders(orders)
+                        walletDao.deleteAndInsertOrderItems(orderItems)
+
                     }
 
                     400 -> {
@@ -191,7 +189,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 Log.e("GetOrder", "Error", it)
             }
             .ignoreElement()
-            .subscribeOn(Schedulers.io())
+
     }
 
     private fun AllOrdersPojo.toOrderData(): List<OrderData> {
@@ -206,7 +204,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     otpSeen = it.otpSeen,
                     status = it.status,
                     price = it.price,
-                    vendor = it.vendor.vendorName
+                    vendor = it.vendor.vendorName,
+                    rating = it.rating
                 )
             )
         }
@@ -262,7 +261,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                                 status = item.status,
                                 totalPrice = item.totalPrice,
                                 vendor = item.vendor,
-                                items = itemsList
+                                items = itemsList,
+                                rating = item.rating
                             )
                         )
 
@@ -277,7 +277,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                                 status = item.status,
                                 totalPrice = item.totalPrice,
                                 vendor = item.vendor,
-                                items = itemsList
+                                items = itemsList,
+                                rating = item.rating
                             )
                         )
 
@@ -308,7 +309,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     )
                 }
 
-                order = ModifiedOrdersData(it.last().orderId, it.last().shell, it.last().otp, it.last().otpSeen, it.last().status, it.last().totalPrice, it.last().vendor, itemsList)
+                order = ModifiedOrdersData(it.last().orderId, it.last().shell, it.last().otp, it.last().otpSeen, it.last().status, it.last().totalPrice, it.last().vendor, itemsList, it.last().rating)
 
                 return@flatMap Flowable.just(order)
             }
@@ -516,18 +517,21 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun rateOrder(orderId: Int, shell: Int, rating: Int): Completable{
 
-        walletDao.insertRating(Ratings(orderId, rating)).subscribeOn(Schedulers.io()).subscribe()
         val body = JsonObject().also {
             it.addProperty("order_shell_id", shell)
             it.addProperty("order_id", orderId)
             it.addProperty("rating", rating)
             it.addProperty("comments", "")
         }
+
         return walletService.rateOrder(jwt.blockingGet().toString(), body, orderId, shell)
             .map {
                 when(it.code()){
 
-                    200 -> Log.d("Rated", "rated")
+                    200 -> {
+                        Log.d("Rated", "rated")
+                        updateOrders().subscribe()
+                    }
                     else -> null
                 }
             }
@@ -535,9 +539,81 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .ignoreElement()
     }
 
-    fun getRating(orderId: Int): Flowable<Int>{
-        return walletDao.getOrderRating(orderId).subscribeOn(Schedulers.io())
+    fun updateShowsAndCombosInfo(): Completable{
+        return walletService.getAllShows(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
+            .doOnSuccess {response ->
+
+                when(response.code()){
+
+                    200 -> {
+
+                        var combosTickets: MutableList<ComboTickets> = arrayListOf()
+                        var comboShows: MutableList<ComboShows> = arrayListOf()
+                        var showsTickets: MutableList<ShowsTickets> = arrayListOf()
+
+                        response.body()!!.combos.forEach{
+
+                            combosTickets.add(it.toComboTickets())
+                            comboShows.addAll(it.toComboShows())
+                        }
+
+                        response.body()!!.shows.forEach {
+
+                            showsTickets.add(it.toShowsTicket())
+                        }
+
+                        walletDao.insertAllCombos(combosTickets)
+                        walletDao.insertAllShows(showsTickets)
+                        walletDao.updateComboShows(comboShows)
+
+                    }
+                    else -> null
+                }
+            }
+            .ignoreElement()
     }
 
+    private fun ComboPojo.toComboTickets(): ComboTickets{
+        return ComboTickets(id, name, price, allowBitsians, allowParticipants)
+    }
 
+    private fun ComboPojo.toComboShows(): List<ComboShows>{
+
+        var comboShows: MutableList<ComboShows> = arrayListOf()
+        shows.forEach {
+            comboShows.add(ComboShows(showId = it.id, showName = it.name, combo = id, id = 0))
+        }
+
+        return comboShows
+    }
+
+    private fun ShowsPojo.toShowsTicket(): ShowsTickets{
+        return ShowsTickets(id, name, price, ticketsAvailable, allowBitsians, allowParticipants)
+    }
+
+    fun getUserTickets(): Completable{
+        return walletService.getUserTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
+            .doOnSuccess {response ->
+
+                when(response.code()){
+
+                    200 -> {
+
+                        var userTickets: MutableList<UserShows> = arrayListOf()
+
+                        response.body()!!.shows.forEach {
+                            userTickets.add(it.toUserShows())
+                        }
+
+                        walletDao.insertUserShows(userTickets)
+                    }
+                    else -> null
+                }
+            }
+            .ignoreElement()
+    }
+
+    private fun UserShowPojo.toUserShows(): UserShows{
+        return UserShows(id, showName, usedCount, unusedCount)
+    }
 }
