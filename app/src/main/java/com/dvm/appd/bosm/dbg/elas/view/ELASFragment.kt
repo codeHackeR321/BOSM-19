@@ -50,7 +50,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
                 is UIStateElas.Failure -> {
                     progress_fra_elas.visibility = View.INVISIBLE
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    Snackbar.make(view, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE).show()
+                    Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE).show()
                 }
                 is UIStateElas.Questions -> {
                     progress_fra_elas.visibility = View.INVISIBLE
