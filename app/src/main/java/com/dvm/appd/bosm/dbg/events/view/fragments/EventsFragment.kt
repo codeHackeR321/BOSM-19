@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -20,15 +20,29 @@ import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_events_fragment.view.*
 
-class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
+class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
 
     private lateinit var eventsViewViewModel: EventsViewModel
     private val icons = mapOf(
         "Football" to R.drawable.ic_football,
         "Basketball" to R.drawable.ic_basketball,
-        "Tennis" to R.drawable.ic_tennis,
+        "Lawn Tennis" to R.drawable.ic_tennis,
         "Hockey" to R.drawable.ic_hockey,
-        "Squash" to R.drawable.ic_squash
+        "Squash" to R.drawable.ic_squash,
+        "Volleyball" to R.drawable.ic_volleyball,
+        "Cricket" to R.drawable.ic_surface1,
+        "Athletics" to R.drawable.ic_racing,
+        "Chess" to R.drawable.ic_chess,
+        "Carrom" to R.drawable.ic_surface1,
+        "Snooker" to R.drawable.ic_pool,
+        "Pool" to R.drawable.ic_pool,
+        "Power Lifting" to R.drawable.ic_dumbbell,
+        "Bodybuilding" to R.drawable.ic_weightlifting,
+        "Taekwondo" to R.drawable.ic_dumbbell,
+        "Table Tennis" to R.drawable.ic_squash,
+        "Badminton" to R.drawable.ic_squash,
+        "Ultimate Frisbee" to R.drawable.ic_racing,
+        "Swimming" to R.drawable.ic_swimsuit
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -72,5 +86,19 @@ class EventsFragment : Fragment(), EventsAdapter.OnSportsNameClicked{
 
 
         //put navigation code here with name passed in openSportsFragment
+    }
+
+    override fun onHeartClick(sports: String, favMark: Int) {
+        eventsViewViewModel.markFavourite(sports, favMark)
+    }
+
+    override fun onResume() {
+        activity!!.mainView.isVisible = true
+        activity!!.fragmentName.isVisible = true
+        activity!!.cart.isVisible = true
+        activity!!.profile.isVisible = true
+        activity!!.notifications.isVisible = true
+        activity!!.bottom_navigation_bar.isVisible = true
+        super.onResume()
     }
 }

@@ -11,7 +11,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="Circular Std Book"
             android:text="TextView"
@@ -68,10 +68,12 @@
 
     <TextView
             android:id="@+id/quantity"
-            android:layout_width="28dp"
+            android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:background="@color/colorBlue"
             android:text="0"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
@@ -101,13 +103,13 @@
 
     <ImageView
             android:id="@+id/isVeg"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/itemName"
+            android:layout_marginTop="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/itemName"
-            app:srcCompat="@color/colorGreen" />
+            app:srcCompat="@drawable/ic_veg" />
 
     <View
             android:id="@+id/view6"

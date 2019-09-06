@@ -8,6 +8,8 @@ data class ModifiedStallItemsData(
 
     val stallId:Int,
 
+    val category: String,
+
     val price:Int,
 
     val quantity: Int,

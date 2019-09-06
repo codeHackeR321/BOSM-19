@@ -17,14 +17,12 @@ class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
     init {
 
         walletRepository.getAllOrders()
-            .doOnNext {
+            .subscribe({
                 Log.d("OrdersVM",it.toString())
                 (orders as MutableLiveData).postValue(it)
-            }
-            .doOnError {
+            },{
                 Log.e("OrdersVM","Error",it)
-            }
-            .subscribe()
+            })
 
     }
 

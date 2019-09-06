@@ -22,30 +22,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/orderNumber"
+            android:id="@+id/stallName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="64dp"
+            android:layout_marginEnd="16dp"
             android:elevation="5dp"
             android:text="TextView"
             android:textAlignment="textStart"
             android:textColor="@color/colorBlack"
             android:textSize="30sp"
-            app:layout_constraintEnd_toStartOf="@+id/otp"
+            app:layout_constraintEnd_toStartOf="@+id/orderId"
             app:layout_constraintStart_toStartOf="@id/view"
             app:layout_constraintTop_toTopOf="@id/view" />
+
     <TextView
-            android:text="OTP"
+            android:id="@+id/orderId"
             android:layout_width="wrap_content"
-            android:elevation="5dp"
             android:layout_height="wrap_content"
-            android:id="@+id/otp" app:layout_constraintTop_toTopOf="@id/view"
-            app:layout_constraintEnd_toEndOf="@id/view" android:layout_marginEnd="24dp" android:textSize="18sp"
-            android:layout_marginTop="4dp" android:textColor="#4293FF"
-            android:padding="12sp" android:paddingLeft="8sp" android:paddingRight="8sp" android:textAlignment="center"
-            android:paddingStart="8sp" android:paddingTop="8sp" android:paddingEnd="8sp" android:paddingBottom="8sp"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:elevation="5dp"
+            android:text="OTP"
+            android:textAlignment="center"
+            android:textColor="#4293FF"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="@id/view"
+            app:layout_constraintTop_toTopOf="@id/view" />
 
     <TextView
             android:id="@+id/price"
@@ -61,7 +65,7 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@id/view"
             app:layout_constraintStart_toStartOf="@id/view"
-            app:layout_constraintTop_toBottomOf="@+id/orderNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/stallName" />
 
     <TextView
             android:id="@+id/status"
@@ -75,23 +79,8 @@
             android:textColor="@color/colorBlack"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@id/view"
-            app:layout_constraintEnd_toEndOf="@+id/otp"
-            app:layout_constraintStart_toStartOf="@+id/otp"
-            app:layout_constraintTop_toBottomOf="@+id/otp" />
+            app:layout_constraintEnd_toEndOf="@+id/orderId"
+            app:layout_constraintStart_toStartOf="@+id/orderId"
+            app:layout_constraintTop_toBottomOf="@+id/orderId" />
 
-    <TextView
-            android:id="@+id/orderId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="5dp"
-            android:text="TextView"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            app:layout_constraintStart_toEndOf="@+id/price"
-            app:layout_constraintTop_toBottomOf="@+id/orderNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>

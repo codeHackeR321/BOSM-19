@@ -4,6 +4,7 @@ import android.media.AudioTimestamp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
@@ -17,16 +18,16 @@ import kotlinx.android.synthetic.main.cards_sports_vertical_1.view.textViewVenue
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
+class SportsDataAdapter(private val listener: OnFavouriteClicked) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     var sportData: List<SportsData> = emptyList()
    // var genderSelected=""
 
-    /* interface OnMarkFavouriteClicked{
-         fun updateIsFavourite(eventId: String, favouriteMark: Int)
-     }*/
+     interface OnFavouriteClicked{
+         fun updateFavourite(matchNo: Int, favouriteMark: Int)
+     }
 
     class SportsDataViewHolder1(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -39,7 +40,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
         val time: TextView = view.textViewTime
         val venue: TextView = view.textViewVenue
         val winner1: TextView = view.textViewWinner1_1
-        //val markFav: Button = view.markFav
+        val fav: ImageView = view.fav1
 
     }
 
@@ -54,7 +55,7 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
         val date: TextView = view.textViewDate
         val time: TextView = view.textViewTime
         val venue: TextView = view.textViewVenue
-        //val markFav: Button = view.markFav
+        val fav: ImageView = view.fav2
 
     }
 
@@ -118,6 +119,21 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                 holder1.team1.text=sportData[position].team_1
                 holder1.team2.text=sportData[position].team_2
 
+                if (sportData[position].isFavourite == 1){
+                    holder1.fav.setImageResource(R.drawable.ic_is_favourite)
+                }else if (sportData[position].isFavourite == 0){
+                    holder1.fav.setImageResource(R.drawable.ic_not_favourite)
+                }
+
+                holder1.fav.setOnClickListener {
+
+                    if (sportData[position].isFavourite == 1){
+                        listener.updateFavourite(sportData[position].match_no, 0)
+                    }
+                    else if (sportData[position].isFavourite == 0){
+                        listener.updateFavourite(sportData[position].match_no, 1)
+                    }
+                }
 
             }
             else if (holder.itemViewType == 2) {
@@ -137,6 +153,22 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                 holder2.time.text = getTime(sportData[position].time)
                 holder2.venue.text=sportData[position].venue
 
+                if (sportData[position].isFavourite == 1){
+                    holder2.fav.setImageResource(R.drawable.ic_is_favourite)
+                }else if (sportData[position].isFavourite == 0){
+                    holder2.fav.setImageResource(R.drawable.ic_not_favourite)
+                }
+
+                holder2.fav.setOnClickListener {
+
+                    if (sportData[position].isFavourite == 1){
+                        listener.updateFavourite(sportData[position].match_no, 0)
+                    }
+                    else if (sportData[position].isFavourite == 0){
+                        listener.updateFavourite(sportData[position].match_no, 1)
+                    }
+                }
+
                 if (sportData[position].winner1.isNullOrEmpty())
                    holder2.winner1.visibility=View.GONE
                 else
@@ -153,7 +185,9 @@ class SportsDataAdapter(/*private val listener: OnMarkFavouriteClicked*/) :
                     holder2.winner3.text="3: "+sportData[position].winner3
 
             }
+
         }
+
     }
 
     private fun getDate(datetime:String): String {

@@ -1,12 +1,10 @@
 package com.dvm.appd.bosm.dbg.wallet.data.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import retrofit2.http.QueryName
 
 @Dao
 interface WalletDao {
@@ -26,10 +24,10 @@ interface WalletDao {
     @Query("DELETE FROM stalls")
     fun deleteAllStalls()
 
-    @Query("SELECT orders.id as orderId, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id ORDER BY order_id DESC")
+    @Query("SELECT orders.id as orderId, orders.shell as shell, orders.rating as rating, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id ORDER BY order_id DESC")
     fun getOrdersData(): Flowable<List<ChildOrdersData>>
 
-    @Query("SELECT orders.id as orderId, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id WHERE orders.id = :orderId ORDER BY order_id DESC")
+    @Query("SELECT orders.id as orderId, orders.shell as shell, orders.rating as rating, otp, otp_seen as otpSeen, status, price as totalPrice, vendor, name as itemName, item_id as itemId, quantity, unit_price as price FROM orders LEFT JOIN order_items ON orders.id = order_items.order_id WHERE orders.id = :orderId ORDER BY order_id DESC")
     fun getOrderById(orderId: Int): Flowable<List<ChildOrdersData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -37,6 +35,12 @@ interface WalletDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNewOrderItems(orderItems: List<OrderItemsData>)
+
+    @Query("DELETE FROM order_items")
+    fun deleteAllOrderItems()
+
+    @Query("DELETE FROM orders")
+    fun deleteAllOrders()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartItems(cartItems: CartData): Completable
@@ -47,15 +51,67 @@ interface WalletDao {
     @Query("DELETE FROM cart_data WHERE item_id = :itemId")
     fun deleteCartItem(itemId: Int): Completable
 
+    @Transaction
+    fun deleteAndInsertOrders(orders: List<OrderData>){
+        deleteAllOrders()
+        insertNewOrders(orders)
+    }
+
+    @Transaction
+    fun deleteAndInsertOrderItems(orderItems: List<OrderItemsData>){
+        deleteAllOrderItems()
+        insertNewOrderItems(orderItems)
+    }
+
     @Query("SELECT * FROM cart_data ORDER BY vendor_id")
     fun getAllCartItems(): Flowable<List<CartData>>
 
     @Query("SELECT cart_data.item_id AS itemId, stall_items.itemName as itemName, stall_items.isVeg as isVeg, cart_data.vendor_id AS vendorId, stalls.stallName AS vendorName, cart_data.quantity AS quantity, stall_items.price AS price FROM cart_data LEFT JOIN stall_items ON cart_data.item_id = stall_items.itemId LEFT JOIN stalls ON cart_data.vendor_id = stalls.stallId ")
     fun getAllModifiedCartItems(): Flowable<List<ModifiedCartData>>
 
-    @Query("SELECT itemId, itemName, stallId, price, isVeg, COALESCE(cart_data.quantity, 0) AS quantity FROM stall_items LEFT JOIN cart_data ON itemId = item_id WHERE stallId = :stallId AND isAvailable = :available")
+    @Query("SELECT itemId, itemName, stallId, category, price, isVeg, COALESCE(cart_data.quantity, 0) AS quantity FROM stall_items LEFT JOIN cart_data ON itemId = item_id WHERE stallId = :stallId AND isAvailable = :available")
     fun getModifiedStallItemsById(stallId: Int, available: Boolean): Flowable<List<ModifiedStallItemsData>>
 
     @Query("UPDATE cart_data SET quantity = :quantity WHERE item_id = :itemId")
     fun updateCartItem(quantity: Int, itemId: Int): Completable
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllCombos(combos: List<ComboTickets>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertComboShows(comboShows: List<ComboShows>)
+
+    @Query("DELETE FROM combo_shows")
+    fun deleteComboShows()
+
+    @Transaction
+    fun updateComboShows(comboShows: List<ComboShows>){
+        deleteComboShows()
+        insertComboShows(comboShows)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllShows(shows: List<ShowsTickets>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertUserShows(userShows: List<UserShows>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertComboCart(comboCartItem: ComboTicketCart): Completable
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertShowsCart(showsCartItem: ShowsTicketsCart): Completable
+
+    @Query("DELETE FROM combo_cart")
+    fun clearComboCart(): Completable
+
+    @Query("DELETE FROM shows_cart")
+    fun clearShowsCart(): Completable
+
+    @Query("DELETE FROM combo_cart WHERE id = :id")
+    fun clearComboCartItem(id: Int): Completable
+
+    @Query("DELETE FROM shows_cart WHERE id = :id")
+    fun clearShowsCartItem(id: Int): Completable
+
 }

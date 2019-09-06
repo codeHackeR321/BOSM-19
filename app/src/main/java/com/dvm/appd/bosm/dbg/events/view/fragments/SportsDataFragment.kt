@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_sports_data.view.*
 import kotlinx.android.synthetic.main.fragment_sports_data.view.recy_sports_vertical
 import java.lang.Exception
 
-class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
+class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsDataAdapter.OnFavouriteClicked {
     private var genderSelected=""
     private var genderWiseDataMap= mapOf<String,List<SportsData>>()
     private lateinit var sportsDataViewModel: SportsDataViewModel
@@ -44,7 +44,7 @@ class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
         view.textView4.text=sportName.capitalize()
 
         view.recy_sports_horizontal.adapter = GenderDataAdapter(genderSelected,this)
-        view.recy_sports_vertical.adapter = SportsDataAdapter()
+        view.recy_sports_vertical.adapter = SportsDataAdapter(this)
 
         sportsDataViewModel.gender.observe(this, Observer {
             Log.d("Sports11" , "Entered observer for gender Adapter with list = $it")
@@ -134,5 +134,9 @@ class SportsDataFragment() : Fragment(),GenderDataAdapter.OnGenderClicked {
         activity!!.notifications.isVisible = true
         super.onDetach()
 
+    }
+
+    override fun updateFavourite(matchNo: Int, favouriteMark: Int) {
+        sportsDataViewModel.markMatchFavourite(matchNo, favouriteMark)
     }
 }

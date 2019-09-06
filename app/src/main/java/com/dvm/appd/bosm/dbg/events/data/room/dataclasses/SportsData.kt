@@ -55,6 +55,9 @@ data class SportsData(
     var winner2: String,
 
     @ColumnInfo(name = "winner_3")
-    var winner3: String
+    var winner3: String,
+
+    @ColumnInfo(name = "is_favourite")
+    var isFavourite: Int
 
 )

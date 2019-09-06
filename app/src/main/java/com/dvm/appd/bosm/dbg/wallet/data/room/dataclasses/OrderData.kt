@@ -11,6 +11,9 @@ data class OrderData(
     @ColumnInfo(name = "id")
     val orderId: Int,
 
+    @ColumnInfo(name = "shell")
+    val shell: Int,
+
     @ColumnInfo(name = "otp")
     val otp: Int,
 
@@ -24,5 +27,8 @@ data class OrderData(
     val price: Int,
 
     @ColumnInfo(name = "vendor")
-    val vendor: String //vendor id or name
+    val vendor: String,
+
+    @ColumnInfo(name = "rating")
+    val rating: Int
 )

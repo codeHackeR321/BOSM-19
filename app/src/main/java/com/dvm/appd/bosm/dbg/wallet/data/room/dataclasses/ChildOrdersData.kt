@@ -4,6 +4,8 @@ data class ChildOrdersData(
 
     val orderId: Int,
 
+    val shell: Int,
+
     val otp: Int,
 
     val otpSeen: Boolean,
@@ -20,5 +22,7 @@ data class ChildOrdersData(
 
     val quantity: Int,
 
-    val price: Int
+    val price: Int,
+
+    val rating: Int
 )

@@ -19,10 +19,11 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModel
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.StallItemsViewModelFactory
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallItemsAdapter
+import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallItemsChildAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_stall_items.view.*
 
-class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
+class StallItemsFragment : Fragment(), StallItemsChildAdapter.OnAddClickedListener {
 
     private lateinit var stallItemsViewModel: StallItemsViewModel
 
@@ -46,7 +47,7 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         rootView.items_recycler.adapter = StallItemsAdapter(this)
 
         stallItemsViewModel.items.observe(this, Observer {
-            (rootView.items_recycler.adapter as StallItemsAdapter).stallItems = it
+            (rootView.items_recycler.adapter as StallItemsAdapter).items = it
             (rootView.items_recycler.adapter as StallItemsAdapter).notifyDataSetChanged()
         })
 
@@ -67,6 +68,7 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         })
 
         rootView.stallOrderView.setOnClickListener {
+            this.findNavController().navigate(R.id.action_stallItemsFragment2_to_action_cart)
             //TODO add navigation to cart fragment
         }
 
@@ -76,15 +78,6 @@ class StallItemsFragment : Fragment(), StallItemsAdapter.OnAddClickedListener {
         return rootView
     }
 
-    override fun onDetach() {
-        super.onDetach()
-
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-    }
 
     override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {
 

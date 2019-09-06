@@ -4,6 +4,8 @@ data class ModifiedOrdersData(
 
     val orderId: Int,
 
+    val shell: Int,
+
     val otp: Int,
 
     val otpSeen: Boolean,
@@ -14,5 +16,7 @@ data class ModifiedOrdersData(
 
     val vendor: String,
 
-    val items: List<ModifiedItemsData>
+    val items: List<ModifiedItemsData>,
+
+    val rating: Int
 )

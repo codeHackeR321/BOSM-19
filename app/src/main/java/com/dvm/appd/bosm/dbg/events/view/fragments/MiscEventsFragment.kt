@@ -111,13 +111,13 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         activity!!.notifications.isVisible = true
     }
 
-    override fun updateIsFavourite(eventId: String, favouriteMark: Int, day: String) {
-        miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark, day)
-        miscEventsViewViewModel.getMiscEventsData(day)
+    override fun updateIsFavourite(eventId: String, favouriteMark: Int) {
+        miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark)
     }
 
     override fun daySelected(day: String, position: Int) {
         (miscEventsViewViewModel.daySelected as MutableLiveData).postValue(day)
+        miscEventsViewViewModel.currentSubsciption.dispose()
         miscEventsViewViewModel.getMiscEventsData(day)
         view!!.dayRecycler.smoothScrollToPosition(position)
     }
