@@ -88,4 +88,8 @@ dependencies {
 
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0@aar'
+
+    implementation 'com.github.navasmdc:MaterialDesign:1.5@aar'
+    implementation 'com.ogaclejapan.smarttablayout:library:1.2.1@aar'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-beta03'
 }

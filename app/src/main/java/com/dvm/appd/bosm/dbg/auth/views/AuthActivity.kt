@@ -57,6 +57,7 @@ class AuthActivity : AppCompatActivity() {
                 }
                 LoginState.MoveToOnBoarding ->{
                   loadingPbr.visibility = View.GONE
+                    startActivity(Intent(this,OnboardingActivity::class.java))
                     finishAffinity()
                 }
                 is LoginState.Failure -> {

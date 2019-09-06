@@ -48,6 +48,7 @@ class LoginOutsteeActivity : AppCompatActivity(){
                 }
                 LoginState.MoveToOnBoarding ->{
                     loading.visibility = View.GONE
+                    startActivity(Intent(this,OnboardingActivity::class.java))
                     finishAffinity()
                 }
                 is LoginState.Failure -> {

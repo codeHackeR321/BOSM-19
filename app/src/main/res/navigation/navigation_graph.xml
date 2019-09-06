@@ -130,6 +130,11 @@
             android:name="com.dvm.appd.bosm.dbg.notification.NotificationFragment"
             android:label="fragment_notification"
             tools:layout="@layout/fragment_notification" />
+    <activity
+            android:id="@+id/onboardingActivity"
+            android:name="com.dvm.appd.bosm.dbg.auth.views.OnboardingActivity"
+            android:label="activity_onboarding"
+            tools:layout="@layout/activity_onboarding" />
 
 
 </navigation>
