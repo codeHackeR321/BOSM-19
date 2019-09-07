@@ -36,7 +36,17 @@ class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
 
      authRepository.loginBitsian(id).subscribe({
          authRepository.subscribeToTopics()
-         (state as MutableLiveData).postValue(it)
+         when(it!!) {
+             LoginState.Success -> {
+                 authRepository.getUser().subscribe {
+                     if(it.firstLogin==true)
+                         (state as MutableLiveData).postValue(LoginState.MoveToOnBoarding)
+                     else
+                         (state as MutableLiveData).postValue(LoginState.MoveToMainApp)
+                 }
+             }
+             is LoginState.Failure -> {(state as MutableLiveData).postValue(it)}
+         }
      },{
          Log.d("checke",it.toString())
          (state as MutableLiveData).postValue(LoginState.Failure(it.message.toString()))
