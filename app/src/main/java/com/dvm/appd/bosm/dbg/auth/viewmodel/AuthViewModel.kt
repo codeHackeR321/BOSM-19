@@ -39,7 +39,8 @@ class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
          when(it!!) {
              LoginState.Success -> {
                  authRepository.getUser().subscribe {
-                     if(it.firstLogin==true)
+                     Log.d("AuthViewModel", "Status = ${it.firstLogin}")
+                     if(it.firstLogin)
                          (state as MutableLiveData).postValue(LoginState.MoveToOnBoarding)
                      else
                          (state as MutableLiveData).postValue(LoginState.MoveToMainApp)

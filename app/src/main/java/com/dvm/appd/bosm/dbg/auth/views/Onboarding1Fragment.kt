@@ -23,6 +23,7 @@ class Onboarding1Fragment(val listener: onboardingFragmentSkipButtonClickListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         text_bttn_skip.setOnClickListener {
+            it.isClickable = false
             listener.onSkipButtonPressed()
         }
         super.onViewCreated(view, savedInstanceState)
