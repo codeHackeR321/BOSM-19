@@ -10,8 +10,11 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.view.isVisible
+import androidx.navigation.findNavController
 
 import com.dvm.appd.bosm.dbg.R
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_fragment_web_page.*
 
 class FragmentWebPage : Fragment() {
@@ -25,6 +28,12 @@ class FragmentWebPage : Fragment() {
             link = it.getString("link")!!
             title = it.getString("title")!!
         }
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
+        activity!!.bottom_navigation_bar.isVisible = false
+        activity!!.mainView.visibility = View.GONE
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,6 +43,9 @@ class FragmentWebPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        backBtn.setOnClickListener {
+            view.findNavController().popBackStack()
+        }
         text_commonWebView_title.text = title
         webView_commonWebView_webPage.webViewClient = CustomWebViewClient()
         webView_commonWebView_webPage.loadUrl(link)

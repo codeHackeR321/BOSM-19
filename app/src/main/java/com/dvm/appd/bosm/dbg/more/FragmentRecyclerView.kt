@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.more.dataClasses.Developer
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_fragment_recycler_view.*
 
 class FragmentRecyclerView : Fragment() {
@@ -33,6 +36,12 @@ class FragmentRecyclerView : Fragment() {
         arguments?.let {
             title = it.getString("title")!!
         }
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
+        activity!!.bottom_navigation_bar.isVisible = false
+        activity!!.mainView.visibility = View.GONE
     }
 
     override fun onCreateView(
@@ -45,6 +54,9 @@ class FragmentRecyclerView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        backBtn.setOnClickListener {
+            view.findNavController().popBackStack()
+        }
         setAdapter()
     }
 
