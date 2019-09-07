@@ -28,7 +28,7 @@ interface WalletService {
     fun addMoneyBitsian(@Header("Authorization")jwt:String, @Body body:JsonObject):Single<Response<Unit>>
 
     @POST("wallet/monetary/transfer")
-    fun transferMoney(@Header("Authorization")jwt:String,@Body body: JsonObject):Single<Response<Any>>
+    fun transferMoney(@Header("Authorization")jwt:String,@Body body: JsonObject):Single<Response<Void>>
 
     @POST("wallet/ratings/{shell}/{orderId}")
     fun rateOrder(@Header("Authorization")jwt:String,@Body body: JsonObject, @Path("orderId")orderId: Int, @Path("shell")shell: Int): Single<Response<Unit>>
