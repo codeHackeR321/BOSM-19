@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,6 +16,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_map.*
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -24,6 +28,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
         return rootPOV
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity!!.fragmentName.isVisible = false
+        activity!!.cart.isVisible = false
+        activity!!.profile.isVisible = false
+        activity!!.notifications.isVisible = false
+        activity!!.bottom_navigation_bar.isVisible = false
+        activity!!.mainView.visibility = View.GONE
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        backBtn.setOnClickListener {
+            view.findNavController().popBackStack()
+        }
     }
 
     /**

@@ -53,12 +53,12 @@ class AuthActivity : AppCompatActivity() {
                 LoginState.MoveToMainApp -> {
                     loadingPbr.visibility=View.GONE
                     startActivity(Intent(this,MainActivity::class.java))
-                    finishAffinity()
+                    finish()
                 }
                 LoginState.MoveToOnBoarding ->{
                   loadingPbr.visibility = View.GONE
-                    startActivity(Intent(this,MainActivity::class.java))
-                    finishAffinity()
+                    startActivity(Intent(this,OnboardingActivity::class.java))
+                    finish()
                 }
                 is LoginState.Failure -> {
                     Toast.makeText(this, (it as LoginState.Failure).message, Toast.LENGTH_LONG).show()

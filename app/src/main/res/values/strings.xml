@@ -56,6 +56,9 @@
     <string name="title_more_fragment">More</string>
     <string name="hello_blank_fragment">Hello Blank Fragment</string>
 
+    <string name="title_update_failed">Failed to Update App</string>
+    <string name="message_update_falied">An error occurred while updating the app. Since this was a crucial update, press OK to restart the app</string>
+
     <string name="bttn_elasFragQuestions_Submit">Submit Answer</string>
     <string name="bttn_elasFragQuestions_Leaderboard">View Leaderboard</string>
 

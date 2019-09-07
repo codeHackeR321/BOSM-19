@@ -27,12 +27,20 @@ class MoreAdapter(private val listener: onMoreItemClicked) : RecyclerView.Adapte
     override fun onBindViewHolder(holder: moreViewHolder, position: Int) {
         holder.title.text = moreItems[position]
         holder.parent.setOnClickListener {
+            it.isClickable = false
+            holder.thimbnail.isClickable = false
+            listener.moreButtonClicked(position)
+        }
+        holder.imgBttn.setOnClickListener {
+            it.isClickable = false
+            holder.parent.isClickable = false
             listener.moreButtonClicked(position)
         }
     }
 
     inner class moreViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         var title = view.text_card_more_title
+        var imgBttn = view.imgBttn_card_more_next
         var thimbnail = view.img_card_more_thumbnail
         var parent = view.linear_card_more_parent
     }
