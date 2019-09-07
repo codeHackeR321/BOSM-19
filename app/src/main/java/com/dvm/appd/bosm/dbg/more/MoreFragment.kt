@@ -29,6 +29,8 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity!!.fragmentName.text = resources.getString(R.string.action_more)
+
         recycler_card_more.adapter = MoreAdapter(this)
         (recycler_card_more.adapter as MoreAdapter).moreItems = moreItems
         (recycler_card_more.adapter as MoreAdapter).notifyDataSetChanged()
