@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.profile.views
+package com.dvm.appd.bosm.dbg.profile.views.fragments
 
 import android.app.Dialog
 import android.graphics.Color
@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.profile.viewmodel.SendMoneyViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.SendMoneyViewModelFactory
-import kotlinx.android.synthetic.main.dia_wallet_add_money.view.*
 import kotlinx.android.synthetic.main.dia_wallet_send_money.view.*
 
 

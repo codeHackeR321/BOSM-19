@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.profile.views
+package com.dvm.appd.bosm.dbg.profile.views.fragments
 
 import android.app.Dialog
 import android.graphics.Color

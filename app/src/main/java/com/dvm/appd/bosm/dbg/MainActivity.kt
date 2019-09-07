@@ -52,7 +52,17 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        FirebaseApp.initializeApp(this)
+        try {
+            FirebaseApp.initializeApp(this)
+        }
+        catch (e: Exception){
+            AlertDialog.Builder(this).setTitle("App Fucked Up Big Time")
+                .setMessage("Please restart our app")
+                .setNegativeButton("OK") { _, _ ->
+                    finishAffinity()
+                }
+        }
+
         sharedPreferences = AppModule(application).providesSharedPreferences(application)
         setupNotificationChannel()
         checkForInvitation()

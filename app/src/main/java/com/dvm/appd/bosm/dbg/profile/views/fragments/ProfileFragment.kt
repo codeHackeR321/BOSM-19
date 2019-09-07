@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.profile.views
+package com.dvm.appd.bosm.dbg.profile.views.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -101,6 +101,8 @@ class ProfileFragment : Fragment() {
                     rootView.qrCode.setImageBitmap(it)
                 }
         })
+
+
 
         return rootView
     }

@@ -19,7 +19,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
     OrderItemsData::class, OrderData::class, CartData::class, QuestionData::class,
     OptionData::class, SportsData::class, Notification::class, EventsData::class,
     FavNamesData::class, ComboShows::class, ComboTickets::class, ShowsTickets::class,
-    UserShows::class, ComboTicketCart::class, ShowsTicketsCart::class],version = 1)
+    UserShows::class, TicketsCart::class],version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun walletDao(): WalletDao
