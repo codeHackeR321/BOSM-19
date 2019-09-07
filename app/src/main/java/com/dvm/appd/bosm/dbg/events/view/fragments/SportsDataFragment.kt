@@ -119,9 +119,9 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
     }
 
     private fun setGenderWiseDataObserver() {
-
         sportsDataViewModel.sportsData.observe(this, Observer {
-            genderWiseDataMap=it
+            Log.d("SportsFragment", "Observer Called With data = ${it.toString()}")
+            genderWiseDataMap = it
             setGenderWiseData()
         })
     }

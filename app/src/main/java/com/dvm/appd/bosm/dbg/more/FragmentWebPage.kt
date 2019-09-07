@@ -3,6 +3,7 @@ package com.dvm.appd.bosm.dbg.more
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_fragment_web_page.*
+import java.lang.Exception
 
 class FragmentWebPage : Fragment() {
 
@@ -58,7 +60,11 @@ class FragmentWebPage : Fragment() {
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
-            progress_commonWebView.visibility = View.INVISIBLE
+            try {
+                progress_commonWebView.visibility = View.INVISIBLE
+            } catch (e: Exception) {
+                Log.e("WebPage", "An Error Occoured")
+            }
             super.onPageFinished(view, url)
         }
     }

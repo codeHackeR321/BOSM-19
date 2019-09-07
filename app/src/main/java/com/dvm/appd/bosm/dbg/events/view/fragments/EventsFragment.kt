@@ -53,6 +53,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
 
         activity!!.mainView.setBackgroundResource(R.drawable.events_title)
         activity!!.fragmentName.text = "Events"
+        view.progress_event.visibility = View.VISIBLE
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_events_to_action_cart)
@@ -69,7 +70,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         view.eventsRecycler.adapter = EventsAdapter(icons, this)
 
         eventsViewViewModel.sportsName.observe(this, Observer {
-
+            view.progress_event.visibility = View.INVISIBLE
             Log.d("EventsFrag", "Observed $it")
             (view.eventsRecycler.adapter as EventsAdapter).sportsName = it
             (view.eventsRecycler.adapter as EventsAdapter).notifyDataSetChanged()

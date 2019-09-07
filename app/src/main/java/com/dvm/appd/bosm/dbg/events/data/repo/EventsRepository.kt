@@ -182,7 +182,7 @@ class EventsRepository(val eventsDao: EventsDao) {
         return eventsDao.getDayMiscEvents(day).subscribeOn(Schedulers.io())
     }
 
-    fun getSportData(name: String): Single<List<SportsData>> {
+    fun getSportData(name: String): Flowable<List<SportsData>> {
         return eventsDao.getSportDataForSport(name).subscribeOn(Schedulers.io())
     }
 
