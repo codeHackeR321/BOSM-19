@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.profile.viewmodel.AddMoneyViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.AddMoneyViewModelFactory
+import kotlinx.android.synthetic.main.dia_wallet_add_money.*
 import kotlinx.android.synthetic.main.dia_wallet_add_money.view.*
 
 class AddMoneyDialog : DialogFragment() {
@@ -29,6 +30,7 @@ class AddMoneyDialog : DialogFragment() {
                 Toast.makeText(context!!, "Please fill amount", Toast.LENGTH_SHORT).show()
             else {
                 addMoneyViewModel.addMoney(rootView.amount.text.toString().toInt())
+                loadingPBR.visibility = View.VISIBLE
                 it.isClickable = false
             }
         }
@@ -36,10 +38,12 @@ class AddMoneyDialog : DialogFragment() {
         addMoneyViewModel.result.observe(this, Observer {
             when (it!!) {
                 TransactionResult.Success -> {
+                    loadingPBR.visibility = View.GONE
                     dismiss()
                     Toast.makeText(context!!, "Money added successfully!", Toast.LENGTH_SHORT).show()
                 }
                 is TransactionResult.Failure -> {
+                    loadingPBR.visibility = View.GONE
                     Toast.makeText(context!!, (it as TransactionResult.Failure).message, Toast.LENGTH_SHORT).show()
                     rootView.addBtn.isClickable = true
                 }
