@@ -2,7 +2,7 @@ package com.dvm.appd.bosm.dbg.wallet.data.repo
 
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
-import com.dvm.appd.bosm.dbg.profile.views.TransactionResult
+import com.dvm.appd.bosm.dbg.profile.views.fragments.TransactionResult
 import com.dvm.appd.bosm.dbg.shared.MoneyTracker
 import com.dvm.appd.bosm.dbg.shared.NetworkChecker
 import com.dvm.appd.bosm.dbg.wallet.data.retrofit.WalletService
@@ -22,7 +22,7 @@ import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
 
-    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
+    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("JWT ${it.jwt}") }
     private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
 
     init {
@@ -41,6 +41,22 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     updateOrders().subscribe()
                 }
             }
+
+        db.collection("tickets").document("${userId.blockingGet()}").collection("shows")
+            .addSnapshotListener { querySnapshot, exception ->
+
+                if (exception != null){
+                    Log.e("WalletRepo", "Listen Failed", exception)
+                    return@addSnapshotListener
+                }
+
+                if (querySnapshot != null){
+                    Log.d("WalletRepo", "Firebase $querySnapshot")
+                    updateUserTickets().subscribe()
+                }
+            }
+
+//        getShowsAndCombosInfo().subscribe()
     }
 
     fun fetchAllStalls(): Completable {
@@ -539,10 +555,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .ignoreElement()
     }
 
-    fun updateShowsAndCombosInfo(): Completable{
+    fun getShowsAndCombosInfo(): Completable{
         return walletService.getAllShows(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
+                Log.d("Tickets", "$response")
                 when(response.code()){
 
                     200 -> {
@@ -591,14 +608,13 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return ShowsTickets(id, name, price, ticketsAvailable, allowBitsians, allowParticipants)
     }
 
-    fun getUserTickets(): Completable{
+    fun updateUserTickets(): Completable{
         return walletService.getUserTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
                 when(response.code()){
 
                     200 -> {
-
                         var userTickets: MutableList<UserShows> = arrayListOf()
 
                         response.body()!!.shows.forEach {
@@ -615,5 +631,92 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     private fun UserShowPojo.toUserShows(): UserShows{
         return UserShows(id, showName, usedCount, unusedCount)
+    }
+
+    fun getAllUserShows(): Flowable<List<UserShows>>{
+        return walletDao.getAllUserTickets().subscribeOn(Schedulers.io())
+    }
+
+    fun getAllShowsData(): Flowable<List<ShowsTickets>>{
+        return walletDao.getAllShows().subscribeOn(Schedulers.io())
+    }
+
+    fun getAllComboData(): Flowable<List<ModifiedComboData>>{
+        return walletDao.getAllCombos().subscribeOn(Schedulers.io())
+            .flatMap {
+
+                var combos: MutableList<ModifiedComboData> = arrayListOf()
+                var shows: MutableList<ChildShows> = arrayListOf()
+
+                for ((index, item) in it.listIterator().withIndex()){
+
+                    shows.add(ChildShows(item.showId, item.showName))
+
+                    if (index != it.lastIndex && it[index].comboId != it[index+1].comboId){
+                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, shows))
+                        shows = arrayListOf()
+                    }
+                    else if (index == it.lastIndex){
+                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, shows))
+                        shows = arrayListOf()
+                    }
+
+                }
+
+                return@flatMap Flowable.just(combos)
+            }
+    }
+
+    fun insertTicketsCart(tickets: TicketsCart): Completable{
+        return walletDao.insertTicketCart(tickets).subscribeOn(Schedulers.io())
+    }
+
+    fun deleteTicektsCartItem(id: Int): Completable{
+        return walletDao.clearTicketsCartItem(id).subscribeOn(Schedulers.io())
+    }
+
+    fun updateTicketsCart(quantity: Int, id: Int): Completable{
+        return walletDao.updateTicketsCart(quantity, id).subscribeOn(Schedulers.io())
+    }
+
+    fun buyTickets(): Completable{
+
+        return walletDao.getTicketsCart().subscribeOn(Schedulers.io())
+            .firstOrError()
+            .map {
+
+                var ticketBody = JsonObject()
+                var individualBody = JsonObject()
+                var comboBody = JsonObject()
+
+                for (item in it){
+
+                    if (item.type == "Show"){
+                        individualBody.addProperty("${item.ticketId}", item.quantity)
+                    }
+
+                    if (item.type == "Combo"){
+                        comboBody.addProperty("${item.ticketId}", item.quantity)
+                    }
+                }
+
+                ticketBody.add("individual", individualBody)
+                ticketBody.add("combos", comboBody)
+                Log.d("Tickets", "$ticketBody")
+
+                return@map ticketBody
+            }
+            .flatMapCompletable{
+                return@flatMapCompletable walletService.buyTickets(jwt.blockingGet().toString(), it).subscribeOn(Schedulers.io())
+                    .doOnSuccess {response ->
+
+                        when(response.code()){
+
+                            200 -> {}
+                            else -> null
+                        }
+                    }
+                    .ignoreElement()
+            }
     }
 }

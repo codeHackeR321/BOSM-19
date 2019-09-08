@@ -33,12 +33,12 @@ interface WalletService {
     @POST("wallet/ratings/{shell}/{orderId}")
     fun rateOrder(@Header("Authorization")jwt:String,@Body body: JsonObject, @Path("orderId")orderId: Int, @Path("shell")shell: Int): Single<Response<Unit>>
 
-    @GET("/tickets-manager/shows")
+    @GET("tickets-manager/shows")
     fun getAllShows(@Header("Authorization")jwt:String): Single<Response<AllTicketsPojo>>
 
-    @GET("/tickets-manager/tickets")
+    @GET("tickets-manager/tickets")
     fun getUserTickets(@Header("Authorization")jwt:String): Single<Response<AllUserShowsPojo>>
 
-    @POST("/tickets-manager/signup")
+    @POST("tickets-manager/signup")
     fun buyTickets(@Header("Authorization")jwt:String,@Body body: JsonObject): Single<Response<Unit>>
 }
