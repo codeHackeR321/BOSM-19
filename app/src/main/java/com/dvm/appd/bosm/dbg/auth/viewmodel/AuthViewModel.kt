@@ -33,13 +33,11 @@ class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
 
     @SuppressLint("CheckResult")
     fun login(id:String){
-
      authRepository.loginBitsian(id).subscribe({
          authRepository.subscribeToTopics()
          when(it!!) {
              LoginState.Success -> {
                  authRepository.getUser().subscribe {
-                     Log.d("AuthViewModel", "Status = ${it.firstLogin}")
                      if(it.firstLogin)
                          (state as MutableLiveData).postValue(LoginState.MoveToOnBoarding)
                      else

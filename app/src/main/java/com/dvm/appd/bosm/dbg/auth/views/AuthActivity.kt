@@ -61,6 +61,7 @@ class AuthActivity : AppCompatActivity() {
                     finish()
                 }
                 is LoginState.Failure -> {
+                    loadingPbr.visibility = View.GONE
                     Toast.makeText(this, (it as LoginState.Failure).message, Toast.LENGTH_LONG).show()
                 }
             }
@@ -74,6 +75,7 @@ class AuthActivity : AppCompatActivity() {
             try {
                 val profile = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
                 Toast.makeText(this, profile!!.displayName, Toast.LENGTH_SHORT).show()
+                loadingPbr.visibility = View.VISIBLE
                 authViewModel.login(profile.idToken!!)
             } catch (e: ApiException) {
                 Log.d("checke", e.toString())
