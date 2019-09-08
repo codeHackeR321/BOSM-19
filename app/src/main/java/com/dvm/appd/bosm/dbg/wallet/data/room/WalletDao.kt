@@ -93,25 +93,31 @@ interface WalletDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllShows(shows: List<ShowsTickets>)
 
+    @Query("SELECT * FROM shows")
+    fun getAllShows(): Flowable<List<ShowsTickets>>
+
+    @Query("SELECT combos.id as comboId, combos.combo_name as comboName, combos.price as price, combos.allow_bitsians as allowBitsians, combos.allow_participants as allowParticipants, combo_shows.show_id as showId, combo_shows.show_name as showName FROM combos LEFT JOIN combo_shows ON combos.id = combo_shows.combo_id")
+    fun getAllCombos(): Flowable<List<ChildComboData>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUserShows(userShows: List<UserShows>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertComboCart(comboCartItem: ComboTicketCart): Completable
+    @Query("SELECT * FROM user_tickets")
+    fun getAllUserTickets(): Flowable<List<UserShows>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertShowsCart(showsCartItem: ShowsTicketsCart): Completable
+    fun insertTicketCart(comboCartItem: TicketsCart): Completable
 
-    @Query("DELETE FROM combo_cart")
-    fun clearComboCart(): Completable
+    @Query("UPDATE tickets_cart SET quantity = :quantity WHERE id = :id")
+    fun updateTicketsCart(quantity: Int, id: Int): Completable
 
-    @Query("DELETE FROM shows_cart")
-    fun clearShowsCart(): Completable
+    @Query("DELETE FROM tickets_cart")
+    fun clearTicketsCart(): Completable
 
-    @Query("DELETE FROM combo_cart WHERE id = :id")
-    fun clearComboCartItem(id: Int): Completable
+    @Query("DELETE FROM tickets_cart WHERE id = :id")
+    fun clearTicketsCartItem(id: Int): Completable
 
-    @Query("DELETE FROM shows_cart WHERE id = :id")
-    fun clearShowsCartItem(id: Int): Completable
+    @Query("SELECT * FROM tickets_cart")
+    fun getTicketsCart(): Flowable<List<TicketsCart>>
 
 }

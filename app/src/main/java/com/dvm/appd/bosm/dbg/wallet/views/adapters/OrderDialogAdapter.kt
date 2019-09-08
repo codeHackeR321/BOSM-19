@@ -16,7 +16,6 @@ class OrderDialogAdapter(): RecyclerView.Adapter<OrderDialogAdapter.ItemsViewHol
     inner class ItemsViewHolder(view: View): RecyclerView.ViewHolder(view){
         val itemName: TextView = view.itemName
         val priceQuantity: TextView = view.priceQuantity
-        val totalPrice: TextView = view.totalPrice
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
@@ -30,7 +29,6 @@ class OrderDialogAdapter(): RecyclerView.Adapter<OrderDialogAdapter.ItemsViewHol
 
         holder.itemName.text = items[position].itemName
         holder.priceQuantity.text = "${items[position].quantity} X ${items[position].price}"
-        holder.totalPrice.text = "${items[position].price * items[position].quantity}"
     }
 
 }

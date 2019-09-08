@@ -32,4 +32,8 @@ class OrderItemViewModel(val walletRepository: WalletRepository, val orderId: In
             }
             .subscribe()
     }
+
+    fun updateOtpSeen(orderId: Int){
+        walletRepository.updateOtpSeen(orderId).subscribe()
+    }
 }

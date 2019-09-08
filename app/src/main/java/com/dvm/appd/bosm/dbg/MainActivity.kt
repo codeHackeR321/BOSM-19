@@ -15,8 +15,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
@@ -34,7 +32,6 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.adapter_order_items.*
 import kotlinx.android.synthetic.main.checkbox.view.*
 
 interface NetworkChangeNotifier {
@@ -57,7 +54,17 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        FirebaseApp.initializeApp(this)
+        try {
+            FirebaseApp.initializeApp(this)
+        }
+        catch (e: Exception){
+            AlertDialog.Builder(this).setTitle("App Fucked Up Big Time")
+                .setMessage("Please restart our app")
+                .setNegativeButton("OK") { _, _ ->
+                    finishAffinity()
+                }
+        }
+
         sharedPreferences = AppModule(application).providesSharedPreferences(application)
         setupNotificationChannel()
         checkForInvitation()

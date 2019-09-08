@@ -113,12 +113,13 @@
     </fragment>
     <fragment android:id="@+id/fragmentWebPage" android:name="com.dvm.appd.bosm.dbg.more.FragmentWebPage"
               android:label="FragmentWebPage"/>
-    <fragment android:id="@+id/action_profile" android:name="com.dvm.appd.bosm.dbg.profile.views.ProfileFragment"
+    <fragment android:id="@+id/action_profile" android:name="com.dvm.appd.bosm.dbg.profile.views.fragments.ProfileFragment"
               android:label="ProfileFragment">
         <action android:id="@+id/action_action_profile_to_addMoneyDialog" app:destination="@id/addMoneyDialog"/>
         <action
                 android:id="@+id/action_action_profile_to_sendMoneyDialog"
                 app:destination="@id/sendMoneyDialog" />
+        <action android:id="@+id/action_action_profile_to_buyTicketDialog" app:destination="@id/buyTicketDialog"/>
     </fragment>
     <activity android:id="@+id/loginOutsteeActivity"
               android:name="com.dvm.appd.bosm.dbg.auth.views.LoginOutsteeActivity"
@@ -131,12 +132,17 @@
     <fragment android:id="@+id/ELASQuestionFragment" android:name="com.dvm.appd.bosm.dbg.elas.view.ELASQuestionFragment"
               android:label="ELASQuestionFragment"/>
 
-    <dialog android:id="@+id/addMoneyDialog" android:name="com.dvm.appd.bosm.dbg.profile.views.AddMoneyDialog"
-              android:label="AddMoneyDialog"/>
+    <dialog android:id="@+id/addMoneyDialog"
+            android:name="com.dvm.appd.bosm.dbg.profile.views.fragments.AddMoneyDialog"
+            android:label="AddMoneyDialog"/>
     <dialog
             android:id="@+id/sendMoneyDialog"
-            android:name="com.dvm.appd.bosm.dbg.profile.views.SendMoneyDialog"
+            android:name="com.dvm.appd.bosm.dbg.profile.views.fragments.SendMoneyDialog"
             android:label="SendMoneyDialog" />
+    <dialog android:id="@+id/buyTicketDialog"
+            android:name="com.dvm.appd.bosm.dbg.profile.views.fragments.TicketDialog"
+            android:label="BuyTicketsDialog"/>
+
     <fragment
             android:id="@+id/notificationFragment"
             android:name="com.dvm.appd.bosm.dbg.notification.NotificationFragment"
