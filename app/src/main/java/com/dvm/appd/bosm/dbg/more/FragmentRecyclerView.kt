@@ -51,6 +51,7 @@ class FragmentRecyclerView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        text_commonRecyclerView_title.text = title
         backBtn.setOnClickListener {
             view.findNavController().popBackStack()
         }

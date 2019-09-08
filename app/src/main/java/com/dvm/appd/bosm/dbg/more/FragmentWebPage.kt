@@ -42,6 +42,7 @@ class FragmentWebPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        text_commonWebView_title.text = title
         backBtn.setOnClickListener {
             view.findNavController().popBackStack()
         }
