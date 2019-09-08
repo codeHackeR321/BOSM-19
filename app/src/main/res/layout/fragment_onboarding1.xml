@@ -14,11 +14,11 @@
             android:id="@+id/text_bttn_skip"
             android:textColor="#707070"
             android:textSize="20sp"
+            android:padding="12dp"
             app:layout_constraintBottom_toTopOf="@id/linear_onBoarding_fragment"
             android:text="Skip"
             android:layout_marginRight="32dp"
             android:layout_marginTop="16dp"
-            android:padding="8dp"
             android:layout_height="wrap_content"/>
 
     <LinearLayout
