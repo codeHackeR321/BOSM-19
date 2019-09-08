@@ -192,8 +192,6 @@ class EventsRepository(val eventsDao: EventsDao) {
 
     private fun getSportsDataFromFirestore() {
 
-        var sportsData: MutableList<SportsData> = arrayListOf()
-        var sportsName: MutableList<EventsData> = arrayListOf()
         db.collection("events").document("sports").collection("matches")
             .addSnapshotListener { snapshots, e ->
 
@@ -201,6 +199,9 @@ class EventsRepository(val eventsDao: EventsDao) {
                     Log.w("Sports", "listen:error", e)
                     return@addSnapshotListener
                 }
+
+                var sportsData: MutableList<SportsData> = arrayListOf()
+                var sportsName: MutableList<EventsData> = arrayListOf()
 
                 var match_no: Int
                 var name: String
@@ -264,7 +265,7 @@ class EventsRepository(val eventsDao: EventsDao) {
                             } catch (e: Exception) {
                                 "Not Available"
                             }
-                            //TODO Check default Value
+
                             gender = try {
                                 dc.document["gender"] as String
                             } catch (e: Exception) {
@@ -444,10 +445,11 @@ class EventsRepository(val eventsDao: EventsDao) {
 
                         DocumentChange.Type.REMOVED -> {
                             Log.d("sports4", "Removed city: ${dc.document.data}")
-                            eventsDao.deleteSportsData(dc.document.id.toInt())
+                            eventsDao.deleteSportsData(dc.document.id.toInt()).subscribeOn(Schedulers.io())
                         }
                     }
                 }
+
                 eventsDao.setSportName(sportsName).subscribeOn(Schedulers.io())
                     .subscribe({},{
                         Log.e("EventsRepo", it.message, it)
