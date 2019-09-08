@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -78,12 +79,7 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
     }
 
     override fun onResume() {
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
+        (activity!! as MainActivity).showCustomToolbar()
         super.onResume()
     }
 }

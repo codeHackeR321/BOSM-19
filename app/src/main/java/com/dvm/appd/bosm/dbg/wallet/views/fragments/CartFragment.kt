@@ -81,17 +81,6 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         return view
     }
 
-    override fun onDetach() {
-        super.onDetach()
-
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
-    }
-
     override fun plusButtonClicked(item: ModifiedCartData, quantity: Int) {
         cartViewModel.updateCartItems(item.itemId, quantity)
     }

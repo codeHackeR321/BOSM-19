@@ -104,16 +104,6 @@ class ProfileFragment : Fragment() {
         return rootView
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
-    }
-
     fun String.generateQr(): Bitmap {
         val bitMatrix = MultiFormatWriter().encode(this, BarcodeFormat.QR_CODE, 400, 400)
         return BarcodeEncoder().createBitmap(bitMatrix)

@@ -28,16 +28,4 @@ class ELASQuestionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
-
-    override fun onDetach() {
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
-        super.onDetach()
-    }
-
-
 }

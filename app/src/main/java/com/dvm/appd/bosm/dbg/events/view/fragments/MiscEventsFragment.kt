@@ -100,15 +100,6 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         return view
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-    }
-
     override fun updateIsFavourite(eventId: String, favouriteMark: Int) {
         miscEventsViewViewModel.markEventFavourite(eventId, favouriteMark)
     }

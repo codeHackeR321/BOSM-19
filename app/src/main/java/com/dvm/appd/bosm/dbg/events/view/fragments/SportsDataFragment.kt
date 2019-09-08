@@ -124,16 +124,6 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
         })
     }
 
-    override fun onDetach() {
-        activity!!.mainView.visibility=View.VISIBLE
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        super.onDetach()
-
-    }
-
     override fun updateFavourite(matchNo: Int, favouriteMark: Int) {
         sportsDataViewModel.markMatchFavourite(matchNo, favouriteMark)
     }

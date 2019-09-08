@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedOrdersData
@@ -91,12 +92,7 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
     }
 
     override fun onResume() {
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
+        (activity!! as MainActivity).showCustomToolbar()
         super.onResume()
     }
 

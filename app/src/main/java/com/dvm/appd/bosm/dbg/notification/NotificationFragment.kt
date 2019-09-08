@@ -66,14 +66,4 @@ class NotificationFragment : Fragment() {
         }
     }
 
-    override fun onDetach() {
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
-        super.onDetach()
-    }
-
 }
