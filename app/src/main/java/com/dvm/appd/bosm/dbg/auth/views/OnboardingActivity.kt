@@ -18,14 +18,23 @@ import kotlinx.android.synthetic.main.fragment_onboarding1.*
 class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClickListener {
 
     lateinit var pageAdapter: FragmentStatePagerAdapter
-    val NO_OF_PAGES = 3
+    val NO_OF_PAGES = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
         pageAdapter = object: FragmentStatePagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
-                return Onboarding1Fragment(this@OnboardingActivity)
+                when(position) {
+                    0 -> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food")
+
+                    1 -> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_buy_tickets, "Buy Tickets")
+
+                    2-> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_track_events, "Track Events")
+
+                    3 -> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_games, "Games")
+                }
+                return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food")
             }
 
             override fun getCount(): Int {
