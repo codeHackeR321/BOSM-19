@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.view.adapters.EventsAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModel
@@ -53,6 +54,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
 
         activity!!.mainView.setBackgroundResource(R.drawable.events_title)
         activity!!.fragmentName.text = "Events"
+        view.progress_event.visibility = View.VISIBLE
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_events_to_action_cart)
@@ -69,7 +71,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         view.eventsRecycler.adapter = EventsAdapter(icons, this)
 
         eventsViewViewModel.sportsName.observe(this, Observer {
-
+            view.progress_event.visibility = View.INVISIBLE
             Log.d("EventsFrag", "Observed $it")
             (view.eventsRecycler.adapter as EventsAdapter).sportsName = it
             (view.eventsRecycler.adapter as EventsAdapter).notifyDataSetChanged()
@@ -93,12 +95,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
     }
 
     override fun onResume() {
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
+        (activity!! as MainActivity).showCustomToolbar()
         super.onResume()
     }
 }

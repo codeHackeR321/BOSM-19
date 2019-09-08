@@ -19,8 +19,12 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:textSize="20sp"
+            android:textColor="#3B3B3B"
         android:layout_gravity="center"
         android:text="More"
+        android:elevation="2dp"
+            android:textStyle="bold"
+        android:fontFamily="Circular Std Medium"
         android:id="@+id/text_card_more_title"
         android:layout_height="wrap_content"/>
 

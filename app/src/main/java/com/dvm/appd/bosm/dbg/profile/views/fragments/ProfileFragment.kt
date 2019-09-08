@@ -13,6 +13,7 @@ import androidx.fragment.app.add
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.auth.views.AuthActivity
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModel
@@ -42,13 +43,8 @@ class ProfileFragment : Fragment() {
     ): View? {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
-        activity!!.mainView.visibility = View.GONE
-        //activity!!.textView.visibility = View.GONE
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
-        activity!!.bottom_navigation_bar.isVisible = false
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
 
         rootView.logout.setOnClickListener {
             profileViewModel.logout()
@@ -106,16 +102,6 @@ class ProfileFragment : Fragment() {
         })
 
         return rootView
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
     }
 
     fun String.generateQr(): Bitmap {

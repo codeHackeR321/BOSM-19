@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_back"
             android:id="@+id/backBtn"
-            app:layout_constraintBottom_toBottomOf="@+id/cartName" app:layout_constraintTop_toTopOf="@+id/NotificationName"
+            app:layout_constraintBottom_toBottomOf="@+id/NotificationName" app:layout_constraintTop_toTopOf="@+id/NotificationName"
             app:layout_constraintStart_toStartOf="@id/cartView" android:layout_marginStart="24dp"/>
 
 

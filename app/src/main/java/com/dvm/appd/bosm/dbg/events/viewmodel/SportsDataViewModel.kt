@@ -36,7 +36,12 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
         })
     }
 
+    @SuppressLint("CheckResult")
     fun markMatchFavourite(matchNo: Int, favouriteMark: Int){
-        eventsRepository.updateSportsFavourite(matchNo, favouriteMark).subscribe()
+        eventsRepository.updateSportsFavourite(matchNo, favouriteMark).subscribe({
+            Log.d("SportsViewModel", "Changes in Room Complete")
+        },{
+            Log.e("SportsViewModel", "Crashed = ${it.toString()}")
+        })
     }
 }

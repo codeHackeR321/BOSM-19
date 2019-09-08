@@ -30,12 +30,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/mainView"
                 app:navGraph="@navigation/navigation_graph" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
 
                 android:id="@+id/bottom_navigation_bar"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_gravity="start"
+                app:itemTextColor="@color/nav_item_color"
+                app:itemIconTint="@color/nav_item_color"
                 android:elevation="16dp"
                 android:background="@color/colorWhite"
                 app:menu="@menu/bottom_nav_items"

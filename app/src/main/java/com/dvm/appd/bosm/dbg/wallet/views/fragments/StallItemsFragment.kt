@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.CartData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedStallItemsData
@@ -32,11 +33,7 @@ class StallItemsFragment : Fragment(), StallItemsChildAdapter.OnAddClickedListen
         val stallId = arguments?.getInt("stallId")
         val stallName = arguments?.getString("stallName")
 
-        activity!!.mainView.isVisible = false
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
 
         val rootView = inflater.inflate(R.layout.fra_wallet_stall_items, container, false)
 

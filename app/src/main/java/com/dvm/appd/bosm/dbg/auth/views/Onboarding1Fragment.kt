@@ -14,7 +14,7 @@ interface onboardingFragmentSkipButtonClickListener {
     fun onSkipButtonPressed()
 }
 
-class Onboarding1Fragment(val listener: onboardingFragmentSkipButtonClickListener) : Fragment() {
+class Onboarding1Fragment(val listener: onboardingFragmentSkipButtonClickListener, val image: Int, val heading: String) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -22,6 +22,8 @@ class Onboarding1Fragment(val listener: onboardingFragmentSkipButtonClickListene
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        img_onBoarding.setImageDrawable(resources.getDrawable(image))
+        text_onBoarding_heading.text = heading
         text_bttn_skip.setOnClickListener {
             it.isClickable = false
             listener.onSkipButtonPressed()

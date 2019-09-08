@@ -4,13 +4,13 @@
     <item
             android:id="@+id/action_food"
             android:enabled="true"
-            android:icon="@drawable/ic_fast_food"
+            android:icon="@drawable/ic_food_icon_bottom_nav"
             android:title="@string/action_food"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_order_history"
             android:enabled="true"
-            android:icon="@drawable/ic_order_history"
+            android:icon="@drawable/ic_order_icon_bottom_nav"
             android:title="@string/action_order_history"
             app:showAsAction="ifRoom" />
     <item
@@ -24,14 +24,14 @@
     <item
             android:id="@+id/action_game"
             android:enabled="true"
-            android:icon="@drawable/ic_game"
+            android:icon="@drawable/ic_games_icon_bottom_nav"
             android:title="@string/action_game"
             app:showAsAction="ifRoom" />
 
     <item
             android:id="@+id/action_more"
             android:enabled="true"
-            android:icon="@drawable/ic_show_more_button_with_three_dots"
+            android:icon="@drawable/ic_more_icon_bottom_nav"
             android:title="@string/action_more"
             app:showAsAction="ifRoom" />
 

@@ -3,6 +3,7 @@ package com.dvm.appd.bosm.dbg.more
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +13,12 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_fragment_web_page.*
+import java.lang.Exception
 
 class FragmentWebPage : Fragment() {
 
@@ -28,12 +31,8 @@ class FragmentWebPage : Fragment() {
             link = it.getString("link")!!
             title = it.getString("title")!!
         }
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
-        activity!!.bottom_navigation_bar.isVisible = false
-        activity!!.mainView.visibility = View.GONE
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,6 +42,7 @@ class FragmentWebPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        text_commonWebView_title.text = title
         backBtn.setOnClickListener {
             view.findNavController().popBackStack()
         }
@@ -58,7 +58,11 @@ class FragmentWebPage : Fragment() {
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
-            progress_commonWebView.visibility = View.INVISIBLE
+            try {
+                progress_commonWebView.visibility = View.INVISIBLE
+            } catch (e: Exception) {
+                Log.e("WebPage", "An Error Occoured")
+            }
             super.onPageFinished(view, url)
         }
     }

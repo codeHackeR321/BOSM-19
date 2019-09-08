@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.events.view.adapters
 
 import android.media.AudioTimestamp
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,7 +127,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                 }
 
                 holder1.fav.setOnClickListener {
-
+                    Log.d("SportsAdapter", "Entered onClick Listener1")
                     if (sportData[position].isFavourite == 1){
                         listener.updateFavourite(sportData[position].match_no, 0)
                     }
@@ -160,7 +161,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                 }
 
                 holder2.fav.setOnClickListener {
-
+                    Log.d("SportsAdapter", "Entered onClick Listener2")
                     if (sportData[position].isFavourite == 1){
                         listener.updateFavourite(sportData[position].match_no, 0)
                     }

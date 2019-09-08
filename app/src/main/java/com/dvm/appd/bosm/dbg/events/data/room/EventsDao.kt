@@ -53,7 +53,7 @@ interface EventsDao {
     fun getDistinctGenderForSport(name: String): Single<List<String>>
 
     @Query("SELECT * FROM sports_table WHERE sport_name = :name")
-    fun getSportDataForSport(name: String): Single<List<SportsData>>
+    fun getSportDataForSport(name: String): Flowable<List<SportsData>>
 
     @Query("UPDATE sports_table SET is_favourite = :favouriteMark WHERE match_no = :matchNo")
     fun updateSportsFavourite(matchNo: Int, favouriteMark: Int): Completable
