@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,13 +37,8 @@ class NotificationFragment : Fragment() {
 
         notificationViewModel.readNotificationsFromRoom()
 
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
-        activity!!.bottom_navigation_bar.isVisible = false
-        activity!!.mainView.visibility = View.GONE
-        activity!!.fragmentName.visibility = View.GONE
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
 
         notificationViewModel.error.observe(this, Observer {
             if (it != null) {

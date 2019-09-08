@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository.Keys.name
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
@@ -35,11 +36,8 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
         sportsDataViewModel = ViewModelProviders.of(this, SportsDataViewModelFactory(sportName!!))[SportsDataViewModel::class.java]
 
         val view = inflater.inflate(R.layout.fragment_sports_data, container, false)
-        activity!!.mainView.visibility=View.GONE
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
 
         view.textView4.text=sportName.capitalize()
 

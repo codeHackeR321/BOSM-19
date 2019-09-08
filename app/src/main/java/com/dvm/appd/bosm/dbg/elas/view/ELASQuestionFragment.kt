@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import com.dvm.appd.bosm.dbg.MainActivity
 
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,12 +18,8 @@ class ELASQuestionFragment : Fragment() {
     var questionId: Long = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
-        activity!!.bottom_navigation_bar.isVisible = false
-        activity!!.mainView.visibility = View.GONE
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
         // Inflate the layout for this fragment
         questionId = arguments?.getLong("questionId")!!
         return inflater.inflate(R.layout.fragment_elasquestion, container, false)

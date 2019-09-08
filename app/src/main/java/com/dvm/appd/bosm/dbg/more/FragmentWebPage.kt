@@ -13,6 +13,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,12 +31,8 @@ class FragmentWebPage : Fragment() {
             link = it.getString("link")!!
             title = it.getString("title")!!
         }
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
-        activity!!.bottom_navigation_bar.isVisible = false
-        activity!!.mainView.visibility = View.GONE
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedCartData
 import com.dvm.appd.bosm.dbg.wallet.viewmodel.CartViewModel
@@ -25,13 +26,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
 
         val view = inflater.inflate(R.layout.fra_cart, container, false)
 
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
-        activity!!.bottom_navigation_bar.isVisible = false
-        activity!!.mainView.visibility = View.GONE
-        //activity!!.textView.visibility = View.GONE
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
