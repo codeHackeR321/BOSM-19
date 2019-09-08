@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,11 +44,45 @@ class OrderItemsDialog: DialogFragment() {
 
             when(order.status){
 
-                0 -> view.status.text = "Pending"
-                1 -> view.status.text = "Accepted"
-                2 -> view.status.text = "Ready"
-                3 -> view.status.text = "Finished"
-                4 -> view.status.text = "Declined"
+                0 -> {
+                    view.otp.isVisible = false
+                    view.status.setTextColor(Color.rgb(232, 60, 60))
+                    view.status.text = "Pending"
+                }
+                1 -> {
+                    view.otp.isVisible = false
+                    view.status.setTextColor(Color.rgb(253, 200, 87))
+                    view.status.text = "Accepted"
+                }
+                2 -> {
+                    view.otp.isVisible = true
+                    view.status.setTextColor(Color.rgb(81 ,168, 81))
+                    view.status.text = "Ready"
+                }
+                3 -> {
+                    view.otp.isVisible = true
+                    view.status.setTextColor(Color.rgb(253, 200, 245))
+                    view.status.text = "Finished"
+                }
+                4 -> {
+                    view.otp.isVisible = false
+                    view.status.setTextColor(Color.rgb(232, 60, 60))
+                    view.status.text = "Declined"
+                }
+            }
+
+            if (order.otpSeen){
+                view.otp.text = order.otp.toString()
+            }
+            else{
+                view.otp.setOnClickListener {
+                    if (order.status == 2){
+                        orderItemViewModel.updateOtpSeen(order.orderId)
+                    }
+                    else{
+                        Log.d("OTP", "Status not yet ready")
+                    }
+                }
             }
 
             if (order.status != 3){

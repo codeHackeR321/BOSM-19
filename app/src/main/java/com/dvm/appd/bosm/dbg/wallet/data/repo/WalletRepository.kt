@@ -22,7 +22,7 @@ import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
 
-    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
+    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("JWT ${it.jwt}") }
     private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
 
     init {
@@ -56,7 +56,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 }
             }
 
-        getShowsAndCombosInfo().subscribe()
+//        getShowsAndCombosInfo().subscribe()
     }
 
     fun fetchAllStalls(): Completable {
@@ -559,6 +559,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletService.getAllShows(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
+                Log.d("Tickets", "$response")
                 when(response.code()){
 
                     200 -> {
@@ -642,6 +643,28 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
     fun getAllComboData(): Flowable<List<ModifiedComboData>>{
         return walletDao.getAllCombos().subscribeOn(Schedulers.io())
+            .flatMap {
+
+                var combos: MutableList<ModifiedComboData> = arrayListOf()
+                var shows: MutableList<ChildShows> = arrayListOf()
+
+                for ((index, item) in it.listIterator().withIndex()){
+
+                    shows.add(ChildShows(item.showId, item.showName))
+
+                    if (index != it.lastIndex && it[index].comboId != it[index+1].comboId){
+                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, shows))
+                        shows = arrayListOf()
+                    }
+                    else if (index == it.lastIndex){
+                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, shows))
+                        shows = arrayListOf()
+                    }
+
+                }
+
+                return@flatMap Flowable.just(combos)
+            }
     }
 
     fun insertTicketsCart(tickets: TicketsCart): Completable{

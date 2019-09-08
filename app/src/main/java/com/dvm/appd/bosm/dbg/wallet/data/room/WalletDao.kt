@@ -97,7 +97,7 @@ interface WalletDao {
     fun getAllShows(): Flowable<List<ShowsTickets>>
 
     @Query("SELECT combos.id as comboId, combos.combo_name as comboName, combos.price as price, combos.allow_bitsians as allowBitsians, combos.allow_participants as allowParticipants, combo_shows.show_id as showId, combo_shows.show_name as showName FROM combos LEFT JOIN combo_shows ON combos.id = combo_shows.combo_id")
-    fun getAllCombos(): Flowable<List<ModifiedComboData>>
+    fun getAllCombos(): Flowable<List<ChildComboData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUserShows(userShows: List<UserShows>)

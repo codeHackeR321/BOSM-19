@@ -1,6 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses
 
-data class ModifiedComboData(
+data class ChildComboData(
 
     val comboId: Int,
 
@@ -12,5 +12,8 @@ data class ModifiedComboData(
 
     val allowParticipants: Boolean,
 
-    val shows: List<ChildShows>
+    val showId: Int,
+
+    val showName: String
+
 )

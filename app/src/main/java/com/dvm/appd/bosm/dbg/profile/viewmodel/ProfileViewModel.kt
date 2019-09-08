@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.profile.viewmodel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,7 @@ import com.dvm.appd.bosm.dbg.profile.views.fragments.UiState
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.UserShows
 
+@SuppressLint("CheckResult")
 class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: WalletRepository) :ViewModel() {
 
     var order: LiveData<UiState> = MutableLiveData()
@@ -29,12 +31,15 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
             Log.d("checke",it.toString())
         })
 
+        walletRepository.getShowsAndCombosInfo().subscribe()
+
         walletRepository.getAllUserShows()
             .doOnNext {
                 Log.d("Tickets", "$it")
                 (userTickets as MutableLiveData).postValue(it)
             }
             .subscribe()
+
     }
 
     fun logout(){
