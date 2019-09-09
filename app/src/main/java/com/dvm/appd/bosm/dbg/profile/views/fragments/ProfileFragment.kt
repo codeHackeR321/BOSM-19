@@ -18,6 +18,7 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.auth.views.AuthActivity
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.ProfileViewModelFactory
+import com.dvm.appd.bosm.dbg.profile.views.adapters.UserTicketsAdapter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.journeyapps.barcodescanner.BarcodeEncoder
@@ -104,8 +105,11 @@ class ProfileFragment : Fragment() {
                 }
         })
 
-        profileViewModel.userTickets.observe(this, Observer {
 
+        rootView.userTickets.adapter = UserTicketsAdapter()
+        profileViewModel.userTickets.observe(this, Observer {
+            (rootView.userTickets.adapter as UserTicketsAdapter).userTickets = it
+            (rootView.userTickets.adapter as UserTicketsAdapter).notifyDataSetChanged()
         })
 
         return rootView

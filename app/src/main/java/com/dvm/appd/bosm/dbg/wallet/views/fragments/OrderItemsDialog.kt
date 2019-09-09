@@ -1,11 +1,13 @@
 package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -71,6 +73,10 @@ class OrderItemsDialog: DialogFragment() {
                 }
             }
 
+            view.stallName.text = order.vendor
+            view.orderId.text = "#${order.orderId}"
+            view.price.text = "₹${order.totalPrice}"
+
             if (order.otpSeen){
                 view.otp.text = order.otp.toString()
             }
@@ -97,10 +103,6 @@ class OrderItemsDialog: DialogFragment() {
                 view.rating4.isVisible = false
                 view.rating5.isVisible = false
 
-                view.stallName.text = order.vendor
-                view.orderId.text = "# ${order.orderId}"
-                view.price.text = order.totalPrice.toString()
-
                 (view.items.adapter as OrderDialogAdapter).items = order.items
                 (view.items.adapter as OrderDialogAdapter).notifyDataSetChanged()
             }
@@ -115,10 +117,6 @@ class OrderItemsDialog: DialogFragment() {
                 view.rating3.isVisible = true
                 view.rating4.isVisible = true
                 view.rating5.isVisible = true
-
-                view.stallName.text = order.vendor
-                view.orderId.text = "# ${order.orderId}"
-                view.price.text = order.totalPrice.toString()
 
                 when (order.rating) {
 
@@ -236,5 +234,12 @@ class OrderItemsDialog: DialogFragment() {
         }
 
         return view
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        return dialog
+
     }
 }

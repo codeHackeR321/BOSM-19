@@ -12,5 +12,9 @@ data class ModifiedComboData(
 
     val allowParticipants: Boolean,
 
+    val cartId: Int,
+
+    val quantity: Int,
+
     val shows: List<ChildShows>
 )

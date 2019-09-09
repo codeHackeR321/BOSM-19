@@ -17,8 +17,10 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
+            android:textAlignment="textStart"
             android:textColor="@color/colorBlack"
-            android:textSize="24sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/orderId"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,11 +30,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
-            android:textAlignment="textEnd"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/orderId"
+            android:textAlignment="viewEnd"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/orderId" />
 
     <TextView
@@ -42,9 +46,9 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="orderid"
-            android:textAlignment="textEnd"
+            android:textAlignment="viewEnd"
             android:textColor="#4293FF"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/stallName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +62,10 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
+            android:textAlignment="textStart"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stallName" />
 
@@ -72,7 +78,7 @@
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Items"
             android:textColor="#4293FF"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/price" />
@@ -86,7 +92,7 @@
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Sub Total"
             android:textColor="#4293FF"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/status" />
@@ -183,7 +189,8 @@
             android:paddingEnd="8dp"
             android:text="OTP"
             android:textColor="#ffffff"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/status"
             app:layout_constraintTop_toBottomOf="@+id/orderId" />
 
