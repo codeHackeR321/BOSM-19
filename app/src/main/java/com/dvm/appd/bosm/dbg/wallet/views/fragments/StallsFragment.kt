@@ -33,6 +33,9 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         //activity!!.my_toolbar.setBackgroundResource(R.drawable.gradient_stalls_toolbar)
         activity!!.mainView.setBackgroundResource(R.drawable.stalls_title)
         activity!!.fragmentName.text = "Stalls"
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = true
+
         rootview.stalls_recycler.adapter = StallsAdapter(this)
 
         activity!!.cart.setOnClickListener {

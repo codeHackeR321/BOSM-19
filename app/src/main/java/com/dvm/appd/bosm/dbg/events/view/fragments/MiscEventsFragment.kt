@@ -34,6 +34,8 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         val view = inflater.inflate(R.layout.fra_misc_events, container, false)
 
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = false
 
 
         val sdf = SimpleDateFormat("dd MM yyyy")
