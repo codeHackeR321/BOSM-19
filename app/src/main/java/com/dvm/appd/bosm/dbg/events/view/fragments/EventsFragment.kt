@@ -57,6 +57,8 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         activity!!.mainView.setBackgroundResource(R.drawable.events_title)
         activity!!.fragmentName.text = "Events"
         view.progress_event.visibility = View.VISIBLE
+        activity!!.search.isVisible = true
+        activity!!.textView7.isVisible = false
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_events_to_action_cart)

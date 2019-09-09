@@ -27,6 +27,8 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         val view = inflater.inflate(R.layout.fra_cart, container, false)
 
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = false
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 

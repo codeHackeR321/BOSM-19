@@ -37,6 +37,8 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         val display = activity!!.windowManager.defaultDisplay
         val width = display.width
         rootview.stalls_recycler.adapter = StallsAdapter(this,width)
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = true
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_food_to_action_cart)

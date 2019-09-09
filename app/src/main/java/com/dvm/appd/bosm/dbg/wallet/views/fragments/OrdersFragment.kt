@@ -37,6 +37,8 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
 
         activity!!.mainView.setBackgroundResource(R.drawable.orders_title)
         activity!!.fragmentName.text = "Orders"
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = false
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_order_history_to_action_cart)

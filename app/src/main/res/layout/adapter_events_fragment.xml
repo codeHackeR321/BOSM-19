@@ -23,6 +23,7 @@
             android:id="@+id/sportsEvents"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:fontFamily="Circular Std Medium"
             android:padding="10dp"
             android:textAllCaps="false"
