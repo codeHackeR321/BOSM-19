@@ -22,7 +22,7 @@ import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
 
-    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("JWT ${it.jwt}") }
+    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
     private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
 
     init {
@@ -559,7 +559,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletService.getAllShows(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
-                Log.d("Tickets", "$response")
+                Log.d("TicketsApi", "${response}")
                 when(response.code()){
 
                     200 -> {
@@ -612,6 +612,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletService.getUserTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
+                Log.d("Tickets", "$response")
                 when(response.code()){
 
                     200 -> {
@@ -702,18 +703,28 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                 ticketBody.add("individual", individualBody)
                 ticketBody.add("combos", comboBody)
-                Log.d("Tickets", "$ticketBody")
 
-                return@map ticketBody
+                var idb = JsonObject()
+                idb.addProperty("2",4)
+                var cmb = JsonObject()
+                cmb.addProperty("1",3)
+                var tb = JsonObject().also {
+                    it.add("individual", idb)
+                    it.add("combos", cmb)
+                }
+
+                Log.d("Tickets", "$tb")
+                return@map tb
             }
             .flatMapCompletable{
                 return@flatMapCompletable walletService.buyTickets(jwt.blockingGet().toString(), it).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
+                        Log.d("Tickets", "${response}")
                         when(response.code()){
 
-                            200 -> {}
-                            else -> null
+                            200 -> {Log.d("Tickets", "Yusss")}
+                            else -> Log.d("Tickets", "Booo")
                         }
                     }
                     .ignoreElement()

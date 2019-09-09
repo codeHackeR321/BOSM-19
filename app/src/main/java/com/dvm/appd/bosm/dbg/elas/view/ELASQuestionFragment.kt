@@ -19,7 +19,8 @@ class ELASQuestionFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
-
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = false
         // Inflate the layout for this fragment
         questionId = arguments?.getLong("questionId")!!
         return inflater.inflate(R.layout.fragment_elasquestion, container, false)

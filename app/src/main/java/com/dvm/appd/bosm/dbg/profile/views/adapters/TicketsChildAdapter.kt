@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedComboData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ShowsTickets
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.TicketsCart
 import kotlinx.android.synthetic.main.adapter_tickets_child.view.*
 
 class TicketsChildAdapter(private val listener: TicketCartActions): RecyclerView.Adapter<TicketsChildAdapter.TicketsChildViewHolder>(){
@@ -17,7 +18,9 @@ class TicketsChildAdapter(private val listener: TicketCartActions): RecyclerView
     var showsItems: List<ShowsTickets> = emptyList()
 
     interface TicketCartActions{
-
+        fun insertTicketCart(ticket: TicketsCart)
+        fun updateTicketCart(qunatity: Int, id: Int)
+        fun deleteTicketCart(id: Int)
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): TicketsChildViewHolder {

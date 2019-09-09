@@ -35,6 +35,8 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = false
         return inflater.inflate(R.layout.fra_elas_fragment, container, false)
     }
 

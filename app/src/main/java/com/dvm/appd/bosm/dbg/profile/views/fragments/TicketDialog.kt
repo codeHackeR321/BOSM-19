@@ -12,6 +12,7 @@ import com.dvm.appd.bosm.dbg.profile.viewmodel.TicketViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.TicketViewModelFactory
 import com.dvm.appd.bosm.dbg.profile.views.adapters.TicketsAdapter
 import com.dvm.appd.bosm.dbg.profile.views.adapters.TicketsChildAdapter
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.TicketsCart
 import kotlinx.android.synthetic.main.dia_tickets.*
 import kotlinx.android.synthetic.main.dia_tickets.view.*
 
@@ -43,6 +44,22 @@ class TicketDialog : DialogFragment(), TicketsChildAdapter.TicketCartActions{
             (view.ticketsList.adapter as TicketsAdapter).notifyDataSetChanged()
         })
 
+        view.button.setOnClickListener {
+            ticketsViewModel.buyTickets()
+        }
+
         return view
+    }
+
+    override fun insertTicketCart(ticket: TicketsCart) {
+        ticketsViewModel.insertTicketCart(ticket)
+    }
+
+    override fun updateTicketCart(qunatity: Int, id: Int) {
+        ticketsViewModel.updateTicketCart(qunatity, id)
+    }
+
+    override fun deleteTicketCart(id: Int) {
+        ticketsViewModel.deleteTiceketCartItem(id)
     }
 }
