@@ -17,6 +17,7 @@
             android:padding="12dp"
             app:layout_constraintBottom_toTopOf="@id/linear_onBoarding_fragment"
             android:text="Skip"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:layout_marginRight="32dp"
             android:layout_marginTop="16dp"
             android:layout_height="wrap_content"/>
@@ -42,6 +43,7 @@
             android:textColor="#4AA5FF"
             android:textSize="38sp"
             android:textAlignment="center"
+                android:fontFamily="@font/shellypalmer_circular_std_book"
             android:id="@+id/text_onBoarding_heading"
             android:text="Order Food" />
 

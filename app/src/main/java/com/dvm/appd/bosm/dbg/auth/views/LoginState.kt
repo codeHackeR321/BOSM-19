@@ -5,4 +5,6 @@ sealed class LoginState {
     data class Failure(val message:String):LoginState()
     object MoveToOnBoarding:LoginState()
     object MoveToMainApp:LoginState()
+    object Idle:LoginState()
+    object Loading:LoginState()
 }

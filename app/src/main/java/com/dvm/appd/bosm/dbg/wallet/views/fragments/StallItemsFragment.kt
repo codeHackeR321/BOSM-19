@@ -78,6 +78,7 @@ class StallItemsFragment : Fragment(), StallItemsChildAdapter.OnAddClickedListen
     }
 
 
+
     override fun addButtonClicked(stallItem: ModifiedStallItemsData, quantity: Int) {
 
         stallItemsViewModel.insertCartItems(CartData(stallItem.itemId, quantity, stallItem.stallId))

@@ -57,10 +57,15 @@ class ProfileFragment : Fragment() {
             rootView.balance.text = "${it!!}/-"
         })
 
+        rootView.addBtn.setOnClickListener {
+            it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
+        }
         rootView.AddBtn.setOnClickListener {
             it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
         }
-
+        rootView.SendBtn.setOnClickListener {
+            it.findNavController().navigate(R.id.action_action_profile_to_sendMoneyDialog)
+        }
         rootView.sendBtn.setOnClickListener {
             it.findNavController().navigate(R.id.action_action_profile_to_sendMoneyDialog)
         }
