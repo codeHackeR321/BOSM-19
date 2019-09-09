@@ -150,9 +150,10 @@
                 android:layout_weight="1"
                 android:padding="6dp"
                 android:textColor="#747474"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="Questions"
+                android:clickable="true"
                 android:textAlignment="center" />
 
         <TextView
@@ -161,9 +162,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="6dp"
+                android:clickable="true"
                 android:textColor="#747474"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="Leaderboard"
                 android:textAlignment="center" />
 

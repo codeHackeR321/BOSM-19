@@ -19,11 +19,11 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     var compositeDisposable = CompositeDisposable()
 
     init {
-        uiState.asMut().postValue(UIStateElas.Loading)
-        getQuestions()
+        // uiState.asMut().postValue(UIStateElas.Loading)
+        // getQuestions()
     }
 
-    private fun getQuestions() {
+    /*private fun getQuestions() {
         val d1 = elasRepository.getQuestionsFromRoom().doOnNext{
             Log.d(TAG, "Entered Observer with list = ${it.toString()}")
             uiState.asMut().postValue(UIStateElas.Questions(it.groupBy { it.questionId }))
@@ -34,11 +34,11 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
             reinitializeSubscription()
         }.subscribe()
         compositeDisposable.add(d1)
-    }
+    }*/
 
     private fun reinitializeSubscription() {
         compositeDisposable.dispose()
-        getQuestions()
+        // getQuestions()
     }
 
     override fun onCleared() {
