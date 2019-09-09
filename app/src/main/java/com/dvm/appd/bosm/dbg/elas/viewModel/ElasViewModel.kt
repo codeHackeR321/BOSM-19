@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dvm.appd.bosm.dbg.elas.model.CombinedQuestionOptionDataClass
-import com.dvm.appd.bosm.dbg.elas.model.QuestionWithAllOptionsData
+import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
 import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
 import com.dvm.appd.bosm.dbg.elas.model.repo.ElasRepository
 import com.dvm.appd.bosm.dbg.shared.util.asMut
@@ -15,6 +14,7 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     private val TAG = "ELAS REPO"
 
     var questions: LiveData<Map<Long, List<CombinedQuestionOptionDataClass>>> = MutableLiveData()
+    var activeQuestion: LiveData<List<CombinedQuestionOptionDataClass>> = MutableLiveData()
     var uiState: LiveData<UIStateElas> =  MutableLiveData()
     var compositeDisposable = CompositeDisposable()
 

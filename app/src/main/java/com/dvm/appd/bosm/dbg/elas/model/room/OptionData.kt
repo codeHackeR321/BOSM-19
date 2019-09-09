@@ -5,8 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "option_table")
 data class OptionData(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey val option_id: Long,
     val option: String,
-    val questionId: Long,
-    val answerId: Int
+    val questionId: Long
 )

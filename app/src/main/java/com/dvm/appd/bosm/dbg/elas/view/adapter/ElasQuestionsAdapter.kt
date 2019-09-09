@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
-import com.dvm.appd.bosm.dbg.elas.model.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
 import kotlinx.android.synthetic.main.card_recycler_elas_frag_questions.view.*
 
 class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView.Adapter<ElasQuestionsAdapter.ElasQuestionsViewHolder>() {
