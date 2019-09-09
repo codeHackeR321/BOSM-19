@@ -14,6 +14,10 @@ data class ChildComboData(
 
     val showId: Int,
 
-    val showName: String
+    val showName: String,
+
+    val cartId: Int,
+
+    val quantity: Int
 
 )

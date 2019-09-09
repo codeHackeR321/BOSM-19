@@ -559,7 +559,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletService.getAllShows(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
-                Log.d("TicketsApi", "${response}")
+                Log.d("TicketsApi", "${response.body()}")
                 when(response.code()){
 
                     200 -> {
@@ -579,6 +579,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             showsTickets.add(it.toShowsTicket())
                         }
 
+                        Log.d("TicketsApi", "${combosTickets}")
+                        Log.d("TicketsApi", "${comboShows}")
+                        Log.d("TicketsApi", "${showsTickets}")
                         walletDao.insertAllCombos(combosTickets)
                         walletDao.insertAllShows(showsTickets)
                         walletDao.updateComboShows(comboShows)
@@ -638,7 +641,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletDao.getAllUserTickets().subscribeOn(Schedulers.io())
     }
 
-    fun getAllShowsData(): Flowable<List<ShowsTickets>>{
+    fun getAllShowsData(): Flowable<List<ModifiedShowsTickets>>{
         return walletDao.getAllShows().subscribeOn(Schedulers.io())
     }
 
@@ -654,11 +657,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     shows.add(ChildShows(item.showId, item.showName))
 
                     if (index != it.lastIndex && it[index].comboId != it[index+1].comboId){
-                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, shows))
+                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, item.cartId, item.quantity, shows))
                         shows = arrayListOf()
                     }
                     else if (index == it.lastIndex){
-                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, shows))
+                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, item.cartId, item.quantity, shows))
                         shows = arrayListOf()
                     }
 

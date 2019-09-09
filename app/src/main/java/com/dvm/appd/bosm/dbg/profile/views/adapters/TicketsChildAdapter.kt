@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedComboData
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedShowsTickets
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ShowsTickets
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.TicketsCart
 import kotlinx.android.synthetic.main.adapter_tickets_child.view.*
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.adapter_tickets_child.view.*
 class TicketsChildAdapter(private val listener: TicketCartActions): RecyclerView.Adapter<TicketsChildAdapter.TicketsChildViewHolder>(){
 
     var comboItems: List<ModifiedComboData> = emptyList()
-    var showsItems: List<ShowsTickets> = emptyList()
+    var showsItems: List<ModifiedShowsTickets> = emptyList()
 
     interface TicketCartActions{
         fun insertTicketCart(ticket: TicketsCart)

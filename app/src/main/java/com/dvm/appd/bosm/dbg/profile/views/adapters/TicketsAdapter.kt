@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedComboData
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedShowsTickets
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ShowsTickets
 import kotlinx.android.synthetic.main.adapter_tickets.view.*
 import java.util.zip.Inflater
@@ -14,7 +15,7 @@ import java.util.zip.Inflater
 class TicketsAdapter(private val listener: TicketsChildAdapter.TicketCartActions): RecyclerView.Adapter<TicketsAdapter.TicketsViewHolder>(){
 
     var comboList: List<ModifiedComboData> = emptyList()
-    var showsList: List<ShowsTickets> = emptyList()
+    var showsList: List<ModifiedShowsTickets> = emptyList()
     var names = arrayOf("Combos", "Shows")
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): TicketsViewHolder {

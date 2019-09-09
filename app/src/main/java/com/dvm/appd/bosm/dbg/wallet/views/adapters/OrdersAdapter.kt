@@ -32,8 +32,8 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
 
 
         holder.stallName.text = orderItems[position].vendor
-        holder.orderId.text = "# ${orderItems[position].orderId}"
-        holder.price.text = "₹ ${orderItems[position].totalPrice}"
+        holder.orderId.text = "#${orderItems[position].orderId}"
+        holder.price.text = "₹${orderItems[position].totalPrice}"
 
         when(orderItems[position].status){
 
@@ -83,6 +83,12 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
         holder.view.setOnClickListener {
             listener.showOrderItemDialog(orderItems[position].orderId)
         }
+    }
+
+    override fun onViewRecycled(holder: OrdersViewHolder) {
+        super.onViewRecycled(holder)
+
+        holder.otp.text = "OTP"
     }
 
     inner class OrdersViewHolder(view: View): RecyclerView.ViewHolder(view){

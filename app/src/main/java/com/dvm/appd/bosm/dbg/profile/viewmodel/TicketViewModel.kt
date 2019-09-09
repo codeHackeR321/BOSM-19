@@ -6,26 +6,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedComboData
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedShowsTickets
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ShowsTickets
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.TicketsCart
 
 class TicketViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     var comboTickets: LiveData<List<ModifiedComboData>> = MutableLiveData()
-    var showTickets: LiveData<List<ShowsTickets>> = MutableLiveData()
+    var showTickets: LiveData<List<ModifiedShowsTickets>> = MutableLiveData()
 
     init {
 
         walletRepository.getAllShowsData()
             .doOnNext {
-                Log.d("Tickets", "$it")
+                Log.d("TicketsShows", "$it")
                 (showTickets as MutableLiveData).postValue(it)
             }
             .subscribe()
 
         walletRepository.getAllComboData()
             .doOnNext {
-                Log.d("Tickets", "$it")
+                Log.d("TicketsCombos", "$it")
                 (comboTickets as MutableLiveData).postValue(it)
             }
             .subscribe()
