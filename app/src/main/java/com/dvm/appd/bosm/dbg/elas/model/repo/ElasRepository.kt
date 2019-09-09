@@ -9,6 +9,7 @@ import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
@@ -172,6 +173,10 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
                 }
             }
         }
+    }
+
+    fun getParticularQuestionFromRoom(id: Long): Single<List<CombinedQuestionOptionDataClass>> {
+        return elasDao.selectParticularQuestionRoom(id).subscribeOn(Schedulers.io())
     }
 
 
