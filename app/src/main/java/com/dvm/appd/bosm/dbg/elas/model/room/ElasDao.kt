@@ -22,9 +22,9 @@ interface ElasDao {
     @Query("DELETE FROM option_table")
     fun deleteAllOptions(): Single<Unit>
 
-    /*@Query("SELECT * FROM question_table JOIN option_table WHERE category = :category ")
+    @Query("SELECT question_table.questionId, option_table.option_id, option_table.option, question_table.question, question_table.category FROM question_table JOIN option_table ON question_table.questionId = option_table.questionId WHERE category = :category ")
     fun selectQuestionsInCategory(category: String): Flowable<List<CombinedQuestionOptionDataClass>>
 
-    @Query("SELECT * FROM question_table JOIN option_table")
-    fun getAllQuestions(): Flowable<List<CombinedQuestionOptionDataClass>>*/
+    @Query("SELECT question_table.questionId, option_table.option_id, option_table.option, question_table.question, question_table.category FROM question_table JOIN option_table ON question_table.questionId = option_table.questionId")
+    fun getAllQuestions(): Flowable<List<CombinedQuestionOptionDataClass>>
 }

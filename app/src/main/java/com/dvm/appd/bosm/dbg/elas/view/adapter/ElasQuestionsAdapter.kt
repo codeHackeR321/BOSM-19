@@ -27,10 +27,13 @@ class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: ElasQuestionsViewHolder, position: Int) {
-        holder.textQuestionNumber.text = "Question ${questionsList.toList()[position].second.first().category}"
+        holder.textQuestionNumber.text = "Question ${questionsList.toList()[position].second.first().questionId}"
         holder.textQuestion.text = questionsList.toList()[position].second.first().question
         holder.buttonRules.setOnClickListener {
             listener.viewRules(questionsList.toList()[position].second.first().category)
+        }
+        holder.parent.setOnClickListener {
+            listener.answerQuestion(questionsList.toList()[position].second.first().questionId)
         }
     }
 
@@ -38,5 +41,6 @@ class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView
         val textQuestionNumber = view.text_card_elasFrag_questionNo
         val textQuestion = view.text_card_elasFrag_question
         val buttonRules = view.text_card_elasFrag_Rules
+        val parent = view.parent_card_elasFrag_questions
     }
 }

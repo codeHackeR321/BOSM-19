@@ -16,7 +16,7 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
 
     init {
         Log.d(TAG, "Init for Repo Called")
-        // initializeFireStore()
+        setFirebaseListenerForActiveQuestion()
     }
 
     /*private fun initializeFireStore() {
@@ -163,10 +163,10 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
                         }
                         optionsList.add(parseOption(question_number, option))
                     }
-                    elasDao.insertQuestions(listOf(QuestionData(question_number, question, category))).subscribe({},{
+                    elasDao.insertQuestions(listOf(QuestionData(question_number, question, category))).subscribeOn(Schedulers.io()).subscribe({},{
                         Log.e(TAG, "Unable to insert question in room = ${it.toString()}")
                     })
-                    elasDao.insertOptions(optionsList).subscribe({},{
+                    elasDao.insertOptions(optionsList).subscribeOn(Schedulers.io()).subscribe({},{
                         Log.e(TAG, "Unable to insert options in room = ${it.toString()}")
                     })
                 }
@@ -175,12 +175,12 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
     }
 
 
-//    fun getQuestionsFromRoom(category: String = "All"): Flowable<List<CombinedQuestionOptionDataClass>> {
-//        return if (category.equals("All")) {
-//            elasDao.getAllQuestions().subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
-//        } else {
-//            elasDao.selectQuestionsInCategory(category).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
-//        }
-//    }
+    fun getQuestionsFromRoom(category: String = "All"): Flowable<List<CombinedQuestionOptionDataClass>> {
+        return if (category.equals("All")) {
+            elasDao.getAllQuestions().subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+        } else {
+            elasDao.selectQuestionsInCategory(category).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
+        }
+    }
 
 }
