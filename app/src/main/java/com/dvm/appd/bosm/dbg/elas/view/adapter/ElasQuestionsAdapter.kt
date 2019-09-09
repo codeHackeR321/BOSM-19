@@ -12,7 +12,7 @@ class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView
 
     interface onQuestionButtonClicked {
         fun answerQuestion(questionId: Long)
-        fun viewLeaderboard(questionId: Long)
+        fun viewRules(questionId: String)
     }
 
     var questionsList: Map<Long, List<CombinedQuestionOptionDataClass>> = emptyMap()
@@ -27,25 +27,16 @@ class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: ElasQuestionsViewHolder, position: Int) {
-        holder.textCategory.text = questionsList.toList()[position].second.first().category
+        holder.textQuestionNumber.text = "Question ${questionsList.toList()[position].second.first().category}"
         holder.textQuestion.text = questionsList.toList()[position].second.first().question
-        if(questionsList.toList()[position].second.first().isAnswered) {
-            holder.buttonLeaderBoard.text = "View Leaderboard"
-        } else {
-            holder.buttonLeaderBoard.text = "Answer The Question"
-        }
-        holder.buttonLeaderBoard.setOnClickListener {
-            if (holder.buttonLeaderBoard.text == "View Leaderboard") {
-                listener.viewLeaderboard(questionsList.toList()[position].first)
-            } else {
-                listener.answerQuestion(questionsList.toList()[position].first)
-            }
+        holder.buttonRules.setOnClickListener {
+            listener.viewRules(questionsList.toList()[position].second.first().category)
         }
     }
 
     inner class ElasQuestionsViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val textCategory = view.text_card_elasFrag_category
+        val textQuestionNumber = view.text_card_elasFrag_questionNo
         val textQuestion = view.text_card_elasFrag_question
-        val buttonLeaderBoard = view.bttn_card_elasFrag_leaderboard
+        val buttonRules = view.text_card_elasFrag_Rules
     }
 }
