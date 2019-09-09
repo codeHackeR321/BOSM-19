@@ -174,6 +174,7 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
         }
     }
 
+
 //    fun getQuestionsFromRoom(category: String = "All"): Flowable<List<CombinedQuestionOptionDataClass>> {
 //        return if (category.equals("All")) {
 //            elasDao.getAllQuestions().subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
@@ -181,4 +182,5 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
 //            elasDao.selectQuestionsInCategory(category).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
 //        }
 //    }
+
 }

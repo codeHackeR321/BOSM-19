@@ -40,6 +40,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
         activity!!.mainView.setBackgroundResource(R.drawable.quiz_title)
+        selectQuestions()
         return inflater.inflate(R.layout.fra_elas_fragment, container, false)
     }
 
@@ -49,10 +50,12 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         initializeView()
 
         activity!!.bttn_Questions_elas.setOnClickListener {
+            Log.d("ElasFragment", "Questions Selected")
             selectQuestions()
         }
 
         activity!!.bttn_Leaderboard_elas.setOnClickListener {
+            Log.d("ElasFragment", "Options Selected")
             selectLeaderboard()
         }
 
@@ -95,13 +98,13 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     }
 
     private fun selectQuestions() {
-        bttn_Questions_elas.setTextColor(Color.BLACK)
-        bttn_Leaderboard_elas.setTextColor(resources.getColor(R.color.colorGrey))
+        activity!!.bttn_Questions_elas.setTextColor(Color.BLACK)
+        activity!!.bttn_Leaderboard_elas.setTextColor(resources.getColor(R.color.colorGrey))
     }
 
     private fun selectLeaderboard() {
-        bttn_Leaderboard_elas.setTextColor(Color.BLACK)
-        bttn_Questions_elas.setTextColor(resources.getColor(R.color.colorGrey))
+        activity!!.bttn_Leaderboard_elas.setTextColor(Color.BLACK)
+        activity!!.bttn_Questions_elas.setTextColor(resources.getColor(R.color.colorGrey))
     }
 
     override fun onResume() {
@@ -109,6 +112,11 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.linearElasRecycler.isVisible = true
         activity!!.fragmentName.text = "Quiz"
         super.onResume()
+    }
+
+    override fun onPause() {
+        activity!!.linearElasRecycler.isVisible = false
+        super.onPause()
     }
 
     override fun answerQuestion(questionId: Long) {

@@ -2,21 +2,57 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/cart_background"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent">
 
-    <TextView
-            android:id="@+id/txt_fra_elasQuestions_question"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="32dp"
+            android:id="@+id/constraint_question"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quizName"
+            android:background="@drawable/shape_rectangle_rounded_8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="4dp"
-            android:text="Question 1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
 
+        <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/text_card_elasFrag_questionNo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/text_card_elasFrag_question"
+                android:text="Question 1"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:textColor="#584BD0"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"
+                android:ellipsize="end"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/text_card_elasFrag_question"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#242424"
+                app:layout_constraintTop_toBottomOf="@id/text_card_elasFrag_questionNo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="@string/lorem_ipsum"
+                android:maxLines="3"
+                android:padding="8dp"
+                android:ellipsize="end"
+                android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--
     <RadioGroup
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -50,16 +86,68 @@
                 android:text="Option 4"
                 android:layout_height="wrap_content"/>
 
-    </RadioGroup>
+    </RadioGroup>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/constraint_question"
+            app:layout_constraintBottom_toTopOf="@id/bttn_elasfraQuestions_submitAnswer"
+            android:elevation="2dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/shape_rectangle_rounded_8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"/>
 
     <Button
             android:layout_width="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radioGroup_fraelasQuestions"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#584BD0"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/shape_rectangle_rounded_24dp"
             android:id="@+id/bttn_elasfraQuestions_submitAnswer"
-            android:text="@string/bttn_elasFragQuestions_Submit"
+            android:text="Submit"
             android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/quizName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:text="Quiz"
+            android:textColor="@color/colorWhite"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cartName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cartName"
+            app:srcCompat="@drawable/ic_back" />
+
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:elevation="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
