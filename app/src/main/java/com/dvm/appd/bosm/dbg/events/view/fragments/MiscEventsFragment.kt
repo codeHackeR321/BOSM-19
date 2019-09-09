@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.view.adapters.MiscDayAdapter
 import com.dvm.appd.bosm.dbg.events.view.adapters.MiscEventsAdapter
@@ -32,11 +33,8 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
 
         val view = inflater.inflate(R.layout.fra_misc_events, container, false)
 
-        activity!!.mainView.isVisible = false
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
 
         val sdf = SimpleDateFormat("dd MM yyyy")
         val c = Calendar.getInstance()
@@ -100,15 +98,6 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         }
 
         return view
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
     }
 
     override fun updateIsFavourite(eventId: String, favouriteMark: Int) {

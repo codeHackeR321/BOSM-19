@@ -5,7 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.view.adapters.EventsAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.EventsViewModel
@@ -53,6 +56,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
 
         activity!!.mainView.setBackgroundResource(R.drawable.events_title)
         activity!!.fragmentName.text = "Events"
+        view.progress_event.visibility = View.VISIBLE
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_events_to_action_cart)
@@ -69,11 +73,20 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         view.eventsRecycler.adapter = EventsAdapter(icons, this)
 
         eventsViewViewModel.sportsName.observe(this, Observer {
-
+            view.progress_event.visibility = View.INVISIBLE
             Log.d("EventsFrag", "Observed $it")
+            activity!!.search.setAdapter(ArrayAdapter<String>(this.context!!, R.layout.search_dialog, R.id.suggestion, it.map {item -> item.event }))
             (view.eventsRecycler.adapter as EventsAdapter).sportsName = it
             (view.eventsRecycler.adapter as EventsAdapter).notifyDataSetChanged()
         })
+
+        activity!!.search.threshold = 1
+        activity!!.search.setOnItemClickListener { parent, searchView, position, id ->
+            val name = parent.adapter.getItem(position) as String
+            Log.d("Search", name)
+            val bundle = bundleOf("name" to name)
+            view.findNavController().navigate(R.id.sportsDataFragment, bundle)
+        }
 
         view.miscEvents.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_action_events_to_miscEventsFragment, null))
 
@@ -93,12 +106,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
     }
 
     override fun onResume() {
-        activity!!.mainView.isVisible = true
-        activity!!.fragmentName.isVisible = true
-        activity!!.cart.isVisible = true
-        activity!!.profile.isVisible = true
-        activity!!.notifications.isVisible = true
-        activity!!.bottom_navigation_bar.isVisible = true
+        (activity!! as MainActivity).showCustomToolbar()
         super.onResume()
     }
 }

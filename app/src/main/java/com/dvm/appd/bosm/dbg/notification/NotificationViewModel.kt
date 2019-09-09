@@ -22,10 +22,12 @@ class NotificationViewModel(val notificationRepository: NotificationRepository) 
     fun readNotificationsFromRoom() {
         notificationRepository.getNotifications().subscribe({
             Log.d("Notification", "Data form room = ${it.toString()}")
-            if (it.isNotEmpty()){
-                isLoading.asMut().postValue(false)
+            if (it.isEmpty()){
+                notifications.asMut().postValue(it.plus(Notification("0", "No New Notification","","")))
+            } else {
+                notifications.asMut().postValue(it)
             }
-            notifications.asMut().postValue(it)
+            isLoading.asMut().postValue(false)
         },{
             // TODO add analytics log
             Log.e("Notification", "Room Error = \n${it.toString()}")

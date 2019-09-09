@@ -43,7 +43,7 @@ interface EventsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun saveSportsData(sportsData: List<SportsData>): Completable
 
-    @Query("DELETE FROM sports_table WHERE match_no=:matchNo")
+    @Query("DELETE FROM sports_table WHERE match_no = :matchNo")
     fun deleteSportsData(matchNo: Int): Completable
 
     @Query("UPDATE sports_table SET layout = :layout, gender = :gender, sport_name = :name, venue = :venue, time = :time, round = :round, round_type = :roundType, team_1 = :team1, team_2 = :team2, is_score = :isScore, score_1 = :score1, score_2 = :score2, winner_1 = :winner1, winner_2 = :winner2, winner_3 = :winner3 WHERE match_no = :matchNo")
@@ -53,7 +53,7 @@ interface EventsDao {
     fun getDistinctGenderForSport(name: String): Single<List<String>>
 
     @Query("SELECT * FROM sports_table WHERE sport_name = :name")
-    fun getSportDataForSport(name: String): Single<List<SportsData>>
+    fun getSportDataForSport(name: String): Flowable<List<SportsData>>
 
     @Query("UPDATE sports_table SET is_favourite = :favouriteMark WHERE match_no = :matchNo")
     fun updateSportsFavourite(matchNo: Int, favouriteMark: Int): Completable

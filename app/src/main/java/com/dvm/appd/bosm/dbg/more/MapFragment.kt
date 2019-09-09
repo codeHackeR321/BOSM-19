@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,12 +33,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity!!.fragmentName.isVisible = false
-        activity!!.cart.isVisible = false
-        activity!!.profile.isVisible = false
-        activity!!.notifications.isVisible = false
-        activity!!.bottom_navigation_bar.isVisible = false
-        activity!!.mainView.visibility = View.GONE
+        (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

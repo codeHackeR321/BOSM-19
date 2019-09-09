@@ -15,6 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
@@ -281,6 +282,26 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
     override fun onDestroy() {
         this.unregisterReceiver(receiver)
         super.onDestroy()
+    }
+
+    fun showCustomToolbar() {
+        mainView.isVisible = true
+        fragmentName.isVisible = true
+        cart.isVisible = true
+        profile.isVisible = true
+        notifications.isVisible = true
+        bottom_navigation_bar.isVisible = true
+        textView7.isVisible = true
+    }
+
+    fun hideCustomToolbarForLevel2Fragments() {
+        fragmentName.isVisible = false
+        cart.isVisible = false
+        profile.isVisible = false
+        notifications.isVisible = false
+        bottom_navigation_bar.isVisible = false
+        mainView.visibility = View.GONE
+        textView7.isVisible = false
     }
 
     override fun onNetworkStatusScahnged(isConnected: Boolean) {
