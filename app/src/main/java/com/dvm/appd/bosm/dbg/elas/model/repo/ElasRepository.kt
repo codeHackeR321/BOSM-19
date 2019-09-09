@@ -1,8 +1,12 @@
 package com.dvm.appd.bosm.dbg.elas.model.repo
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
 import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
+import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
+import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
+import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 
@@ -108,6 +112,72 @@ class ElasRepository(val elasDao: ElasDao) {
             }
         }
     }*/
+
+    private fun parseOption(questionId: Long, option: String): OptionData {
+        val optionId = option.substring(option.lastIndexOf('~') + 1).toLong()
+        Log.d("EventsRepo", "Extracted OptionId = ${optionId}")
+        val optionString = option.subSequence(0, option.lastIndexOf('~')).toString()
+        Log.d("EventsRepo", "Extracted Option = ${optionString}")
+        return OptionData(option_id = optionId, option = optionString, questionId = questionId)
+    }
+
+    @SuppressLint("CheckResult")
+    fun setFirebaseListenerForActiveQuestion() {
+        FirebaseFirestore.getInstance().collection("quiz").document("active_question").addSnapshotListener { document, error ->
+            if (error != null) {
+                Log.e(TAG, "Error initializing listener $error")
+                setFirebaseListenerForActiveQuestion()
+                return@addSnapshotListener
+            }
+            if (document!!.contains("quiz_closed")) {
+                if (document!!["quiz_closed"].toString().toBoolean()) {
+                    Log.e(TAG, "The quiz is closed")
+                } else {
+                    val question_number = try {
+                        document!!["question_no"].toString().toLong()
+                    } catch (e: Exception) {
+                        0.toLong()
+                    }
+                    val question = try {
+                        document!!["question_text"].toString()
+                    } catch (e: Exception) {
+                        "Not Available"
+                    }
+                    val category = try {
+                        document!!["category"].toString()
+                    } catch (e: Exception) {
+                        "Miscellaneous"
+                    }
+                    val option1 = try {
+                        document!!["1"].toString()
+                    } catch (e: Exception) {
+                        "None of These"
+                    }
+                    val option2 = try {
+                        document!!["2"].toString()
+                    } catch (e: Exception) {
+                        "None of These"
+                    }
+                    val option3 = try {
+                        document!!["3"].toString()
+                    } catch (e: Exception) {
+                        "None of These"
+                    }
+                    val option4 = try {
+                        document!!["4"].toString()
+                    } catch (e: Exception) {
+                        "None of These"
+                    }
+                    elasDao.insertQuestions(listOf(QuestionData(question_number, question, category))).subscribe({},{
+                        Log.e(TAG, "Unable to insert question in room = ${it.toString()}")
+                    })
+                    elasDao.insertOptions(listOf(parseOption(question_number, option1), parseOption(question_number, option2), parseOption(question_number, option3), parseOption(question_number, option4))).subscribe({},{
+                        Log.e(TAG, "Unable to insert options in room = ${it.toString()}")
+                    })
+                }
+            }
+        }
+    }
 
     fun getQuestionsFromRoom(category: String = "All"): Flowable<List<CombinedQuestionOptionDataClass>> {
         return if (category.equals("All")) {
