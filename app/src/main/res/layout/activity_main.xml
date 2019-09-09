@@ -130,15 +130,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+            android:id="@+id/linearElasRecycler"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_marginStart="64dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="106dp"
             android:layout_marginEnd="64dp"
-            android:visibility="invisible"
-            android:id="@+id/linearElasRecycler"
             android:background="@drawable/shape_rectangle_rounded_24dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -148,26 +148,26 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:padding="6dp"
-                android:textColor="#747474"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="Questions"
-                android:clickable="true"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#747474" />
 
         <TextView
                 android:id="@+id/bttn_Leaderboard_elas"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="6dp"
                 android:clickable="true"
-                android:textColor="#747474"
+                android:padding="6dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="Leaderboard"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#747474" />
 
     </LinearLayout>
 

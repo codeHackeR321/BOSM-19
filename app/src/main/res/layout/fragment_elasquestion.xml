@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@drawable/cart_background"
+        android:background="@drawable/quiz_item_background"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent">
 
