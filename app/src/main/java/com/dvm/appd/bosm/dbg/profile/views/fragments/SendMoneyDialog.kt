@@ -35,6 +35,7 @@ class SendMoneyDialog : DialogFragment() {
             if (rootView.Amount.text.toString().isBlank() || rootView.userId.text.toString().isBlank()) {
                 Toast.makeText(context!!, "Please fill all the required fields!", Toast.LENGTH_SHORT).show()
             } else {
+                rootView.loadingPBR.visibility = View.VISIBLE
                 rootView.SendBtn.isClickable =false
                 sendMoneyViewModel.transferMoney(
                     rootView.userId.text.toString().toInt(),
@@ -46,10 +47,12 @@ class SendMoneyDialog : DialogFragment() {
         sendMoneyViewModel.result.observe(this, Observer {
             when(it!!){
                 TransactionResult.Success -> {
+                    rootView.loadingPBR.visibility = View.GONE
                     dismiss()
                     Toast.makeText(context!!, "Money transferred successfully!", Toast.LENGTH_SHORT).show()
                 }
                 is TransactionResult.Failure -> {
+                    rootView.loadingPBR.visibility = View.GONE
                     Toast.makeText(context!!, (it as TransactionResult.Failure).message, Toast.LENGTH_SHORT).show()
                     rootView.SendBtn.isClickable = true
                 }
