@@ -8,6 +8,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.auth.data.retrofit.AuthService
+import com.dvm.appd.bosm.dbg.elas.model.repo.ElasRepository
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.ElasService
+import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
 import com.dvm.appd.bosm.dbg.notification.NotificationDao
 import com.dvm.appd.bosm.dbg.notification.NotificationRepository
 import com.dvm.appd.bosm.dbg.shared.AppDatabase
@@ -100,5 +103,21 @@ class AppModule(private val application: Application) {
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideElasRepository(elasDao: ElasDao, elasService: ElasService) : ElasRepository {
+        return ElasRepository(elasDao, elasService)
+    }
 
+    @Provides
+    @Singleton
+    fun provideElasDao(appDatabase: AppDatabase) : ElasDao {
+        return appDatabase.elasDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesElasService(retrofit: Retrofit): ElasService {
+        return retrofit.create(ElasService::class.java)
+    }
 }
