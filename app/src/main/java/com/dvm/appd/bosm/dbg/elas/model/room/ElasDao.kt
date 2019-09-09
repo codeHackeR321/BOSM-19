@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dvm.appd.bosm.dbg.elas.model.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
 import io.reactivex.Flowable
 import io.reactivex.Single
 

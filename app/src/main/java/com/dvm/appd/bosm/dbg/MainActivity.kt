@@ -298,6 +298,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         fragmentName.isVisible = false
         cart.isVisible = false
         profile.isVisible = false
+        linearElasRecycler.isVisible = false
         notifications.isVisible = false
         bottom_navigation_bar.isVisible = false
         mainView.visibility = View.GONE

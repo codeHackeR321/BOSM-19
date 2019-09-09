@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:fontFamily="Circular Std Medium"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="10dp"
             android:textAllCaps="false"
             android:textColor="#3B3B3B"

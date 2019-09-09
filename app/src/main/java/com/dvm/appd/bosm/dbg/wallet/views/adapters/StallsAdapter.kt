@@ -8,13 +8,14 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import kotlinx.android.synthetic.main.adapter_wallet_stalls.view.*
 
-class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView.Adapter<StallsAdapter.StallsViewHolder>() {
+class StallsAdapter (private val listener:OnStallSelectedListener,val width:Int): RecyclerView.Adapter<StallsAdapter.StallsViewHolder>() {
 
     var stalls: List<StallData> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StallsAdapter.StallsViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_wallet_stalls, parent, false)
+
         return StallsViewHolder(view)
     }
 

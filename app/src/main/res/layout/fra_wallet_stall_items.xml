@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Stall Name"
             android:textColor="@color/colorWhite"
             android:textSize="30sp"
@@ -50,7 +51,6 @@
             android:id="@+id/stallOrderView"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_marginBottom="56dp"
             android:background="@drawable/cart_button_gradient"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="View Cart"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
@@ -72,14 +73,17 @@
             app:layout_constraintVertical_bias="0.448" />
 
     <TextView
-            android:text="TextView"
+            android:id="@+id/totalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/totalPrice"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:text="TextView"
             android:textColor="@color/colorWhite"
-            android:textSize="14sp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/stallOrderView" app:layout_constraintStart_toStartOf="@+id/stallOrderView"
-            android:layout_marginStart="16dp"/>
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/stallOrderView"
+            app:layout_constraintStart_toStartOf="@+id/stallOrderView" />
 
     <TextView
             android:id="@+id/itemCount"
@@ -88,6 +92,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"

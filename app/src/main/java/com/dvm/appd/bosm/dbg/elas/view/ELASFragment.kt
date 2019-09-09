@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.elas.view
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import com.dvm.appd.bosm.dbg.elas.viewModel.ElasViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_elas_fragment.*
+import kotlinx.coroutines.selects.select
 
 class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
 
@@ -44,6 +46,15 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         super.onViewCreated(view, savedInstanceState)
 
         initializeView()
+
+        activity!!.bttn_Questions_elas.setOnClickListener {
+            selectQuestions()
+        }
+
+        activity!!.bttn_Leaderboard_elas.setOnClickListener {
+            selectLeaderboard()
+        }
+
         elasViewModel.uiState.observe(this, Observer {
             when(it!!) {
                 UIStateElas.Loading -> {
@@ -63,11 +74,6 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
                 }
             }
         })
-        /*elasViewModel.questions.observe(this, Observer {
-            Log.d(TAG, "Entered Observer with ${it.toString()}")
-            (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = it
-            (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
-        })*/
     }
 
     private fun initializeView() {
@@ -87,8 +93,19 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         }
     }
 
+    private fun selectQuestions() {
+        bttn_Questions_elas.setTextColor(Color.BLACK)
+        bttn_Leaderboard_elas.setTextColor(resources.getColor(R.color.colorGrey))
+    }
+
+    private fun selectLeaderboard() {
+        bttn_Leaderboard_elas.setTextColor(Color.BLACK)
+        bttn_Questions_elas.setTextColor(resources.getColor(R.color.colorGrey))
+    }
+
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        activity!!.linearElasRecycler.isVisible = true
         activity!!.fragmentName.text = "Quiz"
         super.onResume()
     }
@@ -98,7 +115,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         view!!.findNavController().navigate(R.id.action_action_game_to_ELASQuestionFragment, bundle)
     }
 
-    override fun viewLeaderboard(questionId: Long) {
+    override fun viewRules(questionId: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:elevation="2dp"
-            android:fontFamily="Circular Std Medium"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="4dp"
             android:text="@string/miscellaneous"
             android:textAllCaps="false"
