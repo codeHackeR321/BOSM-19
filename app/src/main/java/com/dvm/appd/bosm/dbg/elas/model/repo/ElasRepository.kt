@@ -3,6 +3,7 @@ package com.dvm.appd.bosm.dbg.elas.model.repo
 import android.annotation.SuppressLint
 import android.util.Log
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.ElasService
 import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
 import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
@@ -10,7 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 
-class ElasRepository(val elasDao: ElasDao) {
+class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
     private val TAG = "ELAS REPO"
 
     init {
@@ -148,30 +149,24 @@ class ElasRepository(val elasDao: ElasDao) {
                     } catch (e: Exception) {
                         "Miscellaneous"
                     }
-                    val option1 = try {
-                        document!!["1"].toString()
+                    val numberOfOptions = try {
+                        document["total_options"].toString().toInt()
                     } catch (e: Exception) {
-                        "None of These"
+                        4
                     }
-                    val option2 = try {
-                        document!!["2"].toString()
-                    } catch (e: Exception) {
-                        "None of These"
-                    }
-                    val option3 = try {
-                        document!!["3"].toString()
-                    } catch (e: Exception) {
-                        "None of These"
-                    }
-                    val option4 = try {
-                        document!!["4"].toString()
-                    } catch (e: Exception) {
-                        "None of These"
+                    var optionsList: MutableList<OptionData> = arrayListOf()
+                    for(i in 1 .. numberOfOptions) {
+                        val option = try {
+                            document!![i.toString()].toString()
+                        } catch (e: Exception) {
+                            "None of These"
+                        }
+                        optionsList.add(parseOption(question_number, option))
                     }
                     elasDao.insertQuestions(listOf(QuestionData(question_number, question, category))).subscribe({},{
                         Log.e(TAG, "Unable to insert question in room = ${it.toString()}")
                     })
-                    elasDao.insertOptions(listOf(parseOption(question_number, option1), parseOption(question_number, option2), parseOption(question_number, option3), parseOption(question_number, option4))).subscribe({},{
+                    elasDao.insertOptions(optionsList).subscribe({},{
                         Log.e(TAG, "Unable to insert options in room = ${it.toString()}")
                     })
                 }
