@@ -13,7 +13,7 @@
                 android:id="@+id/mainView"
                 android:layout_width="match_parent"
                 android:layout_height="136dp"
-                android:background="@drawable/events_title"
+                android:background="@drawable/misc_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
             android:paddingStart="32dp"
             android:paddingEnd="32dp"
             android:text='"To flavor your taste buds" '
-            android:textColor="#2184F5"
+            android:textColor="#E2CC15"
             android:textSize="16sp"
             android:textStyle="bold|italic"
             app:layout_constraintEnd_toEndOf="parent"

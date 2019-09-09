@@ -703,18 +703,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                 ticketBody.add("individual", individualBody)
                 ticketBody.add("combos", comboBody)
+                Log.d("Tickets", "$ticketBody")
 
-                var idb = JsonObject()
-                idb.addProperty("2",4)
-                var cmb = JsonObject()
-                cmb.addProperty("1",3)
-                var tb = JsonObject().also {
-                    it.add("individual", idb)
-                    it.add("combos", cmb)
-                }
-
-                Log.d("Tickets", "$tb")
-                return@map tb
+                return@map ticketBody
             }
             .flatMapCompletable{
                 return@flatMapCompletable walletService.buyTickets(jwt.blockingGet().toString(), it).subscribeOn(Schedulers.io())
