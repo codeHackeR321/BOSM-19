@@ -56,7 +56,7 @@ class ProfileFragment : Fragment() {
         activity!!.textView7.isVisible = false
 
         profileViewModel.balance.observe(this, Observer {
-            rootView.balance.text = "${it!!}/-"
+            rootView.balance.text = "Rs ${it!!}"
         })
 
         rootView.addBtn.setOnClickListener {
