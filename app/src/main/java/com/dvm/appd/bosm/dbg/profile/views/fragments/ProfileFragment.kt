@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -108,6 +109,7 @@ class ProfileFragment : Fragment() {
 
         rootView.userTickets.adapter = UserTicketsAdapter()
         profileViewModel.userTickets.observe(this, Observer {
+            Log.d("TicketsUserP", "$it")
             (rootView.userTickets.adapter as UserTicketsAdapter).userTickets = it
             (rootView.userTickets.adapter as UserTicketsAdapter).notifyDataSetChanged()
         })
