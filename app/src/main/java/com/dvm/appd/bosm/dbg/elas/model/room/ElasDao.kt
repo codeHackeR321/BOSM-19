@@ -10,10 +10,10 @@ import io.reactivex.Single
 
 @Dao
 interface ElasDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertQuestions(questions: List<QuestionData>): Single<Unit>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOptions(options: List<OptionData>): Single<Unit>
 
     @Query("DELETE FROM option_table WHERE questionId = :id")
