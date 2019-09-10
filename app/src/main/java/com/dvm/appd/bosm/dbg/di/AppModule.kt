@@ -105,8 +105,8 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideElasRepository(elasDao: ElasDao, elasService: ElasService) : ElasRepository {
-        return ElasRepository(elasDao, elasService)
+    fun provideElasRepository(elasDao: ElasDao, elasService: ElasService, authRepository: AuthRepository) : ElasRepository {
+        return ElasRepository(elasDao, elasService, authRepository)
     }
 
     @Provides
