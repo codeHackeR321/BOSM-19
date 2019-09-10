@@ -10,4 +10,8 @@
     <color name="colorBlue">#4293FF</color>
     <color name="pending">#E83C3C</color>
     <color name="colourPurple">#8D61F2</color>
+    <color name="orderFood">#12CB60</color>
+    <color name="buyTickets">#5B3BDB</color>
+   <color name="games">#EF28DB</color>
+    <color name="trackEvents">#5B7DEC</color>
 </resources>

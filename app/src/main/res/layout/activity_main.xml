@@ -101,7 +101,7 @@
             android:paddingStart="32dp"
             android:paddingEnd="32dp"
             android:text='"To flavor your taste buds" '
-            android:textColor="#E2CC15"
+            android:textColor="#05C56D"
             android:textSize="16sp"
             android:textStyle="bold|italic"
             app:layout_constraintEnd_toEndOf="parent"
