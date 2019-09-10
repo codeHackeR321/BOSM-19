@@ -13,18 +13,23 @@ import com.dvm.appd.bosm.dbg.MainActivity
 
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
+import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.view.adapter.ElasOptionsAdapter
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasQuestionViewModel
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasQuestionViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_elas_fragment.*
+import kotlinx.android.synthetic.main.fragment_elasquestion.*
 
-class ELASQuestionFragment : Fragment() {
+class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
 
     var questionId: Long = 0
     val elasQuestionViewModel: ElasQuestionViewModel by lazy {
         ViewModelProviders.of(this, ElasQuestionViewModelFactory())[ElasQuestionViewModel::class.java]
     }
+    var selectedOptionId: Int = -1
+    var currentOptionsList = emptyList<CombinedQuestionOptionDataClass>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
@@ -39,28 +44,53 @@ class ELASQuestionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (questionId != 0.toLong()) {
             elasQuestionViewModel.getQuestion(questionId)
+        } else {
+            Snackbar.make(activity!!.coordinator_parent, "Please Select a Valid Question", Snackbar.LENGTH_INDEFINITE).show()
         }
+
+        recycler_elasOptionsFrag_options.adapter = ElasOptionsAdapter(this)
+
+        text_card_elasFrag_questionNo.text = "Question ${questionId}"
 
         elasQuestionViewModel.uiState.observe(this, Observer {
             when(it) {
                 is UIStateElas.Failure -> {
-                    progress_fra_elas.visibility = View.INVISIBLE
+                    progressBar.visibility = View.INVISIBLE
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE).show()
                 }
                 is UIStateElas.Loading -> {
-                    progress_fra_elas.visibility = View.VISIBLE
+                    progressBar.visibility = View.VISIBLE
                     activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
                 is UIStateElas.Questions -> {
-                    progress_fra_elas.visibility = View.INVISIBLE
+                    progressBar.visibility = View.INVISIBLE
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 }
             }
         })
 
         elasQuestionViewModel.question.observe(this, Observer {
-
+            if (it.isNotEmpty()) {
+                constraint_question.visibility = View.VISIBLE
+                text_card_elasFrag_question.text = it.first().question
+                currentOptionsList = it
+                (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).optionsList = it
+                (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()
+            }
         })
     }
+
+    override fun optionSelected(position: Int) {
+        selectedOptionId = position
+        (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).optionsList = currentOptionsList
+        (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()
+    }
+
+    override fun noOptionSelected() {
+        selectedOptionId = -1
+        (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).optionsList = currentOptionsList
+        (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()
+    }
+
 }

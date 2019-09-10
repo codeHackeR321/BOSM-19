@@ -14,6 +14,6 @@ class ElasQuestionViewModelFactory: ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         BOSMApp.appComponent.newElasComponent(ElasModule()).injectElasQuestion(this)
-        return ElasViewModel(elasRepository) as T
+        return ElasQuestionViewModel(elasRepository) as T
     }
 }

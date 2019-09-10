@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.elas.view.adapter
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,11 +40,14 @@ class ElasOptionsAdapter(val listener: OnOptionSelected): RecyclerView.Adapter<E
         holder.optionNumber.text = "${(65+position).toChar()}.\t"
         holder.option.text = optionsList[position].option
         holder.parent.setOnClickListener {
+            Log.d("Elas Option Adapter", "Enetered OnClick Listener")
             if (optionSelected == position) {
+                optionSelected = -1
                 holder.parent.setBackgroundColor(Color.WHITE)
                 holder.checkImg.visibility = View.INVISIBLE
                 listener.noOptionSelected()
             } else {
+                optionSelected = position
                 holder.parent.setBackgroundColor(Color.parseColor("#ECEBFF"))
                 holder.checkImg.visibility = View.VISIBLE
                 listener.optionSelected(position)
