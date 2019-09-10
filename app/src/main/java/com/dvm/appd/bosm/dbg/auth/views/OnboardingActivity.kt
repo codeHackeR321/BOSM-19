@@ -26,15 +26,17 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
         pageAdapter = object: FragmentStatePagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
                 when(position) {
-                    0 -> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food")
+                    0 ->{
+                        return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food",resources.getColor(R.color.orderFood))
+                           }
 
-                    1 -> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_buy_tickets, "Buy Tickets")
+                    1 ->{ return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_buy_tickets, "Buy Tickets",resources.getColor(R.color.buyTickets))}
 
-                    2-> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_track_events, "Track Events")
+                    2->{ return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_track_events, "Track Events",resources.getColor(R.color.trackEvents))}
 
-                    3 -> return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_games, "Games")
+                    3 -> {return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_games, "Games",resources.getColor(R.color.games))}
                 }
-                return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food")
+                return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food",resources.getColor(R.color.orderFood))
             }
 
             override fun getCount(): Int {

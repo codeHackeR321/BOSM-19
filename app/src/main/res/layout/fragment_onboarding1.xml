@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_height="match_parent"
+        android:id="@+id/parent"
         tools:context=".auth.views.Onboarding1Fragment">
 
     <TextView
@@ -12,7 +13,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/text_bttn_skip"
-            android:textColor="#707070"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:padding="12dp"
             app:layout_constraintBottom_toTopOf="@id/linear_onBoarding_fragment"
@@ -40,7 +41,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#4AA5FF"
+            android:textColor="#FFFFFF"
             android:textSize="38sp"
             android:textAlignment="center"
                 android:fontFamily="@font/shellypalmer_circular_std_book"
@@ -50,11 +51,12 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:textColor="#3A3A60"
+                android:textColor="#FFFFFF"
                 android:textAlignment="center"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:textSize="15sp"
+                android:fontFamily="@font/shellypalmer_circular_std_book"
                 android:id="@+id/text_onBoarding_content"
                 android:text="Order food from M-Lawns stalls right from your phone. Just select your order and tap on Buy Now.Order food from M-Lawns stalls right from your phone. Just select your order and tap on Buy Now."
                 android:layout_weight="2"/>
