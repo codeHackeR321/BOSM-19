@@ -11,14 +11,6 @@ data class ShowsPojo(
     val name: String,
 
     @SerializedName("price")
-    val price: Int,
+    val price: Int
 
-    @SerializedName("tickets_available")
-    val ticketsAvailable: Boolean,
-
-    @SerializedName("allow_bitsians")
-    val allowBitsians: Boolean,
-
-    @SerializedName("allow_participants")
-    val allowParticipants: Boolean
 )

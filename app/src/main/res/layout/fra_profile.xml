@@ -11,7 +11,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/shape_rectangle_rounded_24dp"
@@ -19,7 +19,7 @@
             app:layout_constraintBottom_toTopOf="@+id/view9"
             app:layout_constraintEnd_toEndOf="@+id/view7"
             app:layout_constraintStart_toStartOf="@+id/view7"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintTop_toBottomOf="@+id/userId" />
 
     <ImageView
             android:id="@+id/qrCode"
@@ -75,17 +75,16 @@
             android:id="@+id/userId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="4dp"
             android:elevation="1dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="User Id"
-            android:textColor="#706E6E"
+            android:textColor="#eeeeee"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/qrCode"
-            app:layout_constraintEnd_toEndOf="@+id/balance"
-            app:layout_constraintHorizontal_bias="0.04"
-            app:layout_constraintStart_toStartOf="@+id/balance"
-            app:layout_constraintTop_toBottomOf="@+id/balance" />
+            app:layout_constraintEnd_toEndOf="@+id/username"
+            app:layout_constraintHorizontal_bias="0.539"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <ImageView
             android:id="@+id/logout"
@@ -116,7 +115,7 @@
             android:id="@+id/balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:elevation="1dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Balance"
@@ -162,7 +161,7 @@
             android:id="@+id/AddBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:elevation="1dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="8dp"
@@ -170,7 +169,7 @@
             android:textColor="#4F32D7"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/addBtn"
-            app:layout_constraintTop_toBottomOf="@+id/userId" />
+            app:layout_constraintTop_toBottomOf="@+id/qrCode" />
 
     <TextView
             android:id="@+id/sendBtn"
@@ -273,6 +272,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:elevation="2dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="@+id/view9"
             app:layout_constraintEnd_toEndOf="@+id/view9"

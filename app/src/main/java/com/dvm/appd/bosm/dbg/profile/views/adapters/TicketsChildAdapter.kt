@@ -7,16 +7,13 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
-import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedComboData
-import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedShowsTickets
-import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ShowsTickets
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.TicketsCart
+import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.TicketsData
 import kotlinx.android.synthetic.main.adapter_tickets_child.view.*
 
 class TicketsChildAdapter(private val listener: TicketCartActions): RecyclerView.Adapter<TicketsChildAdapter.TicketsChildViewHolder>(){
 
-    var comboItems: List<ModifiedComboData> = emptyList()
-    var showsItems: List<ModifiedShowsTickets> = emptyList()
+    var tickets: List<TicketsData> = emptyList()
 
     interface TicketCartActions{
         fun insertTicketCart(ticket: TicketsCart)
@@ -29,32 +26,13 @@ class TicketsChildAdapter(private val listener: TicketCartActions): RecyclerView
         return TicketsChildViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return when {
-            comboItems.isEmpty() -> showsItems.size
-            showsItems.isEmpty() -> comboItems.size
-            else -> 0
-        }
-    }
+    override fun getItemCount(): Int = tickets.size
 
     override fun onBindViewHolder(p0: TicketsChildViewHolder, p1: Int) {
 
-        when{
-
-            comboItems.isEmpty() -> {
-                p0.shows.isVisible = false
-                p0.name.text = showsItems[p1].name
-                p0.price.text = showsItems[p1].price.toString()
-            }
-
-            showsItems.isEmpty() -> {
-                p0.shows.isVisible = true
-                p0.name.text = comboItems[p1].comboName
-                p0.price.text = comboItems[p1].price.toString()
-                p0.shows.text = comboItems[p1].shows.map { it.showName }.joinToString(" ,")
-            }
-
-        }
+        p0.name.text = tickets[p1].name
+        p0.price.text = tickets[p1].price.toString()
+        p0.shows.text = if (tickets[p1].shows != null) tickets[p1].shows else ""
     }
 
     inner class TicketsChildViewHolder(view: View): RecyclerView.ViewHolder(view){

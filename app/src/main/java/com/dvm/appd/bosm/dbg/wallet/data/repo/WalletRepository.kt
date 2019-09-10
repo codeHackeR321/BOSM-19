@@ -56,7 +56,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 }
             }
 
-//        getShowsAndCombosInfo().subscribe()
+//        getTicketInfo().subscribe()
     }
 
     fun fetchAllStalls(): Completable {
@@ -555,8 +555,8 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .ignoreElement()
     }
 
-    fun getShowsAndCombosInfo(): Completable{
-        return walletService.getAllShows(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
+    fun getTicketInfo(): Completable{
+        return walletService.getAllTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
                 Log.d("TicketsApi", "${response.body()}")
@@ -564,27 +564,21 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                     200 -> {
 
-                        var combosTickets: MutableList<ComboTickets> = arrayListOf()
-                        var comboShows: MutableList<ComboShows> = arrayListOf()
-                        var showsTickets: MutableList<ShowsTickets> = arrayListOf()
+                        var tickets: MutableList<TicketsData> = arrayListOf()
 
                         response.body()!!.combos.forEach{
 
-                            combosTickets.add(it.toComboTickets())
-                            comboShows.addAll(it.toComboShows())
+                            tickets.add(it.toTickets())
                         }
 
                         response.body()!!.shows.forEach {
 
-                            showsTickets.add(it.toShowsTicket())
+                            tickets.add(it.toTickets())
                         }
 
-                        Log.d("TicketsApi", "${combosTickets}")
-                        Log.d("TicketsApi", "${comboShows}")
-                        Log.d("TicketsApi", "${showsTickets}")
-                        walletDao.insertAllCombos(combosTickets)
-                        walletDao.insertAllShows(showsTickets)
-                        walletDao.updateComboShows(comboShows)
+                        Log.d("TicketsApi", "${tickets}")
+                        walletDao.updateTickets(tickets)
+
 
                     }
                     else -> null
@@ -593,22 +587,12 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
             .ignoreElement()
     }
 
-    private fun ComboPojo.toComboTickets(): ComboTickets{
-        return ComboTickets(id, name, price, allowBitsians, allowParticipants)
+    private fun ComboPojo.toTickets(): TicketsData{
+        return TicketsData(id, name, price, "combo", shows.joinToString(","), 0)
     }
 
-    private fun ComboPojo.toComboShows(): List<ComboShows>{
-
-        var comboShows: MutableList<ComboShows> = arrayListOf()
-        shows.forEach {
-            comboShows.add(ComboShows(showId = it.id, showName = it.name, combo = id, id = 0))
-        }
-
-        return comboShows
-    }
-
-    private fun ShowsPojo.toShowsTicket(): ShowsTickets{
-        return ShowsTickets(id, name, price, ticketsAvailable, allowBitsians, allowParticipants)
+    private fun ShowsPojo.toTickets(): TicketsData{
+        return TicketsData(id, name, price,"show", null,0)
     }
 
     fun updateUserTickets(): Completable{
@@ -641,36 +625,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletDao.getAllUserTickets().subscribeOn(Schedulers.io())
     }
 
-    fun getAllShowsData(): Flowable<List<ModifiedShowsTickets>>{
+    fun getAllTicketData(): Flowable<List<TicketsData>>{
 
-        return walletDao.getAllShows().subscribeOn(Schedulers.io())
-    }
-
-    fun getAllComboData(): Flowable<List<ModifiedComboData>>{
-
-        return walletDao.getAllCombos().subscribeOn(Schedulers.io())
-            .flatMap {
-
-                var combos: MutableList<ModifiedComboData> = arrayListOf()
-                var shows: MutableList<ChildShows> = arrayListOf()
-
-                for ((index, item) in it.listIterator().withIndex()){
-
-                    shows.add(ChildShows(item.showId, item.showName))
-
-                    if (index != it.lastIndex && it[index].comboId != it[index+1].comboId){
-                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, item.cartId, item.quantity, shows))
-                        shows = arrayListOf()
-                    }
-                    else if (index == it.lastIndex){
-                        combos.add(ModifiedComboData(item.comboId, item.comboName, item.price, item.allowBitsians, item.allowParticipants, item.cartId, item.quantity, shows))
-                        shows = arrayListOf()
-                    }
-
-                }
-
-                return@flatMap Flowable.just(combos)
-            }
+        return walletDao.getAllTickets().subscribeOn(Schedulers.io())
     }
 
     fun insertTicketsCart(tickets: TicketsCart): Completable{
