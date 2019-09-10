@@ -642,10 +642,12 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     fun getAllShowsData(): Flowable<List<ModifiedShowsTickets>>{
+
         return walletDao.getAllShows().subscribeOn(Schedulers.io())
     }
 
     fun getAllComboData(): Flowable<List<ModifiedComboData>>{
+
         return walletDao.getAllCombos().subscribeOn(Schedulers.io())
             .flatMap {
 

@@ -93,7 +93,7 @@ interface WalletDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllShows(shows: List<ShowsTickets>)
 
-    @Query("SELECT shows.id as showId, shows.price as price, shows.name as name, shows.allow_participants as allowParticipants, shows.allow_bitsians as allowBitsian, shows.tickets_available as ticketsAvailable, COALESCE(tickets_cart.id, 0) as cartId, COALESCE(tickets_cart.quantity, 0) as quantity FROM shows LEFT JOIN tickets_cart ON shows.id = tickets_cart.id WHERE tickets_cart.type = 'Shows' ")
+    @Query("SELECT shows.id as showId, shows.price as price, shows.name as name, shows.allow_participants as allowParticipants, shows.allow_bitsians as allowBitsian, shows.tickets_available as ticketsAvailable, COALESCE(tickets_cart.id, 0) as cartId, COALESCE(tickets_cart.quantity, 0) as quantity FROM shows LEFT JOIN tickets_cart ON shows.id = tickets_cart.ticket_id WHERE tickets_cart.type = 'Shows' ")
     fun getAllShows(): Flowable<List<ModifiedShowsTickets>>
 
     @Query("SELECT combos.id as comboId, combos.combo_name as comboName, combos.price as price, combos.allow_bitsians as allowBitsians, combos.allow_participants as allowParticipants, combo_shows.show_id as showId, combo_shows.show_name as showName, COALESCE(tickets_cart.id, 0) as cartId, COALESCE(tickets_cart.quantity, 0) as quantity FROM combos LEFT JOIN combo_shows ON combos.id = combo_shows.combo_id LEFT JOIN tickets_cart ON combos.id = tickets_cart.ticket_id WHERE tickets_cart.type = 'Combos'")

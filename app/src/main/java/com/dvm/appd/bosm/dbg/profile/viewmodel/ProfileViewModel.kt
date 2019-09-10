@@ -31,14 +31,14 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
             Log.d("checke",it.toString())
         })
 
-        walletRepository.getShowsAndCombosInfo().subscribe({
-            walletRepository.getAllUserShows()
-                .doOnNext {
-                    Log.d("TicketsUser", "$it")
-                    (userTickets as MutableLiveData).postValue(it)
-                }
-                .subscribe()
-        },{})
+        walletRepository.getShowsAndCombosInfo().subscribe()
+
+        walletRepository.getAllUserShows()
+            .doOnNext {
+                Log.d("TicketsUser", "$it")
+                (userTickets as MutableLiveData).postValue(it)
+            }
+            .subscribe()
 
     }
 

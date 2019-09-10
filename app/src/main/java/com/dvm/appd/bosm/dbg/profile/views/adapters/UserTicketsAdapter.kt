@@ -4,11 +4,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.UserShows
+import kotlinx.android.synthetic.main.adapter_user_tickets.view.*
 
-class UserTicketsAdapter(): RecyclerView.Adapter<UserTicketsAdapter.UserTicketViewHolder>(){
+class UserTicketsAdapter: RecyclerView.Adapter<UserTicketsAdapter.UserTicketViewHolder>(){
 
     var userTickets: List<UserShows> = emptyList()
 
@@ -20,10 +22,14 @@ class UserTicketsAdapter(): RecyclerView.Adapter<UserTicketsAdapter.UserTicketVi
     override fun getItemCount(): Int = userTickets.size
 
     override fun onBindViewHolder(p0: UserTicketViewHolder, p1: Int) {
-        Log.d("sdkljvb","sadkfjvb")
+        Log.d("TicketsUserA", "$userTickets")
+        p0.showName.text = userTickets[p1].name
+        p0.ticketCount.text = userTickets[p1].unused.toString()
     }
 
     inner class UserTicketViewHolder(view: View): RecyclerView.ViewHolder(view){
 
+        val showName: TextView = view.showName
+        val ticketCount: TextView = view.ticketQuantity
     }
 }
