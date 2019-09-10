@@ -10,18 +10,18 @@
 
     <TextView
             android:id="@+id/stallName"
-            android:layout_width="0dp"
+            android:layout_width="293dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
-            android:textAlignment="textStart"
+            android:textAlignment="center"
             android:textColor="@color/colorBlack"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/orderId"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,45 +29,52 @@
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/shape_rectangle_rounded_24dp"
+            android:backgroundTint="#4293FF"
             android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
             android:text="TextView"
-            android:textAlignment="viewEnd"
-            android:textSize="16sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/orderId" />
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/stallName" />
 
     <TextView
             android:id="@+id/orderId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="orderid"
             android:textAlignment="viewEnd"
             android:textColor="#4293FF"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/stallName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/stallName" />
+            app:layout_constraintTop_toBottomOf="@+id/stallName" />
 
     <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="64dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
             android:textAlignment="textStart"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stallName" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
             android:id="@+id/textView8"
@@ -78,10 +85,10 @@
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Items"
             android:textColor="#4293FF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price" />
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
             android:id="@+id/textView12"
@@ -92,10 +99,10 @@
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Sub Total"
             android:textColor="#4293FF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/status" />
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
             android:id="@+id/text"
@@ -108,7 +115,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price" />
+            app:layout_constraintTop_toBottomOf="@+id/status" />
 
     <ImageView
             android:id="@+id/rating3"
@@ -116,8 +123,8 @@
             android:layout_height="32dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toStartOf="@+id/rating4"
+            app:layout_constraintStart_toEndOf="@+id/rating2"
             app:layout_constraintTop_toBottomOf="@+id/text"
-            app:layout_constraintStart_toEndOf="@id/rating2"
             app:srcCompat="@drawable/ic_star" />
 
     <ImageView
@@ -126,8 +133,8 @@
             android:layout_height="32dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toStartOf="@+id/rating3"
+            app:layout_constraintStart_toEndOf="@+id/rating1"
             app:layout_constraintTop_toBottomOf="@+id/text"
-            app:layout_constraintStart_toEndOf="@id/rating1"
             app:srcCompat="@drawable/ic_star" />
 
     <ImageView
@@ -136,8 +143,8 @@
             android:layout_height="32dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toStartOf="@+id/rating5"
+            app:layout_constraintStart_toEndOf="@+id/rating3"
             app:layout_constraintTop_toBottomOf="@+id/text"
-            app:layout_constraintStart_toEndOf="@id/rating3"
             app:srcCompat="@drawable/ic_star" />
 
     <ImageView
@@ -145,9 +152,8 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="40dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/rating4"
+            app:layout_constraintStart_toEndOf="@+id/rating4"
             app:layout_constraintTop_toBottomOf="@+id/text"
             app:srcCompat="@drawable/ic_star" />
 
@@ -155,7 +161,6 @@
             android:id="@+id/rating1"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginStart="40dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toStartOf="@+id/rating2"
             app:layout_constraintStart_toStartOf="parent"
@@ -164,14 +169,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/items"
-            android:layout_width="0dp"
+            android:layout_width="395dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -180,18 +185,63 @@
             android:id="@+id/otp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/shape_rectangle_rounded_24dp"
-            android:backgroundTint="#4EE24C"
+            android:backgroundTint="#4293FF"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:visibility="invisible"
             android:text="OTP"
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/status"
-            app:layout_constraintTop_toBottomOf="@+id/orderId" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="Status:"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stallName" />
+
+    <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="Order No.:"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/orderId"
+            app:layout_constraintTop_toBottomOf="@+id/stallName" />
+
+    <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="64dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:text="Total"
+            android:textAlignment="textStart"
+            android:textColor="#4293FF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

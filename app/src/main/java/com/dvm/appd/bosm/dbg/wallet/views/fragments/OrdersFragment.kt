@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -38,7 +39,9 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
         activity!!.mainView.setBackgroundResource(R.drawable.orders_title)
         activity!!.fragmentName.text = "Orders"
         activity!!.search.isVisible = false
-        activity!!.textView7.isVisible = false
+        activity!!.textView7.isVisible = true
+        activity!!.textView7.text = "Don't forget to add ratings"
+        activity!!.textView7.setTextColor(Color.rgb(28, 140, 204))
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_order_history_to_action_cart)

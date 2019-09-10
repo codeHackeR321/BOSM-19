@@ -9,37 +9,120 @@
 
     <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="104dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorBlack"
             android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/shows"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="104dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
             android:id="@+id/price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="104dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintBottom_toTopOf="@+id/view12"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shows" />
+
+    <View
+            android:id="@+id/view12"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="#707070"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+            android:id="@+id/addBtn"
+            android:layout_width="80dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/add_button_profile"
+            android:text="Add  +"
+            android:textColor="#6C58B9"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/view12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/plus"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/item_plus_button_profile"
+            android:text="+"
+            android:textColor="#6C58B9"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/view12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/minus"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:background="@drawable/item_minus_button_profile"
+            android:text="-"
+            android:textAlignment="center"
+            android:textColor="#6C58B9"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/view12"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/quantity"
+            tools:layout_editor_absoluteX="315dp" />
+
+    <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="#6C58B9"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:paddingRight="4dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/view12"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="345dp"
+            app:layout_constraintEnd_toStartOf="@id/plus"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

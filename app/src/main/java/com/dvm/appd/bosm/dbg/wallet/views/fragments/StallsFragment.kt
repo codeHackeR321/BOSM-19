@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -37,6 +38,8 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         rootview.stalls_recycler.adapter = StallsAdapter(this)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
+        activity!!.textView7.text = "To flavor your taste buds"
+        activity!!.textView7.setTextColor(Color.rgb(5, 197, 109))
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_food_to_action_cart)

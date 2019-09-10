@@ -54,7 +54,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
 
         val view = inflater.inflate(R.layout.fra_events_fragment, container, false)
 
-        activity!!.mainView.setBackgroundResource(R.drawable.misc_title)
+        activity!!.mainView.setBackgroundResource(R.drawable.events_title)
         activity!!.fragmentName.text = "Events"
         view.progress_event.visibility = View.VISIBLE
         activity!!.search.isVisible = true

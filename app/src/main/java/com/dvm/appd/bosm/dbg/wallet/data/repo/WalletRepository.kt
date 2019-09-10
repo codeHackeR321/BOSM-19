@@ -588,7 +588,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     private fun ComboPojo.toTickets(): TicketsData{
-        return TicketsData(id, name, price, "combo", shows.joinToString(","), 0)
+        return TicketsData(id, name, price, "combo", shows.map { it.name }.joinToString(","), 0)
     }
 
     private fun ShowsPojo.toTickets(): TicketsData{
@@ -625,7 +625,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return walletDao.getAllUserTickets().subscribeOn(Schedulers.io())
     }
 
-    fun getAllTicketData(): Flowable<List<TicketsData>>{
+    fun getAllTicketData(): Flowable<List<ModifiedTicketsData>>{
 
         return walletDao.getAllTickets().subscribeOn(Schedulers.io())
     }
@@ -654,11 +654,11 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                 for (item in it){
 
-                    if (item.type == "Show"){
+                    if (item.type == "show"){
                         individualBody.addProperty("${item.ticketId}", item.quantity)
                     }
 
-                    if (item.type == "Combo"){
+                    if (item.type == "combo"){
                         comboBody.addProperty("${item.ticketId}", item.quantity)
                     }
                 }
@@ -673,10 +673,12 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@flatMapCompletable walletService.buyTickets(jwt.blockingGet().toString(), it).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
-                        Log.d("Tickets", "${response}")
                         when(response.code()){
 
-                            200 -> {Log.d("Tickets", "Yusss")}
+                            200 -> {
+                                Log.d("Tickets", "Yusss")
+                                walletDao.clearTicketsCart().subscribeOn(Schedulers.io()).subscribe()
+                            }
                             else -> Log.d("Tickets", "Booo")
                         }
                     }
