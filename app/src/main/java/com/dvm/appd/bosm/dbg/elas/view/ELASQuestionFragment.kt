@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,7 +29,7 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
     val elasQuestionViewModel: ElasQuestionViewModel by lazy {
         ViewModelProviders.of(this, ElasQuestionViewModelFactory())[ElasQuestionViewModel::class.java]
     }
-    var selectedOptionId: Int = -1
+    var selectedOptionId: Long = -1
     var currentOptionsList = emptyList<CombinedQuestionOptionDataClass>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -79,9 +80,17 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
                 (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()
             }
         })
+
+        bttn_elasfraQuestions_submitAnswer.setOnClickListener {
+            if (selectedOptionId == (-1).toLong()) {
+                Toast.makeText(view.context, "Please select an option", Toast.LENGTH_LONG).show()
+            } else {
+                elasQuestionViewModel.submitAnswer(questionId, selectedOptionId)
+            }
+        }
     }
 
-    override fun optionSelected(position: Int) {
+    override fun optionSelected(position: Long) {
         selectedOptionId = position
         (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).optionsList = currentOptionsList
         (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()

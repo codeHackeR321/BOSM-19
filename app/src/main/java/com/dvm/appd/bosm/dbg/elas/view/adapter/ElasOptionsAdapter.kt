@@ -16,7 +16,7 @@ class ElasOptionsAdapter(val listener: OnOptionSelected): RecyclerView.Adapter<E
     var optionSelected: Int = -1
 
     interface OnOptionSelected {
-        fun optionSelected(position: Int)
+        fun optionSelected(position: Long)
         fun noOptionSelected()
     }
 
@@ -50,7 +50,7 @@ class ElasOptionsAdapter(val listener: OnOptionSelected): RecyclerView.Adapter<E
                 optionSelected = position
                 holder.parent.setBackgroundColor(Color.parseColor("#ECEBFF"))
                 holder.checkImg.visibility = View.VISIBLE
-                listener.optionSelected(position)
+                listener.optionSelected(optionsList[position].option_id)
             }
         }
     }

@@ -2,18 +2,24 @@ package com.dvm.appd.bosm.dbg.elas.model.repo
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.AnswerResponse
 import com.dvm.appd.bosm.dbg.elas.model.retrofit.ElasService
 import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
 import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
+import retrofit2.Response
 
-class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
+class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val authRepository: AuthRepository) {
     private val TAG = "ELAS REPO"
+    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
 
     init {
         Log.d(TAG, "Init for Repo Called")
@@ -179,6 +185,13 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService) {
         return elasDao.selectParticularQuestionRoom(id).subscribeOn(Schedulers.io())
     }
 
+    fun submitAnswerForQuestion(questionId: Long, optionId: Long): Single<Response<AnswerResponse>> {
+        val body = JsonObject().also {
+            it.addProperty("question_id", questionId)
+            it.addProperty("answer_id", optionId)
+        }
+        return elasService.answerQuestion(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
+    }
 
     fun getQuestionsFromRoom(category: String = "All"): Flowable<List<CombinedQuestionOptionDataClass>> {
         return if (category.equals("All")) {

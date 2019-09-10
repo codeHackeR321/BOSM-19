@@ -34,4 +34,19 @@ class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {
         })
     }
 
+    @SuppressLint("CheckResult")
+    fun submitAnswer(questionId: Long, optionId: Long) {
+        uiState.asMut().postValue(UIStateElas.Loading)
+        repository.submitAnswerForQuestion(questionId, optionId).subscribe({
+            when(it.code()) {
+                200 -> {
+                    uiState.asMut().postValue(UIStateElas.Failure("${it.body().toString()}"))
+                }
+            }
+
+        },{
+            uiState.asMut().postValue(UIStateElas.Failure("Couldn't Submit your answer at this point. Try again later"))
+        })
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.elas.model.retrofit
 
 data class PlayerRankingResponse(
-    val points: String,
-    val ranking: String
+    val Name: String,
+    val Points: Int,
+    val Rank: Int
 )
