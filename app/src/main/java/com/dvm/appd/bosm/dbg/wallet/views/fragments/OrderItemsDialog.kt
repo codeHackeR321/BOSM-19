@@ -77,19 +77,19 @@ class OrderItemsDialog: DialogFragment() {
             view.orderId.text = "#${order.orderId}"
             view.price.text = "₹${order.totalPrice}"
 
-            if (order.otpSeen){
-                view.otp.text = order.otp.toString()
-            }
-            else{
-                view.otp.setOnClickListener {
-                    if (order.status == 2){
-                        orderItemViewModel.updateOtpSeen(order.orderId)
-                    }
-                    else{
-                        Log.d("OTP", "Status not yet ready")
-                    }
-                }
-            }
+//            if (order.otpSeen){
+//                view.otp.text = order.otp.toString()
+//            }
+//            else{
+//                view.otp.setOnClickListener {
+//                    if (order.status == 2){
+//                        orderItemViewModel.updateOtpSeen(order.orderId)
+//                    }
+//                    else{
+//                        Log.d("OTP", "Status not yet ready")
+//                    }
+//                }
+//            }
 
             if (order.status != 3){
 

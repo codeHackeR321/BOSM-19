@@ -87,8 +87,8 @@ interface WalletDao {
         insertAllTickets(tickets)
     }
 
-    @Query("SELECT ticket_id as ticketId, name, price, type, shows, COALESCE(tickets_cart.quantity, 0) as quantity FROM tickets LEFT JOIN tickets_cart")
-    fun getAllTickets(): Flowable<List<TicketsData>>
+    @Query("SELECT tickets.ticket_id as ticketId, tickets.name as name, tickets.price as price, tickets.type as type, shows, COALESCE(tickets_cart.quantity, 0) as quantity, COALESCE(tickets_cart.id, 0) as cartId FROM tickets LEFT JOIN tickets_cart ON tickets.ticket_id = tickets_cart.ticket_id AND tickets.type == tickets_cart.type")
+    fun getAllTickets(): Flowable<List<ModifiedTicketsData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUserShows(userShows: List<UserShows>)
@@ -97,7 +97,7 @@ interface WalletDao {
     fun getAllUserTickets(): Flowable<List<UserShows>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTicketCart(comboCartItem: TicketsCart): Completable
+    fun insertTicketCart(ticketCartItem: TicketsCart): Completable
 
     @Query("UPDATE tickets_cart SET quantity = :quantity WHERE id = :id")
     fun updateTicketsCart(quantity: Int, id: Int): Completable
