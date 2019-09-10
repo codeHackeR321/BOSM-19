@@ -76,28 +76,19 @@ interface WalletDao {
     fun updateCartItem(quantity: Int, itemId: Int): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllCombos(combos: List<ComboTickets>)
+    fun insertAllTickets(tickets: List<TicketsData>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertComboShows(comboShows: List<ComboShows>)
-
-    @Query("DELETE FROM combo_shows")
-    fun deleteComboShows()
+    @Query("DELETE FROM tickets")
+    fun deleteAllTickets()
 
     @Transaction
-    fun updateComboShows(comboShows: List<ComboShows>){
-        deleteComboShows()
-        insertComboShows(comboShows)
+    fun updateTickets(tickets: List<TicketsData>){
+        deleteAllTickets()
+        insertAllTickets(tickets)
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllShows(shows: List<ShowsTickets>)
-
-    @Query("SELECT shows.id as showId, shows.price as price, shows.name as name, shows.allow_participants as allowParticipants, shows.allow_bitsians as allowBitsian, shows.tickets_available as ticketsAvailable, COALESCE(tickets_cart.id, 0) as cartId, COALESCE(tickets_cart.quantity, 0) as quantity FROM shows LEFT JOIN tickets_cart ON shows.id = tickets_cart.ticket_id WHERE tickets_cart.type = 'Shows' ")
-    fun getAllShows(): Flowable<List<ModifiedShowsTickets>>
-
-    @Query("SELECT combos.id as comboId, combos.combo_name as comboName, combos.price as price, combos.allow_bitsians as allowBitsians, combos.allow_participants as allowParticipants, combo_shows.show_id as showId, combo_shows.show_name as showName, COALESCE(tickets_cart.id, 0) as cartId, COALESCE(tickets_cart.quantity, 0) as quantity FROM combos LEFT JOIN combo_shows ON combos.id = combo_shows.combo_id LEFT JOIN tickets_cart ON combos.id = tickets_cart.ticket_id WHERE tickets_cart.type = 'Combos'")
-    fun getAllCombos(): Flowable<List<ChildComboData>>
+    @Query("SELECT ticket_id as ticketId, name, price, type, shows, COALESCE(tickets_cart.quantity, 0) as quantity FROM tickets LEFT JOIN tickets_cart")
+    fun getAllTickets(): Flowable<List<TicketsData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUserShows(userShows: List<UserShows>)

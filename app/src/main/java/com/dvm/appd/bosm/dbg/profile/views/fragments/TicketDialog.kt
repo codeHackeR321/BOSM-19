@@ -34,13 +34,8 @@ class TicketDialog : DialogFragment(), TicketsChildAdapter.TicketCartActions{
 
         view.ticketsList.adapter = TicketsAdapter(this)
 
-        ticketsViewModel.comboTickets.observe(this, Observer {
-            (view.ticketsList.adapter as TicketsAdapter).comboList = it
-            (view.ticketsList.adapter as TicketsAdapter).notifyDataSetChanged()
-        })
-
-        ticketsViewModel.showTickets.observe(this, Observer {
-            (view.ticketsList.adapter as TicketsAdapter).showsList = it
+        ticketsViewModel.tickets.observe(this, Observer {
+            (view.ticketsList.adapter as TicketsAdapter).ticketsList = it
             (view.ticketsList.adapter as TicketsAdapter).notifyDataSetChanged()
         })
 

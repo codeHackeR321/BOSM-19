@@ -31,7 +31,7 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
             Log.d("checke",it.toString())
         })
 
-        walletRepository.getShowsAndCombosInfo().subscribe()
+        walletRepository.getTicketInfo().subscribe()
 
         walletRepository.getAllUserShows()
             .doOnNext {

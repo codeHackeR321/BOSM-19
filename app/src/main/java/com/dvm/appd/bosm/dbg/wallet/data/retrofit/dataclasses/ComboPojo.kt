@@ -14,11 +14,5 @@ data class ComboPojo(
     val price: Int,
 
     @SerializedName("shows")
-    val shows: List<ComboShowPojo>,
-
-    @SerializedName("allow_bitsians")
-    val allowBitsians: Boolean,
-
-    @SerializedName("allow_participants")
-    val allowParticipants: Boolean
+    val shows: List<ComboShowPojo>
 )
