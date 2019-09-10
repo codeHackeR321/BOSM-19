@@ -30,13 +30,11 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         stallsViewModel = ViewModelProviders.of(this, StallsViewModelFactory())[StallsViewModel::class.java]
 
-        val rootview = inflater.inflate(com.dvm.appd.bosm.dbg.R.layout.fra_wallet_stalls, container, false)
+        val rootview = inflater.inflate(R.layout.fra_wallet_stalls, container, false)
         //activity!!.my_toolbar.setBackgroundResource(R.drawable.gradient_stalls_toolbar)
-        activity!!.mainView.setBackgroundResource(com.dvm.appd.bosm.dbg.R.drawable.stalls_title)
+        activity!!.mainView.setBackgroundResource(R.drawable.stalls_title)
         activity!!.fragmentName.text = "Stalls"
-        val display = activity!!.windowManager.defaultDisplay
-        val width = display.width
-        rootview.stalls_recycler.adapter = StallsAdapter(this,width)
+        rootview.stalls_recycler.adapter = StallsAdapter(this)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
 
