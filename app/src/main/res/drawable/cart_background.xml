@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:bottom="300dp"
-            android:top="-700dp"
+            android:bottom="450dp"
+            android:top="-300dp"
             >
         <shape android:shape="rectangle">
             <gradient
-                    android:startColor="#1381C0"
-                    android:endColor="#42BAFF"
+                    android:startColor="#1FAA00"
+                    android:endColor="#64DD17"
                     android:angle="90"
                     android:type="linear"
                     />
@@ -19,7 +19,7 @@
             android:right="-400dp"
             android:top="80dp">
         <shape android:shape="oval">
-            <solid android:color="#FAF7FF"/>
+            <solid android:color="#EAF2FF"/>
         </shape>
     </item>
 </layer-list>
