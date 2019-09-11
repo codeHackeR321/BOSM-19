@@ -23,20 +23,56 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
-        pageAdapter = object: FragmentStatePagerAdapter(supportFragmentManager) {
+        pageAdapter = object : FragmentStatePagerAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
-                when(position) {
-                    0 ->{
-                        return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food",resources.getColor(R.color.orderFood))
-                           }
+                when (position) {
+                    0 -> {
+                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.trackEvents))
+                        return Onboarding1Fragment(
+                            this@OnboardingActivity,
+                            R.drawable.ic_track_events,
+                            "Track Events",
+                            resources.getColor(R.color.trackEvents)
+                        )
+                    }
 
-                    1 ->{ return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_buy_tickets, "Buy Tickets",resources.getColor(R.color.buyTickets))}
+                    1 -> {
+                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.orderFood))
+                        return Onboarding1Fragment(
+                            this@OnboardingActivity,
+                            R.drawable.ic_online_order,
+                            "Order Food",
+                            resources.getColor(R.color.orderFood)
+                        )
+                    }
 
-                    2->{ return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_track_events, "Track Events",resources.getColor(R.color.trackEvents))}
+                    2 -> {
+                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.games))
+                        return Onboarding1Fragment(
+                            this@OnboardingActivity,
+                            R.drawable.ic_games,
+                            "Games",
+                            resources.getColor(R.color.games)
+                        )
+                    }
 
-                    3 -> {return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_games, "Games",resources.getColor(R.color.games))}
+                    3 -> {
+                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.buyTickets))
+                        return Onboarding1Fragment(
+                            this@OnboardingActivity,
+                            R.drawable.ic_buy_tickets,
+                            "Buy Tickets",
+                            resources.getColor(R.color.buyTickets)
+                        )
+                    }
                 }
-                return Onboarding1Fragment(this@OnboardingActivity, R.drawable.ic_online_order, "Order Food",resources.getColor(R.color.orderFood))
+                return Onboarding1Fragment(
+                    this@OnboardingActivity,
+                    R.drawable.ic_track_events,
+                    "Track Events",
+                    resources.getColor(R.color.trackEvents)
+                )
+
             }
 
             override fun getCount(): Int {
@@ -45,14 +81,15 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
         }
         viewPager_onBoarding.adapter = pageAdapter
         bttn_next_onBoarding.setOnClickListener {
-            if (viewPager_onBoarding.currentItem == 2) {
-                bttn_next_onBoarding.isClickable = false
+            if (viewPager_onBoarding.currentItem == 4) {
+                //bttn_next_onBoarding.isClickable = false
+                Log.d("checkon","called")
                 finishOnBoarding()
             } else {
-                viewPager_onBoarding.setCurrentItem(viewPager_onBoarding.currentItem + 1, true)
+                viewPager_onBoarding.setCurrentItem(viewPager_onBoarding.currentItem + 1, false)
             }
         }
-        viewPager_onBoarding.setOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+        viewPager_onBoarding.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
                 Log.d("Onboarding Activity", "State Variable = $state")
             }
@@ -68,7 +105,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
             override fun onPageSelected(position: Int) {
                 Log.d("Onboarding Activity", "Position Variable = $position")
                 if (position == (NO_OF_PAGES - 1)) {
-                    Log.d("Onboarding Activity", "Enterred if condition")
+                    Log.d("Onboarding Activity", "Entered if condition")
                     this@OnboardingActivity.bttn_next_onBoarding.text = "Done"
                 } else {
                     this@OnboardingActivity.bttn_next_onBoarding.text = "Next"

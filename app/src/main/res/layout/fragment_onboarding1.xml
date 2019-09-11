@@ -1,68 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#673AB7"
         tools:context=".auth.views.Onboarding1Fragment">
 
     <TextView
-            android:layout_width="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/text_bttn_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:padding="12dp"
+            android:text="Skip"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:padding="12dp"
-            app:layout_constraintBottom_toTopOf="@id/linear_onBoarding_fragment"
-            android:text="Skip"
-            android:fontFamily="@font/shellypalmer_circular_std_book"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_height="wrap_content"/>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/text_bttn_skip"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:id="@+id/linear_onBoarding_fragment"
-            android:layout_height="wrap_content">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+
+    <ImageView
+            android:id="@+id/img_onBoarding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="5"
             android:src="@drawable/ic_online_order"
-            android:id="@+id/img_onBoarding"/>
+            app:layout_constraintBottom_toTopOf="@+id/text_onBoarding_heading"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bttn_skip"
+            app:layout_constraintVertical_bias="0.089" />
 
-        <TextView
-            android:layout_width="match_parent"
+    <TextView
+            android:id="@+id/text_onBoarding_heading"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:text="Order Food"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="38sp"
+            app:layout_constraintBottom_toTopOf="@+id/view15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="@+id/img_onBoarding"
+            app:layout_constraintTop_toBottomOf="@+id/img_onBoarding" />
+
+    <TextView
+            android:id="@+id/text_onBoarding_content"
+            android:layout_width="301dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="64dp"
+            android:layout_weight="2"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Order food from M-Lawns stalls right from your phone. Just select your order and tap on Buy Now.Order food from M-Lawns stalls right from your phone. Just select your order and tap on Buy Now."
             android:textAlignment="center"
-                android:fontFamily="@font/shellypalmer_circular_std_book"
-            android:id="@+id/text_onBoarding_heading"
-            android:text="Order Food" />
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/text_onBoarding_heading"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="@+id/text_onBoarding_heading"
+            app:layout_constraintTop_toBottomOf="@+id/text_onBoarding_heading" />
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:textColor="#FFFFFF"
-                android:textAlignment="center"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:textSize="15sp"
-                android:fontFamily="@font/shellypalmer_circular_std_book"
-                android:id="@+id/text_onBoarding_content"
-                android:text="Order food from M-Lawns stalls right from your phone. Just select your order and tap on Buy Now.Order food from M-Lawns stalls right from your phone. Just select your order and tap on Buy Now."
-                android:layout_weight="2"/>
+    <View
+            android:id="@+id/view15"
+            android:layout_width="100dp"
+            android:layout_height="2dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/colorWhite"
+            app:layout_constraintBottom_toTopOf="@+id/text_onBoarding_content"
+            app:layout_constraintEnd_toEndOf="@+id/text_onBoarding_heading"
+            app:layout_constraintStart_toStartOf="@+id/text_onBoarding_heading"
+            app:layout_constraintTop_toBottomOf="@+id/text_onBoarding_heading" />
 
-
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

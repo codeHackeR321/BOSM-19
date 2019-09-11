@@ -207,6 +207,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Order No.:"
             android:textAlignment="textEnd"
             android:textColor="@color/colorBlack"
