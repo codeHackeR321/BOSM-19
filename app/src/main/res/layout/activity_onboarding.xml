@@ -15,23 +15,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-            android:id="@+id/bttn_next_onBoarding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/shape_rectangle_rounded_24dp"
-            android:backgroundTint="@color/colorWhite"
-            android:fontFamily="@font/shellypalmer_circular_std_book"
-            android:padding="10dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:text="Next"
-            android:textColor="@color/colorBlue"
-            android:textSize="18sp"
-            app:cornerRadius="30dp"
-            app:layout_constraintBottom_toBottomOf="@+id/viewPager_onBoarding"
-            app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
