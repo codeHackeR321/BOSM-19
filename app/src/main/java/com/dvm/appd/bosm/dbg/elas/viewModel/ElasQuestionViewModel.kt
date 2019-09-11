@@ -15,11 +15,9 @@ class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {
 
     var question: LiveData<List<CombinedQuestionOptionDataClass>> = MutableLiveData()
     var uiState: LiveData<UIStateElas> = MutableLiveData()
-    var leaderboard: LiveData<List<PlayerRankingResponse>> = MutableLiveData()
 
     init {
         uiState.asMut().postValue(UIStateElas.Loading)
-        getLeaderboard()
     }
 
     @SuppressLint("CheckResult")
@@ -49,18 +47,6 @@ class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {
 
         },{
             uiState.asMut().postValue(UIStateElas.Failure("Couldn't Submit your answer at this point. Try again later"))
-        })
-    }
-
-
-    @SuppressLint("CheckResult")
-    private fun getLeaderboard() {
-        repository.getLeaderboardFromRoom().subscribe({
-            Log.d("Elas VoewModel", "Observer for leaderboard entered with = ${it.toString()}")
-            leaderboard.asMut().postValue(it)
-        },{
-            Log.e("ELASQViewModel", "Error in reading Leaderboard from room = ${it.message.toString()}")
-            uiState.asMut().postValue(UIStateElas.Failure("Failed to recive data from server. Try Again"))
         })
     }
 

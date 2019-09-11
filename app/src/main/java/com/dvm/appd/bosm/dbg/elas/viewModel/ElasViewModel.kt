@@ -20,10 +20,24 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     var activeQuestion: LiveData<List<CombinedQuestionOptionDataClass>> = MutableLiveData()
     var uiState: LiveData<UIStateElas> =  MutableLiveData()
     var compositeDisposable = CompositeDisposable()
+    var leaderboard: LiveData<List<PlayerRankingResponse>> = MutableLiveData()
 
     init {
         uiState.asMut().postValue(UIStateElas.Loading)
         getQuestions()
+        getLeaderboard()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun getLeaderboard() {
+        val d2 = elasRepository.getLeaderboardFromRoom().subscribe({
+            Log.d("Elas VoewModel", "Observer for leaderboard entered with = ${it.toString()}")
+            leaderboard.asMut().postValue(it)
+        },{
+            Log.e("ELASQViewModel", "Error in reading Leaderboard from room = ${it.message.toString()}")
+            uiState.asMut().postValue(UIStateElas.Failure("Failed to recive data from server. Try Again"))
+        })
+        compositeDisposable.add(d2)
     }
 
     private fun getQuestions() {
@@ -42,6 +56,7 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     private fun reinitializeSubscription() {
         compositeDisposable.dispose()
         getQuestions()
+        getLeaderboard()
     }
 
     override fun onCleared() {

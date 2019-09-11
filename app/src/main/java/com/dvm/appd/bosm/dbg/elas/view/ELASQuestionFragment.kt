@@ -33,7 +33,6 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
     }
     var selectedOptionId: Long = -1
     var currentOptionsList = emptyList<CombinedQuestionOptionDataClass>()
-    var currentLeaderboardList = emptyList<PlayerRankingResponse>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
@@ -75,24 +74,12 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
         })
 
         elasQuestionViewModel.question.observe(this, Observer {
-            if (it.isNotEmpty() && recycler_elasOptionsFrag_options.adapter is ElasOptionsAdapter) {
+            if (it.isNotEmpty()) {
                 constraint_question.visibility = View.VISIBLE
                 text_card_elasFrag_question.text = it.first().question
                 currentOptionsList = it
                 (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).optionsList = it
                 (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()
-            } else if(it.isNotEmpty() && !(recycler_elasOptionsFrag_options.adapter is ElasOptionsAdapter)) {
-                currentOptionsList = it
-            }
-        })
-
-        elasQuestionViewModel.leaderboard.observe(this, Observer {
-            if (it.isNotEmpty() && recycler_elasOptionsFrag_options.adapter is ELasLeaderoardAdapter) {
-                currentLeaderboardList = it
-                (recycler_elasOptionsFrag_options.adapter as ELasLeaderoardAdapter).leaderboardList = it
-                (recycler_elasOptionsFrag_options.adapter as ELasLeaderoardAdapter).notifyDataSetChanged()
-            } else if (it.isNotEmpty() && !(recycler_elasOptionsFrag_options.adapter is ELasLeaderoardAdapter)) {
-                currentLeaderboardList = it
             }
         })
 

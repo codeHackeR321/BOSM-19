@@ -19,13 +19,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
+import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
+import com.dvm.appd.bosm.dbg.elas.view.adapter.ELasLeaderoardAdapter
 import com.dvm.appd.bosm.dbg.elas.view.adapter.ElasQuestionsAdapter
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasViewModel
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_elas_fragment.*
+import kotlinx.android.synthetic.main.fragment_elasquestion.*
 import kotlinx.coroutines.selects.select
+import java.lang.Exception
 
 class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
 
@@ -34,6 +39,8 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     private val elasViewModel by lazy {
         ViewModelProviders.of(this, ElasViewModelFactory())[ElasViewModel::class.java]
     }
+    var currentLeaderboardList = emptyList<PlayerRankingResponse>()
+    var currentQuestionsList: Map<Long, List<CombinedQuestionOptionDataClass>> = emptyMap()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -73,9 +80,22 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
                 is UIStateElas.Questions -> {
                     progress_fra_elas.visibility = View.INVISIBLE
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = (it as UIStateElas.Questions).questions
-                    (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
+                    currentQuestionsList = (it as UIStateElas.Questions).questions
+                    if (recycler_elasFrag_questions.adapter is ElasQuestionsAdapter) {
+                        (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = (it as UIStateElas.Questions).questions
+                        (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
+                    }
                 }
+            }
+        })
+
+        elasViewModel.leaderboard.observe(this, Observer {
+            if (it.isNotEmpty() && recycler_elasFrag_questions.adapter is ELasLeaderoardAdapter) {
+                currentLeaderboardList = it
+                (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = it
+                (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).notifyDataSetChanged()
+            } else if (it.isNotEmpty() && recycler_elasFrag_questions.adapter !is ELasLeaderoardAdapter) {
+                currentLeaderboardList = it
             }
         })
     }
@@ -100,11 +120,25 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     private fun selectQuestions() {
         activity!!.bttn_Questions_elas.setTextColor(Color.BLACK)
         activity!!.bttn_Leaderboard_elas.setTextColor(resources.getColor(R.color.colorGrey))
+        try {
+            recycler_elasFrag_questions.adapter = ElasQuestionsAdapter(this)
+            (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = currentQuestionsList
+            (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
+        } catch (e: Exception) {
+            Log.e("ElasFragment", "Error = ${e.toString()}")
+        }
     }
 
     private fun selectLeaderboard() {
         activity!!.bttn_Leaderboard_elas.setTextColor(Color.BLACK)
         activity!!.bttn_Questions_elas.setTextColor(resources.getColor(R.color.colorGrey))
+        try {
+            recycler_elasFrag_questions.adapter = ELasLeaderoardAdapter()
+            (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = currentLeaderboardList
+            (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).notifyDataSetChanged()
+        } catch (e: Exception) {
+            Log.e("ElasFragment", "Error = ${e.toString()}")
+        }
     }
 
     override fun onResume() {
