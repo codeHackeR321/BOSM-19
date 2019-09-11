@@ -32,7 +32,7 @@ class TicketsAdapter(private val listener: TicketCartActions): RecyclerView.Adap
     override fun onBindViewHolder(p0: TicketsViewHolder, p1: Int) {
 
         p0.name.text = tickets[p1].name
-        p0.price.text = tickets[p1].price.toString()
+        p0.price.text = "₹${tickets[p1].price}"
         p0.shows.isVisible = false
 
         if (tickets[p1].quantity > 0){

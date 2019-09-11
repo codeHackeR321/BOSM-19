@@ -2,6 +2,7 @@ package com.dvm.appd.bosm.dbg.profile.views.fragments
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,8 @@ class TicketDialog : DialogFragment(), TicketsAdapter.TicketCartActions{
         view.ticketsList.adapter = TicketsAdapter(this)
 
         ticketsViewModel.tickets.observe(this, Observer {
-            view.price.text = it.sumBy {item -> item.price * item.quantity }.toString()
+            Log.d("FUCK","₹${it.sumBy {item -> item.price * item.quantity}}")
+            view.tPrice.text = "₹${it.sumBy {item -> item.price * item.quantity}}"
             (view.ticketsList.adapter as TicketsAdapter).tickets = it
             (view.ticketsList.adapter as TicketsAdapter).notifyDataSetChanged()
         })
