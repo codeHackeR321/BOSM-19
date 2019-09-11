@@ -13,7 +13,7 @@
                 android:id="@+id/mainView"
                 android:layout_width="match_parent"
                 android:layout_height="136dp"
-                android:background="@drawable/misc_title"
+                android:background="@drawable/more_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
