@@ -5,16 +5,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:orientation="vertical">
+        android:id="@+id/stallView"
+        android:background="@drawable/shape_rectangle_rounded_24dp"
+        android:orientation="vertical"
+        android:paddingBottom="8dp">
 
 
     <ImageView
             android:id="@+id/stallImage"
-            android:layout_width="177dp"
-            android:layout_height="109dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="172dp"
+            android:layout_height="106dp"
             android:background="@drawable/background_pic_stalls"
-            app:layout_constraintBottom_toTopOf="@+id/stallView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,31 +38,17 @@
             app:layout_constraintStart_toStartOf="@+id/stallImage"
             app:layout_constraintTop_toTopOf="@+id/stallImage" />
 
-    <View
-            android:id="@+id/stallView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/stalls_card"
-            android:paddingBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/foodType"
-            app:layout_constraintEnd_toEndOf="@+id/stallImage"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/stallImage"
-            app:layout_constraintTop_toBottomOf="@+id/stallImage" />
-
     <TextView
             android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:paddingStart="8dp"
             android:text="A delight for veggie lovers"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/stallView"
-            app:layout_constraintStart_toStartOf="@+id/stallView"
+            app:layout_constraintEnd_toEndOf="@+id/stallImage"
+            app:layout_constraintStart_toStartOf="@+id/stallImage"
             app:layout_constraintTop_toBottomOf="@+id/stallImage" />
 
     <TextView
@@ -69,6 +56,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:paddingStart="8dp"
+            android:paddingBottom="4dp"
             android:text="PIZZA, BURGER, COKE"
             android:textColor="#808080"
             android:textSize="12sp"
