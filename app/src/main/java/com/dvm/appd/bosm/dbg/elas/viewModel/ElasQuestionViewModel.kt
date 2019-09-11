@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
 import com.dvm.appd.bosm.dbg.elas.model.repo.ElasRepository
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
 import com.dvm.appd.bosm.dbg.shared.util.asMut
 
 class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {

@@ -10,10 +10,13 @@ import retrofit2.http.POST
 
 interface ElasService {
 
-    @POST
+    @POST("/quiz/answer")
     fun answerQuestion(@Header("Authorization") jwt: String, @Body body: JsonObject): Single<Response<AnswerResponse>>
 
-    @GET
+    @GET("/quiz/get-user-details")
     fun getUserLeaderboardPosition(@Header("Authorization") jwt: String): Single<Response<PlayerRankingResponse>>
+
+    @GET("/quiz/get-rules")
+    fun getAllRules(): Single<Response<RulesResponse>>
 
 }
