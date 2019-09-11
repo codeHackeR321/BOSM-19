@@ -33,7 +33,7 @@ class AuthActivity : AppCompatActivity() {
         setContentView(R.layout.activity_auth)
         val gso = GoogleSignIn.getClient(
             this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("941586443518-mq055uo5anq6nem2pvjvteidugeo3vgl.apps.googleusercontent.com")
+                .requestIdToken("790932626616-3efj5a0tgun95bfv7gj0niis2d5ve5ll.apps.googleusercontent.com")
                 .requestEmail()
                 .requestProfile()
                 .build()
