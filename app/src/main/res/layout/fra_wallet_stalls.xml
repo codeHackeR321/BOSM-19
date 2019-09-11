@@ -25,9 +25,10 @@
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            tools:itemCount="12"
+            app:spanCount="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="2"
             tools:listitem="@layout/adapter_wallet_stalls" />
 </androidx.constraintlayout.widget.ConstraintLayout>
