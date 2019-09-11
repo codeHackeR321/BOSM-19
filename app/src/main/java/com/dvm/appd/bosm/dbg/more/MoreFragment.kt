@@ -30,6 +30,7 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity!!.mainView.setBackgroundResource(R.drawable.more_title)
         activity!!.fragmentName.text = resources.getString(R.string.action_more)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
