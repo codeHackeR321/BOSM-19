@@ -14,7 +14,7 @@
             android:layout_height="109dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_pic_stalls"
-            app:layout_constraintBottom_toTopOf="@+id/view5"
+            app:layout_constraintBottom_toTopOf="@+id/stallView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="@+id/stallImage" />
 
     <View
-            android:id="@+id/view5"
+            android:id="@+id/stallView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/stalls_card"
@@ -60,8 +60,8 @@
             android:text="A delight for veggie lovers"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/view5"
-            app:layout_constraintStart_toStartOf="@+id/view5"
+            app:layout_constraintEnd_toEndOf="@+id/stallView"
+            app:layout_constraintStart_toStartOf="@+id/stallView"
             app:layout_constraintTop_toBottomOf="@+id/stallImage" />
 
     <TextView
