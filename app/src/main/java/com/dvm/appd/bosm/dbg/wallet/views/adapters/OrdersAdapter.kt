@@ -1,6 +1,5 @@
 package com.dvm.appd.bosm.dbg.wallet.views.adapters
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,27 +38,27 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
 
             0 -> {
                 holder.otp.isVisible = false
-                holder.status.setBackgroundResource(R.drawable.red_button)
+                holder.status.setBackgroundResource(R.drawable.pending_status)
                 holder.status.text = "Pending"
             }
             1 -> {
                 holder.otp.isVisible = false
-                holder.status.setBackgroundResource(R.drawable.green_button)
+                holder.status.setBackgroundResource(R.drawable.accept_status)
                 holder.status.text = "Accepted"
             }
             2 -> {
                 holder.otp.isVisible = true
-                holder.status.setBackgroundResource(R.drawable.green_button)
+                holder.status.setBackgroundResource(R.drawable.ready_status)
                 holder.status.text = "Ready"
             }
             3 -> {
                 holder.otp.isVisible = true
-                holder.status.setBackgroundResource(R.drawable.green_button)
+                holder.status.setBackgroundResource(R.drawable.finish_status)
                 holder.status.text = "Finished"
             }
             4 -> {
                 holder.otp.isVisible = false
-                holder.status.setBackgroundResource(R.drawable.red_button)
+                holder.status.setBackgroundResource(R.drawable.decline_status)
                 holder.status.text = "Declined"
             }
         }
