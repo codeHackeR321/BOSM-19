@@ -2,52 +2,114 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/linearLayout3"
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <View
-            android:id="@+id/view14"
-            android:layout_width="405dp"
-            android:layout_height="234dp"
+    <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="104dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:text="TextView"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/heading"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:fontFamily="@font/shellypalmer_circular_std_book"
-            android:text="TextView"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorBlack"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="@+id/view14"
-            app:layout_constraintStart_toStartOf="@id/view14"
-            app:layout_constraintTop_toTopOf="@id/view14" />
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ticketsChild"
+            android:id="@+id/shows"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@id/view14"
-            app:layout_constraintEnd_toEndOf="@id/view14"
-            app:layout_constraintStart_toStartOf="@id/view14"
-            app:layout_constraintTop_toBottomOf="@+id/heading" />
+            android:layout_marginEnd="104dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:text="TextView"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
 
+    <TextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="104dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:text="TextView"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shows" />
+
+    <Button
+            android:id="@+id/addBtn"
+            android:layout_width="80dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/add_button_profile"
+            android:text="Add  +"
+            android:textColor="#6C58B9"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/plus"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/item_plus_button_profile"
+            android:text="+"
+            android:textColor="#6C58B9"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/minus"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:background="@drawable/item_minus_button_profile"
+            android:text="-"
+            android:textAlignment="center"
+            android:textColor="#6C58B9"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/quantity"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="#6C58B9"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:paddingRight="4dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/plus"
+            app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

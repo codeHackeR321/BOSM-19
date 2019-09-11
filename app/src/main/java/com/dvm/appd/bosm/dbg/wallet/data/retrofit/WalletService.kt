@@ -40,5 +40,5 @@ interface WalletService {
     fun getUserTickets(@Header("Authorization")jwt:String): Single<Response<AllUserShowsPojo>>
 
     @POST("tickets-manager/signup")
-    fun buyTickets(@Header("Authorization")jwt:String,@Body body: JsonObject): Single<Response<Unit>>
+    fun buyTickets(@Header("Authorization")jwt:String,@Body body: JsonObject): Single<Response<Void>>
 }
