@@ -12,6 +12,7 @@ import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
 import com.dvm.appd.bosm.dbg.shared.util.asMut
 import com.dvm.appd.bosm.dbg.splash.views.UiState
 import io.reactivex.disposables.CompositeDisposable
+import java.lang.Exception
 
 class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     private val TAG = "ELAS REPO"
@@ -20,6 +21,7 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     var activeQuestion: LiveData<List<CombinedQuestionOptionDataClass>> = MutableLiveData()
     var uiState: LiveData<UIStateElas> =  MutableLiveData()
     var compositeDisposable = CompositeDisposable()
+    var rulesForCurrentRound: LiveData<List<String>> = MutableLiveData()
     var leaderboard: LiveData<List<PlayerRankingResponse>> = MutableLiveData()
 
     init {

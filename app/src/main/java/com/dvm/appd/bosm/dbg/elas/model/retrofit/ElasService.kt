@@ -16,4 +16,7 @@ interface ElasService {
     @GET("/quiz/get-user-details")
     fun getUserLeaderboardPosition(@Header("Authorization") jwt: String): Single<Response<PlayerRankingResponse>>
 
+    @GET("/quiz/get-rules")
+    fun getAllRules(): Single<Response<RulesResponse>>
+
 }

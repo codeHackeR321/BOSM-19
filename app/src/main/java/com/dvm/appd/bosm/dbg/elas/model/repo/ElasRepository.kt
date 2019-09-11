@@ -7,6 +7,7 @@ import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataCl
 import com.dvm.appd.bosm.dbg.elas.model.retrofit.AnswerResponse
 import com.dvm.appd.bosm.dbg.elas.model.retrofit.ElasService
 import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.RulesResponse
 import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
 import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
@@ -236,6 +237,10 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
         val name = ranking.subSequence(0, ranking.lastIndexOf('~')).toString()
         Log.d("ElasRepo", "Name = $name")
         return PlayerRankingResponse(name, points, rank)
+    }
+
+    fun getRulesForRoundsFromBackend(): Single<Response<RulesResponse>> {
+        return elasService.getAllRules().subscribeOn(Schedulers.io())
     }
 
 }
