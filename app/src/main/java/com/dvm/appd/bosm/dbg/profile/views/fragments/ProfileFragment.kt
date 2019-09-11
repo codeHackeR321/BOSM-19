@@ -59,6 +59,10 @@ class ProfileFragment : Fragment() {
             rootView.balance.text = "Rs ${it!!}"
         })
 
+        rootView.qrCode.setOnClickListener {
+            it.findNavController().navigate(R.id.action_action_profile_to_qrDialog)
+        }
+
         rootView.addBtn.setOnClickListener {
             it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
         }
