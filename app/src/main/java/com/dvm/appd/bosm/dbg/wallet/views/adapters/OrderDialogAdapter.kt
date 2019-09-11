@@ -9,7 +9,7 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedItemsData
 import kotlinx.android.synthetic.main.adapter_order_card_items.view.*
 
-class OrderDialogAdapter(): RecyclerView.Adapter<OrderDialogAdapter.ItemsViewHolder>(){
+class OrderDialogAdapter: RecyclerView.Adapter<OrderDialogAdapter.ItemsViewHolder>(){
 
     var items: List<ModifiedItemsData> = emptyList()
 

@@ -35,7 +35,7 @@ class TicketDialog : DialogFragment(), TicketsChildAdapter.TicketCartActions{
         view.ticketsList.adapter = TicketsAdapter(this)
 
         ticketsViewModel.tickets.observe(this, Observer {
-            view.price.text = it.sumBy { it.price * it.quantity }.toString()
+            view.price.text = it.sumBy {item -> item.price * item.quantity }.toString()
             (view.ticketsList.adapter as TicketsAdapter).ticketsList = it
             (view.ticketsList.adapter as TicketsAdapter).notifyDataSetChanged()
         })

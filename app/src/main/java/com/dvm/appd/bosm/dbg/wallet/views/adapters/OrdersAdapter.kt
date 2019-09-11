@@ -32,34 +32,34 @@ class OrdersAdapter(private val listener:OrderCardClick): RecyclerView.Adapter<O
 
 
         holder.stallName.text = orderItems[position].vendor
-        holder.orderId.text = "#${orderItems[position].orderId}"
+        holder.orderId.text = "${orderItems[position].orderId}"
         holder.price.text = "₹${orderItems[position].totalPrice}"
 
         when(orderItems[position].status){
 
             0 -> {
                 holder.otp.isVisible = false
-                //holder.status.setTextColor(Color.rgb(232, 60, 60))
+                holder.status.setBackgroundResource(R.drawable.red_button)
                 holder.status.text = "Pending"
             }
             1 -> {
                 holder.otp.isVisible = false
-               // holder.status.setTextColor(Color.rgb(253, 200, 87))
+                holder.status.setBackgroundResource(R.drawable.green_button)
                 holder.status.text = "Accepted"
             }
             2 -> {
                 holder.otp.isVisible = true
-               // holder.status.setTextColor(Color.rgb(81 ,168, 81))
+                holder.status.setBackgroundResource(R.drawable.green_button)
                 holder.status.text = "Ready"
             }
             3 -> {
                 holder.otp.isVisible = true
-               // holder.status.setTextColor(Color.rgb(253, 200, 245))
+                holder.status.setBackgroundResource(R.drawable.green_button)
                 holder.status.text = "Finished"
             }
             4 -> {
                 holder.otp.isVisible = false
-                //holder.status.setTextColor(Color.rgb(232, 60, 60))
+                holder.status.setBackgroundResource(R.drawable.red_button)
                 holder.status.text = "Declined"
             }
         }

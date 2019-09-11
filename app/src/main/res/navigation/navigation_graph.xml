@@ -120,6 +120,10 @@
                 android:id="@+id/action_action_profile_to_sendMoneyDialog"
                 app:destination="@id/sendMoneyDialog" />
         <action android:id="@+id/action_action_profile_to_buyTicketDialog" app:destination="@id/buyTicketDialog"/>
+        <action
+                android:id="@+id/action_action_profile_to_qrDialog"
+                app:destination="@id/qrDialog"
+                app:popUpTo="@+id/action_profile" />
     </fragment>
     <activity android:id="@+id/loginOutsteeActivity"
               android:name="com.dvm.appd.bosm.dbg.auth.views.LoginOutsteeActivity"
@@ -159,7 +163,10 @@
             android:name="com.dvm.appd.bosm.dbg.more.MapFragment"
             android:label="fragment_map"
             tools:layout="@layout/fragment_map" />
-
+    <dialog
+            android:id="@+id/qrDialog"
+            android:name="com.dvm.appd.bosm.dbg.profile.views.fragments.QrDialog"
+            android:label="QrDialog" />
 
 
 </navigation>

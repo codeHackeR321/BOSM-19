@@ -5,7 +5,7 @@
         android:id="@+id/orderDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_rectangle_rounded_8dp"
+        android:background="@drawable/shape_rectangle_rounded_24dp"
         android:orientation="vertical">
 
     <TextView
@@ -19,7 +19,7 @@
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/colorBlack"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,8 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/shape_rectangle_rounded_24dp"
-            android:backgroundTint="#4293FF"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:paddingStart="8dp"
             android:paddingTop="4dp"
@@ -51,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="orderid"
             android:textAlignment="viewEnd"
@@ -65,8 +63,9 @@
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="24dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="TextView"
             android:textAlignment="textStart"
@@ -74,27 +73,28 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view13" />
 
     <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Items"
             android:textColor="#4293FF"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toBottomOf="@+id/rating3" />
 
     <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Sub Total"
@@ -102,26 +102,27 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toBottomOf="@+id/rating3" />
 
     <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="How would you rate the food?"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/status" />
 
     <ImageView
             android:id="@+id/rating3"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@+id/rating4"
             app:layout_constraintStart_toEndOf="@+id/rating2"
             app:layout_constraintTop_toBottomOf="@+id/text"
@@ -129,9 +130,9 @@
 
     <ImageView
             android:id="@+id/rating2"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@+id/rating3"
             app:layout_constraintStart_toEndOf="@+id/rating1"
             app:layout_constraintTop_toBottomOf="@+id/text"
@@ -139,9 +140,9 @@
 
     <ImageView
             android:id="@+id/rating4"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@+id/rating5"
             app:layout_constraintStart_toEndOf="@+id/rating3"
             app:layout_constraintTop_toBottomOf="@+id/text"
@@ -149,9 +150,10 @@
 
     <ImageView
             android:id="@+id/rating5"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rating4"
             app:layout_constraintTop_toBottomOf="@+id/text"
@@ -159,9 +161,10 @@
 
     <ImageView
             android:id="@+id/rating1"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@+id/rating2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text"
@@ -169,40 +172,21 @@
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/items"
-            android:layout_width="395dp"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
-            android:id="@+id/otp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_rectangle_rounded_24dp"
-            android:backgroundTint="#4293FF"
-            android:fontFamily="@font/shellypalmer_circular_std_book"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="invisible"
-            android:text="OTP"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:paddingTop="4dp"
@@ -234,7 +218,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Total"
             android:textAlignment="textStart"
@@ -242,6 +227,19 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view13" />
+
+    <View
+            android:id="@+id/view13"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:background="#707070"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/items" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
