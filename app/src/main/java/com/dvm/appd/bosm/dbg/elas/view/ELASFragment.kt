@@ -44,8 +44,6 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        activity!!.search.isVisible = false
-        activity!!.textView7.isVisible = false
         activity!!.mainView.setBackgroundResource(R.drawable.quiz_title)
         selectQuestions()
         return inflater.inflate(R.layout.fra_elas_fragment, container, false)
@@ -142,14 +140,18 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     }
 
     override fun onResume() {
+        Log.d("ElasFragment", "OnREsume Called")
         (activity!! as MainActivity).showCustomToolbar()
         activity!!.linearElasRecycler.isVisible = true
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = false
         activity!!.fragmentName.text = "Quiz"
         super.onResume()
     }
 
     override fun onPause() {
-        activity!!.linearElasRecycler.isVisible = false
+        Log.d("ElasFragment", "OnPause Called")
+        // activity!!.linearElasRecycler.isVisible = false
         super.onPause()
     }
 
@@ -159,7 +161,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     }
 
     override fun viewRules(questionId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        DialogRules().show(childFragmentManager, "RulesDialog")
     }
 
 }

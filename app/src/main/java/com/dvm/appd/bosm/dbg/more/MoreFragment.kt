@@ -30,9 +30,6 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity!!.fragmentName.text = resources.getString(R.string.action_more)
-        activity!!.search.isVisible = false
-        activity!!.textView7.isVisible = false
 
         recycler_card_more.adapter = MoreAdapter(this)
         (recycler_card_more.adapter as MoreAdapter).moreItems = moreItems
@@ -82,6 +79,11 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
 
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        activity!!.fragmentName.text = resources.getString(R.string.action_more)
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = true
+        activity!!.textView7.text = "Some more things to enjoy during BOSM"
+        activity!!.linearElasRecycler.isVisible = false
         super.onResume()
     }
 }

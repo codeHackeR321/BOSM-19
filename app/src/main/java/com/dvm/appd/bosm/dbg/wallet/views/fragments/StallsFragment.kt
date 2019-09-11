@@ -36,10 +36,6 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         activity!!.mainView.setBackgroundResource(R.drawable.stalls_title)
         activity!!.fragmentName.text = "Stalls"
         rootview.stalls_recycler.adapter = StallsAdapter(this)
-        activity!!.search.isVisible = false
-        activity!!.textView7.isVisible = true
-        activity!!.textView7.text = "To flavor your taste buds"
-        activity!!.textView7.setTextColor(Color.rgb(5, 197, 109))
 
         activity!!.cart.setOnClickListener {
             this.findNavController().navigate(R.id.action_action_food_to_action_cart)
@@ -80,6 +76,11 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
 
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        activity!!.search.isVisible = false
+        activity!!.textView7.isVisible = true
+        activity!!.linearElasRecycler.isVisible = false
+        activity!!.textView7.text = "To flavor your taste buds"
+        activity!!.textView7.setTextColor(Color.rgb(5, 197, 109))
         super.onResume()
     }
 }

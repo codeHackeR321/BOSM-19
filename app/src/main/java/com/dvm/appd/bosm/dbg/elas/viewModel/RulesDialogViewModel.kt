@@ -26,9 +26,10 @@ class RulesDialogViewModel(val elasRepository: ElasRepository): ViewModel() {
             when(it.code()) {
                 200 -> {
                     var body = it.body()
+                    Log.d("ViewModelRule", "Recived body = ${it.body().toString()}")
                     try {
                         var rule = body!!.rules.find {
-                            it.roundId.equals(round)
+                            it.roundId.toInt() == round.toInt()
                         }
                         if (rule != null) {
                             Log.d("Elas ViewModel", "Enetered Rule Listener with data = ${rule.toString()}")
