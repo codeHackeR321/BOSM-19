@@ -20,18 +20,20 @@
 
     <TextView
             android:id="@+id/stallName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="80dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Stall Name"
+            android:textAlignment="center"
             android:textColor="@color/colorWhite"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/backBtn"
             app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -39,15 +41,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:paddingBottom="116dp"
             android:clipToPadding="false"
+            android:paddingBottom="116dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stallName" />
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <View
             android:id="@+id/stallOrderView"
@@ -112,5 +114,12 @@
             app:layout_constraintEnd_toEndOf="@+id/stallOrderView"
             app:layout_constraintTop_toTopOf="@+id/stallOrderView"
             app:srcCompat="@drawable/ic_next2" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="79dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
