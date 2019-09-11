@@ -92,6 +92,7 @@ class AppModule(private val application: Application) {
             .build()
     }
 
+    //https://test.bits-bosm.org
     @Provides
     @Singleton
     fun providesRetrofit(): Retrofit {

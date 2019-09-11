@@ -1,10 +1,9 @@
 package com.dvm.appd.bosm.dbg.elas.model.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -15,6 +14,15 @@ interface ElasDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOptions(options: List<OptionData>): Single<Unit>
+
+    @Insert
+    fun insertLeaderboardPlayer(players: List<PlayerRankingResponse>): Completable
+
+    @Query("SELECT * FROM ranking_table")
+    fun getLeaderboardFromRoon(): Flowable<List<PlayerRankingResponse>>
+
+    @Query("DELETE FROM ranking_table")
+    fun deleteLeaderboardData(): Completable
 
     @Query("DELETE FROM option_table WHERE questionId = :id")
     fun deleteOptionsForQuestionWithId(id: Long): Single<Unit>
