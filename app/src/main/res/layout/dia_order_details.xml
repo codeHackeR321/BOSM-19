@@ -3,9 +3,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/orderDialog"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/shape_rectangle_rounded_24dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangle_rounded_8dp"
+        android:minWidth="320dp"
+        android:minHeight="600dp"
         android:orientation="vertical">
 
     <TextView
@@ -21,9 +23,9 @@
             android:textColor="@color/colorBlack"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/orderDialog"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
+            app:layout_constraintTop_toTopOf="@id/orderDialog" />
 
     <TextView
             android:id="@+id/status"
@@ -56,7 +58,7 @@
             android:textColor="#4293FF"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/stallName" />
 
     <TextView
@@ -72,8 +74,8 @@
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/orderDialog"
+            app:layout_constraintEnd_toEndOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/view13" />
 
     <TextView
@@ -87,7 +89,7 @@
             android:textColor="#4293FF"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/rating3" />
 
     <TextView
@@ -101,7 +103,7 @@
             android:textColor="#4293FF"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/rating3" />
 
     <TextView
@@ -114,8 +116,8 @@
             android:textAlignment="center"
             android:textColor="@color/colorBlack"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/orderDialog"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/status" />
 
     <ImageView
@@ -166,7 +168,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@+id/rating2"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/text"
             app:srcCompat="@drawable/ic_star" />
 
@@ -178,8 +180,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/orderDialog"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
@@ -196,7 +198,7 @@
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/stallName" />
 
     <TextView
@@ -227,8 +229,8 @@
             android:textColor="#4293FF"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/orderDialog"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/view13" />
 
     <View
@@ -239,8 +241,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:background="#707070"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/orderDialog"
+            app:layout_constraintStart_toStartOf="@id/orderDialog"
             app:layout_constraintTop_toBottomOf="@+id/items" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

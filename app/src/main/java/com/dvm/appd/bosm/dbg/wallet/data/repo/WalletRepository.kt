@@ -175,29 +175,17 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                     }
 
-                    400 -> {
-                        Log.d("GetOrder", "Success Error: 400")
-                        throw Exception("400")
-                    }
-
                     401 -> {
-                        Log.d("GetOrder", "Success Error: 401")
-                        throw Exception("401")
+                        Log.d("PlaceOrder", "Success Error: 401")
+                        throw Exception("Wrong credentials: Login again")
                     }
 
-                    403 -> {
-                        Log.d("GetOrder", "Success Error: 403")
-                        throw Exception("403")
+                    in 400..499 -> {
+                        throw Exception(response.message())
                     }
 
-                    404 -> {
-                        Log.d("GetOrder", "Success Error: 404")
-                        throw Exception("404 shell id doesn't exist")
-                    }
-
-                    412 -> {
-                        Log.d("GetOrder", "Success Error: 412")
-                        throw Exception("412")
+                    else -> {
+                        throw Exception("Something went wrong")
                     }
                 }
             }
@@ -390,27 +378,37 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                             400 -> {
                                 Log.d("PlaceOrder", "Success Error: 400")
-                                throw Exception("400 Error in Key or vendor Id or quantity")
+                                throw Exception("Error in Key or vendor Id or quantity")
                             }
 
                             401 -> {
                                 Log.d("PlaceOrder", "Success Error: 401")
-                                throw Exception("401 wrong credentials")
+                                throw Exception("Wrong credentials: Login again")
                             }
 
                             403 -> {
                                 Log.d("PlaceOrder", "Success Error: 403")
-                                throw Exception("403 user banned")
+                                throw Exception("User banned: Contact officials")
                             }
 
                             404 -> {
                                 Log.d("PlaceOrder", "Success Error: 404")
-                                throw Exception("404 item not available")
+                                walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
+                                throw Exception("Item not available")
                             }
 
                             412 -> {
                                 Log.d("PlaceOrder", "Success Error: 412")
-                                throw Exception("412 vendor closed")
+                                walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
+                                throw Exception("Vendor closed")
+                            }
+
+                            in 400..499 -> {
+                                throw Exception(response.message())
+                            }
+
+                            else -> {
+                                throw Exception("Something went wrong")
                             }
 
                         }
@@ -446,24 +444,17 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                     }
 
-                    400 -> {
-                        throw Exception("400")
-                    }
-
                     401 -> {
-                        throw Exception("401")
+                        Log.d("PlaceOrder", "Success Error: 401")
+                        throw Exception("Wrong credentials: Login again")
                     }
 
-                    403 -> {
-                        throw Exception("403")
+                    in 400..499 -> {
+                        throw Exception(response.message())
                     }
 
-                    404 -> {
-                        throw Exception("404")
-                    }
-
-                    412 -> {
-                        throw Exception("412")
+                    else -> {
+                        throw Exception("Something went wrong")
                     }
 
                 }
@@ -548,7 +539,18 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         Log.d("Rated", "rated")
                         updateOrders().subscribe()
                     }
-                    else -> null
+
+                    401 -> {
+                        Log.d("PlaceOrder", "Success Error: 401")
+                        throw Exception("Wrong credentials: Login again")
+                    }
+
+                    in 400..499 -> {
+                        throw Exception(it.message())
+                    }
+                    else -> {
+                        throw Exception("Something went wrong")
+                    }
                 }
             }
             .subscribeOn(Schedulers.io())
@@ -581,7 +583,19 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
 
                     }
-                    else -> null
+
+                    401 -> {
+                        Log.d("PlaceOrder", "Success Error: 401")
+                        throw Exception("Wrong credentials: Login again")
+                    }
+
+                    in 400..499 -> {
+                        throw Exception(response.message())
+                    }
+
+                    else -> {
+                        throw Exception("Something went wrong")
+                    }
                 }
             }
             .ignoreElement()
@@ -611,7 +625,20 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                         walletDao.insertUserShows(userTickets)
                     }
-                    else -> null
+
+                    401 -> {
+                        Log.d("PlaceOrder", "Success Error: 401")
+                        throw Exception("Wrong credentials: Login again")
+                    }
+
+                    in 400..499 -> {
+                        throw Exception(response.message())
+                    }
+
+                    else -> {
+                        throw Exception("Something went wrong")
+                    }
+
                 }
             }
             .ignoreElement()
@@ -673,13 +700,26 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@flatMapCompletable walletService.buyTickets(jwt.blockingGet().toString(), it).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
+                        Log.d("TicketsBuy", response.code().toString())
                         when(response.code()){
 
                             200 -> {
-                                Log.d("Tickets", "Yusss")
+                                Log.d("TicketsBuy", "Yusss")
                                 walletDao.clearTicketsCart().subscribeOn(Schedulers.io()).subscribe()
                             }
-                            else -> Log.d("Tickets", "Booo")
+
+                            401 -> {
+                                Log.d("PlaceOrder", "Success Error: 401")
+                                throw Exception("Wrong credentials: Login again")
+                            }
+
+                            in 400..499 -> {
+                                throw Exception(response.message())
+                            }
+
+                            else -> {
+                                throw Exception("Something went wrong")
+                            }
                         }
                     }
                     .ignoreElement()

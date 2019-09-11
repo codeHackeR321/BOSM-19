@@ -25,7 +25,11 @@ class TicketViewModel(val walletRepository: WalletRepository): ViewModel(){
     }
 
     fun buyTickets(){
-        walletRepository.buyTickets().subscribe()
+        walletRepository.buyTickets().subscribe({
+            Log.d("Wallet Repo", "Entered success")
+        },{
+            Log.d("Wallet Repo", "Errror in Api call = ${it.toString()}")
+        })
     }
 
     fun insertTicketCart(ticket: TicketsCart){

@@ -25,6 +25,13 @@ class OrderItemsDialog: DialogFragment() {
 
     private lateinit var orderItemViewModel: OrderItemViewModel
 
+    override fun onStart() {
+        super.onStart()
+
+        orderDialog.minWidth = ((parentFragment!!.view!!.width)*.70).toInt()
+        orderDialog.minHeight = ((parentFragment!!.view!!.height))
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val orderId = arguments?.getInt("orderId")
@@ -208,6 +215,12 @@ class OrderItemsDialog: DialogFragment() {
         }
 
         return view
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        return dialog
     }
 
 }
