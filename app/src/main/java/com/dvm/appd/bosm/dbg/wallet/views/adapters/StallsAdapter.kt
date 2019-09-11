@@ -31,13 +31,9 @@ class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView
         holder.stallImg.setOnClickListener {
             listener.stallSelected(stalls[position])
         }
-        holder.stallView.setOnClickListener {
-            listener.stallSelected(stalls[position])
-        }
     }
     inner class StallsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val stallName = view.quantity
-        val stallView = view.stallView
         val stallImg = view.stallImage
     }
 
