@@ -10,11 +10,12 @@ import android.view.ViewGroup
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.fragment_onboarding1.*
 
-interface onboardingFragmentSkipButtonClickListener {
+interface onboardingFragmentButtonClickListener {
     fun onSkipButtonPressed()
+    fun onNextButtonClicked()
 }
 
-class Onboarding1Fragment(val listener: onboardingFragmentSkipButtonClickListener, val image: Int, val heading: String,val background:Int) : Fragment() {
+class Onboarding1Fragment(val listener: onboardingFragmentButtonClickListener, val image: Int, val heading: String, val background:Int) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -25,9 +26,14 @@ class Onboarding1Fragment(val listener: onboardingFragmentSkipButtonClickListene
         img_onBoarding.setImageDrawable(resources.getDrawable(image))
         text_onBoarding_heading.text = heading
         parent.setBackgroundColor(background)
+        bttn_next_onBoarding.setTextColor(background)
         text_bttn_skip.setOnClickListener {
             it.isClickable = false
             listener.onSkipButtonPressed()
+        }
+        bttn_next_onBoarding.setOnClickListener {
+            it.isClickable = false
+            listener.onNextButtonClicked()
         }
         super.onViewCreated(view, savedInstanceState)
     }

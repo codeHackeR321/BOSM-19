@@ -95,6 +95,8 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
         return authService.login(body)
             .flatMap { response ->
                 Log.d("checkr", response.code().toString())
+                Log.d("checkr", response.body().toString())
+
 
                 when (response.code()) {
                     200 -> {

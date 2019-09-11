@@ -9,13 +9,11 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
-import com.dvm.appd.bosm.dbg.di.AppModule
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable
-import com.ogaclejapan.smarttablayout.SmartTabLayout
 import kotlinx.android.synthetic.main.activity_onboarding.*
 import kotlinx.android.synthetic.main.fragment_onboarding1.*
 
-class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClickListener {
+class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickListener {
+
 
     lateinit var pageAdapter: FragmentStatePagerAdapter
     val NO_OF_PAGES = 4
@@ -27,7 +25,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
             override fun getItem(position: Int): Fragment {
                 when (position) {
                     0 -> {
-                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.trackEvents))
+
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
                             R.drawable.ic_track_events,
@@ -37,7 +35,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
                     }
 
                     1 -> {
-                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.orderFood))
+
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
                             R.drawable.ic_online_order,
@@ -47,7 +45,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
                     }
 
                     2 -> {
-                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.games))
+
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
                             R.drawable.ic_games,
@@ -57,7 +55,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
                     }
 
                     3 -> {
-                        bttn_next_onBoarding.setTextColor(resources.getColor(R.color.buyTickets))
+
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
                             R.drawable.ic_buy_tickets,
@@ -80,15 +78,6 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
             }
         }
         viewPager_onBoarding.adapter = pageAdapter
-        bttn_next_onBoarding.setOnClickListener {
-            if (viewPager_onBoarding.currentItem == 4) {
-                //bttn_next_onBoarding.isClickable = false
-                Log.d("checkon","called")
-                finishOnBoarding()
-            } else {
-                viewPager_onBoarding.setCurrentItem(viewPager_onBoarding.currentItem + 1, false)
-            }
-        }
         viewPager_onBoarding.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
                 Log.d("Onboarding Activity", "State Variable = $state")
@@ -122,5 +111,16 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentSkipButtonClic
     private fun finishOnBoarding() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    override fun onNextButtonClicked() {
+        if (viewPager_onBoarding.currentItem == 3) {
+            //bttn_next_onBoarding.isClickable = false
+            bttn_next_onBoarding.text ="Done"
+            Log.d("checkon","called")
+            finishOnBoarding()
+        } else {
+            viewPager_onBoarding.setCurrentItem(viewPager_onBoarding.currentItem + 1, false)
+        }
     }
 }
