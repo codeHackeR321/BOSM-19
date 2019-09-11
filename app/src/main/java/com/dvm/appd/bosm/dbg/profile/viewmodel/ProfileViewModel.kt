@@ -50,4 +50,5 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
             Log.d("checkl",it.toString())
         })
     }
+
 }
