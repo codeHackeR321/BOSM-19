@@ -72,12 +72,20 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
         })
 
         elasQuestionViewModel.question.observe(this, Observer {
-            if (it.isNotEmpty()) {
+            if (it.isNotEmpty() && recycler_elasOptionsFrag_options.adapter is ElasOptionsAdapter) {
                 constraint_question.visibility = View.VISIBLE
                 text_card_elasFrag_question.text = it.first().question
                 currentOptionsList = it
                 (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).optionsList = it
                 (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()
+            } else if(it.isNotEmpty() && !(recycler_elasOptionsFrag_options.adapter is ElasOptionsAdapter)) {
+                currentOptionsList = it
+            }
+        })
+
+        elasQuestionViewModel.leaderboard.observe(this, Observer {
+            if (it.isNotEmpty()) {
+
             }
         })
 

@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.elas.viewModel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
 import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
 import com.dvm.appd.bosm.dbg.elas.model.repo.ElasRepository
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
 import com.dvm.appd.bosm.dbg.shared.util.asMut
+import com.dvm.appd.bosm.dbg.splash.views.UiState
 import io.reactivex.disposables.CompositeDisposable
 
 class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
@@ -39,7 +42,6 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     private fun reinitializeSubscription() {
         compositeDisposable.dispose()
         getQuestions()
-
     }
 
     override fun onCleared() {

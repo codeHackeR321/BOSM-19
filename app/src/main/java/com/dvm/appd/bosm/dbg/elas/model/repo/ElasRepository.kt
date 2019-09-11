@@ -6,6 +6,7 @@ import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
 import com.dvm.appd.bosm.dbg.elas.model.retrofit.AnswerResponse
 import com.dvm.appd.bosm.dbg.elas.model.retrofit.ElasService
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
 import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
 import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
@@ -24,6 +25,7 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
     init {
         Log.d(TAG, "Init for Repo Called")
         setFirebaseListenerForActiveQuestion()
+        setFirebaseListenerForLeaderboard()
     }
 
     /*private fun initializeFireStore() {
@@ -129,6 +131,33 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
         return OptionData(option_id = optionId, option = optionString, questionId = questionId)
     }
 
+    fun setFirebaseListenerForLeaderboard() {
+        FirebaseFirestore.getInstance().collection("quiz").document("leaderboard").addSnapshotListener { document, error ->
+            var list: MutableList<PlayerRankingResponse> = arrayListOf()
+            for (i in 1 .. 20) {
+                Log.d("ElasRepo", "Value of i = $i")
+                var listItem: PlayerRankingResponse
+                try {
+                    listItem = parseRanking(i, document!![i.toString()].toString())
+                    list.add(listItem)
+                } catch (e: Exception) {
+                    Log.d("ElasRepo", "Error in reading firestore = ${e.toString()}")
+                }
+            }
+            elasDao.deleteLeaderboardData().subscribeOn(Schedulers.io()).subscribe({
+                elasDao.insertLeaderboardPlayer(list).subscribeOn(Schedulers.io()).subscribe({},{
+                    Log.e("Elas Repo", "Error inserting player in database = ${it.toString()}")
+                })
+            },{
+                Log.e("Elas Repo", "Error deleting database = ${it.toString()}")
+            })
+        }
+    }
+
+    fun getLeaderboardFromRoom(): Flowable<List<PlayerRankingResponse>> {
+        return elasDao.getLeaderboardFromRoon().subscribeOn(Schedulers.io())
+    }
+
     @SuppressLint("CheckResult")
     fun setFirebaseListenerForActiveQuestion() {
         FirebaseFirestore.getInstance().collection("quiz").document("active_question").addSnapshotListener { document, error ->
@@ -199,6 +228,14 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
         } else {
             elasDao.selectQuestionsInCategory(category).subscribeOn(Schedulers.io()).observeOn(Schedulers.io())
         }
+    }
+
+    private fun parseRanking(rank: Int, ranking: String): PlayerRankingResponse {
+        val points = ranking.substring(ranking.lastIndexOf('~') + 1).toInt()
+        Log.d("ElasRepo", "Points = $points")
+        val name = ranking.subSequence(0, ranking.lastIndexOf('~')).toString()
+        Log.d("ElasRepo", "Name = $name")
+        return PlayerRankingResponse(name, points, rank)
     }
 
 }
