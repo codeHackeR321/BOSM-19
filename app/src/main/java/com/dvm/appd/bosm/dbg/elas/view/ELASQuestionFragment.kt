@@ -15,6 +15,8 @@ import com.dvm.appd.bosm.dbg.MainActivity
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.elas.model.UIStateElas
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
+import com.dvm.appd.bosm.dbg.elas.view.adapter.ELasLeaderoardAdapter
 import com.dvm.appd.bosm.dbg.elas.view.adapter.ElasOptionsAdapter
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasQuestionViewModel
 import com.dvm.appd.bosm.dbg.elas.viewModel.ElasQuestionViewModelFactory
@@ -31,6 +33,7 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
     }
     var selectedOptionId: Long = -1
     var currentOptionsList = emptyList<CombinedQuestionOptionDataClass>()
+    var currentLeaderboardList = emptyList<PlayerRankingResponse>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
@@ -84,8 +87,12 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
         })
 
         elasQuestionViewModel.leaderboard.observe(this, Observer {
-            if (it.isNotEmpty()) {
-
+            if (it.isNotEmpty() && recycler_elasOptionsFrag_options.adapter is ELasLeaderoardAdapter) {
+                currentLeaderboardList = it
+                (recycler_elasOptionsFrag_options.adapter as ELasLeaderoardAdapter).leaderboardList = it
+                (recycler_elasOptionsFrag_options.adapter as ELasLeaderoardAdapter).notifyDataSetChanged()
+            } else if (it.isNotEmpty() && !(recycler_elasOptionsFrag_options.adapter is ELasLeaderoardAdapter)) {
+                currentLeaderboardList = it
             }
         })
 

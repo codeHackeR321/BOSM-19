@@ -25,7 +25,7 @@
 
     <TextView
             android:layout_width="0dp"
-            android:id="@+id/text_heading_name"
+            android:id="@+id/text_leaderboard_name"
             android:ellipsize="end"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
