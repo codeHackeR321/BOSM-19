@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,7 +33,7 @@ class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView
         holder.stallName.text = stalls[position].stallName
         FirebaseStorage.getInstance().reference.child("${stalls[position].stallName}.png").downloadUrl.addOnSuccessListener {
             Log.d("checkpic",it.toString())
-            Glide.with(holder.itemView.context!!).load(it).placeholder(R.drawable.ic_fast_food).into(holder.stallImg)
+            Glide.with(holder.itemView.context!!).load(it).placeholder(R.drawable.ic_fast_food).apply(RequestOptions.bitmapTransform(RoundedCorners(16))).into(holder.stallImg)
         }
         holder.stallImg.setOnClickListener {
             listener.stallSelected(stalls[position])
