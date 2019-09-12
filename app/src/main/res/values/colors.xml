@@ -22,4 +22,5 @@
     <color name="status_bar_stalls">#12985D</color>
     <color name="status_bar_cart">#1FAA00</color>
     <color name="status_bar_notifications">#002DE1</color>
+    <color name="status_bar_auth">#5F86F0</color>
 </resources>
