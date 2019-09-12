@@ -95,14 +95,14 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     fun getAllStalls(): Observable<List<StallData>> {
         Log.d("check", "calledg")
 
-        if (networkChecker.isConnected() == false) {
+       /* if (networkChecker.isConnected() == false) {
             return walletDao.getAllStalls().toObservable().subscribeOn(Schedulers.io())
                 .doOnError {
                     Log.d("checkre", it.toString())
                 }
-        }
+        }*/
 
-        return fetchAllStalls().andThen(walletDao.getAllStalls().toObservable())
+        return walletDao.getAllStalls().toObservable()
             .subscribeOn(Schedulers.io())
             .doOnError {
                 Log.d("checke", it.toString())

@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.wallet.data.repo.WalletRepository
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.views.StallResult
-import io.reactivex.android.schedulers.AndroidSchedulers
 
 class StallsViewModel(val walletRepository: WalletRepository):ViewModel() {
 
@@ -16,20 +15,26 @@ class StallsViewModel(val walletRepository: WalletRepository):ViewModel() {
     var error: LiveData<String> = MutableLiveData(null)
 
   init{
-      getAllStallData()
+      (result as MutableLiveData).postValue(StallResult.Failure)
+
+      refreshData()
+      walletRepository.getAllStalls().subscribe({
+          Log.d("check", it.toString())
+          (stalls as MutableLiveData).postValue(it)
+          (result as MutableLiveData).postValue(StallResult.Success)
+      },{
+          Log.d("check", it.message)
+          (error as MutableLiveData).postValue(it.message)
+      })
+
+
   }
 
-    fun getAllStallData(){
-        (result as MutableLiveData).postValue(StallResult.Failure)
+    fun refreshData() {
+        walletRepository.fetchAllStalls().subscribe({
 
-        walletRepository.getAllStalls().subscribe({
-            Log.d("check", it.toString())
-            (stalls as MutableLiveData).postValue(it)
-            (result as MutableLiveData).postValue(StallResult.Success)
         },{
-            Log.d("check", it.message)
             (error as MutableLiveData).postValue(it.message)
         })
     }
-
 }
