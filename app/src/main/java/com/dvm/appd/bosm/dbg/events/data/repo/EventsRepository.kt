@@ -186,7 +186,7 @@ class EventsRepository(val eventsDao: EventsDao) {
         return eventsDao.getSportDataForSport(name).subscribeOn(Schedulers.io())
     }
 
-    fun getGenderForSport(name: String): Single<List<String>> {
+    fun getGenderForSport(name: String): Flowable<List<String>> {
         return eventsDao.getDistinctGenderForSport(name).subscribeOn(Schedulers.io())
     }
 
@@ -282,12 +282,12 @@ class EventsRepository(val eventsDao: EventsDao) {
                                 2
                             }
                             score_1 = try {
-                                dc.document["score1"] as String
+                                (dc.document["score1"] as Long).toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             score_2 = try {
-                                dc.document["score2"] as String
+                                (dc.document["score2"] as Long).toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
