@@ -102,7 +102,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                     200 -> {
                         Log.d("checkr", response.body().toString())
                         var name = response.body()!!.name
-
+                        var firstLogin = sharedPreferences.getBoolean(Keys.first_login, true)
                         setUser(
                             User(
                                 jwt = response.body()!!.jwt,
@@ -112,7 +112,7 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                                 phone = response.body()!!.phone,
                                 qrCode = response.body()!!.qrCode,
                                 isBitsian = bitsian,
-                                firstLogin = true
+                                firstLogin = firstLogin
                             )
                         ).subscribe()
                         Single.just(LoginState.Success)
@@ -149,5 +149,9 @@ class AuthRepository(val authService: AuthService, val sharedPreferences: Shared
                 }
             }
         }
+    }
+
+    fun disableOnBoardingForUser() {
+        sharedPreferences.edit().putBoolean(Keys.first_login, false).apply()
     }
 }
