@@ -63,4 +63,19 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
         })
     }
 
+    fun refreshUserShows(){
+        walletRepository.updateUserTickets().subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
+    }
+
+    fun refreshTicketsData(){
+        walletRepository.getTicketInfo().subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
+    }
 }
