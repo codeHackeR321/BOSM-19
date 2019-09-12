@@ -10,30 +10,28 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.ModifiedOrdersData
 class OrderItemViewModel(val walletRepository: WalletRepository, val orderId: Int): ViewModel() {
 
     val order: LiveData<ModifiedOrdersData> = MutableLiveData()
+    var error: LiveData<String> = MutableLiveData(null)
 
     init {
 
         walletRepository.getOrderById(orderId)
-            .doOnNext {
+            .subscribe({
                 Log.d("OrderDetailVM", it.toString())
                 (order as MutableLiveData).postValue(it)
-            }
-            .doOnError {
-
-            }
-            .subscribe()
+                (error as MutableLiveData).postValue(null)
+            },{
+                (error as MutableLiveData).postValue(it.message)
+            })
 
     }
 
     fun rateOrder(shell: Int, rating: Int) {
         walletRepository.rateOrder(orderId, shell, rating)
-            .doOnComplete {
-                Log.d("Rated", "Rated")
-            }
-            .subscribe()
+            .subscribe({
+                (error as MutableLiveData).postValue(null)
+            },{
+                (error as MutableLiveData).postValue(it.message)
+            })
     }
 
-    fun updateOtpSeen(orderId: Int){
-        walletRepository.updateOtpSeen(orderId).subscribe()
-    }
 }

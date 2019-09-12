@@ -13,35 +13,40 @@ class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
     var miscEvents: LiveData<List<MiscEventsData>> = MutableLiveData()
     var eventDays: LiveData<List<String>> = MutableLiveData()
     var daySelected: LiveData<String> = MutableLiveData()
+    var error: LiveData<String> = MutableLiveData(null)
     lateinit var currentSubsciption: Disposable
 
     init {
 
         eventsRepository.miscEventDays()
-            .doOnNext {
+            .subscribe({
                 Log.d("MiscEventVM", it.toString())
                 (eventDays as MutableLiveData).postValue(it)
-            }
-            .doOnError {
+                (error as MutableLiveData).postValue(null)
+            },{
                 Log.d("MiscEventVM", it.toString())
-            }
-            .subscribe()
+                (error as MutableLiveData).postValue(it.message)
+            })
 
     }
 
     fun markEventFavourite(eventId: String, favouriteMark: Int){
-        eventsRepository.updateMiscFavourite(eventId, favouriteMark).subscribe()
+        eventsRepository.updateMiscFavourite(eventId, favouriteMark).subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 
     fun getMiscEventsData(day: String){
         currentSubsciption = eventsRepository.getDayMiscEvents(day)
-            .doOnNext {
+            .subscribe({
                 Log.d("MiscEventVM", it.toString())
                 (miscEvents as MutableLiveData).postValue(it)
-            }
-            .doOnError {
+                (error as MutableLiveData).postValue(null)
+            },{
                 Log.d("MiscEventVM", it.toString())
-            }
-            .subscribe()
+                (error as MutableLiveData).postValue(it.message)
+            })
     }
 }

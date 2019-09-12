@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
@@ -39,6 +40,7 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
+        activity!!.refresh.isVisible = false
 
 
         view.textView4.text=sportName.capitalize()
@@ -50,12 +52,12 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
             Log.d("Sports11" , "Entered observer for gender Adapter with list = $it")
             (view.recy_sports_horizontal.adapter as GenderDataAdapter).gender = it
             (view.recy_sports_horizontal.adapter as GenderDataAdapter).notifyDataSetChanged()
+
             if (genderSelected.isEmpty()&&it.isNotEmpty())
             {
                 genderSelected=it[0]
                 setGenderWiseData()
             }
-
            // removeLoadingStateActivity()
             Log.d("SportsFRag", "Observed")
 
@@ -74,6 +76,13 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
             (view.recy_sports_vertical.adapter as SportsDataAdapter).notifyDataSetChanged()
         })
         */
+
+        sportsDataViewModel.error.observe(this, Observer {
+            if (it != null){
+                Toast.makeText(context!!, it, Toast.LENGTH_SHORT).show()
+                (sportsDataViewModel.error as MutableLiveData).postValue(null)
+            }
+        })
         setGenderWiseDataObserver()
 
         view.back.setOnClickListener {

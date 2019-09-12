@@ -13,6 +13,7 @@ class StallItemsViewModel(val walletRepository: WalletRepository, val stallId: I
 
     var items:LiveData<List<Pair<String, List<ModifiedStallItemsData>>>> = MutableLiveData()
     var cartItems: LiveData<List<ModifiedCartData>> = MutableLiveData()
+    var error: LiveData<String> = MutableLiveData(null)
 
     init {
 
@@ -21,26 +22,38 @@ class StallItemsViewModel(val walletRepository: WalletRepository, val stallId: I
             .subscribe({
                 Log.d("StallItemVM", it.toString())
                 (items as MutableLiveData).postValue(it)
+                (error as MutableLiveData).postValue(null)
             }
                 , {
                     Log.d("checkve", it.toString())
+                    (error as MutableLiveData).postValue(it.message)
                 }
             )
 
         walletRepository.getAllModifiedCartItems()
-            .doOnNext {
+            .subscribe({
                 Log.d("CartVM", it.toString())
                 (cartItems as MutableLiveData).postValue(it)
-            }
-            .subscribe()
+                (error as MutableLiveData).postValue(null)
+            },{
+                (error as MutableLiveData).postValue(it.message)
+            })
 
     }
 
     fun deleteCartItem(itemId: Int) {
-        walletRepository.deleteCartItem(itemId).subscribe()
+        walletRepository.deleteCartItem(itemId).subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 
     fun insertCartItems(cartData: CartData) {
-        walletRepository.insertCartItems(cartData).subscribe()
+        walletRepository.insertCartItems(cartData).subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 }

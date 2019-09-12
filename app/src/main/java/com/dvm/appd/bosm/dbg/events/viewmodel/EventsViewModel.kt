@@ -11,22 +11,27 @@ import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.FavNamesData
 class EventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
     var sportsName: LiveData<List<EventsData>> = MutableLiveData()
+    var error: LiveData<String> = MutableLiveData(null)
 
     init {
 
         eventsRepository.getSportsName()
-        .doOnNext {
+        .subscribe({
             Log.d("EventRepo", it.toString())
             (sportsName as MutableLiveData).postValue(it)
-        }
-        .doOnError {
+            (error as MutableLiveData).postValue(null)
+        },{
             Log.d("EventRepo", it.toString())
-        }
-        .subscribe()
+            (error as MutableLiveData).postValue(it.message)
+        })
 
     }
 
     fun markFavourite(sport: String, favMark: Int){
-        eventsRepository.updateEventFavourite(sport, favMark).subscribe()
+        eventsRepository.updateEventFavourite(sport, favMark).subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 }

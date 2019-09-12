@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
@@ -44,6 +46,14 @@ class TicketDialog : DialogFragment(), TicketsAdapter.TicketCartActions{
             (view.ticketsList.adapter as TicketsAdapter).notifyDataSetChanged()
         })
 
+        ticketsViewModel.error.observe(this, Observer {
+            if (it != null) {
+                Toast.makeText(context!!, it, Toast.LENGTH_SHORT).show()
+                (ticketsViewModel.error as MutableLiveData).postValue(null)
+            }
+        })
+
+        //Add progress bar
         view.button.setOnClickListener {
             ticketsViewModel.buyTickets()
         }
