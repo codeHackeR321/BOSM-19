@@ -13,8 +13,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -57,8 +59,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         setContentView(R.layout.activity_main)
         try {
             FirebaseApp.initializeApp(this)
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             AlertDialog.Builder(this).setTitle("App Fucked Up Big Time")
                 .setMessage("Please restart our app")
                 .setNegativeButton("OK") { _, _ ->
@@ -72,7 +73,8 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         checkNotificationPermissions()
         checkForUpdates()
 
-        var navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
+        var navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setupWithNavController(navController)
@@ -298,11 +300,19 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         fragmentName.isVisible = false
         cart.isVisible = false
         profile.isVisible = false
+        search.isVisible = false
         linearElasRecycler.isVisible = false
         notifications.isVisible = false
         bottom_navigation_bar.isVisible = false
         mainView.visibility = View.GONE
 //        textView7.isVisible = false
+    }
+
+    fun setStatusBarColor(color: Int) {
+        Log.d("MainActivity", "Entered function to change color")
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.setStatusBarColor(ContextCompat.getColor(this,color))
     }
 
     override fun onNetworkStatusScahnged(isConnected: Boolean) {

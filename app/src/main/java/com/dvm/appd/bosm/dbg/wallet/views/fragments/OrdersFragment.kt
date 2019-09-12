@@ -94,6 +94,7 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
 
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        (activity!! as MainActivity).setStatusBarColor(R.color.status_bar_orders)
         activity!!.fragmentName.text = "Orders"
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true

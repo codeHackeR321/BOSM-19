@@ -81,6 +81,7 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
 
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        (activity!! as MainActivity).setStatusBarColor(R.color.status_bar_more)
         activity!!.fragmentName.text = resources.getString(R.string.action_more)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true

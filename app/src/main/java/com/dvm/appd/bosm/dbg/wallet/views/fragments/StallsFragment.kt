@@ -67,7 +67,8 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         })
         stallsViewModel.error.observe(this, Observer {
             rootview.progressBar.visibility = View.GONE
-            Toast.makeText(context!!,it.toString(),Toast.LENGTH_SHORT).show()
+            if (it != null)
+                Toast.makeText(context!!,it.toString(),Toast.LENGTH_SHORT).show()
         })
 
         return rootview
@@ -81,6 +82,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
 
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        (activity!! as MainActivity).setStatusBarColor(R.color.status_bar_stalls)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
         activity!!.linearElasRecycler.isVisible = false

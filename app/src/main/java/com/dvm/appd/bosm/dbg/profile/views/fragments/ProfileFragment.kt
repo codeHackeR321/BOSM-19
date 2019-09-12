@@ -46,6 +46,7 @@ class ProfileFragment : Fragment() {
 
         val rootView = inflater.inflate(R.layout.fra_profile, container, false)
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+        (activity!! as MainActivity).setStatusBarColor(R.color.buyTickets)
 
 
         rootView.logout.setOnClickListener {

@@ -142,6 +142,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     override fun onResume() {
         Log.d("ElasFragment", "OnREsume Called")
         (activity!! as MainActivity).showCustomToolbar()
+        (activity!! as MainActivity).setStatusBarColor(R.color.status_bar_elas)
         activity!!.linearElasRecycler.isVisible = true
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
