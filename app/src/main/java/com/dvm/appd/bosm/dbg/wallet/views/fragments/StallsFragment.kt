@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_stalls.view.*
 import android.util.DisplayMetrics
 import android.view.*
+import android.widget.Toast
 
 
 class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
@@ -63,6 +64,10 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
                     rootview.progressBar.visibility = View.VISIBLE
                 }
             }
+        })
+        stallsViewModel.error.observe(this, Observer {
+            rootview.progressBar.visibility = View.GONE
+            Toast.makeText(context!!,it.toString(),Toast.LENGTH_SHORT).show()
         })
 
         return rootview

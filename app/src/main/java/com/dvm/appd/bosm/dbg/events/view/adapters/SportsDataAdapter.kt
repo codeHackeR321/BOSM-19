@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.cards_sports_vertical_1.view.textViewDate
 import kotlinx.android.synthetic.main.cards_sports_vertical_1.view.textViewRound
 import kotlinx.android.synthetic.main.cards_sports_vertical_1.view.textViewTime
 import kotlinx.android.synthetic.main.cards_sports_vertical_1.view.textViewVenue
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -193,20 +194,19 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
 
     private fun getDate(datetime:String): String {
 
-       /* val sdf = java.text.SimpleDateFormat("d MMM")
-        val date = java.util.Date(timestamp*1000)
-        return sdf.format(date)*/
-        val sdf = java.text.SimpleDateFormat("d MMM")
-       // val date = java.util.Date()
-        return sdf.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'").parse(datetime))
+        return try {
+            "Sept ${datetime.substring(8, 10)}"
+        }catch (e: Exception){
+            datetime
+        }
     }
 
     private fun getTime(datetime:String): String {
 
-       /* val sdf = java.text.SimpleDateFormat("h:mm a")
-        val date = java.util.Date(timestamp*1000)
-        return sdf.format(date)*/
-        val sdf = java.text.SimpleDateFormat("h:mm a")
-        return sdf.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'").parse(datetime))
+        return try {
+            datetime.substring(11, 16)
+        }catch (e: Exception){
+            datetime
+        }
     }
 }

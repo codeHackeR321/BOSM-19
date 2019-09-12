@@ -20,40 +20,44 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/nameLBL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/picIMG"
-        app:layout_constraintTop_toTopOf="@+id/picIMG"
-        tools:text="Nishant Mahajan" />
+            android:id="@+id/nameLBL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/picIMG"
+            app:layout_constraintTop_toTopOf="@+id/picIMG"
+            tools:text="Nishant Mahajan" />
 
     <TextView
-        android:id="@+id/roleLBL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/nameLBL"
-        app:layout_constraintTop_toBottomOf="@+id/nameLBL"
-        tools:text="App and Online Payments" />
+            android:id="@+id/roleLBL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/nameLBL"
+            app:layout_constraintTop_toBottomOf="@+id/nameLBL"
+            tools:text="App and Online Payments" />
 
     <TextView
-        android:id="@+id/phoneLBL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/roleLBL"
-        app:layout_constraintTop_toBottomOf="@+id/roleLBL"
-        tools:text="+95005 95008" />
+            android:id="@+id/phoneLBL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/roleLBL"
+            app:layout_constraintTop_toBottomOf="@+id/roleLBL"
+            tools:text="+95005 95008" />
 
     <TextView
-        android:id="@+id/emailLBL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/phoneLBL"
-        app:layout_constraintTop_toBottomOf="@+id/phoneLBL"
-        tools:text="websmaster@bits-apogee.org" />
+            android:id="@+id/emailLBL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/phoneLBL"
+            app:layout_constraintTop_toBottomOf="@+id/phoneLBL"
+            tools:text="websmaster@bits-apogee.org" />
 </androidx.constraintlayout.widget.ConstraintLayout>
