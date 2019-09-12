@@ -13,8 +13,8 @@
 
     <ImageView
             android:id="@+id/stallImage"
-            android:layout_width="156dp"
-            android:layout_height="106dp"
+            android:layout_width="158dp"
+            android:layout_height="127dp"
             android:background="@drawable/shape_rectangle_rounded_16dp"
             android:backgroundTint="@color/colorBlack"
             app:layout_constraintBottom_toBottomOf="parent"

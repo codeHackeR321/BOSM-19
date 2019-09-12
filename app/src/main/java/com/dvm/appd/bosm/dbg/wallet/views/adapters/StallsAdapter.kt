@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.wallet.views.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.adapter_wallet_stalls.view.*
 
 class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView.Adapter<StallsAdapter.StallsViewHolder>() {
@@ -26,8 +29,10 @@ class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView
 
     override fun onBindViewHolder(holder: StallsViewHolder, position: Int) {
         holder.stallName.text = stalls[position].stallName
-        Glide.with(holder.itemView.context!!).load("").placeholder(R.drawable.ic_fast_food)
-            .into(holder.stallImg)
+        FirebaseStorage.getInstance().reference.child("${stalls[position].stallName}.png").downloadUrl.addOnSuccessListener {
+            Log.d("checkpic",it.toString())
+            Glide.with(holder.itemView.context!!).load(it).placeholder(R.drawable.ic_fast_food).into(holder.stallImg)
+        }
         holder.stallImg.setOnClickListener {
             listener.stallSelected(stalls[position])
         }

@@ -27,6 +27,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
 
     private lateinit var stallsViewModel: StallsViewModel
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         stallsViewModel = ViewModelProviders.of(this, StallsViewModelFactory())[StallsViewModel::class.java]
 
