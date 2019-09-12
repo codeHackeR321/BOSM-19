@@ -96,6 +96,15 @@ interface WalletDao {
     @Query("SELECT * FROM user_tickets")
     fun getAllUserTickets(): Flowable<List<UserShows>>
 
+    @Query("DELETE FROM user_tickets")
+    fun clearUserTickets()
+
+    @Transaction
+    fun updateUserTickets(userShows: List<UserShows>){
+        clearUserTickets()
+        insertUserShows(userShows)
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTicketCart(ticketCartItem: TicketsCart): Completable
 

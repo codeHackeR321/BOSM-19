@@ -129,6 +129,16 @@ class ProfileFragment : Fragment() {
             }
         })
 
+        rootView.refreshBtn.setOnClickListener {
+            profileViewModel.refreshTicketsData()
+            profileViewModel.refreshUserShows()
+        }
+
+        rootView.textView10.setOnClickListener {
+            profileViewModel.refreshTicketsData()
+            profileViewModel.refreshUserShows()
+        }
+
         return rootView
     }
 

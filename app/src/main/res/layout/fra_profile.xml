@@ -4,7 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_profile">
+        android:background="@drawable/gradient_profile"
+        >
 
     <View
             android:id="@+id/view8"
@@ -30,7 +31,7 @@
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="@+id/view8"
             app:layout_constraintTop_toTopOf="@+id/view8"
-            app:srcCompat="@drawable/googleg_standard_color_18" />
+            app:srcCompat="@color/colorWhite" />
 
     <View
             android:id="@+id/view7"
@@ -147,7 +148,7 @@
             android:id="@+id/SendBtn"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="32dp"
             android:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="@+id/sendBtn"
             app:layout_constraintEnd_toStartOf="@+id/sendBtn"
@@ -233,12 +234,13 @@
             android:elevation="1dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="8dp"
-            android:text="Refresh QR"
+            android:text="Refresh"
             android:textColor="#4F32D7"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/buyTicket"
             app:layout_constraintEnd_toEndOf="@+id/sendBtn"
-            app:layout_constraintStart_toEndOf="@+id/refreshBtn"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="@+id/sendBtn"
             app:layout_constraintTop_toTopOf="@+id/buyTicket" />
 
     <View
@@ -322,6 +324,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:elevation="2dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="@string/action_events"
             android:textAlignment="textStart"
             android:textColor="#6C58B9"
