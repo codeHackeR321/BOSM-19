@@ -72,7 +72,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             json["order_id"]
         } catch (e: Exception) {
             try {
-                json["id"]
+                json["round_id"]
             } catch (e: Exception) {
                 "0"
             }
@@ -84,14 +84,14 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         } catch (e: Exception) {
             resources.getString(R.string.chanel_id_general_notifications)
         }
+        val sportsName = try {
+            json["event_name"]
+        } catch (e: Exception) {
+            "Not Available"
+        }
 
         val notificatoin = Notification(id = id!!, title = title!!, body = body!!, channel = channel!!)
 
-        val sport = if(json.containsKey("sport")) {
-            json["sport"]
-        } else {
-            null
-        }
         val otp = if (json.containsKey("otp")) {
             json["otp"]
         } else {
@@ -116,8 +116,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                     // TODO setup firbase analytic log
                 })
 
-        if (sport != null) {
-            sendNotification(notificatoin, sport)
+        if (sportsName != "Not Available") {
+            sendNotification(notificatoin, sportsName!!)
         } else if (otp != null) {
             sendNotification(notificatoin, notificatoin.id, otp)
         } else {
@@ -147,12 +147,36 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun sendNotification(message: Notification, sport: String) {
         val pendingIntent = NavDeepLinkBuilder(this.baseContext)
             .setGraph(R.navigation.navigation_graph)
             .setComponentName(MainActivity::class.java)
             .setDestination(R.id.action_events)
             .createPendingIntent()
+        roomDatabsae.eventsDao().getAllFavourites().subscribeOn(Schedulers.io()).doOnSuccess {
+            Log.d("Notification", "Data recived from room = ${it.toString()}")
+            val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            if (sport != "Not Available") {
+                for(s in it) {
+                    if (sport == s) {
+                        val notificationBuilder = NotificationCompat.Builder(this, message.channel)
+                            .setSmallIcon(R.drawable.ic_launcher_background)
+                            .setContentTitle(message.title)
+                            .setContentText(message.body)
+                            .setSound(defaultSoundUri)
+                            .setContentIntent(pendingIntent)
+                            .build()
+                        with(NotificationManagerCompat.from(this)) {
+                            // notificationId is a unique int for each notification that you must define
+                            notify(Integer.parseInt(message.id) , notificationBuilder)
+                        }
+                    }
+                }
+            }
+        } .subscribe({},{
+            Log.e("Notification", "Error in Displaying notification = ${it.toString()}")
+        })
     }
 
     private fun sendNotification(message: Notification, orderId: String, otp: String) {
