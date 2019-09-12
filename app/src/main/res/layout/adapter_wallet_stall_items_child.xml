@@ -42,6 +42,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/add_button"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Add  +"
             android:textColor="#4ABE65"
             android:textSize="14sp"
