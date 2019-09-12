@@ -67,7 +67,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         })
         stallsViewModel.error.observe(this, Observer {
             rootview.progressBar.visibility = View.GONE
-            Toast.makeText(context!!,it.toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(context!!,it    .toString(),Toast.LENGTH_SHORT).show()
         })
 
         return rootview
