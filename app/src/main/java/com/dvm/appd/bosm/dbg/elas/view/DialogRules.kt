@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.dvm.appd.bosm.dbg.elas.viewModel.RulesDialogViewModel
 import com.dvm.appd.bosm.dbg.elas.viewModel.RulesDialogViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.dia_rules_elas.*
+import kotlinx.android.synthetic.main.dia_rules_elas.view.*
 
 class DialogRules: DialogFragment() {
 
@@ -53,8 +55,8 @@ class DialogRules: DialogFragment() {
                 rules_Text += "${index + 1}. ${string}\n"
             }
             Log.d("Elas Dialog", "Final rules = ${rules_Text}")
-            rulesText.isVisible = true
-            rulesText.text = rules_Text
+            view.text_rules_dialog_rulesText.isVisible = true
+            view.text_rules_dialog_rulesText.text = rules_Text
         })
     }
 }
