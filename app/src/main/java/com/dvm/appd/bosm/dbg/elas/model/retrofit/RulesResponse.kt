@@ -16,8 +16,4 @@ data class Rule(
 
     @SerializedName("Rules")
     val rules_text: List<String>
-) {
-    override fun toString(): String {
-        return "Round id = $roundId\nRules = ${rules_text.toString()}"
-    }
-}
+)

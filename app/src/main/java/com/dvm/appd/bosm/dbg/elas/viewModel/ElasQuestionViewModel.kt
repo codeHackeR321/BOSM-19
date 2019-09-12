@@ -39,9 +39,13 @@ class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {
     fun submitAnswer(questionId: Long, optionId: Long) {
         uiState.asMut().postValue(UIStateElas.Loading)
         repository.submitAnswerForQuestion(questionId, optionId).subscribe({
+            Log.d("ElasQuesViewModel", "Response Code = ${it.code()}")
             when(it.code()) {
                 200 -> {
                     uiState.asMut().postValue(UIStateElas.Failure("${it.body().toString()}"))
+                }
+                else -> {
+                    Log.d("ElasQuesViewModel", "Response Body = ${it.body().toString()}")
                 }
             }
 

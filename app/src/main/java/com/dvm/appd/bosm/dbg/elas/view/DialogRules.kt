@@ -30,10 +30,13 @@ class DialogRules: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rulesViewModel.getRulesForRound("1")
+
         rulesViewModel.error.observe(this, Observer {
-            progress_rules_elas.isVisible = true
-            activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            Snackbar.make(view, it.toString(), Snackbar.LENGTH_SHORT).show()
+            if (it != null) {
+                progress_rules_elas.isVisible = true
+                activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                Snackbar.make(view, it.toString(), Snackbar.LENGTH_SHORT).show()
+            }
         })
 
         rulesViewModel.isLoading.observe(this, Observer {

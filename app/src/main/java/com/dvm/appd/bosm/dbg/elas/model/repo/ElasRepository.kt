@@ -217,9 +217,10 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
 
     fun submitAnswerForQuestion(questionId: Long, optionId: Long): Single<Response<AnswerResponse>> {
         val body = JsonObject().also {
-            it.addProperty("question_id", questionId)
-            it.addProperty("answer_id", optionId)
+            it.addProperty("question_id", questionId.toInt())
+            it.addProperty("answer_id", optionId.toInt())
         }
+        Log.d("ELasRepo", "Body Sent = ${body.toString()}")
         return elasService.answerQuestion(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
     }
 

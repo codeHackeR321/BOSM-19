@@ -23,6 +23,7 @@ class RulesDialogViewModel(val elasRepository: ElasRepository): ViewModel() {
     @SuppressLint("CheckResult")
     fun getRulesForRound(round: String) {
         elasRepository.getRulesForRoundsFromBackend().subscribe({
+            Log.d("RulesViewModel", "Response Code = ${it.code()}")
             when(it.code()) {
                 200 -> {
                     var body = it.body()

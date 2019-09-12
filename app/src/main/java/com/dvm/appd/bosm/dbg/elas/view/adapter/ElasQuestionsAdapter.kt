@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.elas.view.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView
         holder.textQuestionNumber.text = "Question ${questionsList.toList()[position].second.first().questionId}"
         holder.textQuestion.text = questionsList.toList()[position].second.first().question
         holder.buttonRules.setOnClickListener {
+            Log.d("QuesAdapter", "Entered onClick Listener with ${questionsList.toList()[position].second.first().category}")
             listener.viewRules(questionsList.toList()[position].second.first().category)
         }
         holder.parent.setOnClickListener {

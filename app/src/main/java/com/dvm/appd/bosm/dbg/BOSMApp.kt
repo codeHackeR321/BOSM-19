@@ -19,6 +19,7 @@ class BOSMApp : Application() {
 
         RxJavaPlugins.setErrorHandler {
             Log.e("App", "error $it: ${it.message ?: "No message"}")
+            // throw it
         }
 
     }
