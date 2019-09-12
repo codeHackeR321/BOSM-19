@@ -89,10 +89,11 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
 
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        (activity!! as MainActivity).setStatusBarColor(R.color.status_bar_stalls)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
         activity!!.linearElasRecycler.isVisible = false
-        activity!!.textView7.text = "To flavor your taste buds"
+        activity!!.textView7.text = "\"To flavor your taste buds\""
         activity!!.textView7.setTextColor(Color.rgb(5, 197, 109))
         activity!!.refresh.isVisible = true
         super.onResume()

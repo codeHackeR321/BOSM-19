@@ -14,4 +14,14 @@
     <color name="buyTickets">#5B3BDB</color>
    <color name="games">#EF28DB</color>
     <color name="trackEvents">#5B7DEC</color>
+
+    <color name="status_bar_events">#724CFD</color>
+    <color name="status_bar_orders">#42BAFF</color>
+    <color name="status_bar_elas">#EF28DB</color>
+    <color name="status_bar_more">#AB84FE</color>
+    <color name="status_bar_stalls">#20C607</color>
+    <color name="status_bar_cart">#64DD17</color>
+    <color name="status_bar_notifications">#002DE1</color>
+    <color name="status_bar_profile">#3720CC</color>
+    <color name="status_bar_auth">#5F86F0</color>
 </resources>

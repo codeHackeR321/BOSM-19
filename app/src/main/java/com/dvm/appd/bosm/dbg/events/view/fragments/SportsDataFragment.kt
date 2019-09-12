@@ -108,7 +108,7 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
             // null agar hua tio dikkat nhi hobni chhiye shayd
             if (genderWiseDataMap[genderSelected].isNullOrEmpty())
             {
-                Toast.makeText(activity, "No data for $genderSelected", Toast.LENGTH_LONG).show()
+                // Toast.makeText(activity, "No data for $genderSelected", Toast.LENGTH_LONG).show()
                 (recy_sports_vertical.adapter as SportsDataAdapter).sportData= emptyList()
             }
             else

@@ -1,11 +1,14 @@
 package com.dvm.appd.bosm.dbg.events.view.fragments
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.get
@@ -115,8 +118,10 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         eventsViewViewModel.markFavourite(sports, favMark)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onResume() {
         (activity!! as MainActivity).showCustomToolbar()
+        (activity!! as MainActivity).setStatusBarColor(R.color.status_bar_events)
         activity!!.search.isVisible = true
         activity!!.textView7.isVisible = false
         activity!!.linearElasRecycler.isVisible = false

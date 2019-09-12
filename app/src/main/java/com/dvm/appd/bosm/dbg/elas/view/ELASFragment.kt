@@ -131,8 +131,8 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.bttn_Leaderboard_elas.setTextColor(Color.BLACK)
         activity!!.bttn_Questions_elas.setTextColor(resources.getColor(R.color.colorGrey))
         try {
-            recycler_elasFrag_questions.adapter = ELasLeaderoardAdapter()
-            (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = currentLeaderboardList
+            recycler_elasFrag_questions.adapter = ELasLeaderoardAdapter(context!!)
+            (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = currentLeaderboardList.sortedBy { it.Rank }
             (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).notifyDataSetChanged()
         } catch (e: Exception) {
             Log.e("ElasFragment", "Error = ${e.toString()}")
@@ -142,6 +142,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     override fun onResume() {
         Log.d("ElasFragment", "OnREsume Called")
         (activity!! as MainActivity).showCustomToolbar()
+        (activity!! as MainActivity).setStatusBarColor(R.color.status_bar_elas)
         activity!!.linearElasRecycler.isVisible = true
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
