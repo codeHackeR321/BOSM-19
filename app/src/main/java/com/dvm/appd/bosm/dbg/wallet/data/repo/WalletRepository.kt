@@ -154,7 +154,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return itemList
     }
 
-    private fun updateOrders(): Completable{
+    fun updateOrders(): Completable{
         return walletService.getAllOrders(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
                 when(response.code()){

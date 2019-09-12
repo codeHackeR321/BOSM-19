@@ -79,6 +79,10 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
             }
         })
 
+        activity!!.refresh.setOnClickListener {
+            ordersViewModel.getAllOrders()
+        }
+
         return view
     }
 
@@ -100,6 +104,7 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
         activity!!.textView7.text = "Don't forget to add ratings"
         activity!!.textView7.setTextColor(Color.rgb(28, 140, 204))
         activity!!.linearElasRecycler.isVisible = false
+        activity!!.refresh.isVisible = true
         super.onResume()
     }
 

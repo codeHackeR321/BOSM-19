@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dvm.appd.bosm.dbg.R
@@ -35,6 +37,13 @@ class OrderItemsDialog: DialogFragment() {
         orderItemViewModel = ViewModelProviders.of(this, OrderItemViewModelFactory(orderId!!))[OrderItemViewModel::class.java]
 
         view.items.adapter = OrderDialogAdapter()
+
+        orderItemViewModel.error.observe(this, Observer {
+            if (it != null){
+                Toast.makeText(context!!, it, Toast.LENGTH_SHORT).show()
+                (orderItemViewModel.error as MutableLiveData).postValue(null)
+            }
+        })
 
         orderItemViewModel.order.observe(this, Observer {order ->
 

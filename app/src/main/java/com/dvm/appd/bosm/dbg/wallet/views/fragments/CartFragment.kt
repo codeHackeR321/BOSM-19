@@ -29,6 +29,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
+        activity!!.refresh.isVisible = false
 
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 

@@ -146,6 +146,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
         activity!!.fragmentName.text = "Quiz"
+        activity!!.refresh.isVisible = false
         super.onResume()
     }
 

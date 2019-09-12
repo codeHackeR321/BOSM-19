@@ -16,18 +16,20 @@ class StallsViewModel(val walletRepository: WalletRepository):ViewModel() {
     var error: LiveData<String> = MutableLiveData(null)
 
   init{
-      (result as MutableLiveData).postValue(StallResult.Failure)
-
-      walletRepository.getAllStalls().subscribe({
-          Log.d("check", it.toString())
-          (stalls as MutableLiveData).postValue(it)
-          (result as MutableLiveData).postValue(StallResult.Success)
-      },{
-          Log.d("check", it.message)
-          (error as MutableLiveData).postValue(it.message)
-      })
-
+      getAllStallData()
   }
 
+    fun getAllStallData(){
+        (result as MutableLiveData).postValue(StallResult.Failure)
+
+        walletRepository.getAllStalls().subscribe({
+            Log.d("check", it.toString())
+            (stalls as MutableLiveData).postValue(it)
+            (result as MutableLiveData).postValue(StallResult.Success)
+        },{
+            Log.d("check", it.message)
+            (error as MutableLiveData).postValue(it.message)
+        })
+    }
 
 }

@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -81,6 +83,13 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
             (view.eventsRecycler.adapter as EventsAdapter).notifyDataSetChanged()
         })
 
+        eventsViewViewModel.error.observe(this, Observer {
+            if (it != null){
+                Toast.makeText(context!!, it, Toast.LENGTH_SHORT).show()
+                (eventsViewViewModel.error as MutableLiveData).postValue(null)
+            }
+        })
+
         activity!!.search.threshold = 1
         activity!!.search.setOnItemClickListener { parent, searchView, position, id ->
             val name = parent.adapter.getItem(position) as String
@@ -111,6 +120,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         activity!!.search.isVisible = true
         activity!!.textView7.isVisible = false
         activity!!.linearElasRecycler.isVisible = false
+        activity!!.refresh.isVisible = false
         super.onResume()
     }
 }

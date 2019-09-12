@@ -51,35 +51,35 @@ class EventsRepository(val eventsDao: EventsDao) {
                         when (doc.type) {
 
                             DocumentChange.Type.ADDED -> {
-                                Log.d("DocAdded", doc.document.get("name") as String)
+                                Log.d("DocAdded", doc.document.get("name").toString())
 
                                 name = try {
-                                    doc.document["name"] as String
+                                    doc.document["name"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 venue = try {
-                                    doc.document["venue"] as String
+                                    doc.document["venue"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 time = try {
-                                    doc.document["timestamp"] as String
+                                    doc.document["timestamp"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 description = try {
-                                    doc.document["description"] as String
+                                    doc.document["description"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 day = try {
-                                    doc.document["day"] as String
+                                    doc.document["day"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 organiser = try {
-                                    doc.document["organiser"] as String
+                                    doc.document["organiser"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
@@ -99,35 +99,35 @@ class EventsRepository(val eventsDao: EventsDao) {
                             }
 
                             DocumentChange.Type.MODIFIED -> {
-                                Log.d("DocChanged", doc.document.get("name") as String)
+                                Log.d("DocChanged", doc.document.get("name").toString())
 
                                 name = try {
-                                    doc.document["name"] as String
+                                    doc.document["name"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 venue = try {
-                                    doc.document["venue"] as String
+                                    doc.document["venue"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 time = try {
-                                    doc.document["timestamp"] as String
+                                    doc.document["timestamp"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 description = try {
-                                    doc.document["description"] as String
+                                    doc.document["description"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 day = try {
-                                    doc.document["day"] as String
+                                    doc.document["day"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
                                 organiser = try {
-                                    doc.document["organiser"] as String
+                                    doc.document["organiser"].toString()
                                 } catch (e: Exception) {
                                     "Not Available"
                                 }
@@ -148,7 +148,7 @@ class EventsRepository(val eventsDao: EventsDao) {
                             }
 
                             DocumentChange.Type.REMOVED -> {
-                                Log.d("DocRemoved", doc.document.get("name") as String)
+                                Log.d("DocRemoved", doc.document.get("name").toString())
                                 eventsDao.deleteMiscEvent(doc.document.id)
                                     .subscribeOn(Schedulers.io())
                                     .subscribe({},{
@@ -231,43 +231,43 @@ class EventsRepository(val eventsDao: EventsDao) {
                                 0
                             }
                             name = try {
-                                dc.document["sport"] as String
+                                dc.document["sport"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             round = try {
-                                dc.document["round_name"] as String
+                                dc.document["round_name"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             round_type = try {
-                                dc.document["round_type"] as String
+                                dc.document["round_type"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             team_1 = try {
-                                dc.document["team1"] as String
+                                dc.document["team1"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             team_2 = try {
-                                dc.document["team2"] as String
+                                dc.document["team2"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             time_stamp = try {
-                                dc.document["timestamp"] as String
+                                dc.document["timestamp"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             venue = try {
-                                dc.document["venue"] as String
+                                dc.document["venue"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
 
                             gender = try {
-                                dc.document["gender"] as String
+                                dc.document["gender"].toString()
                             } catch (e: Exception) {
                                 "Boys"
                             }
@@ -282,27 +282,28 @@ class EventsRepository(val eventsDao: EventsDao) {
                                 2
                             }
                             score_1 = try {
-                                (dc.document["score1"] as Long).toString()
+                                dc.document["score1"].toString()
                             } catch (e: Exception) {
+                                Log.e("sports1", "Exception = ${e.toString()}")
                                 "Not Available"
                             }
                             score_2 = try {
-                                (dc.document["score2"] as Long).toString()
+                                dc.document["score2"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             winner1 = try {
-                                dc.document["winner1"] as String
+                                dc.document["winner1"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             winner2 = try {
-                                dc.document["winner2"] as String
+                                dc.document["winner2"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             winner3 = try {
-                                dc.document["winner3"] as String
+                                dc.document["winner3"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
@@ -341,43 +342,43 @@ class EventsRepository(val eventsDao: EventsDao) {
                                 0
                             }
                             name = try {
-                                dc.document["sport"] as String
+                                dc.document["sport"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             round = try {
-                                dc.document["round_name"] as String
+                                dc.document["round_name"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             round_type = try {
-                                dc.document["round_type"] as String
+                                dc.document["round_type"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             team_1 = try {
-                                dc.document["team1"] as String
+                                dc.document["team1"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             team_2 = try {
-                                dc.document["team2"] as String
+                                dc.document["team2"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             time_stamp = try {
-                                dc.document["timestamp"] as String
+                                dc.document["timestamp"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             venue = try {
-                                dc.document["venue"] as String
+                                dc.document["venue"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             //TODO Check default Value
                             gender = try {
-                                dc.document["gender"] as String
+                                dc.document["gender"].toString()
                             } catch (e: Exception) {
                                 "Boys"
                             }
@@ -392,27 +393,29 @@ class EventsRepository(val eventsDao: EventsDao) {
                                 2
                             }
                             score_1 = try {
-                                dc.document["score1"] as String
+                                dc.document["score1"].toString()
                             } catch (e: Exception) {
+                                Log.e("sports1", "Exception = ${e.toString()}")
                                 "Not Available"
                             }
                             score_2 = try {
-                                dc.document["score2"] as String
+                                dc.document["score2"].toString()
                             } catch (e: Exception) {
+                                Log.e("sports1", "Exception = ${e.toString()}")
                                 "Not Available"
                             }
                             winner1 = try {
-                                dc.document["winner1"] as String
+                                dc.document["winner1"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             winner2 = try {
-                                dc.document["winner2"] as String
+                                dc.document["winner2"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }
                             winner3 = try {
-                                dc.document["winner3"] as String
+                                dc.document["winner3"].toString()
                             } catch (e: Exception) {
                                 "Not Available"
                             }

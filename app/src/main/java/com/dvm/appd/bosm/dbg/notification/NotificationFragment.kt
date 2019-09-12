@@ -38,6 +38,7 @@ class NotificationFragment : Fragment() {
         notificationViewModel.readNotificationsFromRoom()
 
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
+        activity!!.refresh.isVisible = false
 
 
         notificationViewModel.error.observe(this, Observer {

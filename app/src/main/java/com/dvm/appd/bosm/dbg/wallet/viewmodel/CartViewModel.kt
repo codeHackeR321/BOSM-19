@@ -17,11 +17,13 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
     init {
 
         walletRepository.getAllModifiedCartItems()
-            .doOnNext {
+            .subscribe({
                 Log.d("CartVM", it.toString())
                 (cartItems as MutableLiveData).postValue(it)
-            }
-            .subscribe()
+                (error as MutableLiveData).postValue(null)
+            },{
+                (error as MutableLiveData).postValue(it.message)
+            })
     }
 
     @SuppressLint("CheckResult")
@@ -36,10 +38,18 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
     }
 
     fun deleteCartItem(itemId: Int){
-        walletRepository.deleteCartItem(itemId).subscribe()
+        walletRepository.deleteCartItem(itemId).subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 
     fun updateCartItems(itemId: Int, quantity: Int){
-        walletRepository.updateCartItems(itemId, quantity).subscribe()
+        walletRepository.updateCartItems(itemId, quantity).subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 }
