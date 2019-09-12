@@ -32,8 +32,8 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
             (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue("Order successful")
         },{
-                (progressBarMark as MutableLiveData).postValue(1)
-                (error as MutableLiveData).postValue(it.message)
+            (progressBarMark as MutableLiveData).postValue(1)
+            (error as MutableLiveData).postValue(it.message)
         })
     }
 

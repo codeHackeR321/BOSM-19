@@ -89,12 +89,12 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
         }
 
         bttn_elasfraQuestions_submitAnswer.setOnClickListener {
-            Toast.makeText(context!!,"Quiz not started yet!",Toast.LENGTH_SHORT).show()
-           /* if (selectedOptionId == (-1).toLong()) {
+            // Toast.makeText(context!!,"Quiz not started yet!",Toast.LENGTH_SHORT).show()
+            if (selectedOptionId == (-1).toLong()) {
                 Toast.makeText(view.context, "Please select an option", Toast.LENGTH_LONG).show()
             } else {
                 elasQuestionViewModel.submitAnswer(questionId, selectedOptionId)
-            }*/
+            }
         }
     }
 

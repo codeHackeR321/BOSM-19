@@ -1,6 +1,5 @@
 package com.dvm.appd.bosm.dbg.events.view.fragments
 
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +10,6 @@ import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -44,8 +42,8 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         "Carrom" to R.drawable.ic_surface1,
         "Snooker" to R.drawable.ic_pool,
         "Pool" to R.drawable.ic_pool,
-        "Power Lifting" to R.drawable.ic_dumbbell,
-        "Bodybuilding" to R.drawable.ic_weightlifting,
+        "Powerlifting" to R.drawable.ic_dumbbell,
+        "Body Building" to R.drawable.ic_weightlifting,
         "Taekwondo" to R.drawable.ic_dumbbell,
         "Table Tennis" to R.drawable.ic_squash,
         "Badminton" to R.drawable.ic_squash,
