@@ -131,8 +131,8 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.bttn_Leaderboard_elas.setTextColor(Color.BLACK)
         activity!!.bttn_Questions_elas.setTextColor(resources.getColor(R.color.colorGrey))
         try {
-            recycler_elasFrag_questions.adapter = ELasLeaderoardAdapter()
-            (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = currentLeaderboardList
+            recycler_elasFrag_questions.adapter = ELasLeaderoardAdapter(context!!)
+            (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = currentLeaderboardList.sortedBy { it.Rank }
             (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).notifyDataSetChanged()
         } catch (e: Exception) {
             Log.e("ElasFragment", "Error = ${e.toString()}")
