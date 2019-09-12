@@ -34,7 +34,7 @@ class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView
         holder.buttonRules.setOnClickListener {
             Toast.makeText(holder.itemView.context!!,"To be announced",Toast.LENGTH_SHORT).show()
             Log.d("QuesAdapter", "Entered onClick Listener with ${questionsList.toList()[position].second.first().category}")
-          //  listener.viewRules(questionsList.toList()[position].second.first().category)
+            listener.viewRules(questionsList.toList()[position].second.first().category)
         }
         holder.parent.setOnClickListener {
             listener.answerQuestion(questionsList.toList()[position].second.first().questionId)

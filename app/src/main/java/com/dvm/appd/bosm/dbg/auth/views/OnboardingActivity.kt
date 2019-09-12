@@ -108,6 +108,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
         finishOnBoarding()
     }
 
+
     private fun finishOnBoarding() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()

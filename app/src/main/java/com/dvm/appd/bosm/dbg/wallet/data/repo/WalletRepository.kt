@@ -479,6 +479,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return authRepository.getUser()
             .toSingle()
             .flatMap {
+                if(it.isBitsian == false){
+                    throw Exception("Only BITSians can add money through SWD!!")
+                }
                 walletService.addMoneyBitsian("jwt ${it.jwt}", body).map { response ->
                     Log.d("check", response.code().toString())
 
@@ -510,6 +513,9 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
         return authRepository.getUser()
             .toSingle()
             .flatMap {
+                if(it.isBitsian==false){
+                    throw Exception("Only BITSians can do money transfers!")
+                }
                 walletService.transferMoney("jwt ${it.jwt}",body).map {response ->
                     Log.d("check",response.code().toString())
                     when(response.code()){

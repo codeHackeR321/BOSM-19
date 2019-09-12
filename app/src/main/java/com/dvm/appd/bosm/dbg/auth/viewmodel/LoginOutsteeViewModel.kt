@@ -18,8 +18,10 @@ class LoginOutsteeViewModel(val authRepository: AuthRepository) : ViewModel() {
             when(it!!){
                 LoginState.Success -> {
                     authRepository.getUser().subscribe {
-                        if(it.firstLogin==true)
+                        if(it.firstLogin==true) {
+                            authRepository.disableOnBoardingForUser()
                             (state as MutableLiveData).postValue(LoginState.MoveToOnBoarding)
+                        }
                         else
                             (state as MutableLiveData).postValue(LoginState.MoveToMainApp)
                     }

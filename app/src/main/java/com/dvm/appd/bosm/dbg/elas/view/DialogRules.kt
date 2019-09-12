@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.elas.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,12 +46,14 @@ class DialogRules: DialogFragment() {
         })
 
         rulesViewModel.rules.observe(this, Observer {
-            progress_rules_elas.isVisible = true
+            progress_rules_elas.isVisible = false
             activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             var rules_Text = ""
             for((index, string) in it.withIndex()) {
                 rules_Text += "${index + 1}. ${string}\n"
             }
+            Log.d("Elas Dialog", "Final rules = ${rules_Text}")
+            rulesText.isVisible = true
             rulesText.text = rules_Text
         })
     }
