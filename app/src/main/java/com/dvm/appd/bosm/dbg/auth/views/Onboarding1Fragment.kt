@@ -25,9 +25,7 @@ class Onboarding1Fragment(val listener: onboardingFragmentButtonClickListener, v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        activity!!.window.statusBarColor = background
+
         img_onBoarding.setImageDrawable(resources.getDrawable(image))
         text_onBoarding_heading.text = heading
         parent.setBackgroundColor(background)
@@ -43,4 +41,5 @@ class Onboarding1Fragment(val listener: onboardingFragmentButtonClickListener, v
         super.onViewCreated(view, savedInstanceState)
     }
 
+   
 }
