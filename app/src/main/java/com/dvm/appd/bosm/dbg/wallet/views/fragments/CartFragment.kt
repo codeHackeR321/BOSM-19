@@ -18,11 +18,15 @@ import com.dvm.appd.bosm.dbg.wallet.views.adapters.CartAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_cart.view.*
 
-class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
+class CartFragment: Fragment(), CartAdapter.OnButtonClicked {
 
     private lateinit var cartViewModel: CartViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val view = inflater.inflate(R.layout.fra_cart, container, false)
 
@@ -32,7 +36,8 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         activity!!.textView7.isVisible = false
         activity!!.refresh.isVisible = false
 
-        cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
+        cartViewModel =
+            ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
         view.cartRecycler.adapter = CartAdapter(this)
 
@@ -41,12 +46,11 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
             (view.cartRecycler.adapter as CartAdapter).cartItems = it
             (view.cartRecycler.adapter as CartAdapter).notifyDataSetChanged()
 
-            if (it.sumBy {it1 -> it1.quantity * it1.price } != 0){
+            if (it.sumBy { it1 -> it1.quantity * it1.price } != 0) {
                 view.cartOrderView.isVisible = true
-                view.totalPrice.text = "Total: ₹ ${it.sumBy {it2 ->  it2.quantity * it2.price }}"
+                view.totalPrice.text = "Total: ₹ ${it.sumBy { it2 -> it2.quantity * it2.price }}"
                 view.itemCount.text = "${it.sumBy { it3 -> it3.quantity }} items"
-            }
-            else{
+            } else {
                 view.totalPrice.text = ""
                 view.itemCount.text = ""
                 view.placeOrder.text = ""
@@ -60,7 +64,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
         }
 
         cartViewModel.error.observe(this, Observer {
-            if (it != null){
+            if (it != null) {
                 Toast.makeText(context, cartViewModel.error.value, Toast.LENGTH_LONG).show()
                 (cartViewModel.error as MutableLiveData).postValue(null)
             }
@@ -68,13 +72,13 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked{
 
         cartViewModel.progressBarMark.observe(this, Observer {
 
-            if (it == 0){
+            if (it == 0) {
                 view.progressBar.visibility = View.VISIBLE
-                activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                view.cartOrderView.isClickable = false
             }
-            else if (it == 1){
+            else if (it == 1) {
                 view.progressBar.visibility = View.GONE
-                activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                view.cartOrderView.isClickable = true
             }
         })
 

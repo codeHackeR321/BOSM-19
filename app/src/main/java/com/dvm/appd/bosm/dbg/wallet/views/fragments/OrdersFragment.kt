@@ -80,6 +80,7 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
         })
 
         activity!!.refresh.setOnClickListener {
+            (ordersViewModel.progressBarMark as MutableLiveData).postValue(0)
             ordersViewModel.getAllOrders()
         }
 

@@ -30,8 +30,10 @@ class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     fun getAllOrders(){
         walletRepository.updateOrders().subscribe({
+            (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue(null)
         },{
+            (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue(it.message)
             })
     }
