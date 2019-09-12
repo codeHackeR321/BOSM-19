@@ -24,34 +24,36 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/text_card_elasFrag_questionNo"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/text_card_elasFrag_question"
-                android:text="Question 1"
-                android:padding="8dp"
-                android:textSize="18sp"
-                android:textColor="#584BD0"
-                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:ellipsize="end"
-                android:layout_height="wrap_content"/>
+                android:fontFamily="@font/shellypalmer_circular_std_book"
+                android:padding="8dp"
+                android:text="Question 1"
+                android:textColor="#584BD0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/text_card_elasFrag_question"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:layout_width="match_parent"
                 android:id="@+id/text_card_elasFrag_question"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="#242424"
-                app:layout_constraintTop_toBottomOf="@id/text_card_elasFrag_questionNo"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/lorem_ipsum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/shellypalmer_circular_std_book"
                 android:maxLines="3"
                 android:padding="8dp"
-                android:ellipsize="end"
-                android:layout_height="wrap_content"/>
+                android:text="@string/lorem_ipsum"
+                android:textColor="#242424"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_card_elasFrag_questionNo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 <!--
@@ -105,18 +107,19 @@
             android:layout_height="wrap_content"/>
 
     <Button
+            android:id="@+id/bttn_elasfraQuestions_submitAnswer"
             android:layout_width="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_elasOptionsFrag_options"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#584BD0"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:background="@drawable/shape_rectangle_rounded_24dp"
-            android:id="@+id/bttn_elasfraQuestions_submitAnswer"
+            android:backgroundTint="#584BD0"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Submit"
-            android:layout_height="wrap_content"/>
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_elasOptionsFrag_options" />
 
     <TextView
             android:id="@+id/quizName"

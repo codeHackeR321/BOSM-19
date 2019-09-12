@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
@@ -31,8 +32,9 @@ class ElasQuestionsAdapter(val listener: onQuestionButtonClicked) : RecyclerView
         holder.textQuestionNumber.text = "Question ${questionsList.toList()[position].second.first().questionId}"
         holder.textQuestion.text = questionsList.toList()[position].second.first().question
         holder.buttonRules.setOnClickListener {
+            Toast.makeText(holder.itemView.context!!,"To be announced",Toast.LENGTH_SHORT).show()
             Log.d("QuesAdapter", "Entered onClick Listener with ${questionsList.toList()[position].second.first().category}")
-            listener.viewRules(questionsList.toList()[position].second.first().category)
+          //  listener.viewRules(questionsList.toList()[position].second.first().category)
         }
         holder.parent.setOnClickListener {
             listener.answerQuestion(questionsList.toList()[position].second.first().questionId)
