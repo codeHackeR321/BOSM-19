@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -163,7 +164,12 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     }
 
     override fun viewRules(questionId: String) {
-        DialogRules().show(childFragmentManager, "RulesDialog")
+        Log.d("Elas Fragment", "Recived Category = ${questionId.toString()}")
+        if (questionId == "Miscellaneous") {
+            Toast.makeText(context, "There are no rules available for this question", Toast.LENGTH_LONG).show()
+        } else {
+            DialogRules().show(childFragmentManager, "RulesDialog")
+        }
     }
 
 }

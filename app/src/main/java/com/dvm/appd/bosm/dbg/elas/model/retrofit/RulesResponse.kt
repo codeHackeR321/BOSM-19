@@ -14,6 +14,6 @@ data class Rule(
     @SerializedName("round_no")
     val roundId: String,
 
-    @SerializedName("Rules")
+    @SerializedName("rules")
     val rules_text: List<String>
 )

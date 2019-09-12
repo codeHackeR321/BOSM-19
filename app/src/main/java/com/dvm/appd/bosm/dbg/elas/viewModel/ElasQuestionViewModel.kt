@@ -42,10 +42,11 @@ class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {
             Log.d("ElasQuesViewModel", "Response Code = ${it.code()}")
             when(it.code()) {
                 200 -> {
-                    uiState.asMut().postValue(UIStateElas.Failure("${it.body().toString()}"))
+                    uiState.asMut().postValue(UIStateElas.Failure("${it.body()!!.display_message}"))
                 }
                 else -> {
                     Log.d("ElasQuesViewModel", "Response Body = ${it.body().toString()} ${it.message()}")
+                    uiState.asMut().postValue(UIStateElas.Failure("Unable to submit Answer(${it.code()} )"))
                 }
             }
 
