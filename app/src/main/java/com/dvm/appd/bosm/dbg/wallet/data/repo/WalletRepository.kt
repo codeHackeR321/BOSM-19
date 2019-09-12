@@ -626,7 +626,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             userTickets.add(it.toUserShows())
                         }
 
-                        walletDao.insertUserShows(userTickets)
+                        walletDao.updateUserTickets(userTickets)
                     }
 
                     401 -> {
