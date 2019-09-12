@@ -1,6 +1,5 @@
 package com.dvm.appd.bosm.dbg.wallet.views.fragments
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import androidx.core.os.bundleOf
@@ -8,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.dvm.appd.bosm.dbg.MainActivity
@@ -20,7 +18,6 @@ import com.dvm.appd.bosm.dbg.wallet.views.StallResult
 import com.dvm.appd.bosm.dbg.wallet.views.adapters.StallsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_wallet_stalls.view.*
-import android.util.DisplayMetrics
 import android.view.*
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
@@ -75,7 +72,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         })
 
         activity!!.refresh.setOnClickListener {
-            stallsViewModel.getAllStallData()
+            stallsViewModel.refreshData()
         }
 
         return rootview

@@ -12,6 +12,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.TicketsData
 class TicketViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     var tickets: LiveData<List<ModifiedTicketsData>> = MutableLiveData()
+    var progressBarMark: LiveData<Int> = MutableLiveData(1)
     var error: LiveData<String> = MutableLiveData(null)
 
     init {
@@ -19,8 +20,10 @@ class TicketViewModel(val walletRepository: WalletRepository): ViewModel(){
         walletRepository.getAllTicketData().subscribe({
             Log.d("TicketsShows", "$it")
             (tickets as MutableLiveData).postValue(it)
+            (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue(null)
         }, {
+            (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue(it.message)
         })
 
@@ -29,9 +32,11 @@ class TicketViewModel(val walletRepository: WalletRepository): ViewModel(){
     fun buyTickets(){
         walletRepository.buyTickets().subscribe({
             Log.d("Wallet Repo", "Entered success")
+            (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue(null)
         },{
             Log.d("Wallet Repo", "Errror in Api call = ${it.toString()}")
+            (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue(it.message)
         })
     }

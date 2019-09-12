@@ -43,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/view4"
             app:layout_constraintStart_toStartOf="@+id/view4"
             app:layout_constraintTop_toTopOf="@+id/view4"
-            app:srcCompat="@drawable/stall_button_gradient" />
+            app:srcCompat="@color/colorWhite" />
 
     <ImageView
             android:id="@+id/next"

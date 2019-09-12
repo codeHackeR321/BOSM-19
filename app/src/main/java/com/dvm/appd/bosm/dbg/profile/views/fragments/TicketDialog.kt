@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -53,8 +54,21 @@ class TicketDialog : DialogFragment(), TicketsAdapter.TicketCartActions{
             }
         })
 
+        ticketsViewModel.progressBarMark.observe(this, Observer {
+
+            if (it == 0 ){
+                view.progressBar2.visibility = View.VISIBLE
+                view.button.isClickable = false
+            }
+            else if (it == 1){
+                view.progressBar2.visibility = View.GONE
+                view.button.isClickable = true
+            }
+        })
+
         //Add progress bar
         view.button.setOnClickListener {
+            (ticketsViewModel.progressBarMark as MutableLiveData).postValue(0)
             ticketsViewModel.buyTickets()
         }
 
