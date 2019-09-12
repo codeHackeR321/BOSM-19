@@ -33,6 +33,11 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         Log.d("Notification", "Service Started")
         crashAnalytics = FirebaseAnalytics.getInstance(this)
         roomDatabsae = AppModule(application).providesAppDatabase(application)
+        roomDatabsae.eventsDao().getAllFavourites().subscribeOn(Schedulers.io()).subscribe({
+            Log.d("Notification", "Entered onComplete = ${it.toString()}")
+        },{
+            Log.e("Notification", "Entered onError = ${it.toString()}")
+        })
         super.onCreate()
     }
 
