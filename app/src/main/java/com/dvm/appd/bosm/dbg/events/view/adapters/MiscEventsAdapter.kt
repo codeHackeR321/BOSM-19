@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
 import kotlinx.android.synthetic.main.adapter_misc_events.view.*
+import java.lang.Exception
 import java.text.DateFormat.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -68,8 +69,11 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
 
     private fun getTime(datetime: String): String {
 
-        val sdf = SimpleDateFormat("h:mm a")
-        return sdf.format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'").parse(datetime))
+        return try {
+            datetime.substring(11, 16)
+        }catch (e: Exception){
+            datetime
+        }
     }
 
 }
