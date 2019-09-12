@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.more
 
 import android.content.Context
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -25,6 +26,7 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        activity!!.mainView.setBackgroundResource(R.drawable.more_title)
         return inflater.inflate(R.layout.fragment_more, container, false)
     }
 
@@ -82,8 +84,10 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
         activity!!.fragmentName.text = resources.getString(R.string.action_more)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
-        activity!!.textView7.text = "Some more things to enjoy during BOSM"
+        activity!!.textView7.text = "Praise the developers"
+        activity!!.textView7.setTextColor(Color.rgb(86,33,150))
         activity!!.linearElasRecycler.isVisible = false
+
         super.onResume()
     }
 }

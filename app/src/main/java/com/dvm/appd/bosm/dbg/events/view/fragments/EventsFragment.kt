@@ -29,7 +29,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
     private val icons = mapOf(
         "Football" to R.drawable.ic_football,
         "Basketball" to R.drawable.ic_basketball,
-        "Lawn Tennis" to R.drawable.ic_tennis,
+        "Tennis" to R.drawable.ic_tennis,
         "Hockey" to R.drawable.ic_hockey,
         "Squash" to R.drawable.ic_squash,
         "Volleyball" to R.drawable.ic_volleyball,
@@ -44,7 +44,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         "Taekwondo" to R.drawable.ic_dumbbell,
         "Table Tennis" to R.drawable.ic_squash,
         "Badminton" to R.drawable.ic_squash,
-        "Ultimate Frisbee" to R.drawable.ic_racing,
+        "Frisbee" to R.drawable.ic_racing,
         "Swimming" to R.drawable.ic_swimsuit
     )
 

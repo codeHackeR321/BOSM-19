@@ -18,6 +18,7 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
 import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
@@ -185,7 +186,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     }
 
                     else -> {
-                        throw Exception("Something went wrong")
+                        throw Exception("Server error")
                     }
                 }
             }
@@ -378,7 +379,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
 
                             400 -> {
                                 Log.d("PlaceOrder", "Success Error: 400")
-                                throw Exception("Error in Key or vendor Id or quantity")
+                                throw Exception("App error. Contact DVM officials")
                             }
 
                             401 -> {
@@ -394,13 +395,15 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             404 -> {
                                 Log.d("PlaceOrder", "Success Error: 404")
                                 walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
-                                throw Exception("Item not available")
+                                throw Exception(response.message())
                             }
 
                             412 -> {
+
                                 Log.d("PlaceOrder", "Success Error: 412")
-                                walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
-                                throw Exception("Vendor closed")
+                                //walletDao.clearCart().subscribeOn(Schedulers.io()).subscribe()
+                                val message = JSONObject(response.errorBody()!!.string()).getString("display_message")
+                                throw Exception(message)
                             }
 
                             in 400..499 -> {
@@ -408,7 +411,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             }
 
                             else -> {
-                                throw Exception("Something went wrong")
+                                throw Exception("Server error")
                             }
 
                         }
@@ -454,7 +457,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     }
 
                     else -> {
-                        throw Exception("Something went wrong")
+                        throw Exception("Server error")
                     }
 
                 }
@@ -549,7 +552,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                         throw Exception(it.message())
                     }
                     else -> {
-                        throw Exception("Something went wrong")
+                        throw Exception("Server error")
                     }
                 }
             }
@@ -594,7 +597,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     }
 
                     else -> {
-                        throw Exception("Something went wrong")
+                        throw Exception("Server error")
                     }
                 }
             }
@@ -636,7 +639,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     }
 
                     else -> {
-                        throw Exception("Something went wrong")
+                        throw Exception("Server error")
                     }
 
                 }
@@ -718,7 +721,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                             }
 
                             else -> {
-                                throw Exception("Something went wrong")
+                                throw Exception("Server error")
                             }
                         }
                     }

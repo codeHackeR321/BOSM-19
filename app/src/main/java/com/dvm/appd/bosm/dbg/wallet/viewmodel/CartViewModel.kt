@@ -28,6 +28,7 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
     fun placeOrder(){
         walletRepository.placeOrder().subscribe({
             (progressBarMark as MutableLiveData).postValue(1)
+            (error as MutableLiveData).postValue("Order successful")
         },{
                 (progressBarMark as MutableLiveData).postValue(1)
                 (error as MutableLiveData).postValue(it.message)

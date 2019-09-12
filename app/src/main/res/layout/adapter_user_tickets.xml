@@ -21,7 +21,7 @@
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView17"
+            app:layout_constraintEnd_toStartOf="@+id/ticketUnused"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,21 +39,19 @@
             android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:textStyle="bold"
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp"
+            android:paddingTop="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/ticketUnused"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="40dp"
             android:background="@drawable/circle"
             android:backgroundTint="#6C58B9"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
+            android:paddingTop="3dp"
             android:text="1"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"

@@ -27,9 +27,13 @@ class FragmentRecyclerView : Fragment() {
         Developer("Suyash Soni", "App Developer", picBaseUrl + "suyash.png"),
         Developer("Akshat Gupta", "App Developer", picBaseUrl + "akshat.png"),
         Developer("Ishita Aggarwal", "App Developer", picBaseUrl + "ishita.png"),
-        Developer("Raghav Arora(C⁺)", "Backend Developer", picBaseUrl + "raghav.png"),
-        Developer("Yash Bhagat", "UI/UX Designer", picBaseUrl + "yash.png"),
-        Developer("Abhishek Sharma", "App Developer", picBaseUrl + "abhishek.png")
+        Developer("Pradyumna Bang", "Backend Developer", picBaseUrl + "raghav.png"),
+        Developer("Dushyant Yadav", "Backend Developer", picBaseUrl + "raghav.png"),
+        Developer("Shivanshu Ayachi", "Backend Developer", picBaseUrl + "raghav.png"),
+        Developer("Abhinav Tiwari", "Backend Developer", picBaseUrl + "raghav.png"),
+        Developer("Divyansh Jain", "Backend Developer", picBaseUrl + "raghav.png"),
+        Developer("Devansh Agarwal", "UI/UX Designer", picBaseUrl + "yash.png"),
+        Developer("Mohul Maheswari", "UI/UX Designer", picBaseUrl + "abhishek.png")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +74,7 @@ class FragmentRecyclerView : Fragment() {
                 var devs = emptyList<Developer>()
                 devs = devs.plus(developers[0])
                 devs = devs.plus(developers.subList(1,5).shuffled())
-                devs = devs.plus(developers.subList(5, (developers.size-1)))
+                devs = devs.plus(developers.subList(5, (developers.size)))
                 recycler_commonRecyclerView.adapter = DevelopersAdapter()
                 (recycler_commonRecyclerView.adapter as DevelopersAdapter).developers = devs
                 (recycler_commonRecyclerView.adapter as DevelopersAdapter).notifyDataSetChanged()

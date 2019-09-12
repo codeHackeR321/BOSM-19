@@ -220,7 +220,7 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
             it.addProperty("question_id", questionId.toInt())
             it.addProperty("answer_id", optionId.toInt())
         }
-        Log.d("ELasRepo", "Body Sent = ${body.toString()}")
+        Log.d("ELasRepo", "Body Sent = ${body}")
         return elasService.answerQuestion(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
     }
 

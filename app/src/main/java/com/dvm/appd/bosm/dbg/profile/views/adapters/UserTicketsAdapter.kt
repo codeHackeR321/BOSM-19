@@ -24,12 +24,14 @@ class UserTicketsAdapter: RecyclerView.Adapter<UserTicketsAdapter.UserTicketView
     override fun onBindViewHolder(p0: UserTicketViewHolder, p1: Int) {
         Log.d("TicketsUserA", "$userTickets")
         p0.showName.text = userTickets[p1].name
-        p0.ticketCount.text = userTickets[p1].unused.toString()
+        p0.ticketUnused.text = userTickets[p1].unused.toString()
+        p0.ticketCount.text = (userTickets[p1].unused + userTickets[p1].used).toString()
     }
 
     inner class UserTicketViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         val showName: TextView = view.showName
         val ticketCount: TextView = view.ticketQuantity
+        val ticketUnused: TextView = view.ticketUnused
     }
 }

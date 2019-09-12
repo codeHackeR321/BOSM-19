@@ -45,7 +45,7 @@ class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {
                     uiState.asMut().postValue(UIStateElas.Failure("${it.body().toString()}"))
                 }
                 else -> {
-                    Log.d("ElasQuesViewModel", "Response Body = ${it.body().toString()}")
+                    Log.d("ElasQuesViewModel", "Response Body = ${it.body().toString()} ${it.message()}")
                 }
             }
 
