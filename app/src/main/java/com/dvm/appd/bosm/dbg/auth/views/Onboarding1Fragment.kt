@@ -41,5 +41,5 @@ class Onboarding1Fragment(val listener: onboardingFragmentButtonClickListener, v
         super.onViewCreated(view, savedInstanceState)
     }
 
-   
+
 }

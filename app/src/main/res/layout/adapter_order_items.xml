@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:elevation="4dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
-            android:text="Order No:"
+            android:text="Order Id:"
             android:textAlignment="textEnd"
             android:textColor="@color/colorBlack"
             android:textSize="18sp"
