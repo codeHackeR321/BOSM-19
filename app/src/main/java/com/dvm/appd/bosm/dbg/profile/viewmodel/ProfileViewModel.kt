@@ -18,27 +18,37 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
     var user:LiveData<User> = MutableLiveData()
     var balance:LiveData<String> = MutableLiveData()
     var userTickets: LiveData<List<UserShows>> = MutableLiveData()
+    var error: LiveData<String> = MutableLiveData(null)
 
     init {
           authRepository.getUser().subscribe({
               (user as MutableLiveData).postValue(it!!)
+              (error as MutableLiveData).postValue(null)
           },{
               Log.d("check",it.toString())
+              (error as MutableLiveData).postValue(it.message)
           })
+
         walletRepository.getBalance().subscribe({
             (balance as MutableLiveData).postValue(it.toString())
+            (error as MutableLiveData).postValue(null)
         },{
-            Log.d("checke",it.toString())
+            (error as MutableLiveData).postValue(it.message)
         })
 
-        walletRepository.getTicketInfo().subscribe()
+        walletRepository.getTicketInfo().subscribe({
+            (error as MutableLiveData).postValue(null)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
 
         walletRepository.getAllUserShows()
-            .doOnNext {
-                Log.d("TicketsUser", "$it")
+            .subscribe({
                 (userTickets as MutableLiveData).postValue(it)
-            }
-            .subscribe()
+                (error as MutableLiveData).postValue(null)
+            },{
+                (error as MutableLiveData).postValue(it.message)
+            })
 
     }
 
@@ -46,8 +56,10 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
         (order as MutableLiveData).postValue(UiState.ShowLoading)
         authRepository.setUser(null).subscribe({
             (order as MutableLiveData).postValue(UiState.MoveToLogin)
+            (error as MutableLiveData).postValue(null)
         },{
             Log.d("checkl",it.toString())
+            (error as MutableLiveData).postValue(it.message)
         })
     }
 

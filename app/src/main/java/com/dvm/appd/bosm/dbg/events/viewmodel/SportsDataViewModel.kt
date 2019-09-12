@@ -12,6 +12,7 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
 
     var sportsData: LiveData<Map<String,List<SportsData>>> = MutableLiveData()
     var gender: LiveData<List<String>> = MutableLiveData()
+    var error: LiveData<String> = MutableLiveData(null)
 
     init {
         data()
@@ -22,17 +23,20 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
         eventsRepository.getGenderForSport(name).subscribe({
             Log.d("Sports6","Sucess getting gender room")
             (gender as MutableLiveData).postValue(it)
+            (error as MutableLiveData).postValue(null)
 
         },{
             Log.d("Sports5","Error getting gender room")
+            (error as MutableLiveData).postValue(it.message)
         })
 
         eventsRepository.getSportData(name).subscribe({
             Log.d("Sports6","Sucess getting sports data  room")
             (sportsData as MutableLiveData).postValue(it.groupBy { it.gender})
-
+            (error as MutableLiveData).postValue(null)
         },{
             Log.d("Sports5","Error getting sportdata room")
+            (error as MutableLiveData).postValue(it.message)
         })
     }
 
@@ -40,8 +44,10 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
     fun markMatchFavourite(matchNo: Int, favouriteMark: Int){
         eventsRepository.updateSportsFavourite(matchNo, favouriteMark).subscribe({
             Log.d("SportsViewModel", "Changes in Room Complete")
+            (error as MutableLiveData).postValue(null)
         },{
             Log.e("SportsViewModel", "Crashed = ${it.toString()}")
+            (error as MutableLiveData).postValue(it.message)
         })
     }
 }

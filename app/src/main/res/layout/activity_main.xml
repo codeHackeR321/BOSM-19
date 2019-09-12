@@ -76,6 +76,18 @@
             app:layout_constraintTop_toTopOf="@+id/mainView"
             app:srcCompat="@drawable/ic_outline_profile_identity_24px" />
 
+    <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/mainView"
+            app:layout_constraintTop_toTopOf="@id/mainView"
+            app:srcCompat="@drawable/ic_refreshw" />
+
     <TextView
             android:id="@+id/fragmentName"
             android:layout_width="wrap_content"

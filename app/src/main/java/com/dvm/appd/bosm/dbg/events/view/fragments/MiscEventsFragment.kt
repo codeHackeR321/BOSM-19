@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -36,6 +37,7 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
+        activity!!.refresh.isVisible = false
 
 
         val sdf = SimpleDateFormat("dd MM yyyy")
@@ -93,6 +95,13 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
 
             (view.dayRecycler.adapter as MiscDayAdapter).daySelected = it
             (view.dayRecycler.adapter as MiscDayAdapter).notifyDataSetChanged()
+        })
+
+        miscEventsViewViewModel.error.observe(this, Observer {
+            if (it != null){
+                Toast.makeText(context!!, it, Toast.LENGTH_SHORT)
+                (miscEventsViewViewModel.error as MutableLiveData).postValue(null)
+            }
         })
 
         view.backBtn.setOnClickListener {

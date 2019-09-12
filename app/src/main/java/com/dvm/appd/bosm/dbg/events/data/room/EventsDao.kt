@@ -57,4 +57,7 @@ interface EventsDao {
 
     @Query("UPDATE sports_table SET is_favourite = :favouriteMark WHERE match_no = :matchNo")
     fun updateSportsFavourite(matchNo: Int, favouriteMark: Int): Completable
+
+    @Query("SELECT event FROM events WHERE is_fav = 1 UNION SELECT event_name FROM misc_table WHERE favourite = 1 UNION SELECT DISTINCT sport_name FROM sports_table WHERE is_favourite = 1")
+    fun getAllFavourites(): Single<String>
 }

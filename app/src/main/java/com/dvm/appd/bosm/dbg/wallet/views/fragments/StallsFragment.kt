@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fra_wallet_stalls.view.*
 import android.util.DisplayMetrics
 import android.view.*
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 
 
 class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
@@ -67,9 +68,15 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         })
         stallsViewModel.error.observe(this, Observer {
             rootview.progressBar.visibility = View.GONE
-            if (it != null)
-                Toast.makeText(context!!,it.toString(),Toast.LENGTH_SHORT).show()
+            if (it != null) {
+                Toast.makeText(context!!, it.toString(), Toast.LENGTH_SHORT).show()
+                (stallsViewModel.error as MutableLiveData).postValue(null)
+            }
         })
+
+        activity!!.refresh.setOnClickListener {
+            stallsViewModel.getAllStallData()
+        }
 
         return rootview
     }
@@ -88,6 +95,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         activity!!.linearElasRecycler.isVisible = false
         activity!!.textView7.text = "\"To flavor your taste buds\""
         activity!!.textView7.setTextColor(Color.rgb(5, 197, 109))
+        activity!!.refresh.isVisible = true
         super.onResume()
     }
 }

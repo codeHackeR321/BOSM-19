@@ -293,7 +293,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         profile.isVisible = true
         notifications.isVisible = true
         bottom_navigation_bar.isVisible = true
-//        textView7.isVisible = true
+        textView7.isVisible = true
     }
 
     fun hideCustomToolbarForLevel2Fragments() {
@@ -305,7 +305,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         notifications.isVisible = false
         bottom_navigation_bar.isVisible = false
         mainView.visibility = View.GONE
-//        textView7.isVisible = false
+        textView7.isVisible = false
     }
 
     fun setStatusBarColor(color: Int) {
