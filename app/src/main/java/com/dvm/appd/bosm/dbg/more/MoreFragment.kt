@@ -85,7 +85,7 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
         activity!!.fragmentName.text = resources.getString(R.string.action_more)
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
-        activity!!.textView7.text = "Praise the developers"
+        activity!!.textView7.text = "\"Praise the developers\""
         activity!!.textView7.setTextColor(Color.rgb(86,33,150))
         activity!!.linearElasRecycler.isVisible = false
 

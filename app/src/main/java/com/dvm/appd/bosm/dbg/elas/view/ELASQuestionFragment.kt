@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.dvm.appd.bosm.dbg.MainActivity
 
 import com.dvm.appd.bosm.dbg.R
@@ -82,6 +83,10 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
                 (recycler_elasOptionsFrag_options.adapter as ElasOptionsAdapter).notifyDataSetChanged()
             }
         })
+
+        backBtn.setOnClickListener {
+            view.findNavController().popBackStack()
+        }
 
         bttn_elasfraQuestions_submitAnswer.setOnClickListener {
             Toast.makeText(context!!,"Quiz not started yet!",Toast.LENGTH_SHORT).show()

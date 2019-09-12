@@ -98,7 +98,7 @@ class OrdersFragment : Fragment(), OrdersAdapter.OrderCardClick {
         activity!!.fragmentName.text = "Orders"
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
-        activity!!.textView7.text = "Don't forget to add ratings"
+        activity!!.textView7.text = "\"Don't forget to add ratings\""
         activity!!.textView7.setTextColor(Color.rgb(28, 140, 204))
         activity!!.linearElasRecycler.isVisible = false
         super.onResume()

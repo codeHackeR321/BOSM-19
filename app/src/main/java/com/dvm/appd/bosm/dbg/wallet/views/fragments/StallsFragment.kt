@@ -86,7 +86,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = true
         activity!!.linearElasRecycler.isVisible = false
-        activity!!.textView7.text = "To flavor your taste buds"
+        activity!!.textView7.text = "\"To flavor your taste buds\""
         activity!!.textView7.setTextColor(Color.rgb(5, 197, 109))
         super.onResume()
     }

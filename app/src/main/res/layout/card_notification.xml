@@ -9,7 +9,7 @@
             android:id="@+id/TitleNotification"
             android:text="Title"
             android:textStyle="bold"
-            android:textSize="24sp"
+            android:textSize="21sp"
             android:layout_height="wrap_content"/>
 
     <TextView
