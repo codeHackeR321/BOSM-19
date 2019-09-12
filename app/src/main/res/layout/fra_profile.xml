@@ -4,7 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_profile">
+        android:background="@drawable/gradient_profile"
+        >
 
     <View
             android:id="@+id/view8"
@@ -30,7 +31,7 @@
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="@+id/view8"
             app:layout_constraintTop_toTopOf="@+id/view8"
-            app:srcCompat="@drawable/googleg_standard_color_18" />
+            app:srcCompat="@color/colorWhite" />
 
     <View
             android:id="@+id/view7"
@@ -322,6 +323,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:elevation="2dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="@string/action_events"
             android:textAlignment="textStart"
             android:textColor="#6C58B9"

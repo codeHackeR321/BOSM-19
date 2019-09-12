@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.fragment_onboarding1.*
@@ -20,9 +21,13 @@ class Onboarding1Fragment(val listener: onboardingFragmentButtonClickListener, v
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_onboarding1, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        activity!!.window.statusBarColor = background
         img_onBoarding.setImageDrawable(resources.getDrawable(image))
         text_onBoarding_heading.text = heading
         parent.setBackgroundColor(background)
