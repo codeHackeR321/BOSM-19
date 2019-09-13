@@ -17,6 +17,7 @@ import com.dvm.appd.bosm.dbg.profile.viewmodel.AddMoneyViewModel
 import com.dvm.appd.bosm.dbg.profile.viewmodel.AddMoneyViewModelFactory
 import kotlinx.android.synthetic.main.dia_wallet_add_money.*
 import kotlinx.android.synthetic.main.dia_wallet_add_money.view.*
+import java.lang.Exception
 
 class AddMoneyDialog : DialogFragment() {
     private lateinit var addMoneyViewModel: AddMoneyViewModel
@@ -28,11 +29,11 @@ class AddMoneyDialog : DialogFragment() {
         rootView.addBtn.setOnClickListener {
             if (rootView.amount.text.toString().isBlank())
                 Toast.makeText(context!!, "Please fill amount", Toast.LENGTH_SHORT).show()
-            else if (rootView.amount.text.toString().toInt() > 10000){
-                Toast.makeText(context!!, "You can add max 10,000 at a time", Toast.LENGTH_SHORT).show()
+            else if (try { rootView.amount.text.toString().toInt() } catch (e: Exception) { 100000 } > 10000) {
+                Toast.makeText(context!!, "You can add max 10,000 at a time", Toast.LENGTH_SHORT)
+                    .show()
                 rootView.amount.text.clear()
-            }
-            else {
+            } else {
                 addMoneyViewModel.addMoney(rootView.amount.text.toString().toInt())
                 loadingPBR.visibility = View.VISIBLE
                 it.isClickable = false

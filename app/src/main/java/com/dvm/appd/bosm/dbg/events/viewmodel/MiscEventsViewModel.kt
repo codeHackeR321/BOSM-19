@@ -14,6 +14,7 @@ class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
     var eventDays: LiveData<List<String>> = MutableLiveData()
     var daySelected: LiveData<String> = MutableLiveData()
     var error: LiveData<String> = MutableLiveData(null)
+    var epcIsABitch: LiveData<Pair<String, String>> = MutableLiveData(null)
     lateinit var currentSubsciption: Disposable
 
     init {
@@ -51,5 +52,13 @@ class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
                 Log.d("MiscEventVM", it.toString())
                 (error as MutableLiveData).postValue(it.message)
             })
+    }
+
+    fun getEpcData(eventId: String){
+        eventsRepository.getEventEpc("misc", eventId).subscribe({
+            (epcIsABitch as MutableLiveData).postValue(it)
+        },{
+            (error as MutableLiveData).postValue(it.message)
+        })
     }
 }

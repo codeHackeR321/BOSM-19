@@ -22,6 +22,7 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
 
     interface OnMarkFavouriteClicked{
         fun updateIsFavourite(eventId: String, favouriteMark: Int)
+        fun showEpcData(eventId: String)
     }
 
     inner class MiscEventsViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -32,6 +33,7 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
         val time: TextView = view.eventTime
         val venue: TextView = view.eventVenue
         val markFav: ImageView = view.markFav
+        val view: View = view.view
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MiscEventsViewHolder {
@@ -64,6 +66,10 @@ class MiscEventsAdapter(private val listener: OnMarkFavouriteClicked): RecyclerV
             else if (miscEvents[position].isFavourite == 0){
                 listener.updateIsFavourite(miscEvents[position].id, 1)
             }
+        }
+
+        holder.view.setOnClickListener {
+            listener.showEpcData(miscEvents[position].id)
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -99,7 +100,7 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
 
         miscEventsViewViewModel.error.observe(this, Observer {
             if (it != null){
-                Toast.makeText(context!!, it, Toast.LENGTH_SHORT)
+                Toast.makeText(context!!, it, Toast.LENGTH_SHORT).show()
                 (miscEventsViewViewModel.error as MutableLiveData).postValue(null)
             }
         })
@@ -107,6 +108,17 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         view.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }
+
+        miscEventsViewViewModel.epcIsABitch.observe(this, Observer {
+
+            if (it != null) {
+                Log.d("Epc", it.toString())
+                val bundle = bundleOf("description" to it.first, "link" to it.second)
+                view.findNavController().navigate(R.id.action_action_misc_to_epc, bundle)
+                (miscEventsViewViewModel.epcIsABitch as MutableLiveData).postValue(null)
+
+            }
+        })
 
         return view
     }
@@ -120,5 +132,9 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
         miscEventsViewViewModel.currentSubsciption.dispose()
         miscEventsViewViewModel.getMiscEventsData(day)
         view!!.dayRecycler.smoothScrollToPosition(position)
+    }
+
+    override fun showEpcData(eventId: String) {
+        miscEventsViewViewModel.getEpcData(eventId)
     }
 }

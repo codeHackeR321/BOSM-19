@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -104,6 +105,17 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
                 (sportsDataViewModel.error as MutableLiveData).postValue(null)
             }
         })
+
+        sportsDataViewModel.epcIsABitch.observe(this, Observer {
+            if (it != null){
+                Log.d("Epc", it.toString())
+                val bundle = bundleOf("description" to it.first, "link" to it.second)
+                view.findNavController().navigate(R.id.action_action_sport_to_epc, bundle)
+                (sportsDataViewModel.epcIsABitch as MutableLiveData).postValue(null)
+            }
+        })
+
+
         setGenderWiseDataObserver()
 
         view.back.setOnClickListener {
@@ -185,5 +197,9 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         (sportsDataViewModel.filter as MutableLiveData).postValue(parent!!.adapter.getItem(position) as String)
         Log.d("Filter", filter)
+    }
+
+    override fun showEpcData(eventId: String) {
+        sportsDataViewModel.getEpcData(eventId)
     }
 }

@@ -8,6 +8,7 @@ import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.EventsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.FavNamesData
+import com.dvm.appd.bosm.dbg.events.retrofit.EventsService
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
@@ -20,7 +21,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 
-class EventsRepository(val eventsDao: EventsDao) {
+class EventsRepository(val eventsDao: EventsDao, val eventsService: EventsService) {
 
     val db = FirebaseFirestore.getInstance()
 
@@ -489,6 +490,25 @@ class EventsRepository(val eventsDao: EventsDao) {
     fun updateEventFavourite(sport: String, favouriteMark: Int): Completable{
         return eventsDao.updateSportFav(sport, favouriteMark)
             .subscribeOn(Schedulers.io())
+    }
+
+    fun getEventEpc(event: String, eventId: String): Single<Pair<String, String>>{
+        return eventsService.getEpcArticle(event, eventId).subscribeOn(Schedulers.io())
+            .flatMap {response ->
+
+                var pair: Pair<String, String>
+                when(response.code()){
+
+                    200 -> {
+                         pair = Pair(response.body()!!.summary, response.body()!!.link)
+                    }
+                    else -> {
+                        throw Exception("No description available")
+                    }
+                }
+
+                return@flatMap Single.just(pair)
+            }
     }
 }
 
