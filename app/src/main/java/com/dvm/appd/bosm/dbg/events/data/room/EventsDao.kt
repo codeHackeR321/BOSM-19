@@ -16,6 +16,15 @@ interface EventsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMiscEventData(events: List<MiscEventsData>): Completable
 
+    @Query("DELETE FROM misc_table")
+    fun deleteAllMiscEvents()
+
+    @Transaction
+    fun updateAllMiscEvents(events: List<MiscEventsData>){
+        deleteAllMiscEvents()
+        insertMiscEventData(events)
+    }
+
     @Query("UPDATE misc_table SET favourite = :mark WHERE event_id = :id")
     fun updateMiscFavourite(id: String, mark: Int): Completable
 
@@ -25,10 +34,10 @@ interface EventsDao {
     @Query("DELETE FROM misc_table WHERE event_id = :id")
     fun deleteMiscEvent(id: String): Completable
 
-    @Query("SELECT * FROM misc_table WHERE event_day = :day ORDER BY event_day, event_time")
+    @Query("SELECT * FROM misc_table WHERE event_day = :day OR event_day = 'Day 6' ORDER BY event_day, event_time")
     fun getDayMiscEvents(day: String): Flowable<List<MiscEventsData>>
 
-    @Query("SELECT DISTINCT event_day FROM misc_table ORDER BY event_day")
+    @Query("SELECT DISTINCT event_day FROM misc_table WHERE event_day != 'Day 6' ORDER BY event_day")
     fun getMiscDays(): Flowable<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
