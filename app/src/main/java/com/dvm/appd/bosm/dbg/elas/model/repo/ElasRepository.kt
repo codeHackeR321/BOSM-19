@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
-import com.dvm.appd.bosm.dbg.elas.model.retrofit.AnswerResponse
-import com.dvm.appd.bosm.dbg.elas.model.retrofit.ElasService
-import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
-import com.dvm.appd.bosm.dbg.elas.model.retrofit.RulesResponse
+import com.dvm.appd.bosm.dbg.elas.model.retrofit.*
 import com.dvm.appd.bosm.dbg.elas.model.room.ElasDao
 import com.dvm.appd.bosm.dbg.elas.model.room.OptionData
 import com.dvm.appd.bosm.dbg.elas.model.room.QuestionData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.JsonObject
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -244,4 +242,39 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
         return elasService.getAllRules().subscribeOn(Schedulers.io())
     }
 
+    fun getQuestions():Completable{
+
+        return authRepository.getUser()
+            .flatMapCompletable{
+                elasService.getAllQuestions("JWT ${it.jwt}").doOnSuccess {qResponse ->
+                    Log.d("checkelasr",qResponse.code().toString())
+                    Log.d("checkelasr",qResponse.body().toString())
+                     var questionList:List<QuestionData> = emptyList()
+                    var optionList:List<OptionData> = emptyList()
+                    qResponse.body()!!.previous_questions.forEach {
+                        questionList = questionList.plus(it.toQuestionData())
+                        optionList = optionList.plus(it.toOptionsData())
+                    }
+                 elasDao.insertQuestions(questionList)
+                    elasDao.insertOptions(optionList)
+                }.doOnError {
+                   Log.d("checke",it.toString())
+                }.ignoreElement()
+            }.subscribeOn(Schedulers.io())
+    }
+
+    fun Questions.toQuestionData():QuestionData{
+         return QuestionData(qId,question,category)
+    }
+
+    fun Questions.toOptionsData():List<OptionData>
+    {
+         var options:List<OptionData> = emptyList()
+            options= options.plus(OptionData(1,option1,qId))
+        options= options.plus(OptionData(2,option2,qId))
+        options= options.plus(OptionData(3,option3,qId))
+        options= options.plus(OptionData(4,option4,qId))
+
+        return options
+    }
 }
