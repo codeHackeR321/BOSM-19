@@ -28,6 +28,10 @@ class AddMoneyDialog : DialogFragment() {
         rootView.addBtn.setOnClickListener {
             if (rootView.amount.text.toString().isBlank())
                 Toast.makeText(context!!, "Please fill amount", Toast.LENGTH_SHORT).show()
+            else if (rootView.amount.text.toString().toInt() > 10000){
+                Toast.makeText(context!!, "You can add max 10,000 at a time", Toast.LENGTH_SHORT).show()
+                rootView.amount.text.clear()
+            }
             else {
                 addMoneyViewModel.addMoney(rootView.amount.text.toString().toInt())
                 loadingPBR.visibility = View.VISIBLE

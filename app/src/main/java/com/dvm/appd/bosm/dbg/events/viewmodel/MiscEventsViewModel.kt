@@ -32,7 +32,10 @@ class MiscEventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
     fun markEventFavourite(eventId: String, favouriteMark: Int){
         eventsRepository.updateMiscFavourite(eventId, favouriteMark).subscribe({
-            (error as MutableLiveData).postValue(null)
+            if (favouriteMark == 1)
+                (error as MutableLiveData).postValue("You will now receive notifications for this event")
+            else if (favouriteMark == 0)
+                (error as MutableLiveData).postValue("You will no longer receive notifications for this event")
         },{
             (error as MutableLiveData).postValue(it.message)
         })

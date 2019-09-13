@@ -45,7 +45,10 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
     fun markMatchFavourite(matchNo: Int, favouriteMark: Int){
         eventsRepository.updateSportsFavourite(matchNo, favouriteMark).subscribe({
             Log.d("SportsViewModel", "Changes in Room Complete")
-            (error as MutableLiveData).postValue(null)
+            if (favouriteMark == 1)
+                (error as MutableLiveData).postValue("You will now receive notifications for this sport")
+            else if (favouriteMark == 0)
+                (error as MutableLiveData).postValue("You will no longer receive notifications for this event")
         },{
             Log.e("SportsViewModel", "Crashed = ${it.toString()}")
             (error as MutableLiveData).postValue(it.message)
