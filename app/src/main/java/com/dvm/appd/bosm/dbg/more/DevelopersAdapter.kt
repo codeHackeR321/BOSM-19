@@ -26,6 +26,7 @@ class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolde
 
         holder.nameLBL.text = developer.name
         holder.roleLBL.text = developer.role
+
     }
 
     class DeveloperVHolder(rootPOV: View) : RecyclerView.ViewHolder(rootPOV) {
