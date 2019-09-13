@@ -33,7 +33,7 @@ class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView
         holder.stallName.text = stalls[position].stallName
         FirebaseStorage.getInstance().reference.child("${stalls[position].stallName}.png").downloadUrl.addOnSuccessListener {
             Log.d("checkpic",it.toString())
-            Glide.with(holder.itemView.context!!).load(it).placeholder(R.drawable.ic_fast_food).apply(RequestOptions.bitmapTransform(RoundedCorners(16))).into(holder.stallImg)
+            Glide.with(holder.itemView.context!!).load(it).placeholder(R.drawable.placeholder_stalls).apply(RequestOptions.bitmapTransform(RoundedCorners(16))).into(holder.stallImg)
         }
         holder.stallImg.setOnClickListener {
             listener.stallSelected(stalls[position])
