@@ -36,8 +36,7 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked {
         activity!!.textView7.isVisible = false
         activity!!.refresh.isVisible = false
 
-        cartViewModel =
-            ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
+        cartViewModel = ViewModelProviders.of(this, CartViewModelFactory())[CartViewModel::class.java]
 
         view.cartRecycler.adapter = CartAdapter(this)
 

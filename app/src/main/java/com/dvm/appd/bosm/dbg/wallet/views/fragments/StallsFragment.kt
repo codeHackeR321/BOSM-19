@@ -64,6 +64,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
                 }
             }
         })
+
         stallsViewModel.error.observe(this, Observer {
             rootview.progressBar.visibility = View.GONE
             if (it != null) {
@@ -73,6 +74,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
         })
 
         activity!!.refresh.setOnClickListener {
+            (stallsViewModel.result as MutableLiveData).postValue(StallResult.Failure)
             stallsViewModel.refreshData()
         }
 

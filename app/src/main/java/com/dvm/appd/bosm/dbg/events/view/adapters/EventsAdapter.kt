@@ -24,6 +24,7 @@ class EventsAdapter(private val icons: Map<String, Int>, private val listener: O
         val sportsName: TextView = view.sportsEvents
         val icon: ImageView = view.icon
         val heart: ImageView = view.heart
+        val next: ImageView = view.next
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsViewHolder {
@@ -40,6 +41,10 @@ class EventsAdapter(private val icons: Map<String, Int>, private val listener: O
             holder.icon.setImageResource(icons[sportsName[position].event]!!)
         }
         holder.sportsName.setOnClickListener {
+            listener.openSportsFragment(sportsName[position].event)
+        }
+
+        holder.next.setOnClickListener {
             listener.openSportsFragment(sportsName[position].event)
         }
 

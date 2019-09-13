@@ -3,9 +3,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/filterDialog"
+        android:background="#2907A6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#2907A6"
         android:orientation="vertical">
 
     <TextView
@@ -26,3 +26,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        android:background="#2907A6"-->

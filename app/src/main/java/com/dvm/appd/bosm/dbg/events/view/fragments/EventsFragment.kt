@@ -100,6 +100,7 @@ class EventsFragment : Fragment(), EventsAdapter.OnIconClicked{
         }
 
         view.miscEvents.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_action_events_to_miscEventsFragment, null))
+        view.next.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_action_events_to_miscEventsFragment, null))
 
      return view
      }

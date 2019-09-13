@@ -19,19 +19,20 @@
             android:networkSecurityConfig="@xml/network_resource_config"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity android:name=".auth.views.OnboardingActivity"></activity>
-
+        <activity android:name=".auth.views.OnboardingActivity"
+                android:screenOrientation="portrait"/>
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key" />
 
 
-        <activity android:name=".auth.views.LoginOutsteeActivity" />
-        <activity android:name=".splash.views.SplashActivity">
+        <activity android:name=".auth.views.LoginOutsteeActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".splash.views.SplashActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,9 +61,11 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".auth.views.AuthActivity" />
+        <activity android:name=".auth.views.AuthActivity"
+                android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity"
-                android:windowSoftInputMode="adjustNothing">
+                android:windowSoftInputMode="adjustNothing"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
