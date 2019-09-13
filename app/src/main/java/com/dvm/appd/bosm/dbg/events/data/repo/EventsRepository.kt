@@ -160,10 +160,11 @@ class EventsRepository(val eventsDao: EventsDao) {
                     }
 
                     Log.d("Events", miscEvents.toString())
-                    eventsDao.insertMiscEventData(miscEvents).subscribeOn(Schedulers.io())
-                        .subscribe({},{
-                            Log.e("EventsRepo", it.message, it)
-                        })
+//                    Completable.fromAction {
+//                        eventsDao.updateAllMiscEvents(miscEvents)
+//                    }.subscribeOn(Schedulers.io()).subscribe({},{})
+
+                    eventsDao.insertMiscEventData(miscEvents).subscribeOn(Schedulers.io()).subscribe({},{})
                 }
             }
 
