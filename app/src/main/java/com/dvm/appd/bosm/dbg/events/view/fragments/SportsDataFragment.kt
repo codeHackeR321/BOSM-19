@@ -46,7 +46,7 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
         Log.d("Sports", "sports name selected: $name")
         sportsDataViewModel = ViewModelProviders.of(this, SportsDataViewModelFactory(sportName!!))[SportsDataViewModel::class.java]
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.ssss'Z'")
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.ssss'Z'")
         val calendar = Calendar.getInstance()
         currentTime = sdf.format(calendar.time)
         Log.d("Time", currentTime)
