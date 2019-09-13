@@ -12,6 +12,7 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.more.dataClasses.Developer
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.row_developer.view.*
+import java.lang.Exception
 
 class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolder>() {
 
@@ -31,8 +32,13 @@ class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolde
         }
         if(position>=4||position<=8){
             Log.d("check","${baseImageLink}/img/developers/${developers[position]}.jpg")
-            Glide.with(holder.itemView.context!!).load("${baseImageLink}/img/developers/${developers[position].name.substringBefore(" ").toLowerCase()}.jpg").placeholder(R.drawable.ic_outline_profile_identity_24px).circleCrop()
-                .into(holder.picIMG)
+            try {
+                Glide.with(holder.itemView.context!!).load("${baseImageLink}/img/developers/${developers[position].name.substringBefore(" ").toLowerCase()}.jpg").placeholder(R.drawable.ic_outline_profile_identity_24px).circleCrop()
+                    .into(holder.picIMG)
+            }catch (e: Exception){
+                Glide.with(holder.itemView.context!!).load(R.drawable.ic_outline_profile_identity_24px).circleCrop().into(holder.picIMG)
+            }
+
         }
         holder.nameLBL.text = developer.name
         holder.roleLBL.text = developer.role

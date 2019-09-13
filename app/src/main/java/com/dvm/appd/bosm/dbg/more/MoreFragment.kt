@@ -88,6 +88,7 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
         activity!!.textView7.text = "\"Praise the developers\""
         activity!!.textView7.setTextColor(Color.rgb(86,33,150))
         activity!!.linearElasRecycler.isVisible = false
+        activity!!.refresh.isVisible = false
 
         super.onResume()
     }

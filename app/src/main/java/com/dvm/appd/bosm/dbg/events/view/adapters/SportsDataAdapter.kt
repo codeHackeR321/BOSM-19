@@ -30,6 +30,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
 
      interface OnFavouriteClicked{
          fun updateFavourite(matchNo: Int, favouriteMark: Int)
+         fun showEpcData(eventId: String)
      }
 
     class SportsDataViewHolder1(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,6 +45,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
         val venue: TextView = view.textViewVenue
         val winner1: TextView = view.textViewWinner1_1
         val fav: ImageView = view.fav1
+        val view: View = view.view8
 
     }
 
@@ -59,6 +61,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
         val time: TextView = view.textViewTime
         val venue: TextView = view.textViewVenue
         val fav: ImageView = view.fav2
+        val view: View = view.view7
 
     }
 
@@ -138,6 +141,10 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                     }
                 }
 
+                holder1.view.setOnClickListener {
+                    listener.showEpcData(sportData[position].match_no.toString())
+                }
+
             }
             else if (holder.itemViewType == 2) {
                 val holder2: SportsDataViewHolder2 = holder as SportsDataViewHolder2
@@ -148,7 +155,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                     holder2.round.text = sportData[position].round
 
                 if (sportData[position].round_type.isNullOrEmpty())
-                    holder2.roundType.visibility=View.INVISIBLE
+                    holder2.roundType.visibility=View.GONE
                 else
                     holder2.roundType.text=sportData[position].round_type
 
@@ -173,20 +180,25 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                 }
 
                 if (sportData[position].winner1.isNullOrEmpty())
-                   holder2.winner1.visibility=View.INVISIBLE
+                   holder2.winner1.visibility=View.GONE
                 else
                     holder2.winner1.text=sportData[position].winner1
 
                 if (sportData[position].winner2.isNullOrEmpty())
-                    holder2.winner2.visibility=View.INVISIBLE
+                    holder2.winner2.visibility=View.GONE
                 else
                     holder2.winner2.text=sportData[position].winner2
 
                 if (sportData[position].winner3.isNullOrEmpty())
-                    holder2.winner3.visibility=View.INVISIBLE
+                    holder2.winner3.visibility=View.GONE
                 else
                     holder2.winner3.text=sportData[position].winner3
 
+
+
+                holder2.view.setOnClickListener {
+                    listener.showEpcData(sportData[position].match_no.toString())
+                }
             }
 
         }

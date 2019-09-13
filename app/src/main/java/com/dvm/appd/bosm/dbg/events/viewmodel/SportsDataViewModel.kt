@@ -14,6 +14,7 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
     var gender: LiveData<List<String>> = MutableLiveData()
     var filter: LiveData<String> = MutableLiveData("Upcoming")
     var error: LiveData<String> = MutableLiveData(null)
+    var epcIsABitch: LiveData<Pair<String, String>> = MutableLiveData(null)
 
     init {
         data()
@@ -51,6 +52,14 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
                 (error as MutableLiveData).postValue("You will no longer receive notifications for this event")
         },{
             Log.e("SportsViewModel", "Crashed = ${it.toString()}")
+            (error as MutableLiveData).postValue(it.message)
+        })
+    }
+
+    fun getEpcData(eventId: String){
+        eventsRepository.getEventEpc("sport", eventId).subscribe({
+            (epcIsABitch as MutableLiveData).postValue(it)
+        },{
             (error as MutableLiveData).postValue(it.message)
         })
     }
