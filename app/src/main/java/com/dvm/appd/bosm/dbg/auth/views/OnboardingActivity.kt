@@ -30,8 +30,9 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
                             this@OnboardingActivity,
                             R.drawable.layer1,
                             "Track Events",
-                            resources.getColor(R.color.trackEvents)
-                        )
+                            resources.getColor(R.color.trackEvents),
+                            resources.getString(R.string.onBoarding_events)
+                            )
                     }
 
                     1 -> {
@@ -40,7 +41,8 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
                             this@OnboardingActivity,
                             R.drawable.layer2,
                             "Order Food",
-                            resources.getColor(R.color.orderFood)
+                            resources.getColor(R.color.orderFood),
+                            resources.getString(R.string.onBoarding_Order)
                         )
                     }
 
@@ -50,7 +52,8 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
                             this@OnboardingActivity,
                             R.drawable.layer3,
                             "Games",
-                            resources.getColor(R.color.games)
+                            resources.getColor(R.color.games),
+                            resources.getString(R.string.onBoarding_quiz)
                         )
                     }
 
@@ -60,7 +63,8 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
                             this@OnboardingActivity,
                             R.drawable.layer4,
                             "Buy Tickets",
-                            resources.getColor(R.color.buyTickets)
+                            resources.getColor(R.color.buyTickets),
+                            resources.getString(R.string.onBoarding_tickets)
                         )
                     }
                 }
@@ -68,7 +72,8 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
                     this@OnboardingActivity,
                     R.drawable.layer1,
                     "Track Events",
-                    resources.getColor(R.color.trackEvents)
+                    resources.getColor(R.color.trackEvents),
+                    resources.getString(R.string.onBoarding_events)
                 )
 
             }
