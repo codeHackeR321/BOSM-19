@@ -51,7 +51,7 @@ class MoreFragment : Fragment(), MoreAdapter.onMoreItemClicked {
     }
 
     override fun moreButtonClicked(item: Int) {
-        Toast.makeText(context, "Position clicked = $item.", Toast.LENGTH_LONG).show()
+        // Toast.makeText(context, "Position clicked = $item.", Toast.LENGTH_LONG).show()
         when(item) {
             0 -> {
                 val bundle = bundleOf("title" to "Contact Us")

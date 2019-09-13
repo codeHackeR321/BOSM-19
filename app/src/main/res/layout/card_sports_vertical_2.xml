@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        >
+        android:layout_marginBottom="8dp">
 
 
     <View
@@ -44,11 +42,11 @@
             android:id="@+id/textViewRoundType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="2dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="4dp"
             android:textColor="#8C232A38"
             android:textSize="18sp"
-            android:elevation="2dp"
             app:layout_constraintEnd_toEndOf="@id/view7"
             app:layout_constraintStart_toStartOf="@id/view7"
             app:layout_constraintTop_toBottomOf="@id/textViewRound"
@@ -60,13 +58,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:elevation="2dp"
             android:ellipsize="end"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="4dp"
             android:textAlignment="center"
             android:textColor="#CC1C7CFA"
             android:textSize="18sp"
-            android:elevation="2dp"
             app:layout_constraintEnd_toEndOf="@id/view7"
             app:layout_constraintStart_toStartOf="@id/view7"
             app:layout_constraintTop_toBottomOf="@+id/textViewRoundType"
@@ -78,8 +76,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:ellipsize="end"
             android:elevation="2dp"
+            android:ellipsize="end"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="4dp"
             android:textAlignment="center"
@@ -95,10 +93,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:elevation="2dp"
             android:ellipsize="end"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:padding="4dp"
-            android:elevation="2dp"
             android:textAlignment="center"
             android:textColor="#CC1C7CFA"
             android:textSize="18sp"
@@ -124,7 +122,7 @@
             app:layout_constraintBottom_toBottomOf="@id/view7"
             app:layout_constraintEnd_toStartOf="@id/textViewTime"
             app:layout_constraintStart_toStartOf="@id/view7"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWinner2"
+            app:layout_constraintTop_toBottomOf="@+id/barrier2"
             tools:text="19th Sep" />
 
     <TextView
@@ -143,7 +141,7 @@
             app:layout_constraintBottom_toBottomOf="@id/view7"
             app:layout_constraintEnd_toStartOf="@id/textViewVenue"
             app:layout_constraintStart_toEndOf="@id/textViewDate"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWinner2"
+            app:layout_constraintTop_toBottomOf="@+id/barrier2"
             tools:text="2.30 pm" />
 
     <TextView
@@ -163,7 +161,7 @@
             app:layout_constraintBottom_toBottomOf="@id/view7"
             app:layout_constraintEnd_toEndOf="@id/view7"
             app:layout_constraintStart_toEndOf="@id/textViewTime"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWinner3"
+            app:layout_constraintTop_toBottomOf="@+id/barrier2"
             tools:text="SAC" />
 
     <ImageView
@@ -175,5 +173,13 @@
             app:layout_constraintEnd_toEndOf="@+id/view7"
             app:layout_constraintTop_toTopOf="@+id/textViewRound"
             app:srcCompat="@drawable/ic_not_favourite" />
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="textViewWinner2,textViewWinner3"
+            tools:layout_editor_absoluteY="193dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
