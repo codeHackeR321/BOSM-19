@@ -28,7 +28,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
 
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
-                            R.drawable.ic_track_events,
+                            R.drawable.layer1,
                             "Track Events",
                             resources.getColor(R.color.trackEvents)
                         )
@@ -38,7 +38,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
 
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
-                            R.drawable.ic_online_order,
+                            R.drawable.layer2,
                             "Order Food",
                             resources.getColor(R.color.orderFood)
                         )
@@ -48,7 +48,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
 
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
-                            R.drawable.ic_games,
+                            R.drawable.layer3,
                             "Games",
                             resources.getColor(R.color.games)
                         )
@@ -58,7 +58,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
 
                         return Onboarding1Fragment(
                             this@OnboardingActivity,
-                            R.drawable.ic_buy_tickets,
+                            R.drawable.layer4,
                             "Buy Tickets",
                             resources.getColor(R.color.buyTickets)
                         )
@@ -66,7 +66,7 @@ class OnboardingActivity : AppCompatActivity(), onboardingFragmentButtonClickLis
                 }
                 return Onboarding1Fragment(
                     this@OnboardingActivity,
-                    R.drawable.ic_track_events,
+                    R.drawable.layer1,
                     "Track Events",
                     resources.getColor(R.color.trackEvents)
                 )

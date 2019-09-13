@@ -1,19 +1,22 @@
 package com.dvm.appd.bosm.dbg.more
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.more.dataClasses.Developer
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.row_developer.view.*
 
 class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolder>() {
 
    var developers: List<Developer> = emptyList()
-
+    private val baseImageLink = "https://www.bits-bosm.org/"
     override fun getItemCount() = developers.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeveloperVHolder {
@@ -23,7 +26,13 @@ class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolde
 
     override fun onBindViewHolder(holder: DeveloperVHolder, position: Int) {
         val developer = developers[position]
-
+        FirebaseStorage.getInstance().reference.child("${developers[position].name}.jpg").downloadUrl.addOnSuccessListener {
+            Glide.with(holder.itemView.context!!).load(it).placeholder(R.drawable.ic_outline_profile_identity_24px).circleCrop().into(holder.picIMG)
+        }
+        if(position>=4||position<=8){
+            Log.d("check","${baseImageLink}/img/developers/${developers[position]}.jpg")
+            Glide.with(holder.itemView.context!!).load("${baseImageLink}/img/developers/${developers[position].name.substringBefore(" ")}.jpg").placeholder(R.drawable.ic_outline_profile_identity_24px).into(holder.picIMG)
+        }
         holder.nameLBL.text = developer.name
         holder.roleLBL.text = developer.role
 
