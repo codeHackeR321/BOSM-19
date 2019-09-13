@@ -30,6 +30,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="64dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:elevation="2dp"
             android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="Event Name"
@@ -45,6 +47,7 @@
             android:id="@+id/eventDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:elevation="2dp"
@@ -56,37 +59,42 @@
 
     <TextView
             android:id="@+id/eventOrg"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:elevation="2dp"
-            android:text="TextView"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAlignment="textStart"
             android:textAllCaps="true"
             android:textColor="#6851DA"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/view"
-            app:layout_constraintStart_toStartOf="@id/view"
-            app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+            app:layout_constraintEnd_toStartOf="@id/eventVenue"
+            app:layout_constraintStart_toStartOf="@+id/eventName"
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc"
+            tools:text="DoLE" />
 
     <TextView
             android:id="@+id/eventTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="12dp"
             android:layout_marginBottom="8dp"
             android:elevation="2dp"
-            android:text="TextView"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAlignment="textEnd"
             android:textAllCaps="true"
             android:textColor="#6851DA"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/view"
             app:layout_constraintEnd_toEndOf="@id/view"
-            app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc"
+            tools:text="14:30" />
 
     <TextView
             android:id="@+id/eventVenue"
@@ -95,15 +103,18 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+            android:maxWidth="160dp"
             android:elevation="2dp"
-            android:text="TextView"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAlignment="textEnd"
             android:textAllCaps="true"
             android:textColor="#6851DA"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/view"
             app:layout_constraintEnd_toStartOf="@+id/eventTime"
-            app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc"
+            tools:text="GYM G" />
 
     <ImageView
             android:id="@+id/markFav"

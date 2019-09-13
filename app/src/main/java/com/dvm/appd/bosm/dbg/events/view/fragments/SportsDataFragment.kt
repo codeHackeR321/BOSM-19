@@ -23,6 +23,7 @@ import com.dvm.appd.bosm.dbg.events.view.adapters.GenderDataAdapter
 import com.dvm.appd.bosm.dbg.events.view.adapters.SportsDataAdapter
 import com.dvm.appd.bosm.dbg.events.viewmodel.SportsDataViewModel
 import com.dvm.appd.bosm.dbg.events.viewmodel.SportsDataViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_sports_data.*
 import kotlinx.android.synthetic.main.fragment_sports_data.view.*
@@ -114,7 +115,7 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
 
     override fun genderClicked(gender: String) {
         genderSelected=gender
-        Toast.makeText(activity, "Gender selected$gender", Toast.LENGTH_LONG).show()
+        // Toast.makeText(activity, "Gender selected$gender", Toast.LENGTH_LONG).show()
         setGenderWiseData()
         /*
         (recy_sports_vertical.adapter as SportsDataAdapter).genderSelected=gender
@@ -160,7 +161,8 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
 
         } catch (e: Exception) {
             Log.d("CompletedError", e.toString())
-            Toast.makeText(activity,"My message$e" , Toast.LENGTH_LONG).show()
+            Snackbar.make(view!!.recy_sports_vertical, "Internal App Error. Please restart", Snackbar.LENGTH_INDEFINITE).show()
+            // Toast.makeText(activity,"My message$e" , Toast.LENGTH_LONG).show()
         }
     }
 
