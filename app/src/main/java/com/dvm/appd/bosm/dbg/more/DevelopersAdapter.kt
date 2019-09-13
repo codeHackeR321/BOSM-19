@@ -31,7 +31,8 @@ class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolde
         }
         if(position>=4||position<=8){
             Log.d("check","${baseImageLink}/img/developers/${developers[position]}.jpg")
-            Glide.with(holder.itemView.context!!).load("${baseImageLink}/img/developers/${developers[position].name.substringBefore(" ").toLowerCase()}.jpg").placeholder(R.drawable.ic_outline_profile_identity_24px).circleCrop().into(holder.picIMG)
+            Glide.with(holder.itemView.context!!).load("${baseImageLink}/img/developers/${developers[position].name.substringBefore(" ").toLowerCase()}.jpg").placeholder(R.drawable.ic_outline_profile_identity_24px).circleCrop()
+                .into(holder.picIMG)
         }
         holder.nameLBL.text = developer.name
         holder.roleLBL.text = developer.role
