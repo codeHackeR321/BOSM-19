@@ -104,8 +104,8 @@
             android:textColor="#B3232A38"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/textViewTeam2"
-            app:layout_constraintStart_toStartOf="@+id/textViewTeam2"
             app:layout_constraintStart_toEndOf="@id/textViewScore1"
+            app:layout_constraintStart_toStartOf="@+id/textViewTeam2"
             app:layout_constraintTop_toBottomOf="@+id/barrier"
 
             tools:text="68" />
@@ -122,6 +122,7 @@
             android:textAlignment="center"
             android:textColor="#ffffff"
             android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/barrier3"
             app:layout_constraintEnd_toEndOf="@id/view8"
             app:layout_constraintStart_toStartOf="@id/view8"
             app:layout_constraintTop_toBottomOf="@+id/textViewScore1"
@@ -200,10 +201,10 @@
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="2dp"
             android:padding="4dp"
             android:text="vs"
             android:textSize="14sp"
-            android:elevation="2dp"
             app:layout_constraintBottom_toTopOf="@+id/textViewScore1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -216,6 +217,14 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="textViewTeam1,textViewTeam2"
             tools:layout_editor_absoluteY="187dp" />
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="textViewScore1,textViewScore2"
+            tools:layout_editor_absoluteY="169dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

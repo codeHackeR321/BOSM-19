@@ -45,33 +45,33 @@ class MiscEventsFragment : Fragment(), MiscEventsAdapter.OnMarkFavouriteClicked,
 
         when(sdf.format(c.time)){
             "13 09 2019" -> {
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 0")
+                miscEventsViewViewModel.getMiscEventsData("Day 0")
+            }
+
+            "14 09 2019" -> {
                 (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 1")
                 miscEventsViewViewModel.getMiscEventsData("Day 1")
             }
 
-            "14 09 2019" -> {
+            "15 09 2019" -> {
                 (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 2")
                 miscEventsViewViewModel.getMiscEventsData("Day 2")
             }
 
-            "15 09 2019" -> {
+            "16 09 2019" -> {
                 (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 3")
                 miscEventsViewViewModel.getMiscEventsData("Day 3")
             }
 
-            "16 09 2019" -> {
+            "17 09 2019" -> {
                 (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 4")
                 miscEventsViewViewModel.getMiscEventsData("Day 4")
             }
 
-            "17 09 2019" -> {
-                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 5")
-                miscEventsViewViewModel.getMiscEventsData("Day 5")
-            }
-
             else -> {
-                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 1")
-                miscEventsViewViewModel.getMiscEventsData("Day 1")
+                (miscEventsViewViewModel.daySelected as MutableLiveData).postValue("Day 0")
+                miscEventsViewViewModel.getMiscEventsData("Day 0")
             }
         }
 

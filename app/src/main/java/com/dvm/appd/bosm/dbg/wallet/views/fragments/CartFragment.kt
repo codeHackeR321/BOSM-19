@@ -82,6 +82,13 @@ class CartFragment: Fragment(), CartAdapter.OnButtonClicked {
             }
         })
 
+        cartViewModel.redirect.observe(this, Observer {
+
+            if(it)
+                view.findNavController().navigate(R.id.action_action_cart_to_orders)
+
+        })
+
         view.backBtn.setOnClickListener {
             it.findNavController().popBackStack()
         }
