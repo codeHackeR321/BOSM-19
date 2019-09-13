@@ -19,4 +19,7 @@ interface ElasService {
     @GET("/quiz/get-rules")
     fun getAllRules(): Single<Response<RulesResponse>>
 
+    @GET("/quiz/get-previous-questions")
+    fun getAllQuestions(@Header("Authorization")jwt: String):Single<Response<QuestionsResponse>>
+
 }

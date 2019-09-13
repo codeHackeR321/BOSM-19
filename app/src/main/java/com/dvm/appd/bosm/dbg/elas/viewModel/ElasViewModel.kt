@@ -28,12 +28,17 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
         uiState.asMut().postValue(UIStateElas.Loading)
         getQuestions()
         getLeaderboard()
+        elasRepository.getQuestions().subscribe({
+
+        },{
+            (uiState as MutableLiveData).value = UIStateElas.Failure(it.message.toString())
+        })
     }
 
     @SuppressLint("CheckResult")
     private fun getLeaderboard() {
         val d2 = elasRepository.getLeaderboardFromRoom().subscribe({
-            Log.d("Elas VoewModel", "Observer for leaderboard entered with = ${it.toString()}")
+            Log.d("Elas ViewModel", "Observer for leaderboard entered with = ${it.toString()}")
             leaderboard.asMut().postValue(it)
         },{
             Log.e("ELASQViewModel", "Error in reading Leaderboard from room = ${it.message.toString()}")
