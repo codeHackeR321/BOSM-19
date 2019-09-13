@@ -83,8 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_rectangle_rounded_8dp"
-            android:backgroundTint="#2907A6"
+            android:background="#2907A6"
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recy_sports_horizontal" />

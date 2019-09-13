@@ -89,7 +89,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             resources.getString(R.string.chanel_id_general_notifications)
         }
         val sportsName = try {
-            json["event_name"]
+            json["event_name"]!!
         } catch (e: Exception) {
             "Not Available"
         }
@@ -97,7 +97,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val notificatoin = Notification(id = id!!, title = title!!, body = body!!, channel = channel!!)
 
         val otp = try {
-            json["otp"]
+            json["otp"]!!
         } catch (e: Exception) {
             "0000"
         }
@@ -109,10 +109,10 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         }
             .subscribe({
                 Log.d("Notification", "Succesfully added data to table")
-                val bundle = Bundle()
+                /*val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, notificatoin.id)
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, notificatoin.title)
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Book")
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Book")*/
                 // TODO setup firbase analytic log
             },
                 {
@@ -120,10 +120,12 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                     // TODO setup firbase analytic log
                 })
 
-        if (sportsName != "Not Available") {
-            sendNotification(notificatoin, sportsName!!)
-        } else if (otp != null) {
-            sendNotification(notificatoin, notificatoin.id, otp)
+        Log.d("Notification", "$sportsName\n$otp\n")
+
+        if (sportsName != "Not Available" && sportsName != "null" && sportsName != null) {
+            sendNotification(notificatoin, sportsName?:"sprotsName")
+        } else if (otp != null && otp != "null" && otp != "0000") {
+            sendNotification(notificatoin, notificatoin.id, otp?:"OTP")
         } else {
             sendNotification(notificatoin)
         }
