@@ -17,14 +17,14 @@
             android:id="@+id/stallImage"
             android:layout_width="183dp"
             android:layout_height="160dp"
-            android:background="@drawable/shape_rectangle_rounded_16dp"
+            android:background="@drawable/placeholder_stalls"
             android:backgroundTint="#EAF2FF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1.33"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_fast_food" />
+            app:srcCompat="@drawable/placeholder_stalls" />
 
     <TextView
             android:id="@+id/quantity"

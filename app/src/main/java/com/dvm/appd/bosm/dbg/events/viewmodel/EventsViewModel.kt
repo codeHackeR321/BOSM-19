@@ -29,7 +29,10 @@ class EventsViewModel(val eventsRepository: EventsRepository): ViewModel() {
 
     fun markFavourite(sport: String, favMark: Int){
         eventsRepository.updateEventFavourite(sport, favMark).subscribe({
-            (error as MutableLiveData).postValue(null)
+            if (favMark == 1)
+                (error as MutableLiveData).postValue("You will now receive notifications for this sport")
+            else if (favMark == 0)
+                (error as MutableLiveData).postValue("You will no longer receive notifications for this event")
         },{
             (error as MutableLiveData).postValue(it.message)
         })

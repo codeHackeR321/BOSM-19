@@ -13,6 +13,7 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
     var cartItems: LiveData<List<ModifiedCartData>> = MutableLiveData()
     var progressBarMark: LiveData<Int> = MutableLiveData(1)
     var error: LiveData<String> = MutableLiveData(null)
+    var redirect: LiveData<Boolean> = MutableLiveData(false)
 
     init {
 
@@ -31,6 +32,7 @@ class CartViewModel(val walletRepository: WalletRepository): ViewModel(){
         walletRepository.placeOrder().subscribe({
             (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue("Order successful")
+            (redirect as MutableLiveData).postValue(true)
         },{
             (progressBarMark as MutableLiveData).postValue(1)
             (error as MutableLiveData).postValue(it.message)
