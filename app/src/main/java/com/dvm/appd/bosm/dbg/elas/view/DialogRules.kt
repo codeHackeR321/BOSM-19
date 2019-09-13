@@ -1,12 +1,9 @@
 package com.dvm.appd.bosm.dbg.elas.view
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.TextView
+import android.view.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -20,19 +17,28 @@ import kotlinx.android.synthetic.main.dia_rules_elas.view.*
 
 class DialogRules: DialogFragment() {
 
+    lateinit var roundId: String
+
     private val rulesViewModel by lazy {
         ViewModelProviders.of(this, RulesDialogViewModelFactory())[RulesDialogViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dia_rules_elas, container, false)
+        arguments?.let {
+            roundId = it.getString("round")!!
+        }
         return view
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rulesViewModel.getRulesForRound("1")
+        if (roundId != "") {
+            rulesViewModel.getRulesForRound(roundId)
+        } else {
+            view.text_rules_dialog_rulesText.text = "Rules to be announced Soon"
+        }
 
         rulesViewModel.error.observe(this, Observer {
             if (it != null) {
@@ -52,11 +58,15 @@ class DialogRules: DialogFragment() {
             activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             var rules_Text = ""
             for((index, string) in it.withIndex()) {
-                rules_Text += "${index + 1}. ${string}\n"
+                rules_Text += "${index + 1}. ${string}\n\n"
+            }
+            if (rules_Text == "") {
+                view.text_rules_dialog_rulesText.text = "Rules to be announced Soon"
+            } else {
+                view.text_rules_dialog_rulesText.text = rules_Text
             }
             Log.d("Elas Dialog", "Final rules = ${rules_Text}")
-            view.text_rules_dialog_rulesText.isVisible = true
-            view.text_rules_dialog_rulesText.text = rules_Text
+
         })
     }
 }

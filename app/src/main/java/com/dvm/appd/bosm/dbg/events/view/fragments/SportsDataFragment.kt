@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,10 +28,16 @@ import kotlinx.android.synthetic.main.fragment_sports_data.*
 import kotlinx.android.synthetic.main.fragment_sports_data.view.*
 import kotlinx.android.synthetic.main.fragment_sports_data.view.recy_sports_vertical
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
-class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsDataAdapter.OnFavouriteClicked {
+class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsDataAdapter.OnFavouriteClicked, AdapterView.OnItemSelectedListener {
+
     private var genderSelected=""
     private var genderWiseDataMap= mapOf<String,List<SportsData>>()
+    private lateinit var currentTime: String
+    private var filters = arrayListOf("Upcoming", "Over")
+    private lateinit var filter: String
     private lateinit var sportsDataViewModel: SportsDataViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,12 +45,18 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
         Log.d("Sports", "sports name selected: $name")
         sportsDataViewModel = ViewModelProviders.of(this, SportsDataViewModelFactory(sportName!!))[SportsDataViewModel::class.java]
 
+        val sdf = SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.ssss'Z'")
+        val calendar = Calendar.getInstance()
+        currentTime = sdf.format(calendar.time)
+
         val view = inflater.inflate(R.layout.fragment_sports_data, container, false)
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
         activity!!.search.isVisible = false
         activity!!.textView7.isVisible = false
         activity!!.refresh.isVisible = false
 
+        view.filter.adapter = ArrayAdapter<String>(this.context!!, R.layout.filter_dialog, R.id.filterName, filters)
+        view.filter.onItemSelectedListener = this
 
         view.textView4.text=sportName.capitalize()
 
@@ -67,6 +82,11 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
             (view.recy_sports_vertical.adapter as SportsDataAdapter).genderSelected=it[0]
             (view.recy_sports_vertical.adapter as SportsDataAdapter).notifyDataSetChanged()
 */
+        })
+
+        sportsDataViewModel.filter.observe(this, Observer {
+            filter = it
+            setGenderWiseData()
         })
 
         /*sportsDataViewModel.sportsData.observe(this, Observer {
@@ -111,9 +131,26 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
                 // Toast.makeText(activity, "No data for $genderSelected", Toast.LENGTH_LONG).show()
                 (recy_sports_vertical.adapter as SportsDataAdapter).sportData= emptyList()
             }
-            else
-                (recy_sports_vertical.adapter as SportsDataAdapter).sportData =genderWiseDataMap[genderSelected] ?: error("No data Found $genderSelected")
+            else {
+                Log.d("Time",
+                    "${(genderWiseDataMap[genderSelected]
+                        ?: error("")).filter { it.time == currentTime }.map { it.time }}"
+                )
 
+                if (filter == "Upcoming") {
+                    (recy_sports_vertical.adapter as SportsDataAdapter).sportData =
+                        (genderWiseDataMap[genderSelected]
+                            ?: error("No data Found $genderSelected")).filter { it.time < currentTime }
+                } else if (filter == "Over") {
+                    (recy_sports_vertical.adapter as SportsDataAdapter).sportData =
+                        (genderWiseDataMap[genderSelected]
+                            ?: error("No data Found $genderSelected")).filter { it.time > currentTime }
+                } else {
+                    (recy_sports_vertical.adapter as SportsDataAdapter).sportData =
+                        (genderWiseDataMap[genderSelected]
+                            ?: error("No data Found $genderSelected"))
+                }
+            }
             //Check daywise data
             Log.d("CompletedDataCheck", "data Check${genderWiseDataMap[genderSelected]}.dayWiseorders.toString()}")
             (recy_sports_vertical.adapter as SportsDataAdapter).notifyDataSetChanged()
@@ -137,5 +174,14 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
 
     override fun updateFavourite(matchNo: Int, favouriteMark: Int) {
         sportsDataViewModel.markMatchFavourite(matchNo, favouriteMark)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        (sportsDataViewModel.filter as MutableLiveData).postValue(parent!!.adapter.getItem(position) as String)
+        Log.d("Filter", filter)
     }
 }

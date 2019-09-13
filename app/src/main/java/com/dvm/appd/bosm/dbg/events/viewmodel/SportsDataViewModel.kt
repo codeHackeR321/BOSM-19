@@ -12,6 +12,7 @@ class SportsDataViewModel(val eventsRepository: EventsRepository, private var na
 
     var sportsData: LiveData<Map<String,List<SportsData>>> = MutableLiveData()
     var gender: LiveData<List<String>> = MutableLiveData()
+    var filter: LiveData<String> = MutableLiveData("Upcoming")
     var error: LiveData<String> = MutableLiveData(null)
 
     init {

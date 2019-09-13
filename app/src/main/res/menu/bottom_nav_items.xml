@@ -4,19 +4,22 @@
     <item
             android:id="@+id/action_food"
             android:enabled="true"
-            android:icon="@drawable/ic_food_icon_bottom_nav"
+            android:icon="@drawable/ic_stalls"
+            android:iconTint="@color/nav_stalls_color"
             android:title="@string/action_food"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_order_history"
             android:enabled="true"
-            android:icon="@drawable/ic_order_icon_bottom_nav"
+            android:icon="@drawable/ic_orders"
+            android:iconTint="@color/nav_orders_color"
             android:title="@string/action_order_history"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_events"
             android:enabled="true"
-            android:icon="@drawable/ic_action_event_24px"
+            android:icon="@drawable/ic_events"
+            android:iconTint="@color/nav_event_color"
             android:title="@string/action_events"
             app:showAsAction="ifRoom" />
 
@@ -24,7 +27,8 @@
     <item
             android:id="@+id/action_game"
             android:enabled="true"
-            android:icon="@drawable/ic_games_icon_bottom_nav"
+            android:icon="@drawable/ic_quiz"
+            android:iconTint="@color/nav_quiz_color"
             android:title="@string/action_game"
             app:showAsAction="ifRoom" />
 
@@ -32,6 +36,7 @@
             android:id="@+id/action_more"
             android:enabled="true"
             android:icon="@drawable/ic_more_icon_bottom_nav"
+            android:iconTint="@color/nav_more_color"
             android:title="@string/action_more"
             app:showAsAction="ifRoom" />
 
