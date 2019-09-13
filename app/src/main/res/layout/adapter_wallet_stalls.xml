@@ -16,7 +16,7 @@
             android:layout_width="141dp"
             android:layout_height="108dp"
             android:background="@drawable/shape_rectangle_rounded_16dp"
-            android:backgroundTint="@color/colorBlack"
+            android:backgroundTint="#EAF2FF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1.33"
             app:layout_constraintEnd_toEndOf="parent"
