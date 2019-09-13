@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        >
+        android:layout_marginBottom="8dp">
 
 
     <View
@@ -128,7 +126,7 @@
             app:layout_constraintBottom_toBottomOf="@id/view7"
             app:layout_constraintEnd_toStartOf="@id/textViewTime"
             app:layout_constraintStart_toStartOf="@id/view7"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWinner2"
+            app:layout_constraintTop_toBottomOf="@+id/barrier2"
             tools:text="19th Sep" />
 
     <TextView
@@ -147,7 +145,7 @@
             app:layout_constraintBottom_toBottomOf="@id/view7"
             app:layout_constraintEnd_toStartOf="@id/textViewVenue"
             app:layout_constraintStart_toEndOf="@id/textViewDate"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWinner2"
+            app:layout_constraintTop_toBottomOf="@+id/barrier2"
             tools:text="2.30 pm" />
 
     <TextView
@@ -167,7 +165,7 @@
             app:layout_constraintBottom_toBottomOf="@id/view7"
             app:layout_constraintEnd_toEndOf="@id/view7"
             app:layout_constraintStart_toEndOf="@id/textViewTime"
-            app:layout_constraintTop_toBottomOf="@+id/textViewWinner3"
+            app:layout_constraintTop_toBottomOf="@+id/barrier2"
             tools:text="SAC" />
 
     <ImageView
@@ -179,5 +177,13 @@
             app:layout_constraintEnd_toEndOf="@+id/view7"
             app:layout_constraintTop_toTopOf="@+id/textViewRound"
             app:srcCompat="@drawable/ic_not_favourite" />
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="textViewWinner2,textViewWinner3"
+            tools:layout_editor_absoluteY="193dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

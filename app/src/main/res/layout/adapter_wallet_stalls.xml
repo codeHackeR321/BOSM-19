@@ -6,6 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:background="@drawable/shape_rectangle_rounded_16dp"
         android:backgroundTint="#EAF2FF"
         android:orientation="vertical">
@@ -13,10 +15,10 @@
 
     <ImageView
             android:id="@+id/stallImage"
-            android:layout_width="141dp"
-            android:layout_height="108dp"
+            android:layout_width="183dp"
+            android:layout_height="160dp"
             android:background="@drawable/shape_rectangle_rounded_16dp"
-            android:backgroundTint="@color/colorBlack"
+            android:backgroundTint="#EAF2FF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1.33"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +39,6 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/stallImage"
-            app:layout_constraintHorizontal_bias="0.376"
             app:layout_constraintStart_toStartOf="@+id/stallImage"
             app:layout_constraintTop_toTopOf="@+id/stallImage" />
 

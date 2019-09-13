@@ -29,15 +29,10 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     lateinit var crashAnalytics: FirebaseAnalytics
     lateinit var roomDatabsae: AppDatabase
 
-    override fun onCreate() {
+   override fun onCreate() {
         Log.d("Notification", "Service Started")
         crashAnalytics = FirebaseAnalytics.getInstance(this)
         roomDatabsae = AppModule(application).providesAppDatabase(application)
-        roomDatabsae.eventsDao().getAllFavourites().subscribeOn(Schedulers.io()).subscribe({
-            Log.d("Notification", "Entered onComplete = ${it.toString()}")
-        },{
-            Log.e("Notification", "Entered onError = ${it.toString()}")
-        })
         super.onCreate()
     }
 
@@ -47,10 +42,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         if (remoteMessage == null) {
             Log.d("Notification", "Null Data")
         }
-
-        Log.e("Notification", JsonObject().apply {
-            addProperty("random_prop", "I'm a random property")
-        }.toString())
 
         if (remoteMessage!!.data.size > 0) {
             Log.d("Notification", "Non null data")
@@ -73,15 +64,23 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     @SuppressLint("CheckResult")
     private fun handleDataMessage(json: MutableMap<String, String>) {
         Log.d("Notification", "Handling data")
-        val id = try {
-            json["order_id"]
+        var id: String = ""
+        try {
+            id = json["order_id"].toString().toLong().toString()
         } catch (e: Exception) {
-            try {
-                json["round_id"]
+            Log.d("Notification", "Entered Catch")
+            id = "-1"
+        }
+        Log.d("Notifidcation", "Recived id = $id")
+        if (id == "-1") {
+            Log.d("Notifidcation", "Recived id = $id")
+            id = try {
+                json["round_id"].toString().toLong().toString()
             } catch (e: Exception) {
                 "0"
             }
         }
+        Log.d("Notifidcation", "Recived id = $id")
         val title = json["title"]
         val body = json["body"]
         val channel = try {
@@ -97,9 +96,9 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
         val notificatoin = Notification(id = id!!, title = title!!, body = body!!, channel = channel!!)
 
-        val otp = if (json.containsKey("otp")) {
+        val otp = try {
             json["otp"]
-        } else {
+        } catch (e: Exception) {
             "0000"
         }
         Log.d("Notification", "Notification = ${notificatoin.toString()}")
@@ -165,6 +164,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             if (sport != "Not Available") {
                 for(s in it) {
                     if (sport == s) {
+                        Log.d("Notification", "Found matching sport = $s")
                         val notificationBuilder = NotificationCompat.Builder(this, message.channel)
                             .setSmallIcon(R.drawable.ic_launcher_background)
                             .setContentTitle(message.title)

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content"
-                                                   xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   android:layout_marginBottom="8dp"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
     <View
             android:id="@+id/view8"
@@ -88,7 +89,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/textViewTeam1"
             app:layout_constraintStart_toStartOf="@id/textViewTeam1"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTeam1"
+            app:layout_constraintTop_toBottomOf="@+id/barrier"
             tools:text="42" />
 
     <TextView
@@ -104,7 +105,9 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/textViewTeam2"
             app:layout_constraintStart_toStartOf="@+id/textViewTeam2"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTeam2"
+            app:layout_constraintStart_toEndOf="@id/textViewScore1"
+            app:layout_constraintTop_toBottomOf="@+id/barrier"
+
             tools:text="68" />
 
     <TextView
@@ -205,5 +208,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewRound" />
+
+    <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="textViewTeam1,textViewTeam2"
+            tools:layout_editor_absoluteY="187dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,7 @@ interface ElasDao {
     @Insert
     fun insertLeaderboardPlayer(players: List<PlayerRankingResponse>): Completable
 
-    @Query("SELECT * FROM ranking_table")
+    @Query("SELECT * FROM ranking_table ORDER BY rank LIMIT 20")
     fun getLeaderboardFromRoon(): Flowable<List<PlayerRankingResponse>>
 
     @Query("DELETE FROM ranking_table")

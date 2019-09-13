@@ -1,5 +1,6 @@
 package com.dvm.appd.bosm.dbg.elas.view
 
+import android.app.ProgressDialog.show
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -81,7 +82,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     currentQuestionsList = (it as UIStateElas.Questions).questions
                     if (recycler_elasFrag_questions.adapter is ElasQuestionsAdapter) {
-                        (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = (it as UIStateElas.Questions).questions
+                        (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = (it as UIStateElas.Questions).questions.toSortedMap(reverseOrder())
                         (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
                     }
                 }
@@ -91,7 +92,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         elasViewModel.leaderboard.observe(this, Observer {
             if (it.isNotEmpty() && recycler_elasFrag_questions.adapter is ELasLeaderoardAdapter) {
                 currentLeaderboardList = it
-                (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = it
+                (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).leaderboardList = it.sortedBy { it.Rank }
                 (recycler_elasFrag_questions.adapter as ELasLeaderoardAdapter).notifyDataSetChanged()
             } else if (it.isNotEmpty() && recycler_elasFrag_questions.adapter !is ELasLeaderoardAdapter) {
                 currentLeaderboardList = it
@@ -121,7 +122,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
         activity!!.bttn_Leaderboard_elas.setTextColor(resources.getColor(R.color.colorGrey))
         try {
             recycler_elasFrag_questions.adapter = ElasQuestionsAdapter(this)
-            (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = currentQuestionsList
+            (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).questionsList = currentQuestionsList.toSortedMap(reverseOrder())
             (recycler_elasFrag_questions.adapter as ElasQuestionsAdapter).notifyDataSetChanged()
         } catch (e: Exception) {
             Log.e("ElasFragment", "Error = ${e.toString()}")
@@ -165,10 +166,17 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
 
     override fun viewRules(questionId: String) {
         Log.d("Elas Fragment", "Recived Category = ${questionId.toString()}")
-        if (questionId == "Miscellaneous") {
-            Toast.makeText(context, "There are no rules available for this question", Toast.LENGTH_LONG).show()
+        val bundle = Bundle()
+        if (questionId == "Miscellaneous" || questionId == "null") {
+            Toast.makeText(context, "The rules would be announced soon", Toast.LENGTH_LONG).show()
         } else {
-            DialogRules().show(childFragmentManager, "RulesDialog")
+            Log.d("ElasFrag", "Applying round = $questionId")
+            bundle.apply {
+                this.putString("round", questionId)
+            }
+            DialogRules().apply {
+                arguments = bundle
+            }.show(childFragmentManager, "RulesDialog")
         }
     }
 

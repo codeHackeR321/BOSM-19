@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="Circular Std Medium"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:text="@string/action_cart"
             android:textColor="@color/colorWhite"
             android:textSize="32sp"
