@@ -224,8 +224,16 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
             eventsChannel.description = "Notify about your favourite events"
             eventsChannel.canBypassDnd()
 
+            val quizChannel = NotificationChannel(
+                getString(R.string.channel_id_quiz),
+                getString(R.string.channel_id_quiz),
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            quizChannel.description = "Inform about the latest developments in the quiz game"
+            quizChannel.canBypassDnd()
+
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannels(listOf(generalChannel, ratingsChannel, statusChangeChannel, eventsChannel))
+            notificationManager.createNotificationChannels(listOf(generalChannel, ratingsChannel, statusChangeChannel, eventsChannel, quizChannel))
         }
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
             Log.d("Main Activity", "Recived New Token = ${it.token}}")
