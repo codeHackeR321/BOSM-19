@@ -22,7 +22,6 @@ class FragmentRecyclerView : Fragment() {
     lateinit var title: String
     private val picBaseUrl = "https://bits-apogee.org/backend-static/registrations/images/"
     private val developers = listOf(
-        Developer("Nishant Mahajan", "App Team Head", picBaseUrl + "nishant.png"),
         Developer("Prarabdh Garg", "App Developer", picBaseUrl + "prarabdh.png"),
         Developer("Suyash Soni", "App Developer", picBaseUrl + "suyash.png"),
         Developer("Akshat Gupta", "App Developer", picBaseUrl + "akshat.png"),
@@ -72,9 +71,8 @@ class FragmentRecyclerView : Fragment() {
             }
             "Developers" -> {
                 var devs = emptyList<Developer>()
-                devs = devs.plus(developers[0])
-                devs = devs.plus(developers.subList(1,5).shuffled())
-                devs = devs.plus(developers.subList(5, (developers.size)))
+                devs = devs.plus(developers.subList(0,4).shuffled())
+                devs = devs.plus(developers.subList(4, (developers.size)))
                 recycler_commonRecyclerView.adapter = DevelopersAdapter()
                 (recycler_commonRecyclerView.adapter as DevelopersAdapter).developers = devs
                 (recycler_commonRecyclerView.adapter as DevelopersAdapter).notifyDataSetChanged()
