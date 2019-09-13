@@ -34,6 +34,7 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
     }
     var selectedOptionId: Long = -1
     var currentOptionsList = emptyList<CombinedQuestionOptionDataClass>()
+    var currentSnackbar: Snackbar? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
@@ -49,7 +50,8 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
         if (questionId != 0.toLong()) {
             elasQuestionViewModel.getQuestion(questionId)
         } else {
-            Snackbar.make(activity!!.coordinator_parent, "Please Select a Valid Question", Snackbar.LENGTH_INDEFINITE).show()
+            currentSnackbar = Snackbar.make(activity!!.coordinator_parent, "Please Select a Valid Question", Snackbar.LENGTH_INDEFINITE)
+            currentSnackbar!!.show()
         }
 
         recycler_elasOptionsFrag_options.adapter = ElasOptionsAdapter(this)
@@ -61,7 +63,8 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
                 is UIStateElas.Failure -> {
                     progressBar.visibility = View.INVISIBLE
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE).show()
+                    currentSnackbar = Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE)
+                    currentSnackbar!!.show()
                 }
                 is UIStateElas.Loading -> {
                     progressBar.visibility = View.VISIBLE
