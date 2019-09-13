@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
@@ -105,8 +106,8 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                 }
                 else
                 {
-                    holder1.score1.visibility=View.GONE
-                    holder1.score1.visibility=View.GONE
+                    holder1.score1.isVisible= false
+                    holder1.score1.isVisible = false
                 }
 
                 if(sportData[position].winner1.isNullOrEmpty())
@@ -147,7 +148,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                     holder2.round.text = sportData[position].round
 
                 if (sportData[position].round_type.isNullOrEmpty())
-                    holder2.roundType.visibility=View.GONE
+                    holder2.roundType.visibility=View.INVISIBLE
                 else
                     holder2.roundType.text=sportData[position].round_type
 
@@ -172,17 +173,17 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                 }
 
                 if (sportData[position].winner1.isNullOrEmpty())
-                   holder2.winner1.visibility=View.GONE
+                   holder2.winner1.visibility=View.INVISIBLE
                 else
                     holder2.winner1.text=sportData[position].winner1
 
                 if (sportData[position].winner2.isNullOrEmpty())
-                    holder2.winner2.visibility=View.GONE
+                    holder2.winner2.visibility=View.INVISIBLE
                 else
                     holder2.winner2.text=sportData[position].winner2
 
                 if (sportData[position].winner3.isNullOrEmpty())
-                    holder2.winner3.visibility=View.GONE
+                    holder2.winner3.visibility=View.INVISIBLE
                 else
                     holder2.winner3.text=sportData[position].winner3
 

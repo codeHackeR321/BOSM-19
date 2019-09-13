@@ -88,6 +88,10 @@ class ProfileFragment : Fragment() {
             it.findNavController().navigate(R.id.action_action_profile_to_buyTicketDialog)
         }
 
+        rootView.buyBtn.setOnClickListener {
+            it.findNavController().navigate(R.id.action_action_profile_to_buyTicketDialog)
+        }
+
         profileViewModel.order.observe(this, Observer {
             when (it!!) {
                 UiState.MoveToLogin -> {

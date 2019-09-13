@@ -14,7 +14,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:clipToPadding="true"
-            android:paddingBottom="60dp"
+            android:paddingBottom="80dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

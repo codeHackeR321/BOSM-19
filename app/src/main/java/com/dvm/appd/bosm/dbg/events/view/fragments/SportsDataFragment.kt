@@ -46,10 +46,10 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
         Log.d("Sports", "sports name selected: $name")
         sportsDataViewModel = ViewModelProviders.of(this, SportsDataViewModelFactory(sportName!!))[SportsDataViewModel::class.java]
 
-        val sdf = SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.ssss'Z'")
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.ssss'Z'")
         val calendar = Calendar.getInstance()
         currentTime = sdf.format(calendar.time)
-
+        Log.d("Time", currentTime)
         val view = inflater.inflate(R.layout.fragment_sports_data, container, false)
         (activity!! as MainActivity).hideCustomToolbarForLevel2Fragments()
         activity!!.search.isVisible = false
@@ -135,17 +135,17 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
             else {
                 Log.d("Time",
                     "${(genderWiseDataMap[genderSelected]
-                        ?: error("")).filter { it.time == currentTime }.map { it.time }}"
+                        ?: error("")).map { it.time }}"
                 )
 
                 if (filter == "Upcoming") {
                     (recy_sports_vertical.adapter as SportsDataAdapter).sportData =
                         (genderWiseDataMap[genderSelected]
-                            ?: error("No data Found $genderSelected")).filter { it.time < currentTime }
+                            ?: error("No data Found $genderSelected")).filter { it.time >= currentTime }
                 } else if (filter == "Over") {
                     (recy_sports_vertical.adapter as SportsDataAdapter).sportData =
                         (genderWiseDataMap[genderSelected]
-                            ?: error("No data Found $genderSelected")).filter { it.time > currentTime }
+                            ?: error("No data Found $genderSelected")).filter { it.time < currentTime }
                 } else {
                     (recy_sports_vertical.adapter as SportsDataAdapter).sportData =
                         (genderWiseDataMap[genderSelected]
