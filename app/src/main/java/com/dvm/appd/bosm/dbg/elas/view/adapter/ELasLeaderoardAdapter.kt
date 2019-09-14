@@ -25,6 +25,7 @@ class ELasLeaderoardAdapter(val context: Context) : RecyclerView.Adapter<ELasLea
     override fun onBindViewHolder(holder: ElasLeaderboardViewHolder, position: Int) {
         holder.playerName.text = leaderboardList[position].Name
         holder.playerPoints.text = "${leaderboardList[position].Points.toString()} Pts"
+        holder.textRank.text = leaderboardList[position].Rank.toString()
         when(leaderboardList[position].Rank) {
             1 -> {
                 holder.imgRank.setImageDrawable(context.getDrawable(R.drawable.ic_gold_cup))
@@ -45,6 +46,7 @@ class ELasLeaderoardAdapter(val context: Context) : RecyclerView.Adapter<ELasLea
         val imgRank = view.img_leaderboard_ranking
         val playerPoints = view.text_leaderboard_points
         val playerName = view.text_leaderboard_name
+        val textRank = view.text_elasLeaderboard_rank
     }
 
 }

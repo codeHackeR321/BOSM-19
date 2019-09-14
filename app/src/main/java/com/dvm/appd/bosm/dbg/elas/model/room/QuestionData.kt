@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class QuestionData(
     @PrimaryKey val questionId: Long,
     val question: String,
-    val category: String
+    val category: String,
+    val questionNumber: String
 )
 
 

@@ -12,6 +12,7 @@ import com.dvm.appd.bosm.dbg.elas.model.retrofit.PlayerRankingResponse
 import com.dvm.appd.bosm.dbg.shared.util.asMut
 import com.dvm.appd.bosm.dbg.splash.views.UiState
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
 class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
@@ -29,7 +30,7 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
         getQuestions()
         getLeaderboard()
         elasRepository.getQuestions().subscribe({
-
+            Log.d("Elas Repo", "REterived data from room")
         },{
             (uiState as MutableLiveData).value = UIStateElas.Failure(it.message.toString())
         })
@@ -37,7 +38,7 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
 
     @SuppressLint("CheckResult")
     private fun getLeaderboard() {
-        val d2 = elasRepository.getLeaderboardFromRoom().subscribe({
+        val d2 = elasRepository.getLeaderboardFromRoom().subscribeOn(Schedulers.io()).subscribe({
             Log.d("Elas ViewModel", "Observer for leaderboard entered with = ${it.toString()}")
             leaderboard.asMut().postValue(it)
         },{
@@ -48,7 +49,7 @@ class ElasViewModel(val elasRepository: ElasRepository) : ViewModel() {
     }
 
     private fun getQuestions() {
-        val d1 = elasRepository.getQuestionsFromRoom().doOnNext{
+        val d1 = elasRepository.getQuestionsFromRoom().subscribeOn(Schedulers.io()).doOnNext{
             Log.d(TAG, "Entered Observer with list = ${it.toString()}")
             uiState.asMut().postValue(UIStateElas.Questions(it.groupBy { it.questionId }))
             (questions as MutableLiveData<Map<Long, List<CombinedQuestionOptionDataClass>>>).postValue(it.groupBy { it.questionId })

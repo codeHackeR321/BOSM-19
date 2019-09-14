@@ -17,6 +17,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 import retrofit2.Response
+import kotlin.math.roundToInt
 
 class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val authRepository: AuthRepository) {
     private val TAG = "ELAS REPO"
@@ -206,16 +207,21 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
                     } catch (e: Exception) {
                         4
                     }
+                    val questionNumber = try {
+                        document["question_no"].toString()
+                    } catch (e: Exception) {
+                        question_number.toString()
+                    }
                     var optionsList: MutableList<OptionData> = arrayListOf()
                     for(i in 1 .. numberOfOptions) {
                         val option = try {
-                            document!![i.toString()].toString()
+                            document[i.toString()].toString()
                         } catch (e: Exception) {
                             "None of These"
                         }
                         optionsList.add(parseOption(question_number, option))
                     }
-                    elasDao.insertQuestions(listOf(QuestionData(question_number, question, category))).subscribeOn(Schedulers.io()).subscribe({},{
+                    elasDao.insertQuestions(listOf(QuestionData(question_number, question, category, questionNumber))).subscribeOn(Schedulers.io()).subscribe({},{
                         Log.e(TAG, "Unable to insert question in room = ${it.toString()}")
                     })
                     elasDao.insertOptions(optionsList).subscribeOn(Schedulers.io()).subscribe({},{
@@ -268,18 +274,34 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
                     Log.d("checkelasr",qResponse.body().toString())
                     val questions: MutableList<QuestionData> = arrayListOf()
                     val options: MutableList<OptionData> = arrayListOf()
-                    val questionsData= try {
-                        qResponse.body()!!.previous_questions
+                    var questionsData = emptyList<Map<String, Any>>()
+                    try {
+                        Log.d("Elas Repo", "Questions = ${qResponse.body()!!.previous_questions}")
+                        questionsData = qResponse.body()!!.previous_questions
+                        Log.d("Elas Repo", "Questions = ${qResponse.body()!!.previous_questions}")
                     } catch (e: Exception) {
-                        emptyList<Map<String, Any>>()
+                        Log.e("Elas Repo", "Entered exception = ${e.toString()}")
+                        questionsData = emptyList<Map<String, Any>>()
                     }
+                    Log.d("Elas REpo", "Questions Data = $questionsData")
                     if (!questionsData.isNullOrEmpty()) {
-                        questionsData.forEach {
-                            it.parseQuestion(questions, options)
+                        for(question in questionsData) {
+                            Log.d("Elas Repo", "Map = $question")
+                            question.parseQuestion(questions, options)
                         }
+                        /*questionsData.forEach {
+                            it.parseQuestion(questions, options)
+                        }*/
                     }
-                    elasDao.insertQuestions(questions)
-                    elasDao.insertOptions(options)
+                    elasDao.insertQuestions(questions).subscribeOn(Schedulers.io()).subscribe({
+                        elasDao.insertOptions(options).subscribeOn(Schedulers.io()).subscribe({
+
+                        },{
+                            Log.e("Elas Repo", "Error in room options = ${it.toString()}")
+                        })
+                    },{
+                        Log.e("Elas Repo", "Error in room questions = ${it.toString()}")
+                    })
                 }.doOnError {
                    Log.d("checke",it.toString())
                 }.ignoreElement()
@@ -287,26 +309,30 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
     }
 
     fun Map<String, Any>.parseQuestion(questions: MutableList<QuestionData>, options: MutableList<OptionData>) {
+        Log.d("Elas Repo", "Entered in parser")
         val question: String? = getValue("question_text").toString()
-        val questionId: Long? = getValue("question_id").toString().toLong()
-        var category: String? = getValue("category").toString()
+        val questionId: Long? = getValue("question_id").toString().toDouble().toLong()
+        var category: String? = getValue("round_no").toString().toDouble().toString()
+        val questionNumber: String? = getValue("question_no").toString()
         if(category == null) {
             category = "Miscellaneous"
         }
-        if (question != null && questionId != null ) {
-            questions.add(questionId.toInt(), QuestionData(questionId, question, category))
+        if (question != null && questionId != null && questionNumber != null) {
+            questions.add(QuestionData(questionId, question, category, questionNumber))
         } else {
             return
         }
-        val numberOfOptions: Int? = getValue("total_options").toString().toInt()
+        //First error //Sorted, life is a little better
+        val numberOfOptions: Int? = getValue("total_options").toString().toDouble().roundToInt()
+        Log.d("Elas Repo", "Number of questions = ${numberOfOptions}")
         if (numberOfOptions != null) {
             for (i in 1 .. numberOfOptions) {
-                val option: String? = getValue(i.toString()).toString()
+                //Second error //Sorted, life is sorted now
+                val option: String? = getValue("$i").toString()
                 if (option != null)
-                    options.add(parseOption(questionId, option))
+                    options.add(parseOption(questionNumber.toDouble().toLong(), option))
             }
         } else {
-            questions.removeAt(questionId.toInt())
             return
         }
     }

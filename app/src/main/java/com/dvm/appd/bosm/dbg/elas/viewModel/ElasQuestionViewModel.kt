@@ -42,10 +42,14 @@ class ElasQuestionViewModel(val repository: ElasRepository): ViewModel() {
             Log.d("ElasQuesViewModel", "Response Code = ${it.code()}")
             when(it.code()) {
                 200 -> {
-                    uiState.asMut().postValue(UIStateElas.Failure("${it.body()!!.display_message}"))
+                    uiState.asMut().postValue(UIStateElas.Failure(it.body()!!.display_message))
+                }
+                400 -> {
+                    Log.d("ElasQuesViewModel", "Response Body = ${it.body().toString()} ${it.body()}")
+                    uiState.asMut().postValue(UIStateElas.Failure("You have already submitted the answer"))
                 }
                 else -> {
-                    Log.d("ElasQuesViewModel", "Response Body = ${it.body().toString()} ${it.message()}")
+                    Log.d("ElasQuesViewModel", "Response Body = ${it.body().toString()} ${it.body()}")
                     uiState.asMut().postValue(UIStateElas.Failure("Unable to submit Answer(${it.code()} )"))
                 }
             }

@@ -87,7 +87,7 @@ class AppModule(private val application: Application) {
     @Provides
     @Singleton
     fun providesAppDatabase(application: Application): AppDatabase {
-        return Room.databaseBuilder(application, AppDatabase::class.java, "bosm.db")
+        return Room.databaseBuilder(application, AppDatabase::class.java, "bosm.db").fallbackToDestructiveMigration()
             .build()
     }
 
@@ -95,7 +95,7 @@ class AppModule(private val application: Application) {
     @Singleton
     fun providesRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://www.bits-bosm.org")
+            .baseUrl("https://test1.bits-bosm.org")
             .client(OkHttpClient().newBuilder().addInterceptor(BaseInterceptor()).build())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

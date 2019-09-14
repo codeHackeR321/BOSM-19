@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.elas.view
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,8 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        text_card_elasFrag_question.movementMethod = ScrollingMovementMethod()
+
         if (questionId != 0.toLong()) {
             elasQuestionViewModel.getQuestion(questionId)
         } else {
@@ -55,8 +58,6 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
         }
 
         recycler_elasOptionsFrag_options.adapter = ElasOptionsAdapter(this)
-
-        text_card_elasFrag_questionNo.text = "Question ${questionId}"
 
         elasQuestionViewModel.uiState.observe(this, Observer {
             when(it) {
@@ -79,6 +80,7 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
 
         elasQuestionViewModel.question.observe(this, Observer {
             if (it.isNotEmpty()) {
+                text_card_elasFrag_questionNo.text = "Question ${it.first().questionNumber}"
                 constraint_question.visibility = View.VISIBLE
                 text_card_elasFrag_question.text = it.first().question
                 currentOptionsList = it

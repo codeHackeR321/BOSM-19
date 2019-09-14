@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_marginLeft="8dp"
@@ -11,17 +12,33 @@
         android:layout_height="wrap_content">
 
     <ImageView
-            android:layout_width="wrap_content"
             android:id="@+id/img_leaderboard_ranking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            tools:srcCompat="@drawable/ic_gold_cup" />
+
+    <TextView
+            android:layout_width="0dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginTop="6dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            app:layout_constraintTop_toTopOf="@id/img_leaderboard_ranking"
+            app:layout_constraintBottom_toBottomOf="@id/img_leaderboard_ranking"
+            app:layout_constraintLeft_toLeftOf="@id/img_leaderboard_ranking"
+            app:layout_constraintRight_toRightOf="@id/img_leaderboard_ranking"
             android:textAlignment="center"
-            android:padding="8dp"
-            android:layout_height="wrap_content"/>
+            android:text="20"
+            android:id="@+id/text_elasLeaderboard_rank"
+            android:layout_height="0dp"/>
 
     <TextView
             android:layout_width="0dp"
@@ -32,6 +49,7 @@
             android:text="Cyannic"
             android:layout_marginLeft="8dp"
             android:padding="8dp"
+            android:fontFamily="@font/shellypalmer_circular_std_book"
             android:textAlignment="center"
             app:layout_constraintLeft_toRightOf="@id/img_leaderboard_ranking"
             app:layout_constraintTop_toTopOf="parent"

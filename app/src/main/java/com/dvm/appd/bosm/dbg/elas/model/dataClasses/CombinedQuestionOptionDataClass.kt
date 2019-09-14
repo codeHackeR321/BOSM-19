@@ -7,5 +7,6 @@ data class CombinedQuestionOptionDataClass(
     val option_id: Long,
     val option: String,
     val question: String,
-    val category: String
+    val category: String,
+    val questionNumber: String
 )
