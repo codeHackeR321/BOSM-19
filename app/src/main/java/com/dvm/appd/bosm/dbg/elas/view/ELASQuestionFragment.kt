@@ -63,7 +63,7 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
                 is UIStateElas.Failure -> {
                     progressBar.visibility = View.INVISIBLE
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    currentSnackbar = Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE)
+                    currentSnackbar = Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_SHORT)
                     currentSnackbar!!.show()
                 }
                 is UIStateElas.Loading -> {
