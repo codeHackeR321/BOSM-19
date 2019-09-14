@@ -153,7 +153,12 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                             resources.getString(R.string.alert_notification_positive_button),
                             DialogInterface.OnClickListener { dialog, which ->
                                 sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
-                                startActivity(intent)
+                                try {
+                                    startActivity(intent)
+                                } catch (e: Exception) {
+                                    Toast.makeText(this, "Your mobile doesn't support this feature", Toast.LENGTH_LONG).show()
+                                    dialog.cancel()
+                                }
                             })
                         .setNegativeButton(
                             resources.getString(R.string.alert_notification_negative_button),
