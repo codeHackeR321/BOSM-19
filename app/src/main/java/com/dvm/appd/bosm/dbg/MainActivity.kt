@@ -155,6 +155,8 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                                 sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
                                 try {
                                     startActivity(intent)
+                                }catch (e: ActivityNotFoundException){
+                                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
                                 } catch (e: Exception) {
                                     Toast.makeText(this, "Your mobile doesn't support this feature", Toast.LENGTH_LONG).show()
                                     dialog.cancel()

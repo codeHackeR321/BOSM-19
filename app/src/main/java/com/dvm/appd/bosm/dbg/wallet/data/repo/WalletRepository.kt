@@ -12,6 +12,7 @@ import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.StallItemsData
 import com.dvm.appd.bosm.dbg.wallet.data.room.dataclasses.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -23,40 +24,18 @@ import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
 
-    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
-    private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
+    private val jwt
+    get() = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
+    private val userId
+    get()  = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
+
+    lateinit var l1: ListenerRegistration
+    lateinit var l2: ListenerRegistration
+    private val db = FirebaseFirestore.getInstance()
 
     init {
-
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("orders").whereEqualTo("userid", userId.blockingGet())
-            .addSnapshotListener { snapshot, exception ->
-
-                if (exception != null) {
-                    Log.e("WalletRepo", "Listen Failed", exception)
-                    return@addSnapshotListener
-                }
-                if (snapshot != null) {
-                    Log.d("WalletRepo", "Firebase $snapshot")
-                    updateOrders().subscribe()
-                }
-            }
-
-        db.collection("tickets").document("${userId.blockingGet()}").collection("shows")
-            .addSnapshotListener { querySnapshot, exception ->
-
-                if (exception != null){
-                    Log.e("WalletRepo", "Listen Failed", exception)
-                    return@addSnapshotListener
-                }
-
-                if (querySnapshot != null){
-                    Log.d("WalletRepo", "Firebase $querySnapshot")
-                    updateUserTickets().subscribe()
-                }
-            }
-
+        addOrderListener()
+        addTicketListener()
 //        getTicketInfo().subscribe()
     }
 
@@ -155,6 +134,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     fun updateOrders(): Completable{
+        Log.d("CheckJWT", jwt.blockingGet().toString())
         return walletService.getAllOrders(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
                 when(response.code()){
@@ -368,6 +348,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                 return@map orderJsonObject
             }
             .flatMapCompletable {body ->
+                Log.d("CheckJWT", jwt.blockingGet().toString())
                 return@flatMapCompletable walletService.placeOrder(jwt.blockingGet().toString(), body).subscribeOn(Schedulers.io())
                     .doOnSuccess {response ->
 
@@ -619,7 +600,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     fun updateUserTickets(): Completable{
-        return walletService.getUserTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
+         return walletService.getUserTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
                 Log.d("Tickets", "$response")
@@ -733,5 +714,41 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
                     }
                     .ignoreElement()
             }
+    }
+
+    fun addOrderListener(){
+        l1 = db.collection("orders").whereEqualTo("userid", userId.blockingGet())
+            .addSnapshotListener { snapshot, exception ->
+
+                if (exception != null) {
+                    Log.e("WalletRepo", "Listen Failed", exception)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    Log.d("WalletRepo", "Firebase $snapshot")
+                    updateOrders().subscribe()
+                }
+            }
+    }
+
+    fun addTicketListener(){
+        l2 = db.collection("tickets").document("${userId.blockingGet()}").collection("shows")
+            .addSnapshotListener { querySnapshot, exception ->
+
+                if (exception != null){
+                    Log.e("WalletRepo", "Listen Failed", exception)
+                    return@addSnapshotListener
+                }
+
+                if (querySnapshot != null){
+                    Log.d("WalletRepo", "Firebase $querySnapshot")
+                    updateUserTickets().subscribe()
+                }
+            }
+    }
+
+    fun disposeListener(){
+        l1.remove()
+        l2.remove()
     }
 }
