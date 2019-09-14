@@ -64,20 +64,20 @@ class ProfileFragment : Fragment() {
         })
 
         rootView.qrCode.setOnClickListener {
-            it.findNavController().navigate(R.id.action_action_profile_to_qrDialog)
+            QrDialog().show(childFragmentManager,"QR_DIALOG")
         }
 
         rootView.addBtn.setOnClickListener {
-            it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
+            AddMoneyDialog().show(childFragmentManager,"ADD_MONEY_DIALOG")
         }
         rootView.AddBtn.setOnClickListener {
-            it.findNavController().navigate(R.id.action_action_profile_to_addMoneyDialog)
+            AddMoneyDialog().show(childFragmentManager,"ADD_MONEY_DIALOG")
         }
         rootView.SendBtn.setOnClickListener {
-            it.findNavController().navigate(R.id.action_action_profile_to_sendMoneyDialog)
+            SendMoneyDialog().show(childFragmentManager,"SEND_MONEY_DIALOG")
         }
         rootView.sendBtn.setOnClickListener {
-            it.findNavController().navigate(R.id.action_action_profile_to_sendMoneyDialog)
+            SendMoneyDialog().show(childFragmentManager,"SEND_MONEY_DIALOG")
         }
 
         rootView.backBtn.setOnClickListener {
@@ -85,11 +85,12 @@ class ProfileFragment : Fragment() {
         }
 
         rootView.buyTicket.setOnClickListener {
-            it.findNavController().navigate(R.id.action_action_profile_to_buyTicketDialog)
+            TicketDialog().show(childFragmentManager,"TICKETS_DIALOG")
+
         }
 
         rootView.buyBtn.setOnClickListener {
-            it.findNavController().navigate(R.id.action_action_profile_to_buyTicketDialog)
+            TicketDialog().show(childFragmentManager,"TICKETS_DIALOG")
         }
 
         profileViewModel.order.observe(this, Observer {
