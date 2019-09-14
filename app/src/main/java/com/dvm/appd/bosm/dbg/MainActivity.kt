@@ -151,7 +151,11 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                             resources.getString(R.string.alert_notification_positive_button),
                             DialogInterface.OnClickListener { dialog, which ->
                                 sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
-                                startActivity(intent)
+                                try {
+                                    startActivity(intent)
+                                }catch (e: ActivityNotFoundException){
+                                    Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+                                }
                             })
                         .setNegativeButton(
                             resources.getString(R.string.alert_notification_negative_button),

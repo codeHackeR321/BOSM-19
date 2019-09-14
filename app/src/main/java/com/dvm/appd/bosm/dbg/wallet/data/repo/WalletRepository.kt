@@ -23,8 +23,10 @@ import java.lang.Exception
 
 class WalletRepository(val walletService: WalletService, val walletDao: WalletDao, val authRepository: AuthRepository, val moneyTracker: MoneyTracker, val networkChecker: NetworkChecker) {
 
-    private val jwt = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
-    private val userId = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
+    private val jwt
+    get() = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just("jwt ${it.jwt}") }
+    private val userId
+    get()  = authRepository.getUser().toSingle().flatMap { return@flatMap Single.just(it.userId.toInt()) }
 
     init {
 
@@ -619,7 +621,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     }
 
     fun updateUserTickets(): Completable{
-        return walletService.getUserTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
+         return walletService.getUserTickets(jwt.blockingGet().toString()).subscribeOn(Schedulers.io())
             .doOnSuccess {response ->
 
                 Log.d("Tickets", "$response")
