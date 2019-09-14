@@ -21,6 +21,10 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
     var error: LiveData<String> = MutableLiveData(null)
 
     init {
+
+        walletRepository.moneyTracker.addUserListener()
+        walletRepository.addTicketListener()
+
           authRepository.getUser().subscribe({
               (user as MutableLiveData).postValue(it!!)
               (error as MutableLiveData).postValue(null)
@@ -55,6 +59,8 @@ class ProfileViewModel(val authRepository: AuthRepository,val walletRepository: 
     fun logout(){
         (order as MutableLiveData).postValue(UiState.ShowLoading)
         authRepository.setUser(null).subscribe({
+            walletRepository.disposeListener()
+            walletRepository.moneyTracker.disposeListener()
             (order as MutableLiveData).postValue(UiState.MoveToLogin)
             (error as MutableLiveData).postValue(null)
         },{

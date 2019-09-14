@@ -16,6 +16,8 @@ class OrdersViewModel(val walletRepository: WalletRepository): ViewModel(){
 
     init {
 
+        walletRepository.addOrderListener()
+
         walletRepository.getAllOrders()
             .subscribe({
                 Log.d("OrdersVM",it.toString())

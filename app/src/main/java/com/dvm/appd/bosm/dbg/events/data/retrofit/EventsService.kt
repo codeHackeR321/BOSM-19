@@ -1,9 +1,8 @@
-package com.dvm.appd.bosm.dbg.events.retrofit
+package com.dvm.appd.bosm.dbg.events.data.retrofit
 
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface EventsService {

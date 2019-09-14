@@ -2,19 +2,14 @@ package com.dvm.appd.bosm.dbg.events.data.repo
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository.Keys.name
 import com.dvm.appd.bosm.dbg.events.data.room.EventsDao
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.EventsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.MiscEventsData
 import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.SportsData
-import com.dvm.appd.bosm.dbg.events.data.room.dataclasses.FavNamesData
-import com.dvm.appd.bosm.dbg.events.retrofit.EventsService
+import com.dvm.appd.bosm.dbg.events.data.retrofit.EventsService
 import com.google.firebase.firestore.FirebaseFirestore
-import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentChange
 
 import io.reactivex.Completable

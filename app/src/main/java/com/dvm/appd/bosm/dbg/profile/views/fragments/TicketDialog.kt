@@ -28,8 +28,7 @@ class TicketDialog : DialogFragment(), TicketsAdapter.TicketCartActions{
     override fun onStart() {
         super.onStart()
 
-        //ticketsDialog.minHeight = ((parentFragment!!.view!!.height)*0.90).toInt()
-        ticketsDialog.minWidth = ((parentFragment!!.view!!.width)*.70).toInt()
+        ticketsDialog.minWidth = ((parentFragment!!.view!!.width)*.85).toInt()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

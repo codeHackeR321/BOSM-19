@@ -1,4 +1,4 @@
-package com.dvm.appd.bosm.dbg.events.retrofit
+package com.dvm.appd.bosm.dbg.events.data.retrofit
 
 import com.google.gson.annotations.SerializedName
 

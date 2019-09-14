@@ -7,11 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.auth.views.LoginState
+import com.dvm.appd.bosm.dbg.shared.util.asMut
 import com.google.firebase.iid.FirebaseInstanceId
 
 class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
 
-    var state:LiveData<LoginState> = MutableLiveData()
+    var state: LiveData<LoginState> = MutableLiveData()
+
 
     init {
         listenRegToken()
@@ -32,25 +34,28 @@ class AuthViewModel(val authRepository: AuthRepository):ViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun login(id:String){
-     authRepository.loginBitsian(id).subscribe({
-         authRepository.subscribeToTopics()
-         when(it!!) {
-             LoginState.Success -> {
-                 authRepository.getUser().subscribe {
-                     if(it.firstLogin) {
-                         (state as MutableLiveData).postValue(LoginState.MoveToOnBoarding)
-                          authRepository.disableOnBoardingForUser()
-                     }
-                     else
-                         (state as MutableLiveData).postValue(LoginState.MoveToMainApp)
-                 }
-             }
-             is LoginState.Failure -> {(state as MutableLiveData).postValue(it)}
-         }
-     },{
-         Log.d("checke",it.toString())
-         (state as MutableLiveData).postValue(LoginState.Failure(it.message.toString()))
-     })
+    fun login(id: String) {
+        authRepository.loginBitsian(id).subscribe({
+            authRepository.subscribeToTopics()
+            when (it!!) {
+                LoginState.Success -> {
+                    authRepository.getUser().subscribe {
+                        if (it.firstLogin) {
+                            (state as MutableLiveData).postValue(LoginState.MoveToOnBoarding)
+                            authRepository.disableOnBoardingForUser()
+                        } else
+                            (state as MutableLiveData).postValue(LoginState.MoveToMainApp)
+                    }
+                }
+                is LoginState.Failure -> {
+                    (state as MutableLiveData).postValue(it)
+                }
+            }
+        }, {
+            Log.d("checke", it.toString())
+            (state as MutableLiveData).postValue(LoginState.Failure(it.message.toString()))
+        })
     }
+
+
 }

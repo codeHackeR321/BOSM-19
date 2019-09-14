@@ -40,31 +40,35 @@ class AuthActivity : AppCompatActivity() {
                 .requestProfile()
                 .build()
         )
-        authViewModel = ViewModelProviders.of(this, AuthViewModelFactory())[AuthViewModel::class.java]
+        authViewModel =
+            ViewModelProviders.of(this, AuthViewModelFactory())[AuthViewModel::class.java]
 
         outsteeLogin.setOnClickListener {
             startActivity(Intent(this, LoginOutsteeActivity::class.java))
         }
 
         bitsianLogin.setOnClickListener {
-            startActivityForResult(gso.signInIntent, 108)
+            gso.signOut().addOnCompleteListener {
+                startActivityForResult(gso.signInIntent, 108)
+            }
         }
 
         authViewModel.state.observe(this, Observer {
             when (it!!) {
                 LoginState.MoveToMainApp -> {
-                    loadingPbr.visibility=View.GONE
-                    startActivity(Intent(this,MainActivity::class.java))
+                    loadingPbr.visibility = View.GONE
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
-                LoginState.MoveToOnBoarding ->{
-                  loadingPbr.visibility = View.GONE
-                    startActivity(Intent(this,OnboardingActivity::class.java))
+                LoginState.MoveToOnBoarding -> {
+                    loadingPbr.visibility = View.GONE
+                    startActivity(Intent(this, OnboardingActivity::class.java))
                     finish()
                 }
                 is LoginState.Failure -> {
                     loadingPbr.visibility = View.GONE
-                    Toast.makeText(this, (it as LoginState.Failure).message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, (it as LoginState.Failure).message, Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         })
@@ -74,7 +78,7 @@ class AuthActivity : AppCompatActivity() {
         super.onResume()
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.status_bar_auth))
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.status_bar_auth))
 
     }
 
@@ -83,7 +87,8 @@ class AuthActivity : AppCompatActivity() {
 
         if (requestCode == 108) {
             try {
-                val profile = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
+                val profile = GoogleSignIn.getSignedInAccountFromIntent(data)
+                    .getResult(ApiException::class.java)
                 Toast.makeText(this, profile!!.displayName, Toast.LENGTH_SHORT).show()
                 loadingPbr.visibility = View.VISIBLE
                 authViewModel.login(profile.idToken!!)
