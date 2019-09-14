@@ -26,6 +26,19 @@ import androidx.lifecycle.MutableLiveData
 class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
 
     private lateinit var stallsViewModel: StallsViewModel
+    private val picBaseUrl = "https://firebasestorage.googleapis.com/v0/b/bosm-2019.appspot.com/o/"
+    private val stallImgs = listOf<String>(
+        "${picBaseUrl}CCD.png?alt=media&token=cfd0822f-5204-43f0-880d-2e457238e8c3",
+        "${picBaseUrl}Chaayos.png?alt=media&token=6253f2ac-f32c-4068-9eac-436267fc8261",
+        "${picBaseUrl}Ho%20Ko%20Fo.png?alt=media&token=ab409a5d-1225-4077-98b1-e11bf9ad3e7a",
+        "${picBaseUrl}Mr%20Crush.png?alt=media&token=47b89cca-53cb-457a-907d-ccc51277f0df",
+        "${picBaseUrl}Keventer.png?alt=media&token=16d1f6fa-acb9-4236-af76-790e95706e86",
+        "${picBaseUrl}Dominos.png?alt=media&token=201d0b7a-cb03-4131-9953-c3d9838f7326",
+        "${picBaseUrl}Chaayos.png?alt=media&token=6253f2ac-f32c-4068-9eac-436267fc8261",
+        "${picBaseUrl}Roll%20Point.png?alt=media&token=be4beac7-99f1-4258-b555-232c68806c34",
+        "${picBaseUrl}Quick%20Meal.png?alt=media&token=0892fe39-9fc4-4a48-ab7a-7fca939760e5",
+        "${picBaseUrl}Burger%20Talkies.png?alt=media&token=4155943d-4c8b-4452-a551-0761667c4bbb"
+    )
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,6 +64,7 @@ class StallsFragment : Fragment(), StallsAdapter.OnStallSelectedListener {
 
         stallsViewModel.stalls.observe(this, Observer {
             (rootview.stalls_recycler.adapter as StallsAdapter).stalls = it
+            (rootview.stalls_recycler.adapter as StallsAdapter).stallImgs = stallImgs
             (rootview.stalls_recycler.adapter as StallsAdapter).notifyDataSetChanged()
         })
 
