@@ -110,7 +110,7 @@ class SportsDataAdapter(private val listener: OnFavouriteClicked) :
                 else
                 {
                     holder1.score1.isVisible= false
-                    holder1.score1.isVisible = false
+                    holder1.score2.isVisible = false
                 }
 
                 if(sportData[position].winner1.isNullOrEmpty())
