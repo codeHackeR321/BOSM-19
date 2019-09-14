@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg.elas.model.repo
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
 import com.dvm.appd.bosm.dbg.auth.data.repo.AuthRepository
 import com.dvm.appd.bosm.dbg.elas.model.dataClasses.CombinedQuestionOptionDataClass
@@ -249,21 +250,52 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
                 elasService.getAllQuestions("JWT ${it.jwt}").doOnSuccess {qResponse ->
                     Log.d("checkelasr",qResponse.code().toString())
                     Log.d("checkelasr",qResponse.body().toString())
-                     var questionList:List<QuestionData> = emptyList()
-                    var optionList:List<OptionData> = emptyList()
-                    qResponse.body()!!.previous_questions.forEach {
-                        questionList = questionList.plus(it.toQuestionData())
-                        optionList = optionList.plus(it.toOptionsData())
+                    val questions: MutableList<QuestionData> = arrayListOf()
+                    val options: MutableList<OptionData> = arrayListOf()
+                    val questionsData= try {
+                        qResponse.body()!!.previous_questions
+                    } catch (e: Exception) {
+                        emptyList<Map<String, Any>>()
                     }
-                 elasDao.insertQuestions(questionList)
-                    elasDao.insertOptions(optionList)
+                    if (!questionsData.isNullOrEmpty()) {
+                        questionsData.forEach {
+                            it.parseQuestion(questions, options)
+                        }
+                    }
+                    elasDao.insertQuestions(questions)
+                    elasDao.insertOptions(options)
                 }.doOnError {
                    Log.d("checke",it.toString())
                 }.ignoreElement()
             }.subscribeOn(Schedulers.io())
     }
 
-    fun Questions.toQuestionData():QuestionData{
+    fun Map<String, Any>.parseQuestion(questions: MutableList<QuestionData>, options: MutableList<OptionData>) {
+        val question: String? = getValue("question_text").toString()
+        val questionId: Long? = getValue("question_id").toString().toLong()
+        var category: String? = getValue("category").toString()
+        if(category == null) {
+            category = "Miscellaneous"
+        }
+        if (question != null && questionId != null ) {
+            questions.add(questionId.toInt(), QuestionData(questionId, question, category))
+        } else {
+            return
+        }
+        val numberOfOptions: Int? = getValue("total_options").toString().toInt()
+        if (numberOfOptions != null) {
+            for (i in 1 .. numberOfOptions) {
+                val option: String? = getValue(i.toString()).toString()
+                if (option != null)
+                    options.add(parseOption(questionId, option))
+            }
+        } else {
+            questions.removeAt(questionId.toInt())
+            return
+        }
+    }
+
+    /*fun Questions.toQuestionData():QuestionData{
          return QuestionData(qId,question,category)
     }
 
@@ -276,5 +308,5 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
         options= options.plus(OptionData(4,option4,qId))
 
         return options
-    }
+    }*/
 }
