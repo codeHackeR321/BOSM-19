@@ -131,9 +131,25 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
         return OptionData(option_id = optionId, option = optionString, questionId = questionId)
     }
 
+    @SuppressLint("CheckResult")
+    fun updateUserRank() {
+        elasService.getUserLeaderboardPosition(jwt.blockingGet().toString()).subscribeOn(Schedulers.io()).subscribe({
+            Log.d("Elas Repo", "Response Code = ${it.code().toString()}")
+            Log.d("Elas Repo", "Response Body = ${it.body().toString()}")
+            elasDao.insertLeaderboardPlayer(listOf(it.body() as PlayerRankingResponse)).subscribeOn(Schedulers.io()).subscribe({
+                Log.d("Elas Repo", "Succesfully added data to room")
+            },{
+                Log.e("Elas Repo", "Error in adding data to room = ${it.toString()}")
+            })
+        },{
+            Log.e("Elas Repo", "Error in fetching user rank = ${it.toString()}")
+        })
+    }
+
     fun setFirebaseListenerForLeaderboard() {
         FirebaseFirestore.getInstance().collection("quiz").document("leaderboard").addSnapshotListener { document, error ->
             var list: MutableList<PlayerRankingResponse> = arrayListOf()
+            updateUserRank()
             for (i in 1 .. 20) {
                 Log.d("ElasRepo", "Value of i = $i")
                 var listItem: PlayerRankingResponse

@@ -4,6 +4,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_marginLeft="8dp"
+        android:id="@+id/parent_card_elas_leaderboard"
         android:layout_marginRight="8dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@drawable/shape_rectangle_rounded_8dp"
