@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.adapter_wallet_stalls.view.*
 class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView.Adapter<StallsAdapter.StallsViewHolder>() {
 
     var stalls: List<StallData> = emptyList()
-
+    var stallImgs:List<String> = emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StallsAdapter.StallsViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_wallet_stalls, parent, false)
@@ -31,10 +31,9 @@ class StallsAdapter (private val listener:OnStallSelectedListener): RecyclerView
 
     override fun onBindViewHolder(holder: StallsViewHolder, position: Int) {
         holder.stallName.text = stalls[position].stallName
-        FirebaseStorage.getInstance().reference.child("${stalls[position].stallName}.png").downloadUrl.addOnSuccessListener {
-            Log.d("checkpic",it.toString())
-            Glide.with(holder.itemView.context!!).load(it).placeholder(R.drawable.placeholder_stalls).apply(RequestOptions.bitmapTransform(RoundedCorners(16))).into(holder.stallImg)
-        }
+
+            Glide.with(holder.itemView.context!!).load(stallImgs[position]).placeholder(R.drawable.placeholder_stalls).apply(RequestOptions.bitmapTransform(RoundedCorners(16))).into(holder.stallImg)
+
         holder.stallImg.setOnClickListener {
             listener.stallSelected(stalls[position])
         }

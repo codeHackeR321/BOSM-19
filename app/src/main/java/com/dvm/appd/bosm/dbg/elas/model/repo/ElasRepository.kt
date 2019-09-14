@@ -270,7 +270,7 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
     fun Questions.toOptionsData():List<OptionData>
     {
          var options:List<OptionData> = emptyList()
-            options= options.plus(OptionData(1,option1,qId))
+        options.plus(OptionData(1,option1,qId))
         options= options.plus(OptionData(2,option2,qId))
         options= options.plus(OptionData(3,option3,qId))
         options= options.plus(OptionData(4,option4,qId))
