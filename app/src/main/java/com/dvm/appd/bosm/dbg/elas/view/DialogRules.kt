@@ -69,4 +69,9 @@ class DialogRules: DialogFragment() {
 
         })
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
 }

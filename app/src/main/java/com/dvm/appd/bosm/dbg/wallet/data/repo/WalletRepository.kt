@@ -36,6 +36,7 @@ class WalletRepository(val walletService: WalletService, val walletDao: WalletDa
     init {
         addOrderListener()
         addTicketListener()
+        fetchAllStalls()
 //        getTicketInfo().subscribe()
     }
 

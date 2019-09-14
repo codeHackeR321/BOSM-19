@@ -58,7 +58,7 @@ interface EventsDao {
     @Query("UPDATE sports_table SET layout = :layout, gender = :gender, sport_name = :name, venue = :venue, time = :time, round = :round, round_type = :roundType, team_1 = :team1, team_2 = :team2, is_score = :isScore, score_1 = :score1, score_2 = :score2, winner_1 = :winner1, winner_2 = :winner2, winner_3 = :winner3 WHERE match_no = :matchNo")
     fun updateSportsData(matchNo: Int, layout: Int, gender: String, name: String, venue: String, time: String, round: String, roundType: String, team1: String, team2: String, isScore: Boolean, score1: String, score2: String, winner1: String, winner2: String, winner3: String): Completable
 
-    @Query("SELECT DISTINCT gender FROM sports_table  WHERE sport_name = :name ORDER BY time")
+    @Query("SELECT DISTINCT gender FROM sports_table  WHERE sport_name = :name ORDER BY gender")
     fun getDistinctGenderForSport(name: String): Flowable<List<String>>
 
     @Query("SELECT * FROM sports_table WHERE sport_name = :name ORDER BY time")

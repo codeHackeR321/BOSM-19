@@ -75,7 +75,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
                 is UIStateElas.Failure -> {
                     progress_fra_elas.visibility = View.INVISIBLE
                     activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_INDEFINITE).show()
+                    Snackbar.make(activity!!.coordinator_parent, (it as UIStateElas.Failure).message, Snackbar.LENGTH_SHORT).show()
                 }
                 is UIStateElas.Questions -> {
                     progress_fra_elas.visibility = View.INVISIBLE
@@ -118,7 +118,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     }
 
     private fun selectQuestions() {
-        activity!!.bttn_Questions_elas.setTextColor(Color.BLACK)
+        activity!!.bttn_Questions_elas.setTextColor(resources.getColor(R.color.text_color))
         activity!!.bttn_Leaderboard_elas.setTextColor(resources.getColor(R.color.colorGrey))
         try {
             recycler_elasFrag_questions.adapter = ElasQuestionsAdapter(this)
@@ -130,7 +130,7 @@ class ELASFragment : Fragment(), ElasQuestionsAdapter.onQuestionButtonClicked {
     }
 
     private fun selectLeaderboard() {
-        activity!!.bttn_Leaderboard_elas.setTextColor(Color.BLACK)
+        activity!!.bttn_Leaderboard_elas.setTextColor(resources.getColor(R.color.text_color))
         activity!!.bttn_Questions_elas.setTextColor(resources.getColor(R.color.colorGrey))
         try {
             recycler_elasFrag_questions.adapter = ELasLeaderoardAdapter(context!!)

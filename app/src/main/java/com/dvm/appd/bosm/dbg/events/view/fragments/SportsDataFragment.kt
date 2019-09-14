@@ -49,6 +49,7 @@ class SportsDataFragment : Fragment(),GenderDataAdapter.OnGenderClicked, SportsD
 
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.ssss'Z'")
         val calendar = Calendar.getInstance()
+        calendar.add(Calendar.HOUR_OF_DAY, -1)
         currentTime = sdf.format(calendar.time)
         Log.d("Time", currentTime)
         val view = inflater.inflate(R.layout.fragment_sports_data, container, false)

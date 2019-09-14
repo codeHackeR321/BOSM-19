@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.dvm.appd.bosm.dbg.R
 import kotlinx.android.synthetic.main.dia_epc.view.*
+import java.lang.Exception
 
 class EPCDialog: DialogFragment(){
 
@@ -22,7 +24,11 @@ class EPCDialog: DialogFragment(){
         view.textView19.text = description
         view.more.setOnClickListener {
             val intent = Intent("android.intent.action.VIEW", Uri.parse(link))
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this.context, "Unable to open in Web Browser", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return view

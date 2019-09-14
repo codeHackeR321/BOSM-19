@@ -25,11 +25,11 @@ class TicketDialog : DialogFragment(), TicketsAdapter.TicketCartActions{
 
     private lateinit var ticketsViewModel: TicketViewModel
 
-    override fun onStart() {
-        super.onStart()
-
-        ticketsDialog.minWidth = ((parentFragment!!.view!!.width)*.85).toInt()
-    }
+//    override fun onStart() {
+//        super.onStart()
+//
+//        ticketsDialog.minWidth = ((parentFragment!!.view!!.width)*.85).toInt()
+//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -86,10 +86,10 @@ class TicketDialog : DialogFragment(), TicketsAdapter.TicketCartActions{
         ticketsViewModel.deleteTiceketCartItem(id)
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        return dialog
-
-    }
+//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+//        val dialog = super.onCreateDialog(savedInstanceState)
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        return dialog
+//
+//    }
 }

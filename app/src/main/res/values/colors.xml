@@ -24,4 +24,5 @@
     <color name="status_bar_notifications">#002DE1</color>
     <color name="status_bar_profile">#3720CC</color>
     <color name="status_bar_auth">#5F86F0</color>
+    <color name="text_color">#9B15C2</color>
 </resources>

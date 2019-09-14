@@ -53,7 +53,7 @@ class ELASQuestionFragment : Fragment(), ElasOptionsAdapter.OnOptionSelected {
         if (questionId != 0.toLong()) {
             elasQuestionViewModel.getQuestion(questionId)
         } else {
-            currentSnackbar = Snackbar.make(activity!!.coordinator_parent, "Please Select a Valid Question", Snackbar.LENGTH_INDEFINITE)
+            currentSnackbar = Snackbar.make(activity!!.coordinator_parent, "Please Select a Valid Question", Snackbar.LENGTH_SHORT)
             currentSnackbar!!.show()
         }
 
