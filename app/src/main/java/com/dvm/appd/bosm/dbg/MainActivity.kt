@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.*
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -263,7 +265,19 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
     }
 
     override fun onResume() {
-        startService(Intent(this, FirebaseMessagingService::class.java))
+        super.onResume()
+        val activityManager = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val listOfRunnigAppProcesses = activityManager.runningAppProcesses
+        if (listOfRunnigAppProcesses != null) {
+            val importance = listOfRunnigAppProcesses[0].importance
+            if (importance <= ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                try {
+                    startService(Intent(this, FirebaseMessagingService::class.java))
+                } catch (e: Exception) {
+
+                }
+            }
+        }
         /*val updateManager = AppUpdateManagerFactory.create(this)
         updateManager.appUpdateInfo.addOnSuccessListener {
             if (it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
@@ -275,7 +289,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                 )
             }
         }*/
-        super.onResume()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
