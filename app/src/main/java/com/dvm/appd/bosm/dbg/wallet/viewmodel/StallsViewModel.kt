@@ -32,9 +32,10 @@ class StallsViewModel(val walletRepository: WalletRepository):ViewModel() {
 
     fun refreshData() {
         walletRepository.fetchAllStalls().subscribe({
-
+            (result as MutableLiveData).postValue(StallResult.Success)
         },{
             (error as MutableLiveData).postValue(it.message)
+            (result as MutableLiveData).postValue(StallResult.Success)
         })
     }
 }

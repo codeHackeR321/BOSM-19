@@ -18,8 +18,8 @@ android {
         applicationId "com.dvm.appd.bosm.release"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "2.1-alpha"
+        versionCode 6
+        versionName "2.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

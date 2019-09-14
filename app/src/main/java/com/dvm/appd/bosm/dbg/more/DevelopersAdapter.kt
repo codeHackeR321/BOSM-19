@@ -12,6 +12,7 @@ import com.dvm.appd.bosm.dbg.R
 import com.dvm.appd.bosm.dbg.more.dataClasses.Developer
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.row_developer.view.*
+import java.lang.Exception
 
 class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolder>() {
 
@@ -28,6 +29,7 @@ class DevelopersAdapter : RecyclerView.Adapter<DevelopersAdapter.DeveloperVHolde
 
     override fun onBindViewHolder(holder: DeveloperVHolder, position: Int) {
         val developer = developers[position]
+
         Glide.with(holder.itemView.context!!)
             .load(developers[position].imageLink)
             .placeholder(R.drawable.ic_outline_profile_identity_24px).circleCrop()

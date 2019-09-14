@@ -1,6 +1,7 @@
 package com.dvm.appd.bosm.dbg
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.*
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -71,7 +73,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         setupNotificationChannel()
         checkForInvitation()
         checkNotificationPermissions()
-        checkForUpdates()
+        // checkForUpdates()
 
         var navHostFragment =
             supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
@@ -151,7 +153,12 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                             resources.getString(R.string.alert_notification_positive_button),
                             DialogInterface.OnClickListener { dialog, which ->
                                 sharedPreferences.edit().putBoolean("wantsNotification", false).apply()
-                                startActivity(intent)
+                                try {
+                                    startActivity(intent)
+                                } catch (e: Exception) {
+                                    Toast.makeText(this, "Your mobile doesn't support this feature", Toast.LENGTH_LONG).show()
+                                    dialog.cancel()
+                                }
                             })
                         .setNegativeButton(
                             resources.getString(R.string.alert_notification_negative_button),
@@ -244,7 +251,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         }
     }
 
-    private fun checkForUpdates() {
+    /*private fun checkForUpdates() {
         val updateManager = AppUpdateManagerFactory.create(this)
         updateManager.appUpdateInfo.addOnSuccessListener {
             if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
@@ -256,15 +263,27 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                 )
             }
         }
-    }
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
-        startService(Intent(this, FirebaseMessagingService::class.java))
-        val updateManager = AppUpdateManagerFactory.create(this)
+        super.onResume()
+        val activityManager = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val listOfRunnigAppProcesses = activityManager.runningAppProcesses
+        if (listOfRunnigAppProcesses != null) {
+            val importance = listOfRunnigAppProcesses[0].importance
+            if (importance <= ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                try {
+                    startService(Intent(this, FirebaseMessagingService::class.java))
+                } catch (e: Exception) {
+
+                }
+            }
+        }
+        /*val updateManager = AppUpdateManagerFactory.create(this)
         updateManager.appUpdateInfo.addOnSuccessListener {
             if (it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                 updateManager.startUpdateFlowForResult(
@@ -274,12 +293,12 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                     REQUEST_CODE_UPDATE_IMMIDIATE
                 )
             }
-        }
-        super.onResume()
+        }*/
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE_UPDATE_IMMIDIATE) {
+        /*if (requestCode == REQUEST_CODE_UPDATE_IMMIDIATE) {
             if (resultCode != Activity.RESULT_OK) {
                 // TODO Add analytics log here
                 var builder = AlertDialog.Builder(this)
@@ -293,7 +312,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                     }
                 )
             }
-        }
+        }*/
         super.onActivityResult(requestCode, resultCode, data)
     }
 
