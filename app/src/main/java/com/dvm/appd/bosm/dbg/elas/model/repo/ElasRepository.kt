@@ -224,8 +224,12 @@ class ElasRepository(val elasDao: ElasDao, val elasService: ElasService, val aut
                     elasDao.insertQuestions(listOf(QuestionData(question_number, question, category, questionNumber))).subscribeOn(Schedulers.io()).subscribe({},{
                         Log.e(TAG, "Unable to insert question in room = ${it.toString()}")
                     })
-                    elasDao.insertOptions(optionsList).subscribeOn(Schedulers.io()).subscribe({},{
-                        Log.e(TAG, "Unable to insert options in room = ${it.toString()}")
+                    elasDao.deleteAllOptions().subscribeOn(Schedulers.io()).subscribe({
+                        elasDao.insertOptions(optionsList).subscribeOn(Schedulers.io()).subscribe({},{
+                            Log.e(TAG, "Unable to insert options in room = ${it.toString()}")
+                        })
+                    },{
+                        Log.e(TAG, "Error in deleting options = ${it.toString()}")
                     })
                 }
             }
