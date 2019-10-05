@@ -30,12 +30,17 @@ import com.dvm.appd.bosm.dbg.shared.NetworkChangeReciver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.FirebaseApp
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.checkbox.view.*
 
@@ -50,6 +55,8 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
     private lateinit var sharedPreferences: SharedPreferences
     private var receiver: NetworkChangeReciver? = null
     private val REQUEST_CODE_UPDATE_IMMIDIATE = 101
+    private val REQUEST_CODE_UPDATE_FLEXIBLE = 102
+    private lateinit var remoteConfig: FirebaseRemoteConfig
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actionbaritems, menu)
@@ -69,11 +76,14 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                 }
         }
 
+        remoteConfig = FirebaseRemoteConfig.getInstance()
+        remoteConfig.setDefaults(R.xml.remote_config_defaults)
+
         sharedPreferences = AppModule(application).providesSharedPreferences(application)
         setupNotificationChannel()
         checkForInvitation()
         checkNotificationPermissions()
-        // checkForUpdates()
+        checkForUpdates()
 
         var navHostFragment =
             supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
@@ -253,19 +263,86 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
         }
     }
 
-    /*private fun checkForUpdates() {
+    private fun checkForUpdates() {
         val updateManager = AppUpdateManagerFactory.create(this)
-        updateManager.appUpdateInfo.addOnSuccessListener {
-            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+        updateManager.appUpdateInfo.addOnSuccessListener {appUpdateInfo ->
+            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                showSnackBarToInstallUpdate(updateManager)
+            }
+            else if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                 updateManager.startUpdateFlowForResult(
-                    it,
+                    appUpdateInfo,
                     AppUpdateType.IMMEDIATE,
                     this,
                     REQUEST_CODE_UPDATE_IMMIDIATE
                 )
             }
+            else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                Log.d("Main Activity", "NewUpdate Available")
+                remoteConfig.fetch().addOnCompleteListener {task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Fetched Remote config variables successfully", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Result = ${task.result.toString()}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Available Version = ${appUpdateInfo.availableVersionCode()}", Toast.LENGTH_LONG).show()
+                        val versionNumber = remoteConfig.all["update_version"].toString()
+                        if (appUpdateInfo.availableVersionCode().toString() == versionNumber && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                            updateManager.startUpdateFlowForResult(
+                                appUpdateInfo,
+                                AppUpdateType.IMMEDIATE,
+                                this,
+                                REQUEST_CODE_UPDATE_IMMIDIATE
+                            )
+                        }
+                        else {
+                            val updateListener = object : InstallStateUpdatedListener {
+                                override fun onStateUpdate(updateState: InstallState?) {
+                                    if (updateState?.installStatus() == InstallStatus.DOWNLOADED) {
+
+                                    }
+                                }
+                            }
+                            updateManager.registerListener(updateListener)
+                            val snackbar = Snackbar.make(this.coordinator_parent, "A newer version of the app is  available", Snackbar.LENGTH_INDEFINITE)
+                            snackbar.setAction("UPDATE", object : View.OnClickListener{
+                                override fun onClick(v: View?) {
+                                    updateManager.startUpdateFlowForResult(
+                                        appUpdateInfo,
+                                        AppUpdateType.FLEXIBLE,
+                                        this@MainActivity,
+                                        REQUEST_CODE_UPDATE_FLEXIBLE
+                                    )
+                                    snackbar.dismiss()
+                                }
+                            })
+                            snackbar.setBehavior(object : BaseTransientBottomBar.Behavior(){
+                                override fun canSwipeDismissView(child: View): Boolean {
+                                    return false
+                                }
+                            })
+                            snackbar.show()
+                        }
+                    }
+                    else {
+                        Log.d("Main Activity", "Unable to fetch from remote config")
+                    }
+                }
+            }
         }
-    }*/
+    }
+
+    private fun showSnackBarToInstallUpdate(appUpdateManager: AppUpdateManager) {
+        val snackbar = Snackbar.make(coordinator_parent, "A new update has been downloaded and is ready to install", Snackbar.LENGTH_INDEFINITE)
+        snackbar.setBehavior(object : BaseTransientBottomBar.Behavior(){
+            override fun canSwipeDismissView(child: View): Boolean {
+                return false
+            }
+        })
+        snackbar.apply {
+            setAction("RESTART") {
+                appUpdateManager.completeUpdate()
+            }
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
@@ -300,7 +377,8 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        /*if (requestCode == REQUEST_CODE_UPDATE_IMMIDIATE) {
+        if (requestCode == REQUEST_CODE_UPDATE_IMMIDIATE) {
+            // TODO if result is RESULT_CANCELED, promt the user that the update is critical, and they must install it
             if (resultCode != Activity.RESULT_OK) {
                 // TODO Add analytics log here
                 var builder = AlertDialog.Builder(this)
@@ -314,7 +392,7 @@ class MainActivity : AppCompatActivity(), NetworkChangeNotifier {
                     }
                 )
             }
-        }*/
+        }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
